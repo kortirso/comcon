@@ -290,7 +290,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   therubyracer
   virtus
-  webpacker (= 4.0.7)
+  webpacker (~> 4.x)
   webpacker-react (= 0.3.2)
 
 RUBY VERSION

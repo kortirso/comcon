@@ -30,7 +30,7 @@ gem 'sidekiq', '5.2.5'
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'foreman', '0.84.0'
-gem 'webpacker', '4.0.7'
+gem 'webpacker', '~> 4.x'
 gem 'webpacker-react', '0.3.2'
 
 # Model Serializers
