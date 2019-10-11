@@ -1,0 +1,20 @@
+{
+  "name": "classic_raid_planner",
+  "private": true,
+  "dependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "@rails/webpacker": "3.5",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "babel-preset-react": "^6.24.1",
+    "jquery": "^3.4.1",
+    "normalize.css": "^8.0.1",
+    "prop-types": "^15.7.2",
+    "rails-ujs": "^5.2.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "webpacker-react": "^0.3.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
+}

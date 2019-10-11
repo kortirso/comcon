@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 20
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: classic_raid_planner_development
+
+test:
+  <<: *default
+  database: classic_raid_planner_test<%= ENV['TEST_ENV_NUMBER'] %>
+
+production:
+  <<: *default
+  database:
+  username:
+  password:

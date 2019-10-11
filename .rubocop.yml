@@ -1,0 +1,80 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - db/schema.rb
+    - db/migrate/**/*
+    - config.ru
+    - lib/**/*.rake
+    - vendor/**/*
+    - bin/*
+    - node_modules/**/*
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+
+Layout/IndentationWidth:
+  Width: 2
+
+Layout/CaseIndentation:
+  EnforcedStyle: case
+  SupportedStyles:
+    - case
+    - end
+  IndentOneStep: true
+
+Layout/AlignHash:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - db/migrate/*.rb
+    - app/serializers/**/*.rb
+    - app/controllers/**/*.rb
+
+Style/GuardClause:
+  Enabled: false
+
+Naming:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ExpandPathArguments:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
+
+Style/DateTime:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Style/FormatString:
+  Enabled: false
+
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: false

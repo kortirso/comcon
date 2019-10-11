@@ -1,0 +1,11 @@
+doctype html
+html lang='en'
+  head
+    title ClassicRaidPlanner
+    meta charset='utf-8'
+    meta name='viewport' content='width=device-width, initial-scale=1'
+    = stylesheet_pack_tag 'application', media: 'all'
+    = csrf_meta_tags
+  body
+    = yield
+    = javascript_pack_tag 'application'
