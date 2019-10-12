@@ -23,3 +23,22 @@ race_form = RaceForm.new(name: { 'en' => 'Tauren', 'ru' => 'Таурен' }, fra
 race_form.persist?
 race_form = RaceForm.new(name: { 'en' => 'Undead', 'ru' => 'Нежить' }, fraction: horde)
 race_form.persist?
+
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Druid', 'ru' => 'Друид' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Hunter', 'ru' => 'Охотник' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Mage', 'ru' => 'Маг' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Paladin', 'ru' => 'Паладин' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Priest', 'ru' => 'Жрец' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Rogue', 'ru' => 'Разбойник' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Shaman', 'ru' => 'Шаман' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Warlock', 'ru' => 'Чернокнижник' })
+character_class_form.persist?
+character_class_form = CharacterClassForm.new(name: { 'en' => 'Warrior', 'ru' => 'Воин' })
+character_class_form.persist?
