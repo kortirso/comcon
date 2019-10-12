@@ -4,4 +4,14 @@ RSpec.describe World, type: :model do
 
     expect(world).to be_valid
   end
+
+  describe 'methods' do
+    context '.full_name' do
+      let!(:world) { create :world }
+
+      it 'returns full name for world' do
+        expect(world.full_name).to eq "#{world.name} (#{world.zone})"
+      end
+    end
+  end
 end
