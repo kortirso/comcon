@@ -42,3 +42,6 @@ character_class_form = CharacterClassForm.new(name: { 'en' => 'Warlock', 'ru' =>
 character_class_form.persist?
 character_class_form = CharacterClassForm.new(name: { 'en' => 'Warrior', 'ru' => 'Воин' })
 character_class_form.persist?
+
+guild_form = GuildForm.new(name: 'КомКон', world: World.first)
+guild_form.persist?

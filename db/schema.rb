@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_180726) do
+ActiveRecord::Schema.define(version: 2019_10_12_202553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,9 @@ ActiveRecord::Schema.define(version: 2019_10_12_180726) do
     t.integer "world_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "guild_id"
     t.index ["character_class_id"], name: "index_characters_on_character_class_id"
+    t.index ["guild_id"], name: "index_characters_on_guild_id"
     t.index ["name"], name: "index_characters_on_name"
     t.index ["race_id"], name: "index_characters_on_race_id"
     t.index ["user_id"], name: "index_characters_on_user_id"
@@ -43,6 +45,15 @@ ActiveRecord::Schema.define(version: 2019_10_12_180726) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_fractions_on_name", using: :gin
+  end
+
+  create_table "guilds", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.integer "world_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_guilds_on_name"
+    t.index ["world_id"], name: "index_guilds_on_world_id"
   end
 
   create_table "races", force: :cascade do |t|

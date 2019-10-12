@@ -7,5 +7,9 @@ FactoryBot.define do
     trait :shaman do
       name { { en: 'Shaman', ru: 'Шаман' } }
     end
+
+    trait :paladin do
+      name { { en: 'Paladin', ru: 'Паладин' } }
+    end
   end
 end

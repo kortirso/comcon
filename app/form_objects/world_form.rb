@@ -13,8 +13,7 @@ class WorldForm
 
   def persist?
     return false unless valid?
-    return false if id.nil? && exists?
-    return false if id.present? && same_exists?
+    return false if exists?
     @world = id ? World.find_by(id: id) : World.new
     return false if @world.nil?
     @world.attributes = attributes.except(:id)
@@ -25,10 +24,7 @@ class WorldForm
   private
 
   def exists?
-    World.find_by(name: name, zone: zone).present?
-  end
-
-  def same_exists?
-    World.where.not(id: id).find_by(name: name, zone: zone).present?
+    worlds = id.nil? ? World.all : World.where.not(id: id)
+    worlds.find_by(name: name, zone: zone).present?
   end
 end

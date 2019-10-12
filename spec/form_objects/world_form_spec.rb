@@ -44,7 +44,7 @@ RSpec.describe WorldForm, type: :service do
       let!(:world1) { create :world }
       let!(:world2) { create :world }
 
-      context 'for existed world' do
+      context 'for unexisted world' do
         let(:service) { WorldForm.new(id: 999, name: '1', zone: '2') }
 
         it 'returns false' do

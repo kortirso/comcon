@@ -1,5 +1,6 @@
 RSpec.describe World, type: :model do
   it { should have_many(:characters).dependent(:destroy) }
+  it { should have_many(:guilds).dependent(:destroy) }
 
   it 'factory should be valid' do
     world = build :world

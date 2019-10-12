@@ -4,4 +4,5 @@ class Character < ApplicationRecord
   belongs_to :race
   belongs_to :character_class
   belongs_to :world
+  belongs_to :guild, optional: true
 end
