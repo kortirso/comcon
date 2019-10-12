@@ -1,0 +1,11 @@
+nav.navbar {
+  .right {
+    a {
+      margin-right: 1rem;
+
+      &:nth-last-of-type(1) {
+        margin-right: 0;
+      }
+    }
+  }
+}

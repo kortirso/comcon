@@ -1,0 +1,12 @@
+.container.flex.flex-centered
+  .auth_form
+    h1 Welcome back!
+    p Sign In to your personal account
+    = form_with model: User.new, as: :user, url: session_path(:user), local: true do |f|
+      .form-group
+        = f.label :email, 'Email'
+        = f.text_field :email, autofocus: true, label: false, placeholder: 'Email', class: 'form-control', required: true
+      .form-group
+        = f.label :password, 'Password'
+        = f.password_field :password, autocomplete: 'off', placeholder: 'Password', class: 'form-control', required: true
+      = f.submit 'Login', id: 'authorization', class: 'btn btn-primary'

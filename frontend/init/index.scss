@@ -1,3 +1,6 @@
+@import 'bootstrap';
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap&subset=cyrillic');
+
 html, body {
   margin: 0;
   padding: 0;
@@ -6,17 +9,26 @@ html, body {
 }
 
 html {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.2;
   font-weight: 300;
 }
 
 body {
   overflow-x: hidden;
+
+  .flex {
+    display: flex;
+  }
+
+  .flex-centered {
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 * {
-  font-family: Helvetica, "Open Sans", sans-serif !important;
+  font-family: "Source Sans Pro", "Helvetica", "Open Sans", sans-serif !important;
   box-sizing: border-box;
 
   &:focus {

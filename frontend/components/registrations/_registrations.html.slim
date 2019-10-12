@@ -1,0 +1,15 @@
+.container.flex.flex-centered
+  .auth_form
+    h1 Create your profile
+    = form_with model: User.new, as: :user, url: registration_path(:user), local: true do |f|
+      .form-group
+        = f.label :email, 'Email'
+        = f.text_field :email, required: true, label: false, placeholder: 'Your Email', class: 'form-control'
+      .form-group
+        = f.label :password, 'Password'
+        = f.password_field :password, autocomplete: 'off', placeholder: 'Your password', class: 'form-control'
+        p Password must be at least 10 characters
+      .form-group
+        = f.label :password_confirmation, 'Confirm password'
+        = f.password_field :password_confirmation, autocomplete: 'off', placeholder: 'Confirm password', class: 'form-control'
+      = f.submit 'Create', id: 'registration', class: 'btn btn-primary'
