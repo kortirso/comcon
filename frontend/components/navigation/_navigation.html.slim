@@ -2,8 +2,10 @@ nav.navbar
   .container
     .links
       = link_to 'RaidPlanner', root_path, class: 'navbar-brand'
-      /- if allowed_to?(:index?, World)
-      = link_to 'Worlds', worlds_path
+      - if user_signed_in?
+        - if Current.user.is_admin?
+          = link_to 'Worlds', worlds_path, class: 'with_right_margin'
+        = link_to 'Characters', characters_path, class: 'with_right_margin'
     .right
       - if user_signed_in?
         = link_to 'Logout', destroy_user_session_path, method: :delete

@@ -1,0 +1,22 @@
+.container
+  = link_to 'Add character', new_character_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th World
+        th Race
+        th Character class
+        th Level
+        th
+    tbody
+      - @characters.each do |character|
+        tr
+          td= character.name
+          td= character.world.full_name
+          td= character.race.name[I18n.locale.to_s]
+          td= character.character_class.name[I18n.locale.to_s]
+          td= character.level
+          td
+            = link_to 'Edit', edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to 'Delete', character, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-sm'

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :worlds, except: %i[show]
 
   localized do
+    resources :characters, except: %i[show]
+
     root to: 'welcome#index'
   end
 end

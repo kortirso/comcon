@@ -26,17 +26,25 @@ body {
     align-items: center;
   }
 
-  .btn {
-    &.with_left_margin {
-      margin-left: 0.5rem;
-    }
+  .with_left_margin {
+    margin-left: 0.5rem;
+  }
 
-    &.with_right_margin {
-      margin-right: 0.5rem;
-    }
+  .with_right_margin {
+    margin-right: 0.5rem;
+  }
 
-    &.with_bottom_margin {
-      margin-bottom: 0.5rem;
+  .with_bottom_margin {
+    margin-bottom: 0.5rem;
+  }
+
+  .double_line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .form-group {
+      width: 48%;
     }
   }
 }

@@ -1,0 +1,22 @@
+.container
+  = form_with model: Character.new, local: true do |f|
+    .double_line
+      .form-group
+        = f.label :name, 'Name'
+        = f.text_field :name, required: true, placeholder: "Character's name", class: 'form-control'
+      .form-group
+        = f.label :level, 'Level'
+        = f.text_field :level, required: true, placeholder: 'Level', class: 'form-control'
+    .double_line
+      .form-group
+        = f.label :race_id, 'Race'
+        = f.select :race_id, @race_names, {}, { class: 'form-control' }
+      .form-group
+        = f.label :character_class_id, 'Character class'
+        = f.select :character_class_id, @character_class_names, {}, { class: 'form-control' }
+    .double_line
+      .form-group
+        = f.label :world_id, 'World'
+        = f.select :world_id, @world_names, {}, { class: 'form-control' }
+    = f.submit 'Create', class: 'btn btn-primary'
+    

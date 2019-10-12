@@ -201,7 +201,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      delete :destroy, params: { id: world.id, world: { name: '1', zone: '2' } }
+      delete :destroy, params: { id: world.id }
     end
   end
 end
