@@ -176,6 +176,9 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    route_translator (7.0.0)
+      actionpack (>= 5.0.0.1, < 6.1)
+      activesupport (>= 5.0.0.1, < 6.1)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -282,6 +285,7 @@ DEPENDENCIES
   rails (= 5.2.3)
   rails-controller-testing
   rb-readline
+  route_translator
   rspec-rails
   rubocop (~> 0.57.2)
   shoulda-matchers

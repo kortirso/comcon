@@ -11,7 +11,7 @@ RSpec.describe WelcomeController, type: :routing do
 
   describe 'routing' do
     it 'routes to #index' do
-      expect(get: '/').to route_to('welcome#index')
+      expect(get: '/').to route_to('welcome#index', locale: 'en')
     end
   end
 end

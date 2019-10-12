@@ -53,6 +53,9 @@ gem 'figaro'
 # Authorization
 gem 'action_policy', '~> 0.3.0'
 
+# localize
+gem 'route_translator'
+
 group :development, :test do
   gem 'parallel_tests'
 end
