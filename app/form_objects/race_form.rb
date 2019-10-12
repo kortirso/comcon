@@ -1,28 +1,29 @@
-# Represents form object for Fraction model
-class FractionForm
+# Represents form object for Race model
+class RaceForm
   include ActiveModel::Model
   include Virtus.model
 
   attribute :name, Hash
+  attribute :fraction, Fraction
 
-  validates :name, presence: true
+  validates :name, :fraction, presence: true
   validate :name_as_hash
 
-  attr_reader :fraction
+  attr_reader :race
 
   def persist?
     return false unless valid?
     return false if exists?
-    @fraction = Fraction.new
-    @fraction.attributes = attributes
-    @fraction.save
+    @race = Race.new
+    @race.attributes = attributes
+    @race.save
     true
   end
 
   private
 
   def exists?
-    Fraction.find_by(name: name).present?
+    Race.find_by(name: name).present?
   end
 
   def name_as_hash
