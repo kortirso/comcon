@@ -1,0 +1,18 @@
+.container
+  = link_to 'Add world', new_world_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+  table.table.table-striped
+    thead
+      tr
+        th ID
+        th Name
+        th Zone
+        th
+    tbody
+      - @worlds.each do |world|
+        tr
+          td= world.id
+          td= world.name
+          td= world.zone
+          td
+            = link_to 'Edit', edit_world_path(world), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to 'Delete', world_path(world), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-sm'

@@ -1,0 +1,10 @@
+.container
+  = form_with model: @world, local: true do |f|
+    .form-group
+      = f.label :name, 'Name'
+      = f.text_field :name, required: true, placeholder: "World's name", class: 'form-control', value: @world.name
+    .form-group
+      = f.label :zone, 'Zone'
+      = f.text_field :zone, required: true, placeholder: "World's zone", class: 'form-control', value: @world.zone
+    = f.submit 'Update', class: 'btn btn-primary'
+    

@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   skip_before_action :authenticate_user!, only: %i[catch_route_error]
   skip_before_action :set_current_user, only: %i[catch_route_error]
 
+  authorize :user, through: :my_current_user
+
+  rescue_from ActionPolicy::Unauthorized, with: :invalid_request
+
   def catch_route_error
     render_not_found('Route is not exist')
   end
@@ -23,8 +27,16 @@ class ApplicationController < ActionController::Base
     Current.user = current_user
   end
 
+  def my_current_user
+    Current.user
+  end
+
   def set_locale
     I18n.locale = params[:locale]
+  end
+
+  def invalid_request
+    render_not_found('Invalid request')
   end
 
   def render_not_found(message = 'Error')

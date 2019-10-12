@@ -4,7 +4,7 @@
     = form_with model: User.new, as: :user, url: registration_path(:user), local: true do |f|
       .form-group
         = f.label :email, 'Email'
-        = f.text_field :email, required: true, label: false, placeholder: 'Your Email', class: 'form-control'
+        = f.text_field :email, required: true, placeholder: 'Your Email', class: 'form-control'
       .form-group
         = f.label :password, 'Password'
         = f.password_field :password, autocomplete: 'off', placeholder: 'Your password', class: 'form-control'

@@ -5,7 +5,7 @@
     = form_with model: User.new, as: :user, url: session_path(:user), local: true do |f|
       .form-group
         = f.label :email, 'Email'
-        = f.text_field :email, autofocus: true, label: false, placeholder: 'Email', class: 'form-control', required: true
+        = f.text_field :email, autofocus: true, placeholder: 'Email', class: 'form-control', required: true
       .form-group
         = f.label :password, 'Password'
         = f.password_field :password, autocomplete: 'off', placeholder: 'Password', class: 'form-control', required: true
