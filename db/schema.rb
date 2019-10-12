@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_114639) do
+ActiveRecord::Schema.define(version: 2019_10_12_130724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "fractions", force: :cascade do |t|
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_fractions_on_name", using: :gin
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

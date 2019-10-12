@@ -4,7 +4,7 @@ class WorldForm
   include Virtus.model
 
   attribute :id, Integer
-  attribute :name, Hash
+  attribute :name, String
   attribute :zone, String
 
   validates :name, :zone, presence: true
