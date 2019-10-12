@@ -1,6 +1,8 @@
 RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
+  it { should validate_presence_of :role }
+  it { should validate_inclusion_of(:role).in_array(%w[user admin]) }
 
   it 'factory should be valid' do
     user = build :user
@@ -28,5 +30,21 @@ RSpec.describe User, type: :model do
     user.valid?
 
     expect(user.errors[:email]).to include('has already been taken')
+  end
+
+  describe 'methods' do
+    context '.is_admin?' do
+      it 'returns false for user' do
+        user = create :user
+
+        expect(user.is_admin?).to eq false
+      end
+
+      it 'returns true for admin' do
+        user = create :user, :admin
+
+        expect(user.is_admin?).to eq true
+      end
+    end
   end
 end
