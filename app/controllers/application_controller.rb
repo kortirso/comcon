@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def json_request?
+    request.format.json?
+  end
+
   def save_current_path
     session[:current_path] = request.url
   end

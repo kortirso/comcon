@@ -1,8 +1,13 @@
 class EventsController < ApplicationController
-  before_action :find_events, only: %i[index]
+  before_action :find_events, only: %i[index], if: :json_request?
   before_action :find_selectors, only: %i[new]
 
-  def index; end
+  def index
+    respond_to do |format|
+      format.html {}
+      format.json { render json: @events }
+    end
+  end
 
   def new; end
 
