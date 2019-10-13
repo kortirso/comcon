@@ -16,7 +16,7 @@
         = f.select :character_class_id, @character_class_names, {}, { class: 'form-control' }
     .double_line
       .form-group
-        = f.label :world_id, 'World'
-        = f.select :world_id, @world_names, {}, { class: 'form-control' }
+        = f.label :guild_id, 'Guild'
+        = f.select :guild_id, @guild_names, {}, { class: 'form-control' }
     = f.submit 'Update', class: 'btn btn-primary'
     

@@ -10,20 +10,24 @@ class CharacterForm
   attribute :character_class, CharacterClass
   attribute :user, User
   attribute :world, World
+  attribute :guild, Guild
 
   validates :name, :level, :race, :character_class, :user, :world, presence: true
   validates :level, inclusion: 1..60
   validate :race_class_restrictions
+  validate :guild_from_world
+  validate :race_from_fraction
 
   attr_reader :character
 
   def persist?
+    self.world = guild.world if world.nil? && guild.present?
     return false unless valid?
     return false if exists?
     @character = id ? Character.find_by(id: id) : Character.new
     return false if @character.nil?
     @character.attributes = attributes.except(:id)
-    @character.save
+    @character.save!
     true
   end
 
@@ -53,5 +57,19 @@ class CharacterForm
       when 'Gnome' then %w[Mage Rogue Warlock Warrior].include?(character_class.name['en'])
       else false
     end
+  end
+
+  def guild_from_world
+    return if guild.nil?
+    return if world == guild.world
+    errors[:guild] << 'is not from selected world'
+  end
+
+  def race_from_fraction
+    return if race.nil?
+    return if guild.nil?
+    return if guild.fraction.name['en'] == 'Horde' && %w[Tauren Orc Undead Troll].include?(race.name['en'])
+    return if guild.fraction.name['en'] == 'Alliance' && %w[Dwarf Human Night\ Elf Gnome].include?(race.name['en'])
+    errors[:race] << 'is not available for this fraction'
   end
 end

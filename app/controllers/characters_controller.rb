@@ -31,7 +31,7 @@ class CharactersController < ApplicationController
   private
 
   def find_characters
-    @characters = Character.where(user: Current.user).order(level: :desc).includes(:race, :character_class, :world)
+    @characters = Character.where(user: Current.user).order(level: :desc).includes(:race, :character_class, :world, :guild)
   end
 
   def find_character
@@ -42,14 +42,15 @@ class CharactersController < ApplicationController
   def find_selectors
     @race_names = Race.all.map { |elem| [elem.name[I18n.locale.to_s], elem.id] }
     @character_class_names = CharacterClass.all.map { |elem| [elem.name[I18n.locale.to_s], elem.id] }
-    @world_names = World.order(name: :asc).map { |elem| [elem.name, elem.id] }
+    @guild_names = Guild.order(name: :asc).map { |elem| [elem.full_name(I18n.locale.to_s), elem.id] }
   end
 
   def character_params
     h = params.require(:character).permit(:name, :level).to_h
     h[:race] = Race.find_by(id: params[:character][:race_id])
     h[:character_class] = CharacterClass.find_by(id: params[:character][:character_class_id])
-    h[:world] = World.find_by(id: params[:character][:world_id])
+    h[:world] = World.find_by(id: params[:character][:world_id]) if params[:character][:world_id].present?
+    h[:guild] = Guild.find_by(id: params[:character][:guild_id])
     h[:user] = Current.user
     h
   end

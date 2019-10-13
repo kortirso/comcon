@@ -8,6 +8,7 @@
         th Race
         th Character class
         th Level
+        th Guild
         th
     tbody
       - @characters.each do |character|
@@ -17,6 +18,7 @@
           td= character.race.name[I18n.locale.to_s]
           td= character.character_class.name[I18n.locale.to_s]
           td= character.level
+          td= character.guild.name
           td
             = link_to 'Edit', edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to 'Delete', character, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-sm'

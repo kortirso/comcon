@@ -14,9 +14,10 @@ RSpec.describe CharacterForm, type: :service do
 
     context 'for valid data' do
       let!(:character) { create :character, :human_warrior }
+      let!(:guild) { create :guild, fraction: character.race.fraction, world: character.world }
 
       context 'for existed character' do
-        let(:service) { CharacterForm.new(name: character.name, world: character.world, level: 60, user: character.user, race: character.race, character_class: character.character_class) }
+        let(:service) { CharacterForm.new(name: character.name, guild: guild, level: 60, user: character.user, race: character.race, character_class: character.character_class) }
 
         it 'does not create new character' do
           expect { service.persist? }.to_not change(Character, :count)
