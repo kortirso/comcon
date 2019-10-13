@@ -1,4 +1,7 @@
 RSpec.describe Dungeon, type: :model do
+  it { should have_many(:dungeon_accesses).dependent(:destroy) }
+  it { should have_many(:characters).through(:dungeon_accesses) }
+
   it 'factory should be valid' do
     dungeon = build :dungeon
 

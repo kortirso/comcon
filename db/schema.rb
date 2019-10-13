@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_113415) do
+ActiveRecord::Schema.define(version: 2019_10_13_124328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 2019_10_13_113415) do
     t.index ["race_id"], name: "index_characters_on_race_id"
     t.index ["user_id"], name: "index_characters_on_user_id"
     t.index ["world_id"], name: "index_characters_on_world_id"
+  end
+
+  create_table "dungeon_accesses", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "dungeon_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_id", "dungeon_id"], name: "index_dungeon_accesses_on_character_id_and_dungeon_id", unique: true
   end
 
   create_table "dungeons", force: :cascade do |t|
