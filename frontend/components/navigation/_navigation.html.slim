@@ -6,6 +6,7 @@ nav.navbar
         - if Current.user.is_admin?
           = link_to 'Worlds', worlds_path, class: 'with_right_margin'
         = link_to 'Characters', characters_path, class: 'with_right_margin'
+        = link_to 'Events', events_path, class: 'with_right_margin'
     .right
       - if user_signed_in?
         = link_to 'Logout', destroy_user_session_path, method: :delete

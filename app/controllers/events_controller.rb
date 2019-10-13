@@ -1,5 +1,8 @@
 class EventsController < ApplicationController
+  before_action :find_events, only: %i[index]
   before_action :find_selectors, only: %i[new]
+
+  def index; end
 
   def new; end
 
@@ -14,6 +17,10 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def find_events
+    @events = Event.all
+  end
 
   def find_selectors
     @characters = Character.where(user: Current.user).map { |elem| [elem.name, elem.id] }

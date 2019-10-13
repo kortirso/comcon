@@ -7179,6 +7179,11 @@ webpack@^4.32.2:
     watchpack "^1.6.0"
     webpack-sources "^1.4.1"
 
+webpacker-react@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/webpacker-react/-/webpacker-react-0.3.2.tgz#18c417a3fd51978d0ca98b62a47454d800754e09"
+  integrity sha1-GMQXo/1Rl40MqYtipHRU2AB1Tgk=
+
 websocket-driver@>=0.5.1:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/websocket-driver/-/websocket-driver-0.7.3.tgz#a2d4e0d4f4f116f1e6297eba58b05d430100e9f9"

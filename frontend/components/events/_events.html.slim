@@ -1,0 +1,4 @@
+.container
+  = link_to 'Add event', new_event_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+  = javascript_pack_tag 'event_calendar'
+  = react_component('EventCalendar', events: @events)
