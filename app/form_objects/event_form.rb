@@ -18,6 +18,8 @@ class EventForm
   attr_reader :event
 
   def persist?
+    self.event_type = (dungeon.raid? ? 'raid' : 'instance') if !event_type.present? && dungeon.present?
+    self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
     return false unless valid?
     @event = id ? Event.find_by(id: id) : Event.new
     return false if @event.nil?

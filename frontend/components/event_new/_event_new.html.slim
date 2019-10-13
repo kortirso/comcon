@@ -1,0 +1,22 @@
+.container.character_form
+  = form_with model: Event.new, local: true do |f|
+    .form-group
+      = f.label :name, 'Name'
+      = f.text_field :name, placeholder: "Event's name", class: 'form-control'
+    .double_line
+      .form-group
+        = f.label :owner_id, 'Creator'
+        = f.select :owner_id, @characters, {}, { class: 'form-control' }
+      .form-group
+        = f.label :dungeon_id, 'Dungeon'
+        = f.select :dungeon_id, @dungeon_names, {}, { class: 'form-control' }
+    .double_line
+      .form-group
+        = f.label :access, 'Access type'
+        = f.select :access, ['guild', 'world'], {}, { class: 'form-control' }
+      .form-group
+        = f.label :start_time, 'Start time (GTM +0)'
+        .time_selector
+          = f.datetime_select :start_time, {}, { class: 'form-control' }
+    = f.submit 'Create', class: 'btn btn-primary'
+    

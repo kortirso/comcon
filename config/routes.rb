@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   localized do
     resources :characters, except: %i[show]
+    resources :events
 
     root to: 'welcome#index'
   end

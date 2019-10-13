@@ -47,6 +47,27 @@ body {
       width: 48%;
     }
   }
+
+  .form-group {
+    .time_selector {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      select {
+        margin: 0 0.25rem;
+
+        &:nth-of-type(1) {
+          margin-left: 0;
+        }
+
+        &:nth-last-of-type(1) {
+          margin-right: 0;
+        }
+      }
+    }
+  }
 }
 
 * {
