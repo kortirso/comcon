@@ -6,6 +6,7 @@ class EventForm
   attribute :id, Integer
   attribute :owner, Character
   attribute :dungeon, Dungeon
+  attribute :fraction, Fraction
   attribute :name, String
   attribute :event_type, String
   attribute :eventable_id, Integer
@@ -19,9 +20,12 @@ class EventForm
   attr_reader :event
 
   def persist?
+    # initial values
     self.event_type = (dungeon.raid? ? 'raid' : 'instance') if !event_type.present? && dungeon.present?
     self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
     self.eventable_id = (eventable_type == 'World' ? owner.world.id : owner.guild&.id) if owner.present?
+    self.fraction = owner.race.fraction if owner.present?
+    # validation
     return false unless valid?
     return false unless eventable_exists?
     @event = id ? Event.find_by(id: id) : Event.new

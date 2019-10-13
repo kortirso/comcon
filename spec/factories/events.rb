@@ -5,5 +5,6 @@ FactoryBot.define do
     start_time { DateTime.now + 1.day }
     association :eventable, factory: :world
     association :owner, factory: :character
+    association :fraction, :alliance
   end
 end
