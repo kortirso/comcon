@@ -5,6 +5,7 @@ class EventForm
 
   attribute :id, Integer
   attribute :owner, Character
+  attribute :dungeon, Dungeon
   attribute :name, String
   attribute :event_type, String
   attribute :access, String, default: 'guild'

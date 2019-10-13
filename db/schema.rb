@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_134720) do
+ActiveRecord::Schema.define(version: 2019_10_13_141919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 2019_10_13_134720) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "dungeon_id"
+    t.index ["dungeon_id"], name: "index_events_on_dungeon_id"
     t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["slug"], name: "index_events_on_slug", unique: true
   end
