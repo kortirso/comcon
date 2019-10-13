@@ -6,6 +6,8 @@ class DungeonForm
   attribute :id, Integer
   attribute :name, String
   attribute :raid, Boolean, default: false
+  attribute :key_access, Boolean, default: false
+  attribute :quest_access, Boolean, default: false
 
   validates :name, presence: true
 

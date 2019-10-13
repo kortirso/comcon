@@ -54,3 +54,9 @@ world_form.persist?
 
 guild_form = GuildForm.new(name: 'КомКон', world: world_form.world, fraction: horde)
 guild_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Molten Core', 'ru' => 'Огненные Недра' }, raid: true, quest_access: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => "Onyxia's Lair", 'ru' => 'Логово Ониксии' }, raid: true, quest_access: true)
+dungeon_form.persist?

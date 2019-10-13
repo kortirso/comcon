@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_111840) do
+ActiveRecord::Schema.define(version: 2019_10_13_113415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(version: 2019_10_13_111840) do
     t.boolean "raid", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "key_access", default: false, null: false
+    t.boolean "quest_access", default: false, null: false
     t.index ["name"], name: "index_dungeons_on_name", using: :gin
   end
 
