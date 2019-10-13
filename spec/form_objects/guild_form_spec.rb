@@ -16,7 +16,7 @@ RSpec.describe GuildForm, type: :service do
       let!(:guild) { create :guild }
 
       context 'for existed guild' do
-        let(:service) { GuildForm.new(name: guild.name, world: guild.world) }
+        let(:service) { GuildForm.new(name: guild.name, world: guild.world, fraction: guild.fraction) }
 
         it 'does not create new guild' do
           expect { service.persist? }.to_not change(Guild, :count)
@@ -28,7 +28,7 @@ RSpec.describe GuildForm, type: :service do
       end
 
       context 'for unexisted guild' do
-        let(:service) { GuildForm.new(name: 'Хроми', world: guild.world) }
+        let(:service) { GuildForm.new(name: 'Хроми', world: guild.world, fraction: guild.fraction) }
 
         it 'creates new guild' do
           expect { service.persist? }.to change { Guild.count }.by(1)
@@ -54,7 +54,7 @@ RSpec.describe GuildForm, type: :service do
 
       context 'for existed guild' do
         context 'for invalid data' do
-          let(:service) { GuildForm.new(id: guild1.id, name: '', world: guild1.world) }
+          let(:service) { GuildForm.new(id: guild1.id, name: '', world: guild1.world, fraction: guild1.fraction) }
 
           it 'does not update guild' do
             service.persist?
@@ -65,7 +65,7 @@ RSpec.describe GuildForm, type: :service do
         end
 
         context 'for existed data' do
-          let(:service) { GuildForm.new(id: guild1.id, name: guild2.name, world: guild1.world) }
+          let(:service) { GuildForm.new(id: guild1.id, name: guild2.name, world: guild1.world, fraction: guild1.fraction) }
 
           it 'does not update guild' do
             service.persist?
@@ -76,7 +76,7 @@ RSpec.describe GuildForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { GuildForm.new(id: guild1.id, name: 'Хроми', world: guild1.world) }
+          let(:service) { GuildForm.new(id: guild1.id, name: 'Хроми', world: guild1.world, fraction: guild1.fraction) }
 
           it 'does not update guild' do
             service.persist?

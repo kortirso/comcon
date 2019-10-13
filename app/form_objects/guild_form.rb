@@ -6,8 +6,9 @@ class GuildForm
   attribute :id, Integer
   attribute :name, String
   attribute :world, World
+  attribute :fraction, Fraction
 
-  validates :name, :world, presence: true
+  validates :name, :world, :fraction, presence: true
 
   attr_reader :guild
 

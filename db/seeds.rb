@@ -43,5 +43,14 @@ character_class_form.persist?
 character_class_form = CharacterClassForm.new(name: { 'en' => 'Warrior', 'ru' => 'Воин' })
 character_class_form.persist?
 
-guild_form = GuildForm.new(name: 'КомКон', world: World.first)
+world_form = WorldForm.new(name: 'Хроми', zone: 'RU')
+world_form.persist?
+
+guild_form = GuildForm.new(name: 'КомКон', world: world_form.world, fraction: alliance)
+guild_form.persist?
+
+world_form = WorldForm.new(name: 'Рок-Делар', zone: 'RU')
+world_form.persist?
+
+guild_form = GuildForm.new(name: 'КомКон', world: world_form.world, fraction: horde)
 guild_form.persist?

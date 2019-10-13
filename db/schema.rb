@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_202553) do
+ActiveRecord::Schema.define(version: 2019_10_13_093555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 2019_10_12_202553) do
     t.integer "world_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "fraction_id"
+    t.index ["fraction_id"], name: "index_guilds_on_fraction_id"
     t.index ["name"], name: "index_guilds_on_name"
     t.index ["world_id"], name: "index_guilds_on_world_id"
   end
