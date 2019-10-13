@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_124328) do
+ActiveRecord::Schema.define(version: 2019_10_13_134720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,19 @@ ActiveRecord::Schema.define(version: 2019_10_13_124328) do
     t.boolean "key_access", default: false, null: false
     t.boolean "quest_access", default: false, null: false
     t.index ["name"], name: "index_dungeons_on_name", using: :gin
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.integer "owner_id"
+    t.string "name"
+    t.string "event_type"
+    t.datetime "start_time"
+    t.string "access"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_events_on_owner_id"
+    t.index ["slug"], name: "index_events_on_slug", unique: true
   end
 
   create_table "fractions", force: :cascade do |t|

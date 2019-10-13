@@ -8,4 +8,5 @@ class Character < ApplicationRecord
 
   has_many :dungeon_accesses, dependent: :destroy
   has_many :dungeons, through: :dungeon_accesses
+  has_many :events, foreign_key: 'owner_id'
 end

@@ -56,6 +56,10 @@ gem 'action_policy', '~> 0.3.0'
 # localize
 gem 'route_translator'
 
+# Friendly url
+gem 'babosa'
+gem 'friendly_id', '~> 5.2.4'
+
 group :development, :test do
   gem 'parallel_tests'
 end

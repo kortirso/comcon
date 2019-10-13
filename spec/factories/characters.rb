@@ -4,6 +4,8 @@ FactoryBot.define do
     level { 60 }
     association :user
     association :world
+    association :race, :human
+    association :character_class, :paladin
 
     trait :human_warrior do
       association :race, :human
