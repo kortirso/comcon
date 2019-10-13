@@ -60,7 +60,7 @@ RSpec.describe CharactersController, type: :controller do
       end
 
       context 'for valid params' do
-        let(:request) { post :create, params: { locale: 'en', character: { name: '1', level: 60, world_id: world.id, race_id: race.id, character_class_id: character_class.id } } }
+        let(:request) { post :create, params: { locale: 'en', character: { name: '1', level: 60, world_id: world.id, race_id: race.id, character_class_id: character_class.id, dungeon: { '1' => '0' } } } }
 
         it 'creates new character' do
           expect { request }.to change { Character.count }.by(1)
@@ -146,7 +146,7 @@ RSpec.describe CharactersController, type: :controller do
         end
 
         context 'for valid params' do
-          let(:request) { patch :update, params: { locale: 'en', id: character.id, character: { name: '1', level: 60, race_id: character.race_id, world_id: character.world_id, character_class_id: character.character_class_id } } }
+          let(:request) { patch :update, params: { locale: 'en', id: character.id, character: { name: '1', level: 60, race_id: character.race_id, world_id: character.world_id, character_class_id: character.character_class_id, dungeon: { '1' => '0' } } } }
 
           it 'updates new character' do
             request

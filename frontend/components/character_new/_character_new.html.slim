@@ -1,4 +1,4 @@
-.container
+.container.character_form
   = form_with model: Character.new, local: true do |f|
     .double_line
       .form-group
@@ -18,5 +18,20 @@
       .form-group
         = f.label :guild_id, 'Guild'
         = f.select :guild_id, @guild_names, {}, { class: 'form-control' }
+    .double_line
+      - if @dungeons_with_key.size.positive?
+        .block
+          p Dungeon Keys
+          - @dungeons_with_key.each do |dungeon|
+            .form-group.form-check
+              = f.check_box "dungeon[#{dungeon.id}]", class: 'form-check-input'
+              = f.label "dungeon[#{dungeon.id}]", dungeon.name[I18n.locale.to_s]
+      - if @dungeons_with_quest.size.positive?
+        .block
+          p Dungeon Quests
+          - @dungeons_with_quest.each do |dungeon|
+            .form-group.form-check
+              = f.check_box "dungeon[#{dungeon.id}]", class: 'form-check-input'
+              = f.label "dungeon[#{dungeon.id}]", dungeon.name[I18n.locale.to_s]
     = f.submit 'Create', class: 'btn btn-primary'
     

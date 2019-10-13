@@ -8,19 +8,27 @@ class CharactersController < ApplicationController
   def new; end
 
   def create
-    character_form_form = CharacterForm.new(character_params)
-    return redirect_to characters_path if character_form_form.persist?
-    find_selectors
-    render :new
+    character_form = CharacterForm.new(character_params)
+    if character_form.persist?
+      CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
+      redirect_to characters_path
+    else
+      find_selectors
+      render :new
+    end
   end
 
   def edit; end
 
   def update
-    character_form_form = CharacterForm.new(@character.attributes.merge(character_params))
-    return redirect_to characters_path if character_form_form.persist?
-    find_selectors
-    render :edit
+    character_form = CharacterForm.new(@character.attributes.merge(character_params))
+    if character_form.persist?
+      CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
+      redirect_to characters_path
+    else
+      find_selectors
+      render :edit
+    end
   end
 
   def destroy
@@ -43,6 +51,8 @@ class CharactersController < ApplicationController
     @race_names = Race.all.map { |elem| [elem.name[I18n.locale.to_s], elem.id] }
     @character_class_names = CharacterClass.all.map { |elem| [elem.name[I18n.locale.to_s], elem.id] }
     @guild_names = Guild.order(name: :asc).map { |elem| [elem.full_name(I18n.locale.to_s), elem.id] }
+    @dungeons_with_key = Dungeon.with_key
+    @dungeons_with_quest = Dungeon.with_quest
   end
 
   def character_params
@@ -53,5 +63,9 @@ class CharactersController < ApplicationController
     h[:guild] = Guild.find_by(id: params[:character][:guild_id])
     h[:user] = Current.user
     h
+  end
+
+  def dungeon_params
+    params.require(:character).permit(dungeon: {})[:dungeon]
   end
 end

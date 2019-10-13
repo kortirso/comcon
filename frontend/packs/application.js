@@ -5,6 +5,7 @@ import "components/navigation/navigation";
 import "components/footer/footer";
 
 import "components/sessions/sessions";
+import "components/character_new/character_new";
 
 import Rails from "rails-ujs";
 
