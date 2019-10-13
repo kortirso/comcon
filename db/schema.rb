@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_141919) do
+ActiveRecord::Schema.define(version: 2019_10_13_191520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,14 @@ ActiveRecord::Schema.define(version: 2019_10_13_141919) do
     t.string "name"
     t.string "event_type"
     t.datetime "start_time"
-    t.string "access"
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "dungeon_id"
+    t.integer "eventable_id"
+    t.string "eventable_type"
     t.index ["dungeon_id"], name: "index_events_on_dungeon_id"
+    t.index ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type"
     t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["slug"], name: "index_events_on_slug", unique: true
   end

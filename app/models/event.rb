@@ -6,6 +6,7 @@ class Event < ApplicationRecord
 
   belongs_to :owner, class_name: 'Character'
   belongs_to :dungeon, optional: true
+  belongs_to :eventable, polymorphic: true
 
   def normalize_friendly_id(text)
     text.to_slug.transliterate(:russian).normalize.to_s

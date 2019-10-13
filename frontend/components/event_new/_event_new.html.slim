@@ -12,8 +12,8 @@
         = f.select :dungeon_id, @dungeon_names, {}, { class: 'form-control' }
     .double_line
       .form-group
-        = f.label :access, 'Access type'
-        = f.select :access, ['guild', 'world'], {}, { class: 'form-control' }
+        = f.label :eventable_type, 'Access type'
+        = f.select :eventable_type, ['Guild', 'World'], {}, { class: 'form-control' }
       .form-group
         = f.label :start_time, 'Start time (GTM +0)'
         .time_selector

@@ -1,5 +1,7 @@
 # Represents game worlds
 class World < ApplicationRecord
+  include Eventable
+
   has_many :characters, dependent: :destroy
   has_many :guilds, dependent: :destroy
 

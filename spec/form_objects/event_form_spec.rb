@@ -14,7 +14,7 @@ RSpec.describe EventForm, type: :service do
 
     context 'for valid data' do
       let!(:character) { create :character }
-      let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.day) }
+      let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.day, eventable_type: 'World') }
 
       it 'creates new event' do
         expect { service.persist? }.to change { Event.count }.by(1)
@@ -29,7 +29,7 @@ RSpec.describe EventForm, type: :service do
       let!(:event) { create :event }
 
       context 'for unexisted event' do
-        let(:service) { EventForm.new(id: 999, name: '1', owner: event.owner) }
+        let(:service) { EventForm.new(id: 999, name: '1', owner: event.owner, eventable_type: 'World') }
 
         it 'returns false' do
           expect(service.persist?).to eq false
@@ -38,7 +38,7 @@ RSpec.describe EventForm, type: :service do
 
       context 'for existed event' do
         context 'for invalid data' do
-          let(:service) { EventForm.new(event.attributes.merge(name: '', owner: event.owner)) }
+          let(:service) { EventForm.new(event.attributes.merge(name: '', owner: event.owner, dungeon: event.dungeon)) }
 
           it 'does not update event' do
             service.persist?
@@ -49,7 +49,7 @@ RSpec.describe EventForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { EventForm.new(event.attributes.merge(name: 'Хроми', owner: event.owner)) }
+          let(:service) { EventForm.new(event.attributes.merge(name: 'Хроми', owner: event.owner, dungeon: event.dungeon)) }
 
           it 'does not update event' do
             service.persist?

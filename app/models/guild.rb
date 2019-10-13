@@ -1,5 +1,7 @@
 # Represents guild
 class Guild < ApplicationRecord
+  include Eventable
+
   belongs_to :world
   belongs_to :fraction
 

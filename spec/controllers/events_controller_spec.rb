@@ -41,7 +41,7 @@ RSpec.describe EventsController, type: :controller do
 
       context 'for valid params' do
         let!(:character) { create :character, user: @current_user }
-        let(:request) { post :create, params: { locale: 'en', event: { name: '1', owner_id: character.id, dungeon_id: dungeon.id, start_time: DateTime.now + 1.day } } }
+        let(:request) { post :create, params: { locale: 'en', event: { name: '1', owner_id: character.id, dungeon_id: dungeon.id, start_time: DateTime.now + 1.day, eventable_type: 'World' } } }
 
         it 'creates new event' do
           expect { request }.to change { character.events.count }.by(1)
