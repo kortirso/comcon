@@ -1,0 +1,27 @@
+footer {
+  justify-content: space-between;
+
+  .footer_block {
+    width: 48%;
+
+    &:nth-of-type(2) {
+      text-align: right;
+    }
+  }
+}
+
+.flag {
+  display: inline-block;
+  width: 25px;
+  height: 16px;
+  background: url(../../images/flags.png);
+  margin-right: 4px;
+
+  &.flag_ru {
+    background-position: 0 0;
+  }
+
+  &.flag_en {
+    background-position: 0 -16px;
+  }
+}
