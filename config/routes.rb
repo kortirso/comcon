@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :worlds, except: %i[show]
   resources :subscribes, only: %i[create] do
     post :reject, on: :collection
+    post :approve, on: :collection
   end
 
   localized do

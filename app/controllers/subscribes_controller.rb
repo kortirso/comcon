@@ -1,4 +1,6 @@
 class SubscribesController < ApplicationController
+  before_action :find_subscribe, only: %i[approve]
+
   def create
     create_subscribe(subscribe_params)
   end
@@ -7,7 +9,16 @@ class SubscribesController < ApplicationController
     create_subscribe(subscribe_params.merge(status: 'rejected'))
   end
 
+  def approve
+    authorize! @subscribe
+    create_subscribe(@subscribe.attributes.merge(subscribe_params.merge(status: 'approved')))
+  end
+
   private
+
+  def find_subscribe
+    @subscribe = Subscribe.find_by(character_id: params[:subscribe][:character_id], event_id: params[:subscribe][:event_id])
+  end
 
   def create_subscribe(options)
     subscribe_form = SubscribeForm.new(options)

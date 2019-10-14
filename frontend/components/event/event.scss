@@ -78,6 +78,10 @@
             }
 
             td {
+              button {
+                margin: 0;
+              }
+
               &.character_name {
                 display: flex;
                 flex-direction: row;

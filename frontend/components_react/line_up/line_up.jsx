@@ -11,7 +11,7 @@ export default class LineUp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      is_owner: props.is_owner,
+      isOwner: props.is_owner,
       userCharacters: [],
       characters: [],
       selectedCharacterForSign: null
@@ -50,6 +50,23 @@ export default class LineUp extends React.Component {
       method: 'POST',
       url: this._defineSignUrl(option),
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event.id } },
+      success: (data) => {
+        const userCharacters = this._filterCharacters(data.user_characters)
+        this.setState({
+          userCharacters: userCharacters,
+          characters: data.characters,
+          selectedCharacterForSign: userCharacters.length > 0 ? userCharacters[0].id : null
+        })
+      }
+    })
+  }
+
+  onApproveCharacter(characterId, event) {
+    event.preventDefault()
+    $.ajax({
+      method: 'POST',
+      url: `/subscribes/approve.json`,
+      data: { subscribe: { character_id: characterId, event_id: this.props.event.id } },
       success: (data) => {
         const userCharacters = this._filterCharacters(data.user_characters)
         this.setState({
@@ -109,6 +126,7 @@ export default class LineUp extends React.Component {
             <th>Race</th>
             <th>Class</th>
             <th>Guild</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -132,10 +150,16 @@ export default class LineUp extends React.Component {
             <td>{character.race.en}</td>
             <td>{character.character_class.en}</td>
             <td>{character.guild}</td>
+            <td>{this._renderApproveButton(character.id)}</td>
           </tr>
         )
       })
     }
+  }
+
+  _renderApproveButton(characterId) {
+    if (!this.state.isOwner) return false
+    else return <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onApproveCharacter.bind(this, characterId)}>Approve</button>
   }
 
   _renderRoleIcons(character, option) {
