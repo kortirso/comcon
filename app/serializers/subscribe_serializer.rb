@@ -1,3 +1,3 @@
 class SubscribeSerializer < ActiveModel::Serializer
-  attributes :id, :signed, :approved
+  attributes :id, :status
 end

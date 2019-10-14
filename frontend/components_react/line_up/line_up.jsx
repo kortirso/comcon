@@ -97,7 +97,7 @@ export default class LineUp extends React.Component {
 
   _renderSigners(option) {
     const characters = this.state.characters.filter((character) => {
-      return !character.subscribe_for_event.approved && ((option === 'signers' && character.subscribe_for_event.signed) || (option === 'rejecters' && !character.subscribe_for_event.signed))
+      return (option === 'signers' && character.subscribe_for_event.status === 'signed') || (option === 'rejecters' && character.subscribe_for_event.status === 'rejected')
     })
 
     return (

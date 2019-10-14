@@ -29,6 +29,12 @@ RSpec.describe SubscribesController, type: :controller do
           expect { request }.to change { character.subscribes.count }.by(1)
         end
 
+        it 'and its status is signed' do
+          request
+
+          expect(Subscribe.last.status).to eq 'signed'
+        end
+
         it 'and returns json response' do
           request
 
@@ -73,10 +79,10 @@ RSpec.describe SubscribesController, type: :controller do
           expect { request }.to change { character.subscribes.count }.by(1)
         end
 
-        it 'and its signed is false' do
+        it 'and its status is rejected' do
           request
 
-          expect(Subscribe.last.signed).to eq false
+          expect(Subscribe.last.status).to eq 'rejected'
         end
 
         it 'and returns json response' do

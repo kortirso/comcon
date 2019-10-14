@@ -6,10 +6,10 @@ class SubscribeForm
   attribute :id, Integer
   attribute :event, Event
   attribute :character, Character
-  attribute :signed, Boolean, default: true
-  attribute :approved, Boolean, default: false
+  attribute :status, String, default: 'signed'
 
-  validates :event, :character, presence: true
+  validates :event, :character, :status, presence: true
+  validates :status, inclusion: { in: %w[unknown signed rejected approved] }
 
   attr_reader :subscribe, :event
 

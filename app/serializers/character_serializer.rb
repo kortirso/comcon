@@ -20,7 +20,7 @@ class CharacterSerializer < ActiveModel::Serializer
   end
 
   def main_role
-    object.main_roles.first.name
+    object.main_roles&.first&.name
   end
 
   def roles

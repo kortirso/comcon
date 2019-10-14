@@ -3,7 +3,8 @@ class Subscribe < ApplicationRecord
   belongs_to :event
   belongs_to :character
 
-  scope :approved, -> { where signed: true, approved: true }
-  scope :signed, -> { where signed: true, approved: false }
-  scope :rejected, -> { where signed: false, approved: false }
+  scope :approved, -> { where status: 'approved' }
+  scope :signed, -> { where status: 'signed' }
+  scope :rejected, -> { where status: 'rejected' }
+  scope :unknown, -> { where status: 'unknown' }
 end

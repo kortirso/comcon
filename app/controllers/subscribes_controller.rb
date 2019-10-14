@@ -4,7 +4,7 @@ class SubscribesController < ApplicationController
   end
 
   def reject
-    create_subscribe(subscribe_params.merge(signed: false))
+    create_subscribe(subscribe_params.merge(status: 'rejected'))
   end
 
   private

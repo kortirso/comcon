@@ -38,13 +38,13 @@ RSpec.describe SubscribeForm, type: :service do
       end
 
       context 'for valid data' do
-        let(:service) { SubscribeForm.new(subscribe.attributes.merge(event: subscribe.event, character: subscribe.character, approved: true)) }
+        let(:service) { SubscribeForm.new(subscribe.attributes.merge(event: subscribe.event, character: subscribe.character, status: 'approved')) }
 
-        it 'does not update guild' do
+        it 'updates subscribe' do
           service.persist?
           subscribe.reload
 
-          expect(subscribe.approved).to eq true
+          expect(subscribe.status).to eq 'approved'
         end
       end
     end
