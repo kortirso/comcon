@@ -60,3 +60,15 @@ dungeon_form.persist?
 
 dungeon_form = DungeonForm.new(name: { 'en' => "Onyxia's Lair", 'ru' => 'Логово Ониксии' }, raid: true, quest_access: true)
 dungeon_form.persist?
+
+role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
+role_form.persist?
+
+role_form = RoleForm.new(name: { 'en' => 'Healer', 'ru' => 'Целитель' })
+role_form.persist?
+
+role_form = RoleForm.new(name: { 'en' => 'Melee', 'ru' => 'Ближний бой' })
+role_form.persist?
+
+role_form = RoleForm.new(name: { 'en' => 'Ranged', 'ru' => 'Дальний бой' })
+role_form.persist?
