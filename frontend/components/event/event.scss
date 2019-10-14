@@ -76,6 +76,47 @@
             &.Warrior {
               background: #c69b6d;
             }
+
+            td {
+              &.character_name {
+                display: flex;
+                flex-direction: row;
+                border: none;
+
+                .role_icons {
+                  display: flex;
+                  flex-direction: row;
+                  margin-left: 1rem;
+                  margin-top: 2px;
+
+                  .role_icon {
+                    width: 26px;
+                    height: 26px;
+                    margin-right: 0.25rem;
+
+                    &.Tank {
+                      background: url(../../images/tank.png);
+                      background-size: cover;
+                    }
+
+                    &.Healer {
+                      background: url(../../images/healer.png);
+                      background-size: cover;
+                    }
+
+                    &.Melee {
+                      background: url(../../images/melee.png);
+                      background-size: cover;
+                    }
+
+                    &.Ranged {
+                      background: url(../../images/melee.png);
+                      background-size: cover;
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

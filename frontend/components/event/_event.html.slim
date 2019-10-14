@@ -7,5 +7,5 @@
       p= "Event is available for everyone in #{@event.eventable.full_name} world for #{@event.fraction.name[I18n.locale.to_s]} fraction"
     - else
       p= "Event is available only for guild #{@event.eventable.full_name}"
-    p= "Owner of event is #{@event.owner.name}"
+    p= "Owner of event is #{@event.owner&.name}"
   = react_component('LineUp', event: @event, is_owner: @event.owner == Current.user)

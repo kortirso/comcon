@@ -112,13 +112,13 @@ export default class LineUp extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this._renderSignersInTable(characters)}
+          {this._renderSignersInTable(characters, option)}
         </tbody>
       </table>
     )
   }
 
-  _renderSignersInTable(characters) {
+  _renderSignersInTable(characters, option) {
     if (characters.length === 0) {
       return (
         <tr><td>No data</td></tr>
@@ -127,7 +127,7 @@ export default class LineUp extends React.Component {
       return characters.map((character) => {
         return (
           <tr className={character.character_class.en} key={character.id}>
-            <td>{character.name}</td>
+            <td className="character_name">{character.name}{this._renderRoleIcons(character, option)}</td>
             <td>{character.level}</td>
             <td>{character.race.en}</td>
             <td>{character.character_class.en}</td>
@@ -135,6 +135,22 @@ export default class LineUp extends React.Component {
           </tr>
         )
       })
+    }
+  }
+
+  _renderRoleIcons(character, option) {
+    if (option !== 'signers') return false
+    else {
+      let icons = []
+      icons.push(
+        <div className={`role_icon ${character.main_role.en}`}></div>
+      )
+      character.roles.forEach((role, index) => {
+        icons.push(
+          <div className={`role_icon ${role.en}`} key={index}></div>
+        )
+      })
+      return <div className="role_icons">{icons}</div>
     }
   }
 
