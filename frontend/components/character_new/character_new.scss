@@ -14,4 +14,30 @@
       }
     }
   }
+
+  .form-group {
+    &.roles {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .main_role, .secondary_roles {
+        width: 48%;
+      }
+
+      .secondary_roles {
+        p {
+          margin-bottom: 0.2rem;
+        }
+
+        .form-check {
+          margin-bottom: 0.2rem;
+
+          label {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
 }

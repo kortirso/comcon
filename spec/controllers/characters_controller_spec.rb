@@ -60,9 +60,21 @@ RSpec.describe CharactersController, type: :controller do
       end
 
       context 'for valid params' do
-        let(:request) { post :create, params: { locale: 'en', character: { name: '1', level: 60, world_id: world.id, race_id: race.id, character_class_id: character_class.id, dungeon: { '1' => '0' } } } }
+        let(:request) { post :create, params: { locale: 'en', character: { name: '1', level: 60, world_id: world.id, race_id: race.id, character_class_id: character_class.id, dungeon: { '1' => '0' }, main_role_id: '999', roles: { '999' => '0' } } } }
 
-        it 'creates new character' do
+        it 'calls CreateCharacterRoles' do
+          expect(CreateCharacterRoles).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'calls CreateDungeonAccess' do
+          expect(CreateDungeonAccess).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and creates new character' do
           expect { request }.to change { Character.count }.by(1)
         end
 
@@ -146,9 +158,21 @@ RSpec.describe CharactersController, type: :controller do
         end
 
         context 'for valid params' do
-          let(:request) { patch :update, params: { locale: 'en', id: character.id, character: { name: '1', level: 60, race_id: character.race_id, world_id: character.world_id, character_class_id: character.character_class_id, dungeon: { '1' => '0' } } } }
+          let(:request) { patch :update, params: { locale: 'en', id: character.id, character: { name: '1', level: 60, race_id: character.race_id, world_id: character.world_id, character_class_id: character.character_class_id, dungeon: { '1' => '0' }, main_role_id: '999', roles: { '999' => '0' } } } }
 
-          it 'updates new character' do
+          it 'calls CreateCharacterRoles' do
+            expect(CreateCharacterRoles).to receive(:call).and_call_original
+
+            request
+          end
+
+          it 'calls CreateDungeonAccess' do
+            expect(CreateDungeonAccess).to receive(:call).and_call_original
+
+            request
+          end
+
+          it 'and updates character' do
             request
             character.reload
 

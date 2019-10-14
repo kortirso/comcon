@@ -18,6 +18,16 @@
       .form-group
         = f.label :guild_id, 'Guild'
         = f.select :guild_id, @guild_names, {}, { class: 'form-control' }
+      .form-group.roles
+        .main_role
+          = f.label :main_role_id, 'Main role'
+          = f.select :main_role_id, options_for_select(@main_role_names, @character.main_roles.first.id), {}, { class: 'form-control', disabled: true }
+        .secondary_roles
+          p Other roles
+          - @roles.each do |role|
+            .form-group.form-check
+              = f.check_box "roles[#{role.id}]", class: 'form-check-input', checked: CharacterRole.find_by(character_id: @character.id, role_id: role.id).present?
+              = f.label "roles[#{role.id}]", role.name[I18n.locale.to_s]
     .double_line
       - if @dungeons_with_key.size.positive?
         .block
