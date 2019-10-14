@@ -17,6 +17,36 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  describe 'GET#show' do
+    let!(:event) { create :event }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted event' do
+        it 'renders error template' do
+          get :show, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed event' do
+        it 'renders show template' do
+          get :show, params: { locale: 'en', id: event.slug }
+
+          expect(response).to render_template :show
+        end
+      end
+    end
+
+    def do_request
+      get :show, params: { locale: 'en', id: event.slug }
+    end
+  end
+
   describe 'GET#new' do
     it_behaves_like 'User Auth'
 

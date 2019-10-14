@@ -1,0 +1,9 @@
+.container.event
+  .event_details
+    p.event_name= @event.name
+    p.event_location= "#{@event.dungeon.name[I18n.locale.to_s]}, #{@event.start_time}"
+    - if @event.eventable_type == 'World'
+      p= "Event is available for everyone in #{@event.eventable.full_name} world for #{@event.fraction.name[I18n.locale.to_s]} fraction"
+    - else
+      p= "Event is available only for guild #{@event.eventable.full_name}"
+    p= "Owner of event is #{@event.owner.name}"

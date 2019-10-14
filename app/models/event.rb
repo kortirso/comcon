@@ -2,7 +2,7 @@
 class Event < ApplicationRecord
   extend FriendlyId
 
-  friendly_id :slug, use: :slugged
+  friendly_id :name, use: :slugged
 
   belongs_to :owner, class_name: 'Character'
   belongs_to :dungeon, optional: true

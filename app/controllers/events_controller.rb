@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :find_events, only: %i[index], if: :json_request?
+  before_action :find_event, only: %i[show]
   before_action :find_selectors, only: %i[new]
 
   def index
@@ -8,6 +9,8 @@ class EventsController < ApplicationController
       format.json { render json: @events }
     end
   end
+
+  def show; end
 
   def new; end
 
@@ -25,6 +28,11 @@ class EventsController < ApplicationController
 
   def find_events
     @events = Event.all
+  end
+
+  def find_event
+    @event = Event.find_by(slug: params[:id])
+    render_not_found('Object is not found') if @event.nil?
   end
 
   def find_selectors

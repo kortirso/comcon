@@ -1,0 +1,13 @@
+.event {
+  .event_details {
+    p {
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+
+      &.event_name, &.event_location {
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+    }
+  }
+}

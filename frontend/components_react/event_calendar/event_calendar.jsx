@@ -47,6 +47,7 @@ export default class EventCalendar extends React.Component {
       days.push(
         <div className="day" key={i}>
           <div className="day_content">
+            <div className="day_date">{i + 1}.{this.state.currentMonth}</div>
             {this._renderEvents(i + 1)}
           </div>
         </div>
@@ -61,9 +62,10 @@ export default class EventCalendar extends React.Component {
     })
     return filtered.map((event) => {
       return (
-        <div className="event" key={event.id}>
+        <a className="event" key={event.id} href={`/events/${event.slug}`}>
           <p className="name">{event.name}</p>
-        </div>
+          <p className="time">{event.time}</p>
+        </a>
       )
     })
   }

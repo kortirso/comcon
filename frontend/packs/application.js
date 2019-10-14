@@ -7,6 +7,7 @@ import "components/footer/footer";
 import "components/sessions/sessions";
 import "components/character_new/character_new";
 import "components/events/events";
+import "components/event/event";
 
 import Rails from "rails-ujs";
 
