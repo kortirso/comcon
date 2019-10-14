@@ -3,6 +3,7 @@ class SubscribeForm
   include ActiveModel::Model
   include Virtus.model
 
+  attribute :id, Integer
   attribute :event, Event
   attribute :character, Character
   attribute :signed, Boolean, default: true
@@ -14,7 +15,8 @@ class SubscribeForm
 
   def persist?
     return false unless valid?
-    @subscribe = Subscribe.new
+    @subscribe = id ? Subscribe.find_by(id: id) : Subscribe.new
+    return false if @subscribe.nil?
     @subscribe.attributes = attributes.except(:id)
     @subscribe.save
     true

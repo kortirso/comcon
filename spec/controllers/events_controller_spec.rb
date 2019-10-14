@@ -1,49 +1,90 @@
 RSpec.describe EventsController, type: :controller do
   describe 'GET#index' do
-    it_behaves_like 'User Auth'
+    context 'for html request' do
+      it_behaves_like 'User Auth'
 
-    context 'for logged user' do
-      sign_in_user
+      context 'for logged user' do
+        sign_in_user
 
-      it 'renders index template' do
+        it 'renders index template' do
+          get :index, params: { locale: 'en' }
+
+          expect(response).to render_template :index
+        end
+      end
+
+      def do_request
         get :index, params: { locale: 'en' }
-
-        expect(response).to render_template :index
       end
     end
 
-    def do_request
-      get :index, params: { locale: 'en' }
+    context 'for json request' do
+      it_behaves_like 'User Auth JSON'
+
+      context 'for logged user' do
+        sign_in_user
+
+        it 'renders index template' do
+          get :index, params: { format: :json, locale: 'en' }
+
+          expect(JSON.parse(response.body).is_a?(Array)).to eq true
+        end
+      end
+
+      def do_request
+        get :index, params: { format: :json, locale: 'en' }
+      end
     end
   end
 
   describe 'GET#show' do
     let!(:event) { create :event }
 
-    it_behaves_like 'User Auth'
+    context 'for html request' do
+      it_behaves_like 'User Auth'
 
-    context 'for logged user' do
-      sign_in_user
+      context 'for logged user' do
+        sign_in_user
 
-      context 'for unexisted event' do
-        it 'renders error template' do
-          get :show, params: { locale: 'en', id: 999 }
+        context 'for unexisted event' do
+          it 'renders error template' do
+            get :show, params: { locale: 'en', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/error'
+          end
+        end
+
+        context 'for existed event' do
+          it 'renders show template' do
+            get :show, params: { locale: 'en', id: event.slug }
+
+            expect(response).to render_template :show
+          end
         end
       end
 
-      context 'for existed event' do
-        it 'renders show template' do
-          get :show, params: { locale: 'en', id: event.slug }
-
-          expect(response).to render_template :show
-        end
+      def do_request
+        get :show, params: { locale: 'en', id: event.slug }
       end
     end
 
-    def do_request
-      get :show, params: { locale: 'en', id: event.slug }
+    context 'for json request' do
+      it_behaves_like 'User Auth JSON'
+
+      context 'for logged user' do
+        sign_in_user
+
+        it 'renders json response' do
+          get :show, params: { format: :json, locale: 'en', id: event.slug }
+
+          expect(JSON.parse(response.body)['user_characters']).to_not eq nil
+          expect(JSON.parse(response.body)['characters']).to_not eq nil
+        end
+      end
+
+      def do_request
+        get :show, params: { format: :json, locale: 'en', id: event.slug }
+      end
     end
   end
 

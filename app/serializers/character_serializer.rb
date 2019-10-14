@@ -10,7 +10,7 @@ class CharacterSerializer < ActiveModel::Serializer
   end
 
   def guild
-    object.guild.full_name
+    object.guild&.full_name
   end
 
   def subscribe_for_event
