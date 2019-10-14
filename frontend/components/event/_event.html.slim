@@ -1,3 +1,4 @@
+= javascript_pack_tag 'line_up'
 .container.event
   .event_details
     p.event_name= @event.name
@@ -7,3 +8,4 @@
     - else
       p= "Event is available only for guild #{@event.eventable.full_name}"
     p= "Owner of event is #{@event.owner.name}"
+  = react_component('LineUp', event: @event, is_owner: @event.owner == Current.user)

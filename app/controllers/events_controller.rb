@@ -10,7 +10,18 @@ class EventsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html {}
+      format.json do
+        user_signed = Subscribe.where(event_id: @event.id, character_id: Character.where(user: Current.user).pluck(:id)).first
+        render json: {
+          user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(Character.where(user: Current.user).includes(:race, :guild, :character_class, :subscribes).where('races.fraction_id = ?', @event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: @event.id),
+          characters: ActiveModelSerializers::SerializableResource.new(@event.characters.includes(:race, :guild, :character_class, :subscribes), each_serializer: CharacterSerializer, event_id: @event.id)
+        }
+      end
+    end
+  end
 
   def new; end
 

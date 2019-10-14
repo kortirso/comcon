@@ -27,7 +27,7 @@ class CharacterForm
     @character = id ? Character.find_by(id: id) : Character.new
     return false if @character.nil?
     @character.attributes = attributes.except(:id)
-    @character.save!
+    @character.save
     true
   end
 

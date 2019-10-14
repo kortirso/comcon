@@ -6,7 +6,78 @@
 
       &.event_name, &.event_location {
         font-size: 1.25rem;
-        font-weight: 500;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .line_up {
+    .line_name{
+      margin: 1rem 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .approved {
+
+    }
+
+    .signed, .rejected {
+      .user_signers {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        p, select, button {
+          margin: 0 1rem 0 0;
+        }
+
+        select {
+          width: 200px;
+        }
+      }
+
+      table {
+        tbody {
+          tr {
+            &.Druid {
+              background: #ff7c0a;
+            }
+
+            &.Hunter {
+              background: #aad372;
+            }
+
+            &.Mage {
+              background: #68ccef;
+            }
+
+            &.Paladin {
+              background: #f48cba;
+            }
+
+            &.Priest {
+              background: #fff;
+            }
+
+            &.Rogue {
+              background: #fff468;
+            }
+
+            &.Shaman {
+              background: #2359ff;
+            }
+
+            &.Warlock {
+              background: #9382c9;
+            }
+
+            &.Warrior {
+              background: #c69b6d;
+            }
+          }
+        }
       }
     }
   }
