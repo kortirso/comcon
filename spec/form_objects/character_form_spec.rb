@@ -93,7 +93,7 @@ RSpec.describe CharacterForm, type: :service do
         context 'for valid data' do
           let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: 'Убивамс')) }
 
-          it 'does not update character' do
+          it 'updates character' do
             service.persist?
             character1.reload
 
