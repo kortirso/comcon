@@ -14,10 +14,11 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html {}
       format.json do
-        user_signed = Subscribe.where(event_id: @event.id, character_id: Character.where(user: Current.user).pluck(:id)).first
+        current_characters = Current.user.characters
+        user_signed = Subscribe.where(event_id: @event.id, character_id: current_characters.pluck(:id)).exists?
         render json: {
-          user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(Character.where(user: Current.user).includes(:race, :guild, :character_class, :subscribes).where('races.fraction_id = ?', @event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: @event.id),
-          characters: ActiveModelSerializers::SerializableResource.new(@event.characters.includes(:race, :guild, :character_class, :subscribes), each_serializer: CharacterSerializer, event_id: @event.id)
+          user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(current_characters.includes(:race, :guild, :character_class, :subscribes, :main_roles).where('races.fraction_id = ?', @event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: @event.id),
+          characters: ActiveModelSerializers::SerializableResource.new(@event.characters.includes(:race, :guild, :character_class, :subscribes, :main_roles), each_serializer: CharacterSerializer, event_id: @event.id)
         }
       end
     end

@@ -61,6 +61,7 @@ gem 'babosa'
 gem 'friendly_id', '~> 5.2.4'
 
 group :development, :test do
+  gem 'bullet'
   gem 'parallel_tests'
 end
 

@@ -1,5 +1,5 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :level, :character_class, :race, :guild, :subscribe_for_event, :main_role, :roles
+  attributes :id, :name, :level, :character_class, :race, :guild, :subscribe_for_event, :main_role, :user_id
 
   def character_class
     object.character_class.name
@@ -10,7 +10,7 @@ class CharacterSerializer < ActiveModel::Serializer
   end
 
   def guild
-    object.guild&.full_name
+    object.guild&.name
   end
 
   def subscribe_for_event
@@ -21,9 +21,5 @@ class CharacterSerializer < ActiveModel::Serializer
 
   def main_role
     object.main_roles&.first&.name
-  end
-
-  def roles
-    object.secondary_roles.pluck(:name)
   end
 end

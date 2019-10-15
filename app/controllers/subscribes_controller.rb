@@ -1,23 +1,19 @@
 class SubscribesController < ApplicationController
-  before_action :find_subscribe, only: %i[approve]
+  before_action :find_subscribe, only: %i[update]
 
   def create
     create_subscribe(subscribe_params)
   end
 
-  def reject
-    create_subscribe(subscribe_params.merge(status: 'rejected'))
-  end
-
-  def approve
+  def update
     authorize! @subscribe
-    create_subscribe(@subscribe.attributes.merge(subscribe_params.merge(status: 'approved')))
+    create_subscribe(@subscribe.attributes.merge(subscribe_params.merge(character: @subscribe.character, event: @subscribe.event)))
   end
 
   private
 
   def find_subscribe
-    @subscribe = Subscribe.find_by(character_id: params[:subscribe][:character_id], event_id: params[:subscribe][:event_id])
+    @subscribe = Subscribe.find_by(id: params[:id])
   end
 
   def create_subscribe(options)
@@ -30,17 +26,22 @@ class SubscribesController < ApplicationController
   end
 
   def render_event_characters(event)
-    user_signed = Subscribe.where(event_id: event.id, character_id: Character.where(user: Current.user).pluck(:id)).first
+    current_characters = Current.user.characters
+    user_signed = Subscribe.where(event_id: event.id, character_id: current_characters.pluck(:id)).exists?
     render json: {
-      user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(Character.where(user: Current.user).includes(:race, :guild, :character_class, :subscribes).where('races.fraction_id = ?', event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: event.id),
-      characters: ActiveModelSerializers::SerializableResource.new(event.characters.includes(:race, :guild, :character_class, :subscribes), each_serializer: CharacterSerializer, event_id: event.id)
+      user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(current_characters.includes(:race, :guild, :character_class, :subscribes, :main_roles).where('races.fraction_id = ?', event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: event.id),
+      characters: ActiveModelSerializers::SerializableResource.new(event.characters.includes(:race, :guild, :character_class, :subscribes, :main_roles), each_serializer: CharacterSerializer, event_id: event.id)
     }
   end
 
   def subscribe_params
-    h = {}
+    h = update_subscribe_params.to_h
     h[:event] = Event.find_by(id: params[:subscribe][:event_id])
     h[:character] = Character.where(user: Current.user).find_by(id: params[:subscribe][:character_id])
     h
+  end
+
+  def update_subscribe_params
+    params.require(:subscribe).permit(:status)
   end
 end

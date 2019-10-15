@@ -14,15 +14,11 @@
   .line_up {
     .line_name{
       margin: 1rem 0;
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       font-weight: 600;
     }
 
-    .approved {
-
-    }
-
-    .signed, .rejected {
+    .signed, .rejected, .unknown {
       .user_signers {
         display: flex;
         flex-direction: row;
@@ -37,6 +33,24 @@
           width: 200px;
         }
       }
+
+      table {
+        tbody {
+          tr {
+            &:nth-of-type(1) {
+              td {
+                &.character_name {
+                  border: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .signed, .rejected, .approved, .unknown {
+      margin-bottom: 2.5rem;
 
       table {
         tbody {
@@ -82,10 +96,23 @@
                 margin: 0;
               }
 
-              &.character_name {
+              &.role_name {
+                text-align: center;
+                font-weight: 600;
+              }
+
+              .buttons {
                 display: flex;
                 flex-direction: row;
-                border: none;
+
+                button {
+                  margin-right: 5px;
+                }
+              }
+
+              .character_name {
+                display: flex;
+                flex-direction: row;
 
                 .role_icons {
                   display: flex;
