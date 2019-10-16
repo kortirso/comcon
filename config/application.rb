@@ -11,7 +11,7 @@ require 'active_storage/engine'
 
 Bundler.require(*Rails.groups)
 
-module ClassicRaidPlanner
+module ComCon
   # base
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

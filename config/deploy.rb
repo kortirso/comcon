@@ -1,10 +1,10 @@
 # config valid for current version and patch releases of Capistrano
 lock '~> 3.11.0'
 
-set :application, 'classic_raid_planner'
-set :repo_url, 'git@github.com:WebGents/classic_raid_planner.git'
+set :application, 'comcon'
+set :repo_url, 'git@github.com:WebGents/comcon.git'
 
-set :deploy_to, '/var/www/html/classic_raid_planner'
+set :deploy_to, '/var/www/html/comcon'
 set :deploy_user, 'deploy'
 
 # Default value for :linked_files is []
