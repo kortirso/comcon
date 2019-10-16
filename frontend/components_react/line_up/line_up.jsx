@@ -1,8 +1,10 @@
 import React from "react"
+import LocalizedStrings from 'react-localization'
+import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
-const roles = ['Tank', 'Healer', 'Melee', 'Ranged']
+let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
   headers:
@@ -22,6 +24,7 @@ export default class LineUp extends React.Component {
   }
 
   componentWillMount() {
+    strings.setLanguage(this.props.locale)
     this._getEventsSubscribes()
   }
 
@@ -123,7 +126,7 @@ export default class LineUp extends React.Component {
   _renderSignersInTable(characters, option) {
     if (characters.length === 0) {
       return (
-        <tr><td>No data</td></tr>
+        <tr><td>{strings.noData}</td></tr>
       )
     } else {
       return characters.map((character) => {
@@ -131,12 +134,12 @@ export default class LineUp extends React.Component {
           <tr className={character.character_class.en} key={character.id}>
             <td><div className="character_name">{character.name}{this._renderRoleIcons(character, option)}</div></td>
             <td>{character.level}</td>
-            <td>{character.race.en}</td>
-            <td>{character.character_class.en}</td>
+            <td>{character.race[this.props.locale]}</td>
+            <td>{character.character_class[this.props.locale]}</td>
             <td>{character.guild}</td>
             <td>
               <div className="buttons">
-                {this.state.isOwner && option === 'signers' && this._renderAdminButton(character.subscribe_for_event.id, 'approved', 'Approve')}
+                {this.state.isOwner && option === 'signers' && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
                 {this.state.currentUserId === character.user_id && this._renderUserButton(character.subscribe_for_event.id, option)}
               </div>
             </td>
@@ -148,9 +151,9 @@ export default class LineUp extends React.Component {
 
   _renderUserButton(subscribeId, option) {
     let buttons = []
-    if (option !== 'signers') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'signed')}>Sign</button>)
-    if (option !== 'rejecters') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'rejected')}>Reject</button>)
-    if (option !== 'unknown') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'unknown')}>Unknown</button>)
+    if (option !== 'signers') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'signed')}>{strings.sign}</button>)
+    if (option !== 'rejecters') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'rejected')}>{strings.reject}</button>)
+    if (option !== 'unknown') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'unknown')}>{strings.unknown}</button>)
     return <div className="user_buttons">{buttons}</div>
   }
 
@@ -171,25 +174,26 @@ export default class LineUp extends React.Component {
     if (characters.length === 0) return false
     else {
       let lineUp = []
+      const roles = [strings.tank, strings.healer, strings.melee, strings.ranged]
       roles.forEach((role, index) => {
         const chars = characters.filter((character) => {
-          return character.main_role.en === role
+          return character.main_role[this.props.locale] === role
         })
 
         lineUp.push(<tr key={index}><td colSpan="6" className="role_name">{role}</td></tr>)
-        if (chars.length === 0) lineUp.push(<tr key={- index}><td colSpan="6">No characters</td></tr>)
+        if (chars.length === 0) lineUp.push(<tr key={- index}><td colSpan="6">{strings.noData}</td></tr>)
         else {
           chars.forEach((character) => {
             lineUp.push(
               <tr className={character.character_class.en} key={character.name}>
                 <td><div className="character_name">{character.name}</div></td>
                 <td>{character.level}</td>
-                <td>{character.race.en}</td>
-                <td>{character.character_class.en}</td>
+                <td>{character.race[this.props.locale]}</td>
+                <td>{character.character_class[this.props.locale]}</td>
                 <td>{character.guild}</td>
                 <td>
                   <div className="buttons">
-                    {this.state.isOwner && this._renderAdminButton(character.subscribe_for_event.id, 'signed', 'Remove')}
+                    {this.state.isOwner && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
                     {this.state.currentUserId === character.user_id && this._renderUserButton(character.subscribe_for_event.id, 'signers')}
                   </div>
                 </td>
@@ -214,11 +218,11 @@ export default class LineUp extends React.Component {
     return (
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Level</th>
-          <th>Race</th>
-          <th>Class</th>
-          <th>Guild</th>
+          <th>{strings.name}</th>
+          <th>{strings.level}</th>
+          <th>{strings.race}</th>
+          <th>{strings.characterClass}</th>
+          <th>{strings.guild}</th>
           <th></th>
         </tr>
       </thead>
@@ -229,20 +233,20 @@ export default class LineUp extends React.Component {
     return (
       <div className="line_up">
         <div className="approved">
-          <div className="line_name">Raid LineUp</div>
+          <div className="line_name">{strings.lineUp}</div>
           {this._renderLineUp()}
         </div>
         <div className="signed">
-          <div className="line_name">Signers</div>
+          <div className="line_name">{strings.signers}</div>
           {this._renderSignBlock()}
           {this._renderSigners('signers')}
         </div>
         <div className="unknown">
-          <div className="line_name">Unknown</div>
+          <div className="line_name">{strings.unknown}</div>
           {this._renderSigners('unknown')}
         </div>
         <div className="rejected">
-          <div className="line_name">Rejected</div>
+          <div className="line_name">{strings.rejected}</div>
           {this._renderSigners('rejecters')}
         </div>
       </div>

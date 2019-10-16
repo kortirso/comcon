@@ -1,0 +1,26 @@
+{
+  "en": {
+    "none": "none",
+    "filterAccess": "Filter by access type",
+    "onlyWorlds": "World events",
+    "onlyGuilds": "Guild events",
+    "filterWorld": "Filter by world",
+    "filterGuild": "Filter by guild",
+    "filterFraction": "Filter by fraction",
+    "filterCharacter": "Filter by character",
+    "previous": "Previous month",
+    "next": "Next month"
+  },
+  "ru": {
+    "none": "все",
+    "filterAccess": "Фильтр по доступу",
+    "onlyWorlds": "События в Мире",
+    "onlyGuilds": "События в Гильдии",
+    "filterWorld": "Фильтр по мирам",
+    "filterGuild": "Фильтр по гильдиям",
+    "filterFraction": "Фильтр по фракциям",
+    "filterCharacter": "Фильтр по персонажам",
+    "previous": "Предыдущий месяц",
+    "next": "Следующий месяц"
+  }
+}

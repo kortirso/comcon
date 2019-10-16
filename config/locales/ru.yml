@@ -1,2 +1,82 @@
 ru:
-  hello: 'Привет'
+  navigation:
+    worlds: Миры
+    characters: Персонажи
+    events: События
+    login: Вход
+    sign_up: Регистрация
+    logout: Выход
+  registration:
+    title: Создайте профиль
+    email: Email
+    your_email: Ваш Email
+    password: Пароль
+    your_password: Ваш пароль
+    password_strong: Пароль должен содержать, как минимум, 10 символов
+    confirm: Подтверждение пароля
+  session:
+    hello: Добро пожаловать обратно!
+    title: Войдите в Ваш персональный аккаунт
+  worlds:
+    add: Добавить мир
+    name: Название
+    zone: Зона
+  world:
+    name: Название
+    name_title: Название Мира
+    zone: Зона
+    zone_title: Название зоны
+  buttons:
+    sure: Вы уверены?
+    edit: Редактировать
+    delete: Удалить
+    create: Создать
+    update: Обновить
+  events:
+    add: Добавить событие
+  event_new:
+    name: Название
+    name_title: Название события
+    creator: Создатель
+    dungeon: Подземелье
+    access_type: Тип доступа
+    start_time: Время начала (GTM +0)
+  event:
+    world: "Событие доступно для всех персонажей из Мира %{world_name} для фракции %{fraction}"
+    guild: "Событие доступно только для гильдии %{guild_name}"
+    owner: "Создатель события - %{name}"
+  characters:
+    add: Добавить персонаж
+    name: Имя
+    world: Мир
+    race: Раса
+    character_class: Класс
+    level: Уровень
+    guild: Гильдия
+  character:
+    name_title: Имя персонажа
+    main: Главная роль
+    other: Другие роли
+    keys: Наличие ключей от подземелий
+    quests: Выполненные квесты для подземелий
+  select:
+    world: Игровой Мир
+    guild: Гильдия
+  month:
+    jan: Январь
+    fed: Февраль
+    mar: Март
+    apr: Апрель
+    may: Май
+    jun: Июнь
+    jul: Июль
+    aug: Август
+    sep: Сентябрь
+    oct: Октябрь
+    nov: Ноябрь
+    dec: Декабрь
+  date:
+    order:
+      - :day
+      - :month
+      - :year

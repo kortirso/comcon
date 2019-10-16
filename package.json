@@ -9,6 +9,7 @@
     "rails-ujs": "^5.2.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-localization": "^1.0.15",
     "webpacker-react": "^0.3.2"
   },
   "devDependencies": {

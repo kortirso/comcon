@@ -1,2 +1,64 @@
 en:
-  hello: 'Hello'
+  navigation:
+    worlds: Worlds
+    characters: Characters
+    events: Events
+    login: Login
+    sign_up: Sign Up
+    logout: Logout
+  registration:
+    title: Create your profile
+    email: Email
+    your_email: Your Email
+    password: Password
+    your_password: Your password
+    password_strong: Password must be at least 10 characters
+    confirm: Confirm password
+  session:
+    hello: Welcome back!
+    title: Sign In to your personal account
+  worlds:
+    add: Add world
+    name: Name
+    zone: Zone
+  world:
+    name: Name
+    name_title: World's name
+    zone: Zone
+    zone_title: World's zone
+  buttons:
+    sure: Are you sure?
+    edit: Edit
+    delete: Delete
+    create: Create
+    update: Update
+  events:
+    add: Add event
+  event_new:
+    name: Name
+    name_title: Event's name
+    creator: Creator
+    dungeon: Dungeon
+    access_type: Access type
+    start_time: Start time (GTM +0)
+  event:
+    world: "Event is available for everyone in %{world_name} world for %{fraction} fraction"
+    guild: "Event is available only for guild %{guild_name}"
+    owner: "Owner of event is %{name}"
+  characters:
+    add: Add
+    name: Name
+    world: World
+    race: Race
+    character_class: Character class
+    level: Level
+    guild: Guild
+  character:
+    name_title: Character's name
+    main: Main role
+    other: Other roles
+    keys: Dungeon Keys
+    quests: Dungeon Quests
+  select:
+    world: World
+    guild: Guild

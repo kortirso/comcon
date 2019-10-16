@@ -1,10 +1,10 @@
 .container
   = form_with model: World.new, local: true do |f|
     .form-group
-      = f.label :name, 'Name'
-      = f.text_field :name, required: true, placeholder: "World's name", class: 'form-control'
+      = f.label :name, t('world.name')
+      = f.text_field :name, required: true, placeholder: t('world.name_title'), class: 'form-control'
     .form-group
-      = f.label :zone, 'Zone'
-      = f.text_field :zone, required: true, placeholder: "World's zone", class: 'form-control'
-    = f.submit 'Create', class: 'btn btn-primary'
+      = f.label :zone, t('world.zone')
+      = f.text_field :zone, required: true, placeholder: t('world.zone_title'), class: 'form-control'
+    = f.submit t('buttons.create'), class: 'btn btn-primary'
     

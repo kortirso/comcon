@@ -1,14 +1,14 @@
 .container
-  = link_to 'Add character', new_character_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+  = link_to t('characters.add'), new_character_path, class: 'btn btn-primary btn-sm with_bottom_margin'
   table.table.table-striped
     thead
       tr
-        th Name
-        th World
-        th Race
-        th Character class
-        th Level
-        th Guild
+        th= t('characters.name')
+        th= t('characters.world')
+        th= t('characters.race')
+        th= t('characters.character_class')
+        th= t('characters.level')
+        th= t('characters.guild')
         th
     tbody
       - @characters.each do |character|
@@ -20,5 +20,5 @@
           td= character.level
           td= character.guild.name
           td
-            = link_to 'Edit', edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
-            = link_to 'Delete', character, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-sm'
+            = link_to t('buttons.edit'), edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to t('buttons.delete'), character, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

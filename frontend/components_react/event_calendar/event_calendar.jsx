@@ -1,6 +1,10 @@
 import React from "react"
+import LocalizedStrings from 'react-localization'
+import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
+
+let strings = new LocalizedStrings(I18nData)
 
 export default class EventCalendar extends React.Component {
   constructor(props) {
@@ -25,6 +29,7 @@ export default class EventCalendar extends React.Component {
   }
 
   componentWillMount() {
+    strings.setLanguage(this.props.locale)
     this._getEvents()
   }
 
@@ -96,7 +101,7 @@ export default class EventCalendar extends React.Component {
     })
     return filtered.map((event) => {
       return (
-        <a className="event" key={event.id} href={`/events/${event.slug}`}>
+        <a className="event" key={event.id} href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${event.slug}`}>
           <p className="name">{event.name}</p>
           <p className="time">{event.time}</p>
         </a>
@@ -119,11 +124,11 @@ export default class EventCalendar extends React.Component {
   _renderAccessTypeFilter() {
     return (
       <div className="filter access_type">
-        <p>Filter by access type</p>
+        <p>{strings.filterAccess}</p>
         <select className="form-control" onChange={this._onChangeAccessType.bind(this)} value={this.state.accessType}>
-          <option value='none'>none</option>
-          <option value='World'>Only worlds</option>
-          <option value='Guild'>Only guilds</option>
+          <option value='none'>{strings.none}</option>
+          <option value='World'>{strings.onlyWorlds}</option>
+          <option value='Guild'>{strings.onlyGuilds}</option>
         </select>
       </div>
     )
@@ -134,9 +139,9 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter world">
-          <p>Filter by world</p>
+          <p>{strings.filterWorld}</p>
           <select className="form-control" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
-            <option value='none' key='0'>none</option>
+            <option value='none' key='0'>{strings.none}</option>
             {this._renderWorldsList()}
           </select>
         </div>
@@ -155,9 +160,9 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter guild">
-          <p>Filter by guild</p>
+          <p>{strings.filterGuild}</p>
           <select className="form-control" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
-            <option value='none' key='0'>none</option>
+            <option value='none' key='0'>{strings.none}</option>
             {this._renderGuildsList()}
           </select>
         </div>
@@ -176,9 +181,9 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter fraction">
-          <p>Filter by fraction</p>
+          <p>{strings.filterFraction}</p>
           <select className="form-control" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
-            <option value='none' key='0'>none</option>
+            <option value='none' key='0'>{strings.none}</option>
             {this._renderFractionsList()}
           </select>
         </div>
@@ -188,16 +193,16 @@ export default class EventCalendar extends React.Component {
 
   _renderFractionsList() {
     return this.state.fractions.map((fraction) => {
-      return <option value={fraction.id} key={fraction.id}>{fraction.name.en}</option>
+      return <option value={fraction.id} key={fraction.id}>{fraction.name[this.props.locale]}</option>
     })
   }
 
   _renderCharacterFilter() {
     return (
       <div className="filter character">
-        <p>Filter by character</p>
+        <p>{strings.filterCharacter}</p>
         <select className="form-control" onChange={this._onChangeCharacter.bind(this)} value={this.state.character}>
-          <option value='none' key='0'>none</option>
+          <option value='none' key='0'>{strings.none}</option>
           {this._renderCharactersList()}
         </select>
       </div>
@@ -280,8 +285,8 @@ export default class EventCalendar extends React.Component {
       <div className="events">
         {this._renderFilters()}
         <div className="calendar_arrows">
-          <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>Previous month</button>
-          <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>Next month</button>
+          <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
+          <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
         </div>
         <div className="calendar">
           {this._renderPreviousMonth('previous')}

@@ -1,0 +1,42 @@
+{
+  "en": {
+    "lineUp": "Raid LineUp",
+    "signers": "Signers",
+    "unknown": "Unknown",
+    "rejected": "Rejected",
+    "name": "Name",
+    "level": "Level",
+    "race": "Race",
+    "characterClass": "Class",
+    "guild": "Guild",
+    "tank": "Tank",
+    "healer": "Healer",
+    "melee": "Melee",
+    "ranged": "Ranged",
+    "sign": "Sign",
+    "reject": "Reject",
+    "approve": "Approve",
+    "remove": "Remove",
+    "noData": "No data"
+  },
+  "ru": {
+    "lineUp": "Состав рейда",
+    "signers": "Придут",
+    "unknown": "Под вопросом",
+    "rejected": "Не придут",
+    "name": "Имя",
+    "level": "Уровень",
+    "race": "Раса",
+    "characterClass": "Класс",
+    "guild": "Гильдия",
+    "tank": "Танк",
+    "healer": "Целитель",
+    "melee": "Ближний бой",
+    "ranged": "Дальний бой",
+    "sign": "Подписаться",
+    "reject": "Отклонить",
+    "approve": "Утвердить",
+    "remove": "Исключить",
+    "noData": "Нет данных"
+  }
+}

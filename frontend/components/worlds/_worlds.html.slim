@@ -1,11 +1,11 @@
 .container
-  = link_to 'Add world', new_world_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+  = link_to t('worlds.add'), new_world_path, class: 'btn btn-primary btn-sm with_bottom_margin'
   table.table.table-striped
     thead
       tr
         th ID
-        th Name
-        th Zone
+        th= t('worlds.name')
+        th= t('worlds.zone')
         th
     tbody
       - @worlds.each do |world|
@@ -14,5 +14,5 @@
           td= world.name
           td= world.zone
           td
-            = link_to 'Edit', edit_world_path(world), class: 'btn btn-primary btn-sm with_right_margin'
-            = link_to 'Delete', world, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary btn-sm'
+            = link_to t('buttons.edit'), edit_world_path(world), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to t('buttons.delete'), world, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

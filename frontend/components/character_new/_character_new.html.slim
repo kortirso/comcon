@@ -2,28 +2,28 @@
   = form_with model: Character.new, local: true do |f|
     .double_line
       .form-group
-        = f.label :name, 'Name'
-        = f.text_field :name, required: true, placeholder: "Character's name", class: 'form-control'
+        = f.label :name, t('characters.name')
+        = f.text_field :name, required: true, placeholder: t('character.name_title'), class: 'form-control'
       .form-group
-        = f.label :level, 'Level'
-        = f.text_field :level, required: true, placeholder: 'Level', class: 'form-control'
+        = f.label :level, t('characters.level')
+        = f.text_field :level, required: true, placeholder: t('characters.level'), class: 'form-control'
     .double_line
       .form-group
-        = f.label :race_id, 'Race'
+        = f.label :race_id, t('characters.race')
         = f.select :race_id, @race_names, {}, { class: 'form-control' }
       .form-group
-        = f.label :character_class_id, 'Character class'
+        = f.label :character_class_id, t('characters.character_class')
         = f.select :character_class_id, @character_class_names, {}, { class: 'form-control' }
     .double_line
       .form-group
-        = f.label :guild_id, 'Guild'
+        = f.label :guild_id, t('characters.guild')
         = f.select :guild_id, @guild_names, {}, { class: 'form-control' }
       .form-group.roles
         .main_role
-          = f.label :main_role_id, 'Main role'
+          = f.label :main_role_id, t('character.main')
           = f.select :main_role_id, @main_role_names, {}, { class: 'form-control' }
         .secondary_roles
-          p Other roles
+          p= t('character.other')
           - @roles.each do |role|
             .form-group.form-check
               = f.check_box "roles[#{role.id}]", class: 'form-check-input'
@@ -31,17 +31,17 @@
     .double_line
       - if @dungeons_with_key.size.positive?
         .block
-          p Dungeon Keys
+          p= t('character.keys')
           - @dungeons_with_key.each do |dungeon|
             .form-group.form-check
               = f.check_box "dungeon[#{dungeon.id}]", class: 'form-check-input'
               = f.label "dungeon[#{dungeon.id}]", dungeon.name[I18n.locale.to_s]
       - if @dungeons_with_quest.size.positive?
         .block
-          p Dungeon Quests
+          p= t('character.quests')
           - @dungeons_with_quest.each do |dungeon|
             .form-group.form-check
               = f.check_box "dungeon[#{dungeon.id}]", class: 'form-check-input'
               = f.label "dungeon[#{dungeon.id}]", dungeon.name[I18n.locale.to_s]
-    = f.submit 'Create', class: 'btn btn-primary'
+    = f.submit t('buttons.create'), class: 'btn btn-primary'
     
