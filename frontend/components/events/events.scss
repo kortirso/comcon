@@ -22,6 +22,10 @@
     }
   }
 
+  .calendar_arrows {
+    margin-bottom: 1rem;
+  }
+
   .calendar {
     display: flex;
     flex-direction: row;
@@ -72,6 +76,8 @@
       }
 
       &.previous {
+        border: 1px solid transparent;
+
         .day_content {
           background: #F4F4F4;
         }

@@ -39,9 +39,9 @@ export default class EventCalendar extends React.Component {
     if (this.state.guild !== 'none') params.push(`eventable_id=${this.state.guild}`)
     if (this.state.fraction !== 'none') params.push(`fraction_id=${this.state.fraction}`)
     if (this.state.character !== 'none') params.push(`character_id=${this.state.character}`)
-    // define url with filters
-    let url = '/events.json'
-    if (params.length > 0) url = url + '?' + params.join('&')
+    params.push(`month=${this.state.currentMonth}`)
+    params.push(`year=${this.state.currentYear}`)
+    const url = '/events.json?' + params.join('&')
     $.ajax({
       method: 'GET',
       url: url,
@@ -56,15 +56,16 @@ export default class EventCalendar extends React.Component {
       method: 'GET',
       url: '/events/filter_values.json',
       success: (data) => {
-        console.log(data)
         this.setState({worlds: data.worlds, fractions: data.fractions, guilds: data.guilds, characters: data.characters})
       }
     })
   }
 
-  _renderPreviousMonth() {
+  _renderPreviousMonth(value) {
     let days = []
-    for (let i = 0; i < this.state.previousDaysAmount; i++) {
+    let amount = this.state.previousDaysAmount
+    if (value === 'next') amount = 7 - (this.state.previousDaysAmount + this.state.daysAmount) % 7
+    for (let i = 0; i < amount; i++) {
       days.push(
         <div className="day previous" key={i}>
           <div className="day_content"></div>
@@ -245,13 +246,47 @@ export default class EventCalendar extends React.Component {
     })
   }
 
+  _onChangeMonth(value) {
+    let currentYear = this.state.currentYear
+    let previousYear = this.state.currentYear
+    let currentMonth = this.state.currentMonth
+    let previousMonth = this.state.currentMonth - 1
+    if (value === -1 && currentMonth === 1) {
+      currentYear -= 1
+      previousYear -= 1
+      currentMonth = 12
+      previousMonth = 11
+    } else if (value === 1 && currentMonth === 12) {
+      currentYear += 1
+      currentMonth = 1
+      previousMonth = 12
+    } else {
+      currentMonth += value
+      previousMonth += value
+    }
+
+    let previous = (new Date(previousYear, previousMonth, 1)).getDay() - 1
+    if (previous < 0) previous += 7
+    this.setState({
+      previousDaysAmount: previous,
+      daysAmount: (new Date(currentYear, currentMonth, 0)).getDate(),
+      currentYear: currentYear,
+      currentMonth: currentMonth
+    })
+  }
+
   render() {
     return (
       <div className="events">
         {this._renderFilters()}
+        <div className="calendar_arrows">
+          <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>Previous month</button>
+          <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>Next month</button>
+        </div>
         <div className="calendar">
-          {this._renderPreviousMonth()}
+          {this._renderPreviousMonth('previous')}
           {this._renderMonthDays()}
+          {this._renderPreviousMonth('next')}
         </div>
       </div>
     )

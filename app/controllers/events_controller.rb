@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   include EventPresentable
 
+  before_action :find_start_of_month, only: %i[index], if: :json_request?
   before_action :find_events, only: %i[index], if: :json_request?
   before_action :find_event, only: %i[show]
   before_action :find_selectors, only: %i[new]
@@ -43,7 +44,7 @@ class EventsController < ApplicationController
   private
 
   def find_events
-    @events = Event.all
+    @events = Event.where('start_time >= ? AND start_time < ?', @start_of_month.beginning_of_month, @start_of_month.end_of_month)
     @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
     @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
     @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
@@ -53,6 +54,10 @@ class EventsController < ApplicationController
     else
       @events = @events.available_for_user(Current.user)
     end
+  end
+
+  def find_start_of_month
+    @start_of_month = params[:year].present? && params[:month].present? ? DateTime.new(params[:year].to_i, params[:month].to_i, 1, 0, 0, 0) : DateTime.now.new_offset(0)
   end
 
   def find_event
