@@ -57,6 +57,7 @@ export default class LineUp extends React.Component {
       url: `/subscribes.json`,
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event.id, status: status } },
       success: (data) => {
+        console.log(data)
         const userCharacters = this._filterCharacters(data.user_characters)
         this.setState({
           userCharacters: userCharacters,
@@ -96,9 +97,9 @@ export default class LineUp extends React.Component {
           <select className="form-control" onChange={this._onChangeCharacter.bind()} value={this.state.selectedCharacterForSign}>
             {characters}
           </select>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'subscribe')}>Subscribe</button>
+          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'signed')}>Subscribe</button>
           <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'unknown')}>Unknown</button>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'reject')}>Reject</button>
+          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'rejected')}>Reject</button>
         </div>
       )
     }
