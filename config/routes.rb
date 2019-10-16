@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   resources :worlds, except: %i[show]
   resources :subscribes, only: %i[create update]
+  resources :events, only: %i[] do
+    get :filter_values, on: :collection
+  end
 
   localized do
     resources :characters, except: %i[show]

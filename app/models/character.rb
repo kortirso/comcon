@@ -10,6 +10,7 @@ class Character < ApplicationRecord
   has_many :dungeons, through: :dungeon_accesses
   has_many :owned_events, class_name: 'Event', foreign_key: 'owner_id'
   has_many :subscribes, dependent: :destroy
+  has_many :events, through: :subscribes
   has_many :character_roles, dependent: :destroy
   has_many :roles, through: :character_roles
   has_many :main_character_roles, -> { where main: true }, class_name: 'CharacterRole'

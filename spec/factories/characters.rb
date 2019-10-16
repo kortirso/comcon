@@ -11,5 +11,9 @@ FactoryBot.define do
       association :race, :human
       association :character_class, :warrior
     end
+
+    trait :orc do
+      association :race, :orc
+    end
   end
 end

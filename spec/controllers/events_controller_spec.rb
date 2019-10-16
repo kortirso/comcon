@@ -148,4 +148,54 @@ RSpec.describe EventsController, type: :controller do
       post :create, params: { locale: 'en', event: { name: '1', owner_id: 999, dungeon_id: dungeon.id, start_time: DateTime.now + 1.day } }
     end
   end
+
+  describe 'GET#filter_values' do
+    let!(:event) { create :event }
+
+    context 'for html request' do
+      it_behaves_like 'User Auth'
+
+      context 'for logged user' do
+        sign_in_user
+
+        it 'renders json data' do
+          get :filter_values
+
+          result = JSON.parse(response.body)
+
+          expect(result['worlds']).to_not eq nil
+          expect(result['fractions']).to_not eq nil
+          expect(result['characters']).to_not eq nil
+          expect(result['guilds']).to_not eq nil
+        end
+      end
+
+      def do_request
+        get :filter_values
+      end
+    end
+
+    context 'for json request' do
+      it_behaves_like 'User Auth JSON'
+
+      context 'for logged user' do
+        sign_in_user
+
+        it 'renders json data' do
+          get :filter_values, format: :json
+
+          result = JSON.parse(response.body)
+
+          expect(result['worlds']).to_not eq nil
+          expect(result['fractions']).to_not eq nil
+          expect(result['characters']).to_not eq nil
+          expect(result['guilds']).to_not eq nil
+        end
+      end
+
+      def do_request
+        get :filter_values, format: :json
+      end
+    end
+  end
 end
