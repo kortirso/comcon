@@ -57,7 +57,6 @@ export default class LineUp extends React.Component {
       url: `/subscribes.json`,
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event.id, status: status } },
       success: (data) => {
-        console.log(data)
         const userCharacters = this._filterCharacters(data.user_characters)
         this.setState({
           userCharacters: userCharacters,
