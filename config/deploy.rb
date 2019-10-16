@@ -2,7 +2,7 @@
 lock '~> 3.11.0'
 
 set :application, 'comcon'
-set :repo_url, 'git@github.com:WebGents/comcon.git'
+set :repo_url, 'git@github.com:kortirso/comcon.git'
 
 set :deploy_to, '/var/www/html/comcon'
 set :deploy_user, 'deploy'
