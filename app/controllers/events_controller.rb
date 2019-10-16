@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  include EventPresentable
+
   before_action :find_events, only: %i[index], if: :json_request?
   before_action :find_event, only: %i[show]
   before_action :find_selectors, only: %i[new]
@@ -13,14 +15,7 @@ class EventsController < ApplicationController
   def show
     respond_to do |format|
       format.html {}
-      format.json do
-        current_characters = Current.user.characters
-        user_signed = Subscribe.where(event_id: @event.id, character_id: current_characters.pluck(:id)).exists?
-        render json: {
-          user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(current_characters.includes(:race, :guild, :character_class, :subscribes, :main_roles).where('races.fraction_id = ?', @event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: @event.id),
-          characters: ActiveModelSerializers::SerializableResource.new(@event.characters.includes(:race, :guild, :character_class, :subscribes, :main_roles), each_serializer: CharacterSerializer, event_id: @event.id)
-        }
-      end
+      format.json { render_event_characters(@event) }
     end
   end
 
@@ -44,7 +39,7 @@ class EventsController < ApplicationController
 
   def find_event
     @event = Event.find_by(slug: params[:id])
-    render_not_found('Object is not found') if @event.nil?
+    render_error('Object is not found') if @event.nil?
   end
 
   def find_selectors

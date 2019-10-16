@@ -1,22 +1,25 @@
 class SubscribesController < ApplicationController
+  include EventPresentable
+
   before_action :find_subscribe, only: %i[update]
 
   def create
-    create_subscribe(subscribe_params)
+    perform_subscribe(subscribe_params)
   end
 
   def update
-    authorize! @subscribe
-    create_subscribe(@subscribe.attributes.merge(subscribe_params.merge(character: @subscribe.character, event: @subscribe.event)))
+    authorize! @subscribe, context: { status: update_subscribe_params[:status] }
+    perform_subscribe(@subscribe.attributes.merge(update_subscribe_params.merge(character: @subscribe.character, event: @subscribe.event)))
   end
 
   private
 
   def find_subscribe
     @subscribe = Subscribe.find_by(id: params[:id])
+    render_error('Object is not found') if @subscribe.nil?
   end
 
-  def create_subscribe(options)
+  def perform_subscribe(options)
     subscribe_form = SubscribeForm.new(options)
     if subscribe_form.persist?
       render_event_characters(subscribe_form.event)
@@ -25,19 +28,10 @@ class SubscribesController < ApplicationController
     end
   end
 
-  def render_event_characters(event)
-    current_characters = Current.user.characters
-    user_signed = Subscribe.where(event_id: event.id, character_id: current_characters.pluck(:id)).exists?
-    render json: {
-      user_characters: user_signed ? [] : ActiveModelSerializers::SerializableResource.new(current_characters.includes(:race, :guild, :character_class, :subscribes, :main_roles).where('races.fraction_id = ?', event.fraction.id).references(:race), each_serializer: CharacterSerializer, event_id: event.id),
-      characters: ActiveModelSerializers::SerializableResource.new(event.characters.includes(:race, :guild, :character_class, :subscribes, :main_roles), each_serializer: CharacterSerializer, event_id: event.id)
-    }
-  end
-
   def subscribe_params
     h = update_subscribe_params.to_h
     h[:event] = Event.find_by(id: params[:subscribe][:event_id])
-    h[:character] = Character.where(user: Current.user).find_by(id: params[:subscribe][:character_id])
+    h[:character] = Current.user.characters.find_by(id: params[:subscribe][:character_id])
     h
   end
 

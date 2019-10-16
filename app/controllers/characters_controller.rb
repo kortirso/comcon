@@ -46,7 +46,7 @@ class CharactersController < ApplicationController
 
   def find_character
     @character = Character.where(user: Current.user).find_by(id: params[:id])
-    render_not_found('Object is not found') if @character.nil?
+    render_error('Object is not found') if @character.nil?
   end
 
   def find_selectors

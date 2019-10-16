@@ -14,14 +14,10 @@ class ApplicationController < ActionController::Base
   rescue_from ActionPolicy::Unauthorized, with: :invalid_request
 
   def catch_route_error
-    render_not_found('Route is not exist')
+    render_error('Route is not exist')
   end
 
   private
-
-  def json_request?
-    request.format.json?
-  end
 
   def save_current_path
     session[:current_path] = request.url
@@ -39,11 +35,23 @@ class ApplicationController < ActionController::Base
     I18n.locale = params[:locale]
   end
 
-  def invalid_request
-    render_not_found('Invalid request')
+  def json_request?
+    request.format.json?
   end
 
-  def render_not_found(message = 'Error')
+  def invalid_request
+    json_request? ? render_json_error('Forbidden') : render_html_error('Forbidden')
+  end
+
+  def render_error(message = 'Error')
+    json_request? ? render_json_error(message) : render_html_error(message)
+  end
+
+  def render_json_error(message = 'Error')
+    render json: { error: message }, status: 400
+  end
+
+  def render_html_error(message = 'Error')
     @message = message
     render template: 'shared/error', status: 404
   end
