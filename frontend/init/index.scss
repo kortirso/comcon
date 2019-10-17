@@ -43,6 +43,10 @@ body {
     flex-direction: row;
     justify-content: space-between;
 
+    .double_line {
+      width: 48%;
+    }
+
     .form-group, .block {
       width: 48%;
     }

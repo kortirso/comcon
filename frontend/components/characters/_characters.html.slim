@@ -18,7 +18,7 @@
           td= character.race.name[I18n.locale.to_s]
           td= character.character_class.name[I18n.locale.to_s]
           td= character.level
-          td= character.guild.name
+          td= character.guild&.name
           td
             = link_to t('buttons.edit'), edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to t('buttons.delete'), character, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

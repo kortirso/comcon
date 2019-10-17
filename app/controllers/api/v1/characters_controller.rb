@@ -12,7 +12,9 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def show
-        render json: @character, status: 200
+        render json: {
+          character: CharacterEditSerializer.new(@character)
+        }, status: 200
       end
 
       api :POST, '/v1/characters.json', 'Create character'
@@ -21,8 +23,8 @@ module Api
       def create
         character_form = CharacterForm.new(character_params)
         if character_form.persist?
-          # CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
-          # CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
+          CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
+          CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
           render json: character_form.character, status: 201
         else
           render json: { errors: character_form.errors.full_messages }, status: 409
@@ -36,12 +38,26 @@ module Api
       def update
         character_form = CharacterForm.new(@character.attributes.merge(character_params))
         if character_form.persist?
-          # CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
-          # CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
+          character_form.character.character_roles.destroy_all
+          CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
+          CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
           render json: character_form.character, status: 200
         else
           render json: { errors: character_form.errors.full_messages }, status: 409
         end
+      end
+
+      api :GET, '/v1/characters/default_values.json', 'Show default_values for new characters'
+      error code: 401, desc: 'Unauthorized'
+      def default_values
+        render json: {
+          races: ActiveModelSerializers::SerializableResource.new(Race.order(id: :asc), each_serializer: RaceSerializer).as_json[:races],
+          character_classes: ActiveModelSerializers::SerializableResource.new(CharacterClass.order(id: :asc), each_serializer: CharacterClassSerializer).as_json[:character_classes],
+          guilds: ActiveModelSerializers::SerializableResource.new(Guild.order(id: :asc).includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds],
+          worlds: ActiveModelSerializers::SerializableResource.new(World.order(id: :asc), each_serializer: WorldSerializer).as_json[:worlds],
+          roles: ActiveModelSerializers::SerializableResource.new(Role.order(id: :asc), each_serializer: RoleSerializer).as_json[:roles],
+          dungeons: ActiveModelSerializers::SerializableResource.new(Dungeon.order(id: :asc), each_serializer: DungeonSerializer).as_json[:dungeons]
+        }, status: 200
       end
 
       private

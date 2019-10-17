@@ -27,7 +27,7 @@ RSpec.describe 'Characters API' do
           expect(response.status).to eq 200
         end
 
-        %w[id name level character_class race guild subscribe_for_event main_role user_id].each do |attr|
+        %w[id name level character_class race guild main_role dungeons secondary_roles].each do |attr|
           it "and contains character #{attr}" do
             expect(response.body).to have_json_path("character/#{attr}")
           end
@@ -44,6 +44,7 @@ RSpec.describe 'Characters API' do
     let!(:race) { create :race, :human }
     let!(:character_class) { create :character_class, :warrior }
     let!(:guild) { create :guild, fraction: race.fraction }
+    let!(:role) { create :role }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
@@ -53,7 +54,7 @@ RSpec.describe 'Characters API' do
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'for invalid params' do
-        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '', level: -1, race_id: race.id, character_class_id: character_class.id, guild_id: guild.id } } }
+        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '', level: -1, race_id: race.id, character_class_id: character_class.id, guild_id: guild.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' } } } }
 
         it 'does not create new character' do
           expect { request }.to_not change(Character, :count)
@@ -73,7 +74,7 @@ RSpec.describe 'Characters API' do
       end
 
       context 'for valid params' do
-        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '1', level: 1, race_id: race.id, character_class_id: character_class.id, guild_id: guild.id } } }
+        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '1', level: 1, race_id: race.id, character_class_id: character_class.id, guild_id: guild.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' } } } }
 
         it 'creates new character' do
           expect { request }.to change { user.characters.count }.by(1)
@@ -124,9 +125,10 @@ RSpec.describe 'Characters API' do
         let!(:race) { create :race, :human }
         let!(:guild) { create :guild, fraction: race.fraction }
         let!(:character) { create :character, user: user, guild: guild, race: race }
+        let!(:role) { create :role }
 
         context 'for invalid params' do
-          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '', level: -1, race_id: character.race_id, character_class_id: character.character_class_id, guild_id: character.guild_id } } }
+          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '', level: -1, race_id: character.race_id, character_class_id: character.character_class_id, guild_id: character.guild_id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' } } } }
 
           it 'does not update character' do
             request
@@ -149,7 +151,7 @@ RSpec.describe 'Characters API' do
         end
 
         context 'for valid params' do
-          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '1', level: 1, race_id: character.race_id, character_class_id: character.character_class_id, guild_id: character.guild_id } } }
+          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '1', level: 1, race_id: character.race_id, character_class_id: character.character_class_id, guild_id: character.guild_id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' } } } }
 
           it 'updates character' do
             request

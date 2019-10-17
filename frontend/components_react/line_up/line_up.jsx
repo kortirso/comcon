@@ -105,7 +105,7 @@ export default class LineUp extends React.Component {
   }
 
   _onChangeCharacter(event) {
-    this.setState({selectedCharacterForSign: event.target.value});
+    this.setState({selectedCharacterForSign: event.target.value})
   }
 
   _renderSigners(option) {

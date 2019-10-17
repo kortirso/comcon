@@ -5,7 +5,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :races, only: %i[index]
       resources :character_classes, only: %i[index]
-      resources :characters, only: %i[show create update]
+      resources :worlds, only: %i[index]
+      resources :guilds, only: %i[index]
+      resources :roles, only: %i[index]
+      resources :dungeons, only: %i[index]
+      resources :characters, only: %i[show create update] do
+        get :default_values, on: :collection
+      end
     end
   end
 
