@@ -27,7 +27,7 @@ RSpec.describe EventsController, type: :controller do
         it 'renders index template' do
           get :index, params: { format: :json, locale: 'en' }
 
-          expect(JSON.parse(response.body).is_a?(Array)).to eq true
+          expect(JSON.parse(response.body)['events'].is_a?(Array)).to eq true
         end
       end
 

@@ -9,7 +9,10 @@ class EventsController < ApplicationController
   def index
     respond_to do |format|
       format.html {}
-      format.json { render json: @events }
+      format.json do
+        result = ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventSerializer).as_json
+        render json: { events: result[:events] }
+      end
     end
   end
 
@@ -43,6 +46,10 @@ class EventsController < ApplicationController
 
   private
 
+  def find_start_of_month
+    @start_of_month = params[:year].present? && params[:month].present? ? DateTime.new(params[:year].to_i, params[:month].to_i, 1, 0, 0, 0) : DateTime.now.new_offset(0)
+  end
+
   def find_events
     @events = Event.where('start_time >= ? AND start_time < ?', @start_of_month.beginning_of_month, @start_of_month.end_of_month)
     @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
@@ -54,10 +61,6 @@ class EventsController < ApplicationController
     else
       @events = @events.available_for_user(Current.user)
     end
-  end
-
-  def find_start_of_month
-    @start_of_month = params[:year].present? && params[:month].present? ? DateTime.new(params[:year].to_i, params[:month].to_i, 1, 0, 0, 0) : DateTime.now.new_offset(0)
   end
 
   def find_event

@@ -46,6 +46,7 @@ gem 'interactor'
 
 # User auth
 gem 'devise'
+gem 'jwt', '2.1.0'
 
 # secrets
 gem 'figaro'
@@ -59,6 +60,9 @@ gem 'route_translator'
 # Friendly url
 gem 'babosa'
 gem 'friendly_id', '~> 5.2.4'
+
+# API documentation
+gem 'apipie-rails', '0.5.8'
 
 group :development, :test do
   gem 'bullet'

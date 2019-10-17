@@ -50,6 +50,8 @@ GEM
       tzinfo (~> 1.1)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
+    apipie-rails (0.5.8)
+      rails (>= 4.1)
     arel (9.0.0)
     ast (2.4.0)
     axiom-types (0.1.1)
@@ -119,6 +121,7 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     jsonapi-renderer (0.2.2)
+    jwt (2.1.0)
     libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -297,6 +300,7 @@ PLATFORMS
 DEPENDENCIES
   action_policy (~> 0.3.0)
   active_model_serializers (~> 0.10.0)
+  apipie-rails (= 0.5.8)
   babosa
   bullet
   capistrano (~> 3.10)
@@ -311,6 +315,7 @@ DEPENDENCIES
   friendly_id (~> 5.2.4)
   interactor
   json_spec
+  jwt (= 2.1.0)
   listen (~> 3.1.5)
   oj
   oj_mimic_json
