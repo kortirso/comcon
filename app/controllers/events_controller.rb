@@ -37,10 +37,10 @@ class EventsController < ApplicationController
 
   def filter_values
     render json: {
-      worlds: ActiveModelSerializers::SerializableResource.new(World.all, each_serializer: WorldSerializer),
-      fractions: ActiveModelSerializers::SerializableResource.new(Fraction.all, each_serializer: FractionSerializer),
-      characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer),
-      guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildSerializer)
+      worlds: ActiveModelSerializers::SerializableResource.new(World.all, each_serializer: WorldSerializer).as_json[:worlds],
+      fractions: ActiveModelSerializers::SerializableResource.new(Fraction.all, each_serializer: FractionSerializer).as_json[:fractions],
+      characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
+      guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds]
     }
   end
 

@@ -51,7 +51,7 @@ export default class EventCalendar extends React.Component {
       method: 'GET',
       url: url,
       success: (data) => {
-        this.setState({events: data})
+        this.setState({events: data.events})
       }
     })
   }
