@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :races, only: %i[index]
       resources :character_classes, only: %i[index]
+      resources :characters, only: %i[show create update]
     end
   end
 
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   localized do
-    resources :characters, except: %i[show]
+    resources :characters, except: %i[show create update]
     resources :events, only: %i[index show new create]
 
     root to: 'welcome#index'

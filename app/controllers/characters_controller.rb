@@ -1,37 +1,13 @@
 class CharactersController < ApplicationController
   before_action :find_characters, only: %i[index]
-  before_action :find_character, only: %i[edit update destroy]
+  before_action :find_character, only: %i[edit destroy]
   before_action :find_selectors, only: %i[new edit]
 
   def index; end
 
   def new; end
 
-  def create
-    character_form = CharacterForm.new(character_params)
-    if character_form.persist?
-      CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
-      CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
-      redirect_to characters_path
-    else
-      find_selectors
-      render :new
-    end
-  end
-
   def edit; end
-
-  def update
-    character_form = CharacterForm.new(@character.attributes.merge(character_params))
-    if character_form.persist?
-      CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
-      CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
-      redirect_to characters_path
-    else
-      find_selectors
-      render :edit
-    end
-  end
 
   def destroy
     @character.destroy
@@ -57,23 +33,5 @@ class CharactersController < ApplicationController
     @roles = Role.order(id: :asc)
     @dungeons_with_key = Dungeon.with_key
     @dungeons_with_quest = Dungeon.with_quest
-  end
-
-  def character_params
-    h = params.require(:character).permit(:name, :level).to_h
-    h[:race] = Race.find_by(id: params[:character][:race_id])
-    h[:character_class] = CharacterClass.find_by(id: params[:character][:character_class_id])
-    h[:world] = World.find_by(id: params[:character][:world_id]) if params[:character][:world_id].present?
-    h[:guild] = Guild.find_by(id: params[:character][:guild_id])
-    h[:user] = Current.user
-    h
-  end
-
-  def dungeon_params
-    params.require(:character).permit(dungeon: {})[:dungeon]
-  end
-
-  def character_role_params
-    params.require(:character).permit(:main_role_id, roles: {}).to_h
   end
 end
