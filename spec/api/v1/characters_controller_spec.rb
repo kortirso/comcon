@@ -181,4 +181,29 @@ RSpec.describe 'Characters API' do
       patch '/api/v1/characters/999.json', headers: headers
     end
   end
+
+  describe 'GET#default_values' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'with valid user token in params' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+      before { get '/api/v1/characters/default_values.json', params: { access_token: access_token } }
+
+      it 'returns status 200' do
+        expect(response.status).to eq 200
+      end
+
+      %w[races character_classes guilds worlds roles dungeons].each do |attr|
+        it "and contains character #{attr}" do
+          expect(response.body).to have_json_path(attr)
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/characters/default_values.json', headers: headers
+    end
+  end
 end
