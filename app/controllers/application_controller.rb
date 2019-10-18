@@ -19,6 +19,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def is_admin?
+    return invalid_request unless Current.user.is_admin?
+    true
+  end
+
   def save_current_path
     session[:current_path] = request.url
   end
