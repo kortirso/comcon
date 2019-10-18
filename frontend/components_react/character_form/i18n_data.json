@@ -1,6 +1,28 @@
 {
   "en": {
+    "name": "Name",
+    "nameLabel": "Character's name",
+    "level": "Level",
+    "race": "Race",
+    "characterClass": "Class",
+    "guild": "Guild",
+    "world": "World",
+    "mainRole": "Main role",
+    "otherRoles": "Other roles",
+    "quests": "Completed quests for dungeons",
+    "keys": "Available keys for dungeons"
   },
   "ru": {
+    "name": "Имя",
+    "nameLabel": "Имя персонажа",
+    "level": "Уровень",
+    "race": "Раса",
+    "characterClass": "Класс",
+    "guild": "Гильдия",
+    "world": "Игровой Мир",
+    "mainRole": "Главная роль",
+    "otherRoles": "Другие роли",
+    "quests": "Выполненные квесты для подземелий",
+    "keys": "Полученные ключи для подземелий"
   }
 }

@@ -251,6 +251,17 @@ export default class CharacterForm extends React.Component {
     })
   }
 
+  _renderKeyDungeons() {
+    return this.state.keyDungeons.map((dungeon) => {
+      return (
+        <div className="form-group form-check" key={dungeon.id}>
+          <input className="form-check-input" type="checkbox" checked={this.state.currentDungeons[dungeon.id] === 1} onChange={this._onChangeDungeon.bind(this, dungeon.id)} id={`character_dungeon[${dungeon.id}]`} />
+          <label htmlFor={`character_dungeon[${dungeon.id}]`}>{dungeon.name[this.props.locale]}</label>
+        </div>
+      )
+    })
+  }
+
   _onChangeRace(event) {
     const races = this.state.races.filter((race) => {
       return race.id === parseInt(event.target.value)
@@ -343,23 +354,23 @@ export default class CharacterForm extends React.Component {
       <div className="character_form">
         <div className="double_line">
           <div className="form-group">
-            <label htmlFor="character_name">Имя</label>
-            <input required="required" placeholder="Имя персонажа" className="form-control" type="text" id="character_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
+            <label htmlFor="character_name">{strings.name}</label>
+            <input required="required" placeholder={strings.nameLabel} className="form-control" type="text" id="character_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
           </div>
           <div className="form-group">
-            <label htmlFor="character_level">Уровень</label>
-            <input required="required" placeholder="Уровень" className="form-control" type="number" id="character_level" value={this.state.level} onChange={(event) => this.setState({level: event.target.value})} />
+            <label htmlFor="character_level">{strings.level}</label>
+            <input required="required" placeholder={strings.level} className="form-control" type="number" id="character_level" value={this.state.level} onChange={(event) => this.setState({level: event.target.value})} />
           </div>
         </div>
         <div className="double_line">
           <div className="form-group">
-            <label htmlFor="character_race_id">Раса</label>
+            <label htmlFor="character_race_id">{strings.race}</label>
             <select className="form-control" id="character_race_id" onChange={this._onChangeRace.bind(this)} value={this.state.currentRace === null ? '0' : this.state.currentRace.id}>
               {this._renderRaces()}
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="character_character_class_id">Класс</label>
+            <label htmlFor="character_character_class_id">{strings.characterClass}</label>
             <select className="form-control" id="character_character_class_id" onChange={this._onChangeClass.bind(this)} value={this.state.currentCharacterClass === null ? '0' : this.state.currentCharacterClass.id}>
               {this._renderRaceCharacterClasses()}
             </select>
@@ -368,14 +379,14 @@ export default class CharacterForm extends React.Component {
         <div className="double_line">
           <div className="double_line">
             <div className="form-group">
-              <label htmlFor="character_guild_id">Гильдия</label>
+              <label htmlFor="character_guild_id">{strings.guild}</label>
               <select className="form-control" id="character_guild_id" onChange={this._onChangeGuild.bind(this)} value={this.state.currentGuild.id}>
                 <option value="0"></option>
                 {this._renderGuilds()}
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="world_id">Игровой Мир</label>
+              <label htmlFor="world_id">{strings.world}</label>
               <select className="form-control" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld.id}>
                 <option value="0"></option>
                 {this._renderWorlds()}
@@ -384,14 +395,14 @@ export default class CharacterForm extends React.Component {
           </div>
           <div className="form-group roles">
             <div className="main_role">
-              <label htmlFor="character_main_role_id">Главная роль</label>
+              <label htmlFor="character_main_role_id">{strings.mainRole}</label>
               <select className="form-control" name="character[main_role_id]" id="character_main_role_id" onChange={this._onChangeMainRole.bind(this)} value={this.state.currentMainRole === null ? '0' : this.state.currentMainRole.id}>
                 {this._renderClassRoles()}
               </select>
             </div>
             {this.state.secondaryRoles.length > 0 &&
               <div className="secondary_roles">
-                <p>Другие роли</p>
+                <p>{strings.otherRoles}</p>
                 {this._renderSecondaryRoles()}
               </div>
             }
@@ -401,8 +412,14 @@ export default class CharacterForm extends React.Component {
           <div className="double_line">
             {this.state.questDungeons.length > 0 &&
               <div className="block">
-                <p>Выполненные квесты для подземелий</p>
+                <p>{strings.quests}</p>
                 {this._renderQuestDungeons()}
+              </div>
+            }
+            {this.state.keyDungeons.length > 0 &&
+              <div className="block">
+                <p>{strings.keys}</p>
+                {this._renderKeyDungeons()}
               </div>
             }
           </div>
