@@ -1,0 +1,17 @@
+.container
+  table.table.table-striped
+    thead
+      tr
+        th ID
+        th= t('users.email')
+        th= t('users.role')
+        th
+    tbody
+      - @users.each do |user|
+        tr
+          td= user.id
+          td= user.email
+          td= user.role
+          td
+            = link_to t('buttons.edit'), edit_user_path(user), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to t('buttons.delete'), user, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

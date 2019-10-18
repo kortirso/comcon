@@ -15,7 +15,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :worlds, except: %i[show]
   resources :subscribes, only: %i[create update]
   resources :events, only: %i[] do
     get :filter_values, on: :collection
@@ -24,6 +23,8 @@ Rails.application.routes.draw do
   localized do
     resources :characters, except: %i[show create update]
     resources :events, only: %i[index show new create]
+    resources :worlds, except: %i[show]
+    resources :users, except: %i[show new create]
 
     root to: 'welcome#index'
   end

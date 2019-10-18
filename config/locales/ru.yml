@@ -1,6 +1,7 @@
 ru:
   navigation:
     worlds: Миры
+    users: Пользователи
     characters: Персонажи
     events: События
     login: Вход
@@ -21,6 +22,9 @@ ru:
     add: Добавить мир
     name: Название
     zone: Зона
+  users:
+    email: Email
+    role: Роль
   world:
     name: Название
     name_title: Название Мира

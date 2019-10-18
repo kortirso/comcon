@@ -15,14 +15,14 @@ RSpec.describe User, type: :model do
     user = User.new(email: nil)
     user.valid?
 
-    expect(user.errors[:email]).to include("can't be blank")
+    expect(user.errors[:email]).to_not eq nil
   end
 
   it 'should be invalid without password' do
     user = User.new(password: nil)
     user.valid?
 
-    expect(user.errors[:password]).to include("can't be blank")
+    expect(user.errors[:password]).to_not eq nil
   end
 
   it 'should be invalid with a duplicate email' do
@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
     user = User.new(email: 'example@gmail.com', password: 'password12')
     user.valid?
 
-    expect(user.errors[:email]).to include('has already been taken')
+    expect(user.errors[:email]).to_not eq nil
   end
 
   describe 'methods' do

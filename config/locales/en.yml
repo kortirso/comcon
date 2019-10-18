@@ -1,6 +1,7 @@
 en:
   navigation:
     worlds: Worlds
+    users: Users
     characters: Characters
     events: Events
     login: Login
@@ -21,6 +22,9 @@ en:
     add: Add world
     name: Name
     zone: Zone
+  users:
+    email: Email
+    role: Role
   world:
     name: Name
     name_title: World's name

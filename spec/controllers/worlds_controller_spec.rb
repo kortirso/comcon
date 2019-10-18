@@ -6,14 +6,14 @@ RSpec.describe WorldsController, type: :controller do
       sign_in_admin
 
       it 'renders index template' do
-        get :index
+        get :index, params: { locale: 'ru' }
 
         expect(response).to render_template :index
       end
     end
 
     def do_request
-      get :index
+      get :index, params: { locale: 'ru' }
     end
   end
 
@@ -24,14 +24,14 @@ RSpec.describe WorldsController, type: :controller do
       sign_in_admin
 
       it 'renders new template' do
-        get :new
+        get :new, params: { locale: 'ru' }
 
         expect(response).to render_template :new
       end
     end
 
     def do_request
-      get :new
+      get :new, params: { locale: 'ru' }
     end
   end
 
@@ -42,7 +42,7 @@ RSpec.describe WorldsController, type: :controller do
       sign_in_admin
 
       context 'for invalid params' do
-        let(:request) { post :create, params: { world: { name: '', zone: '' } } }
+        let(:request) { post :create, params: { locale: 'ru', world: { name: '', zone: '' } } }
 
         it 'does not create new world' do
           expect { request }.to_not change(World, :count)
@@ -56,7 +56,7 @@ RSpec.describe WorldsController, type: :controller do
       end
 
       context 'for valid params' do
-        let(:request) { post :create, params: { world: { name: '1', zone: '2' } } }
+        let(:request) { post :create, params: { locale: 'ru', world: { name: '1', zone: '2' } } }
 
         it 'creates new world' do
           expect { request }.to change { World.count }.by(1)
@@ -65,13 +65,13 @@ RSpec.describe WorldsController, type: :controller do
         it 'and redirects to worlds path' do
           request
 
-          expect(response).to redirect_to worlds_path
+          expect(response).to redirect_to worlds_ru_path
         end
       end
     end
 
     def do_request
-      post :create, params: { world: { name: '', zone: '' } }
+      post :create, params: { locale: 'ru', world: { name: '', zone: '' } }
     end
   end
 
@@ -85,7 +85,7 @@ RSpec.describe WorldsController, type: :controller do
 
       context 'for unexisted world' do
         it 'renders error template' do
-          get :edit, params: { id: 999 }
+          get :edit, params: { locale: 'ru', id: 999 }
 
           expect(response).to render_template 'shared/error'
         end
@@ -93,7 +93,7 @@ RSpec.describe WorldsController, type: :controller do
 
       context 'for existed world' do
         it 'renders edit template' do
-          get :edit, params: { id: world.id }
+          get :edit, params: { locale: 'ru', id: world.id }
 
           expect(response).to render_template :edit
         end
@@ -101,7 +101,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      get :edit, params: { id: world.id }
+      get :edit, params: { locale: 'ru', id: world.id }
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe WorldsController, type: :controller do
       sign_in_admin
 
       context 'for unexisted world' do
-        let(:request) { patch :update, params: { id: 999, world: { name: '', zone: '' } } }
+        let(:request) { patch :update, params: { locale: 'ru', id: 999, world: { name: '', zone: '' } } }
 
         it 'and renders error template' do
           request
@@ -124,9 +124,9 @@ RSpec.describe WorldsController, type: :controller do
       end
 
       context 'for invalid params' do
-        let(:request) { patch :update, params: { id: world.id, world: { name: '', zone: '' } } }
+        let(:request) { patch :update, params: { locale: 'ru', id: world.id, world: { name: '', zone: '' } } }
 
-        it 'does not update new world' do
+        it 'does not update world' do
           request
           world.reload
 
@@ -141,9 +141,9 @@ RSpec.describe WorldsController, type: :controller do
       end
 
       context 'for valid params' do
-        let(:request) { patch :update, params: { id: world.id, world: { name: '1', zone: '2' } } }
+        let(:request) { patch :update, params: { locale: 'ru', id: world.id, world: { name: '1', zone: '2' } } }
 
-        it 'updates new world' do
+        it 'updates world' do
           request
           world.reload
 
@@ -153,13 +153,13 @@ RSpec.describe WorldsController, type: :controller do
         it 'and redirects to worlds path' do
           request
 
-          expect(response).to redirect_to worlds_path
+          expect(response).to redirect_to worlds_ru_path
         end
       end
     end
 
     def do_request
-      patch :update, params: { id: world.id, world: { name: '1', zone: '2' } }
+      patch :update, params: { locale: 'ru', id: world.id, world: { name: '1', zone: '2' } }
     end
   end
 
@@ -172,7 +172,7 @@ RSpec.describe WorldsController, type: :controller do
       sign_in_admin
 
       context 'for unexisted world' do
-        let(:request) { delete :destroy, params: { id: 999 } }
+        let(:request) { delete :destroy, params: { locale: 'ru', id: 999 } }
 
         it 'does not delete any world' do
           expect { request }.to_not change(World, :count)
@@ -186,7 +186,7 @@ RSpec.describe WorldsController, type: :controller do
       end
 
       context 'for existed world' do
-        let(:request) { delete :destroy, params: { id: world.id } }
+        let(:request) { delete :destroy, params: { locale: 'ru', id: world.id } }
 
         it 'deletes world' do
           expect { request }.to change { World.count }.by(-1)
@@ -195,13 +195,13 @@ RSpec.describe WorldsController, type: :controller do
         it 'and redirects to worlds path' do
           request
 
-          expect(response).to redirect_to worlds_path
+          expect(response).to redirect_to worlds_ru_path
         end
       end
     end
 
     def do_request
-      delete :destroy, params: { id: world.id }
+      delete :destroy, params: { locale: 'ru', id: world.id }
     end
   end
 end
