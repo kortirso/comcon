@@ -57,12 +57,6 @@ ru:
     character_class: Класс
     level: Уровень
     guild: Гильдия
-  character:
-    name_title: Имя персонажа
-    main: Главная роль
-    other: Другие роли
-    keys: Наличие ключей от подземелий
-    quests: Выполненные квесты для подземелий
   select:
     world: Игровой Мир
     guild: Гильдия

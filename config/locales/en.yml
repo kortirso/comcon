@@ -57,12 +57,6 @@ en:
     character_class: Character class
     level: Level
     guild: Guild
-  character:
-    name_title: Character's name
-    main: Main role
-    other: Other roles
-    keys: Dungeon Keys
-    quests: Dungeon Quests
   select:
     world: World
     guild: Guild
