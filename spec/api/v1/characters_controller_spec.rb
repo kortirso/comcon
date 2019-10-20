@@ -27,7 +27,7 @@ RSpec.describe 'Characters API' do
           expect(response.status).to eq 200
         end
 
-        %w[id name level character_class race guild main_role dungeons secondary_roles].each do |attr|
+        %w[id name level character_class_id race_id guild_id main_role_id dungeon_ids secondary_role_ids].each do |attr|
           it "and contains character #{attr}" do
             expect(response.body).to have_json_path("character/#{attr}")
           end
@@ -197,7 +197,7 @@ RSpec.describe 'Characters API' do
         expect(response.status).to eq 200
       end
 
-      %w[races character_classes guilds worlds roles dungeons].each do |attr|
+      %w[races guilds worlds dungeons].each do |attr|
         it "and contains character #{attr}" do
           expect(response.body).to have_json_path(attr)
         end

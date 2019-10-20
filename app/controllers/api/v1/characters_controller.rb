@@ -51,11 +51,9 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def default_values
         render json: {
-          races: ActiveModelSerializers::SerializableResource.new(Race.order(id: :asc), each_serializer: RaceSerializer).as_json[:races],
-          character_classes: ActiveModelSerializers::SerializableResource.new(CharacterClass.order(id: :asc), each_serializer: CharacterClassSerializer).as_json[:character_classes],
+          races: character_defaults,
           guilds: ActiveModelSerializers::SerializableResource.new(Guild.order(id: :asc).includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds],
           worlds: ActiveModelSerializers::SerializableResource.new(World.order(id: :asc), each_serializer: WorldSerializer).as_json[:worlds],
-          roles: ActiveModelSerializers::SerializableResource.new(Role.order(id: :asc), each_serializer: RoleSerializer).as_json[:roles],
           dungeons: ActiveModelSerializers::SerializableResource.new(Dungeon.order(id: :asc), each_serializer: DungeonSerializer).as_json[:dungeons]
         }, status: 200
       end
@@ -65,6 +63,30 @@ module Api
       def find_character
         @character = Current.user.characters.find_by(id: params[:id])
         render_error('Object is not found') if @character.nil?
+      end
+
+      def character_defaults
+        Race.order(id: :desc).includes(:character_classes).inject({}) do |races, race|
+          races.merge(
+            race.id.to_s => {
+              'name' => race.name,
+              'character_classes' => race.character_classes.includes(:combinateables).order(id: :desc).inject({}) do |classes, char_class|
+                classes.merge(
+                  char_class.id.to_s => {
+                    'name' => char_class.name,
+                    'roles' => char_class.combinateables.inject({}) do |roles, role|
+                      roles.merge(
+                        role.id.to_s => {
+                          'name' => role.name
+                        }
+                      )
+                    end
+                  }
+                )
+              end
+            }
+          )
+        end
       end
 
       def character_params

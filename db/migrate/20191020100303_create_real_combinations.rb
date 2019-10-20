@@ -26,52 +26,52 @@ class CreateRealCombinations < ActiveRecord::Migration[5.2]
     warrior = CharacterClass.find_by(name: { 'en' => 'Warrior', 'ru' => 'Воин' })
     # create race combination
     [druid, hunter, shaman, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: tauren)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: tauren.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [rogue, warlock, hunter, shaman, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: orc)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: orc.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [rogue, hunter, paladin, priest, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: dwarf)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: dwarf.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [mage, priest, rogue, warlock, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: undead)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: undead.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [mage, paladin, priest, rogue, warlock, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: human)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: human.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [hunter, mage, priest, rogue, shaman, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: troll)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: troll.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [druid, hunter, priest, rogue, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: night_elf)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: night_elf.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     [mage, rogue, warlock, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: gnome)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: gnome.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     # create role combination
     [druid, paladin, warrior].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: tank)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: tank.id, combinateable_type: 'Role')
       combination_form.persist?
     end
     [paladin, priest, shaman, druid].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: healer)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: healer.id, combinateable_type: 'Role')
       combination_form.persist?
     end
     [rogue, warrior, paladin, druid, shaman].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: melee)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: melee.id, combinateable_type: 'Role')
       combination_form.persist?
     end
     [mage, priest, druid, warlock, shaman, hunter].each do |character_class|
-      combination_form = CombinationForm.new(character_class: character_class, combinateable: ranged)
+      combination_form = CombinationForm.new(character_class: character_class, combinateable_id: ranged.id, combinateable_type: 'Role')
       combination_form.persist?
     end
   end

@@ -1,26 +1,15 @@
 class CharacterEditSerializer < ActiveModel::Serializer
-  attributes :id, :name, :level, :character_class, :race, :guild, :world, :main_role
-  has_many :dungeons
-  has_many :secondary_roles
+  attributes :id, :name, :level, :character_class_id, :race_id, :guild_id, :world_id, :main_role_id, :secondary_role_ids, :dungeon_ids
 
-  def character_class
-    object.character_class.name
+  def main_role_id
+    object.main_roles&.first&.id
   end
 
-  def race
-    object.race.name
+  def secondary_role_ids
+    object.secondary_roles.pluck(:id)
   end
 
-  def guild
-    object.guild&.full_name
-  end
-
-  def world
-    return nil if object.guild_id.present?
-    object.world.name
-  end
-
-  def main_role
-    object.main_roles&.first&.name
+  def dungeon_ids
+    object.dungeons.pluck(:id)
   end
 end
