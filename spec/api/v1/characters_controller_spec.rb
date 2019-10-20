@@ -185,6 +185,12 @@ RSpec.describe 'Characters API' do
   end
 
   describe 'GET#default_values' do
+    let!(:race) { create :race, :human }
+    let!(:character_class) { create :character_class }
+    let!(:combination) { create :combination, character_class: character_class, combinateable: race }
+    let!(:role) { create :role }
+    let!(:combination) { create :combination, character_class: character_class, combinateable: role }
+
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
 

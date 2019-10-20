@@ -30,11 +30,11 @@ export default class EventCalendar extends React.Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
-    this._getEvents()
+    this._getFilterValues()
   }
 
   componentDidMount() {
-    this._getFilterValues()
+    this._getEvents()
   }
 
   _getEvents() {

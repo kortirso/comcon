@@ -1,6 +1,6 @@
 RSpec.describe 'Worlds API' do
   describe 'GET#index' do
-    let!(:world) { create :world }
+    let!(:worlds) { create_list(:world, 3) }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'

@@ -26,6 +26,7 @@ gem 'rubocop', '~> 0.57.2', require: false
 gem 'therubyracer', platforms: :ruby
 
 # Background Jobs
+gem 'redis-rails'
 gem 'sidekiq', '5.2.5'
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker

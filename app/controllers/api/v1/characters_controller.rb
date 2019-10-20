@@ -1,7 +1,15 @@
 module Api
   module V1
     class CharactersController < Api::V1::BaseController
+      include Concerns::WorldCacher
+      include Concerns::GuildCacher
+      include Concerns::DungeonCacher
+
       before_action :find_character, only: %i[show update]
+      before_action :get_races_from_cache, only: %i[default_values]
+      before_action :get_worlds_from_cache, only: %i[default_values]
+      before_action :get_guilds_from_cache, only: %i[default_values]
+      before_action :get_dungeons_from_cache, only: %i[default_values]
 
       resource_description do
         short 'Character resources'
@@ -51,10 +59,10 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def default_values
         render json: {
-          races: character_defaults,
-          guilds: ActiveModelSerializers::SerializableResource.new(Guild.order(id: :asc).includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds],
-          worlds: ActiveModelSerializers::SerializableResource.new(World.order(id: :asc), each_serializer: WorldSerializer).as_json[:worlds],
-          dungeons: ActiveModelSerializers::SerializableResource.new(Dungeon.order(id: :asc), each_serializer: DungeonSerializer).as_json[:dungeons]
+          races: @races_json,
+          guilds: @guilds_json,
+          worlds: @worlds_json,
+          dungeons: @dungeons_json
         }, status: 200
       end
 
@@ -65,7 +73,13 @@ module Api
         render_error('Object is not found') if @character.nil?
       end
 
-      def character_defaults
+      def get_races_from_cache
+        @races_json = Rails.cache.fetch('race_dependencies') do
+          race_dependencies
+        end
+      end
+
+      def race_dependencies
         Race.order(id: :desc).includes(:character_classes).inject({}) do |races, race|
           races.merge(
             race.id.to_s => {

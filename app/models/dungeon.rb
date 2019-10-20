@@ -6,4 +6,11 @@ class Dungeon < ApplicationRecord
 
   scope :with_key, -> { where key_access: true }
   scope :with_quest, -> { where quest_access: true }
+
+  def self.cache_key(dungeons)
+    {
+      serializer: 'dungeons',
+      stat_record: dungeons.maximum(:updated_at)
+    }
+  end
 end
