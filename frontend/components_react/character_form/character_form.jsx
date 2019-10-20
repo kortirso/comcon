@@ -338,7 +338,7 @@ export default class CharacterForm extends React.Component {
           <div className="form-group roles">
             <div className="main_role">
               <label htmlFor="character_main_role_id">{strings.mainRole}</label>
-              <select className="form-control" name="character[main_role_id]" id="character_main_role_id" onChange={this._onChangeMainRole.bind(this)} value={this.state.currentMainRole === null ? '0' : this.state.currentMainRole}>
+              <select className="form-control" id="character_main_role_id" onChange={this._onChangeMainRole.bind(this)} value={this.state.currentMainRole === null ? '0' : this.state.currentMainRole}>
                 {this._renderClassRoles()}
               </select>
             </div>
