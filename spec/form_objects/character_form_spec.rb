@@ -43,6 +43,7 @@ RSpec.describe CharacterForm, type: :service do
       end
 
       context 'for unexisted character' do
+        let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
         let(:service) { CharacterForm.new(name: 'Хроми', world: character.world, level: 60, user: character.user, race: character.race, character_class: character.character_class) }
 
         it 'creates new character' do
@@ -57,6 +58,7 @@ RSpec.describe CharacterForm, type: :service do
 
     context 'for updating' do
       let!(:character1) { create :character, :human_warrior }
+      let!(:combination) { create :combination, combinateable: character1.race, character_class: character1.character_class }
       let!(:character2) { create :character, world: character1.world, level: 60, user: character1.user, race: character1.race, character_class: character1.character_class }
 
       context 'for unexisted character' do

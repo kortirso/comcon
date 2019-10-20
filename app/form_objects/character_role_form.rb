@@ -9,6 +9,7 @@ class CharacterRoleForm
   attribute :main, Boolean, default: false
 
   validates :character, :role, presence: true
+  validate :role_class_restrictions
 
   attr_reader :character_role
 
@@ -27,5 +28,12 @@ class CharacterRoleForm
   def exists?
     character_roles = id.nil? ? CharacterRole.all : CharacterRole.where.not(id: id)
     character_roles.find_by(character: character, role: role).present?
+  end
+
+  def role_class_restrictions
+    return if role.nil?
+    return if character.nil?
+    return if Combination.find_by(character_class: character.character_class, combinateable: role).present?
+    errors[:role] << 'is not valid for character class'
   end
 end

@@ -14,7 +14,8 @@ RSpec.describe CharacterRoleForm, type: :service do
 
     context 'for valid data' do
       let!(:character) { create :character }
-      let!(:role) { create :role }
+      let!(:role) { create :role, :tank }
+      let!(:combination) { create :combination, character_class: character.character_class, combinateable: role }
       let!(:character_role) { create :character_role }
 
       context 'for existed character role' do
@@ -44,8 +45,10 @@ RSpec.describe CharacterRoleForm, type: :service do
 
     context 'for updating' do
       let!(:character) { create :character }
-      let!(:character_role1) { create :character_role, character: character }
-      let!(:character_role2) { create :character_role }
+      let!(:role) { create :role, :tank }
+      let!(:combination) { create :combination, character_class: character.character_class, combinateable: role }
+      let!(:character_role1) { create :character_role, character: character, role: role }
+      let!(:character_role2) { create :character_role, role: role }
 
       context 'for unexisted character role' do
         let(:service) { CharacterRoleForm.new(id: 999, main: true) }

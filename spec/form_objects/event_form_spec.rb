@@ -51,7 +51,7 @@ RSpec.describe EventForm, type: :service do
         context 'for valid data' do
           let(:service) { EventForm.new(event.attributes.merge(name: 'Хроми', owner: event.owner, dungeon: event.dungeon)) }
 
-          it 'does not update event' do
+          it 'updates event' do
             service.persist?
             event.reload
 

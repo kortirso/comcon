@@ -43,6 +43,7 @@ RSpec.describe 'Characters API' do
   describe 'POST#create' do
     let!(:race) { create :race, :human }
     let!(:character_class) { create :character_class, :warrior }
+    let!(:combination) { create :combination, combinateable: race, character_class: character_class }
     let!(:guild) { create :guild, fraction: race.fraction }
     let!(:role) { create :role }
 
@@ -125,6 +126,7 @@ RSpec.describe 'Characters API' do
         let!(:race) { create :race, :human }
         let!(:guild) { create :guild, fraction: race.fraction }
         let!(:character) { create :character, user: user, guild: guild, race: race }
+        let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
         let!(:role) { create :role }
 
         context 'for invalid params' do
