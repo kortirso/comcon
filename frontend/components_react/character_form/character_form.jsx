@@ -120,7 +120,7 @@ export default class CharacterForm extends React.Component {
   _onCreate() {
     const state = this.state
     let currentSecondaryRoles = state.currentSecondaryRoles
-    currentSecondaryRoles[state.currentMainRole.id] = '1'
+    currentSecondaryRoles[state.currentMainRole] = '1'
     $.ajax({
       method: 'POST',
       url: `/api/v1/characters.json?access_token=${this.props.access_token}`,
@@ -366,10 +366,10 @@ export default class CharacterForm extends React.Component {
             }
           </div>
         }
-        {this.state.characterId === null &&
+        {this.state.characterId === undefined &&
           <input type="submit" name="commit" value="Создать" className="btn btn-primary" onClick={this._onCreate.bind(this)} />
         }
-        {this.state.characterId !== null &&
+        {this.state.characterId !== undefined &&
           <input type="submit" name="commit" value="Обновить" className="btn btn-primary" onClick={this._onUpdate.bind(this)} />
         }
       </div>
