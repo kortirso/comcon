@@ -27,9 +27,10 @@ class EventsController < ApplicationController
   def new; end
 
   def create
-    event = EventForm.new(event_params)
-    if event.persist?
-      redirect_to root_path
+    event_form = EventForm.new(event_params)
+    if event_form.persist?
+      CreateSubscribe.call(event: event_form.event, character: event_form.event.owner, status: 'signed')
+      redirect_to events_path
     else
       find_selectors
       render :new
@@ -77,7 +78,7 @@ class EventsController < ApplicationController
   def event_params
     h = params.require(:event).permit(:name, :eventable_type, :hours_before_close).to_h
     h[:start_time] = ApplicationHelper.datetime_represent(params[:event], 'start_time')
-    h[:owner] = Character.where(user: Current.user).find_by(id: params[:event][:owner_id])
+    h[:owner] = Current.user.characters.find_by(id: params[:event][:owner_id])
     h[:dungeon] = Dungeon.find_by(id: params[:event][:dungeon_id])
     h
   end

@@ -136,14 +136,20 @@ RSpec.describe EventsController, type: :controller do
         let!(:character) { create :character, user: @current_user }
         let(:request) { post :create, params: { locale: 'en', event: { name: '1', owner_id: character.id, dungeon_id: dungeon.id, start_time: DateTime.now + 1.day, eventable_type: 'World' } } }
 
+        it 'calls CreateSubscribe' do
+          expect(CreateSubscribe).to receive(:call).and_call_original
+
+          request
+        end
+
         it 'creates new event' do
           expect { request }.to change { character.owned_events.count }.by(1)
         end
 
-        it 'and redirects to characters path' do
+        it 'and redirects to events path' do
           request
 
-          expect(response).to redirect_to root_en_path
+          expect(response).to redirect_to events_en_path
         end
       end
     end
