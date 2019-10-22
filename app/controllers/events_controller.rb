@@ -17,6 +17,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    authorize! @event
     respond_to do |format|
       format.html {}
       format.json { render_event_characters(@event) }

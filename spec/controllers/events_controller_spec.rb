@@ -45,6 +45,8 @@ RSpec.describe EventsController, type: :controller do
 
       context 'for logged user' do
         sign_in_user
+        let!(:character) { create :character, user: @current_user }
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
 
         context 'for unexisted event' do
           it 'renders error template' do
@@ -56,7 +58,7 @@ RSpec.describe EventsController, type: :controller do
 
         context 'for existed event' do
           it 'renders show template' do
-            get :show, params: { locale: 'en', id: event.slug }
+            get :show, params: { locale: 'en', id: world_event.slug }
 
             expect(response).to render_template :show
           end
@@ -73,9 +75,11 @@ RSpec.describe EventsController, type: :controller do
 
       context 'for logged user' do
         sign_in_user
+        let!(:character) { create :character, user: @current_user }
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
 
         it 'renders json response' do
-          get :show, params: { format: :json, locale: 'en', id: event.slug }
+          get :show, params: { format: :json, locale: 'en', id: world_event.slug }
 
           expect(JSON.parse(response.body)['user_characters']).to_not eq nil
           expect(JSON.parse(response.body)['characters']).to_not eq nil
