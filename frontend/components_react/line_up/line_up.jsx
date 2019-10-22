@@ -52,7 +52,7 @@ export default class LineUp extends React.Component {
     event.preventDefault()
     $.ajax({
       method: 'POST',
-      url: `/subscribes.json`,
+      url: `/api/v1/subscribes.json?access_token=${this.props.access_token}`,
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event_id, status: status } },
       success: (data) => {
         const userCharacters = this._filterCharacters(data.user_characters)
@@ -69,7 +69,7 @@ export default class LineUp extends React.Component {
     event.preventDefault()
     $.ajax({
       method: 'PATCH',
-      url: `/subscribes/${subscribeId}.json`,
+      url: `/api/v1/subscribes/${subscribeId}.json?access_token=${this.props.access_token}`,
       data: { subscribe: { status: status } },
       success: (data) => {
         const userCharacters = this._filterCharacters(data.user_characters)
@@ -151,9 +151,9 @@ export default class LineUp extends React.Component {
   _renderUserButton(subscribeId, option) {
     if (!this.props.event_is_open) return false
     let buttons = []
-    if (option !== 'signers') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'signed')}>{strings.sign}</button>)
-    if (option !== 'rejecters') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'rejected')}>{strings.reject}</button>)
-    if (option !== 'unknown') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'unknown')}>{strings.unknown}</button>)
+    if (option !== 'signers') buttons.push(<button key='0' className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'signed')}>{strings.sign}</button>)
+    if (option !== 'rejecters') buttons.push(<button key='1' className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'rejected')}>{strings.reject}</button>)
+    if (option !== 'unknown') buttons.push(<button key='2' className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'unknown')}>{strings.unknown}</button>)
     return <div className="user_buttons">{buttons}</div>
   }
 

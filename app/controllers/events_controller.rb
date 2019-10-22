@@ -1,6 +1,4 @@
 class EventsController < ApplicationController
-  include EventPresentable
-
   before_action :find_event, only: %i[show]
   before_action :find_selectors, only: %i[new]
 

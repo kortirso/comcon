@@ -1,7 +1,7 @@
 module Api
   module V1
     class EventsController < Api::V1::BaseController
-      include EventPresentable
+      include Concerns::EventPresentable
       include Concerns::WorldCacher
       include Concerns::FractionCacher
 

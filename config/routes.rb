@@ -15,10 +15,9 @@ Rails.application.routes.draw do
       resources :events, only: %i[index show] do
         get :filter_values, on: :collection
       end
+      resources :subscribes, only: %i[create update]
     end
   end
-
-  resources :subscribes, only: %i[create update]
 
   localized do
     resources :characters, except: %i[show create update]
