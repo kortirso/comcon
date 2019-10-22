@@ -12,13 +12,13 @@ Rails.application.routes.draw do
       resources :characters, only: %i[show create update] do
         get :default_values, on: :collection
       end
+      resources :events, only: %i[index show] do
+        get :filter_values, on: :collection
+      end
     end
   end
 
   resources :subscribes, only: %i[create update]
-  resources :events, only: %i[] do
-    get :filter_values, on: :collection
-  end
 
   localized do
     resources :characters, except: %i[show create update]

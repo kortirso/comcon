@@ -46,7 +46,7 @@ export default class EventCalendar extends React.Component {
     if (this.state.character !== 'none') params.push(`character_id=${this.state.character}`)
     params.push(`month=${this.state.currentMonth}`)
     params.push(`year=${this.state.currentYear}`)
-    const url = '/events.json?' + params.join('&')
+    const url = `/api/v1/events.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
       url: url,
@@ -59,7 +59,7 @@ export default class EventCalendar extends React.Component {
   _getFilterValues() {
     $.ajax({
       method: 'GET',
-      url: '/events/filter_values.json',
+      url: `/api/v1/events/filter_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
         this.setState({worlds: data.worlds, fractions: data.fractions, guilds: data.guilds, characters: data.characters})
       }

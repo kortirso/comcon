@@ -8,4 +8,4 @@
     - else
       p= t('event.guild', guild_name: @event.eventable.full_name)
     p= t('event.owner', name: @event.owner&.name)
-  = react_component('LineUp', event: @event, is_owner: @event.owner.user == Current.user, current_user_id: Current.user.id, locale: I18n.locale.to_s, event_is_open: @event.is_open?)
+  = react_component('LineUp', event_id: @event.id, event_is_open: @event.is_open?, is_owner: @event.owner.user == Current.user, current_user_id: Current.user.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

@@ -1,94 +1,51 @@
 RSpec.describe EventsController, type: :controller do
   describe 'GET#index' do
-    context 'for html request' do
-      it_behaves_like 'User Auth'
+    it_behaves_like 'User Auth'
 
-      context 'for logged user' do
-        sign_in_user
+    context 'for logged user' do
+      sign_in_user
 
-        it 'renders index template' do
-          get :index, params: { locale: 'en' }
-
-          expect(response).to render_template :index
-        end
-      end
-
-      def do_request
+      it 'renders index template' do
         get :index, params: { locale: 'en' }
+
+        expect(response).to render_template :index
       end
     end
 
-    context 'for json request' do
-      it_behaves_like 'User Auth JSON'
-
-      context 'for logged user' do
-        sign_in_user
-
-        it 'renders index template' do
-          get :index, params: { format: :json, locale: 'en' }
-
-          expect(JSON.parse(response.body)['events'].is_a?(Array)).to eq true
-        end
-      end
-
-      def do_request
-        get :index, params: { format: :json, locale: 'en' }
-      end
+    def do_request
+      get :index, params: { locale: 'en' }
     end
   end
 
   describe 'GET#show' do
     let!(:event) { create :event }
 
-    context 'for html request' do
-      it_behaves_like 'User Auth'
+    it_behaves_like 'User Auth'
 
-      context 'for logged user' do
-        sign_in_user
-        let!(:character) { create :character, user: @current_user }
-        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+    context 'for logged user' do
+      sign_in_user
+      let!(:character) { create :character, user: @current_user }
+      let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
 
-        context 'for unexisted event' do
-          it 'renders error template' do
-            get :show, params: { locale: 'en', id: 999 }
+      context 'for unexisted event' do
+        it 'renders error template' do
+          get :show, params: { locale: 'en', id: 999 }
 
-            expect(response).to render_template 'shared/error'
-          end
-        end
-
-        context 'for existed event' do
-          it 'renders show template' do
-            get :show, params: { locale: 'en', id: world_event.slug }
-
-            expect(response).to render_template :show
-          end
+          expect(response).to render_template 'shared/error'
         end
       end
 
-      def do_request
-        get :show, params: { locale: 'en', id: event.slug }
+      context 'for existed event' do
+        it 'renders show template' do
+          get :show, params: { locale: 'en', id: world_event.slug }
+
+          expect(response).to render_template :show
+        end
       end
     end
 
-    context 'for json request' do
-      it_behaves_like 'User Auth JSON'
-
-      context 'for logged user' do
-        sign_in_user
-        let!(:character) { create :character, user: @current_user }
-        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-
-        it 'renders json response' do
-          get :show, params: { format: :json, locale: 'en', id: world_event.slug }
-
-          expect(JSON.parse(response.body)['user_characters']).to_not eq nil
-          expect(JSON.parse(response.body)['characters']).to_not eq nil
-        end
-      end
-
-      def do_request
-        get :show, params: { format: :json, locale: 'en', id: event.slug }
-      end
+    def do_request
+      get :show, params: { locale: 'en', id: event.slug }
     end
   end
 
@@ -156,56 +113,6 @@ RSpec.describe EventsController, type: :controller do
 
     def do_request
       post :create, params: { locale: 'en', event: { name: '1', owner_id: 999, dungeon_id: dungeon.id, start_time: DateTime.now + 1.day } }
-    end
-  end
-
-  describe 'GET#filter_values' do
-    let!(:event) { create :event }
-
-    context 'for html request' do
-      it_behaves_like 'User Auth'
-
-      context 'for logged user' do
-        sign_in_user
-
-        it 'renders json data' do
-          get :filter_values
-
-          result = JSON.parse(response.body)
-
-          expect(result['worlds']).to_not eq nil
-          expect(result['fractions']).to_not eq nil
-          expect(result['characters']).to_not eq nil
-          expect(result['guilds']).to_not eq nil
-        end
-      end
-
-      def do_request
-        get :filter_values
-      end
-    end
-
-    context 'for json request' do
-      it_behaves_like 'User Auth JSON'
-
-      context 'for logged user' do
-        sign_in_user
-
-        it 'renders json data' do
-          get :filter_values, format: :json
-
-          result = JSON.parse(response.body)
-
-          expect(result['worlds']).to_not eq nil
-          expect(result['fractions']).to_not eq nil
-          expect(result['characters']).to_not eq nil
-          expect(result['guilds']).to_not eq nil
-        end
-      end
-
-      def do_request
-        get :filter_values, format: :json
-      end
     end
   end
 end

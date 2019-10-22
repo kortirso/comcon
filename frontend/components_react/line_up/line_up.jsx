@@ -15,9 +15,6 @@ export default class LineUp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      eventIsOpen: props.event_is_open,
-      isOwner: props.is_owner,
-      currentUserId: props.current_user_id,
       userCharacters: [],
       characters: [],
       selectedCharacterForSign: null
@@ -39,7 +36,7 @@ export default class LineUp extends React.Component {
     const _this = this
     $.ajax({
       method: 'GET',
-      url: `/events/${this.props.event.slug}.json`,
+      url: `/api/v1/events/${this.props.event_id}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const userCharacters = this._filterCharacters(data.user_characters)
         this.setState({
@@ -56,7 +53,7 @@ export default class LineUp extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/subscribes.json`,
-      data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event.id, status: status } },
+      data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event_id, status: status } },
       success: (data) => {
         const userCharacters = this._filterCharacters(data.user_characters)
         this.setState({
@@ -87,7 +84,7 @@ export default class LineUp extends React.Component {
 
   _renderSignBlock() {
     if (this.state.userCharacters.length === 0) return false
-    if (!this.state.eventIsOpen) return false
+    if (!this.props.event_is_open) return false
     else {
       let characters = this.state.userCharacters.map((character) => {
         return <option value={character.id} key={character.id}>{character.name}</option>
@@ -141,8 +138,8 @@ export default class LineUp extends React.Component {
             <td>{character.guild}</td>
             <td>
               <div className="buttons">
-                {this.state.isOwner && option === 'signers' && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
-                {this.state.currentUserId === character.user_id && this._renderUserButton(character.subscribe_for_event.id, option)}
+                {this.props.is_owner && option === 'signers' && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
+                {this.props.current_user_id === character.user_id && this._renderUserButton(character.subscribe_for_event.id, option)}
               </div>
             </td>
           </tr>
@@ -152,7 +149,7 @@ export default class LineUp extends React.Component {
   }
 
   _renderUserButton(subscribeId, option) {
-    if (!this.state.eventIsOpen) return false
+    if (!this.props.event_is_open) return false
     let buttons = []
     if (option !== 'signers') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'signed')}>{strings.sign}</button>)
     if (option !== 'rejecters') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'rejected')}>{strings.reject}</button>)
@@ -196,8 +193,8 @@ export default class LineUp extends React.Component {
                 <td>{character.guild}</td>
                 <td>
                   <div className="buttons">
-                    {this.state.isOwner && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
-                    {this.state.currentUserId === character.user_id && this._renderUserButton(character.subscribe_for_event.id, 'signers')}
+                    {this.props.is_owner && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
+                    {this.props.current_user_id === character.user_id && this._renderUserButton(character.subscribe_for_event.id, 'signers')}
                   </div>
                 </td>
               </tr>
