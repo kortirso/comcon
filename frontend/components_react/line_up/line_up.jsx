@@ -15,6 +15,7 @@ export default class LineUp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      eventIsOpen: props.event_is_open,
       isOwner: props.is_owner,
       currentUserId: props.current_user_id,
       userCharacters: [],
@@ -86,6 +87,7 @@ export default class LineUp extends React.Component {
 
   _renderSignBlock() {
     if (this.state.userCharacters.length === 0) return false
+    if (!this.state.eventIsOpen) return false
     else {
       let characters = this.state.userCharacters.map((character) => {
         return <option value={character.id} key={character.id}>{character.name}</option>
@@ -150,6 +152,7 @@ export default class LineUp extends React.Component {
   }
 
   _renderUserButton(subscribeId, option) {
+    if (!this.state.eventIsOpen) return false
     let buttons = []
     if (option !== 'signers') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'signed')}>{strings.sign}</button>)
     if (option !== 'rejecters') buttons.push(<button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onUpdateSubscribe.bind(this, subscribeId, 'rejected')}>{strings.reject}</button>)

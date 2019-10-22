@@ -67,4 +67,24 @@ RSpec.describe Event, type: :model do
       end
     end
   end
+
+  describe 'methods' do
+    context '.is_open?' do
+      context 'for open event' do
+        let!(:event) { create :event }
+
+        it 'returns true' do
+          expect(event.is_open?).to eq true
+        end
+      end
+
+      context 'for open event' do
+        let!(:event) { create :event, hours_before_close: 24 }
+
+        it 'returns false' do
+          expect(event.is_open?).to eq false
+        end
+      end
+    end
+  end
 end

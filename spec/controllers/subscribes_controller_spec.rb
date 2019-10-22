@@ -2,14 +2,14 @@ RSpec.describe SubscribesController, type: :controller do
   describe 'POST#create' do
     let!(:event) { create :event }
 
-    it_behaves_like 'User Auth'
+    it_behaves_like 'User Auth JSON'
 
     context 'for logged user' do
       sign_in_user
       let!(:character) { create :character, user: @current_user }
 
       context 'for invalid params' do
-        let(:request) { post :create, params: { subscribe: { event_id: nil } } }
+        let(:request) { post :create, params: { subscribe: { event_id: nil }, format: :json } }
 
         it 'does not create new subscribe' do
           expect { request }.to_not change(Subscribe, :count)
@@ -18,12 +18,12 @@ RSpec.describe SubscribesController, type: :controller do
         it 'and returns json response' do
           request
 
-          expect(JSON.parse(response.body)).to eq('result' => 'Failed')
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
         end
       end
 
       context 'for valid params' do
-        let(:request) { post :create, params: { subscribe: { event_id: event.id, character_id: character.id } } }
+        let(:request) { post :create, params: { subscribe: { event_id: event.id, character_id: character.id, status: 'signed' }, format: :json } }
 
         it 'creates new subscribe' do
           expect { request }.to change { character.subscribes.count }.by(1)
@@ -45,7 +45,7 @@ RSpec.describe SubscribesController, type: :controller do
     end
 
     def do_request
-      post :create, params: { subscribe: { event_id: event.id, character_id: nil } }
+      post :create, params: { subscribe: { event_id: event.id, character_id: nil }, format: :json }
     end
   end
 

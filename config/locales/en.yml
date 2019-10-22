@@ -46,6 +46,7 @@ en:
     dungeon: Dungeon
     access_type: Access type
     start_time: Start time (GTM +0)
+    hours_before_close: Hours before close
   event:
     world: "Event is available for everyone in %{world_name} world for %{fraction} fraction"
     guild: "Event is available only for guild %{guild_name}"

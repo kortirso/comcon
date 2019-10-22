@@ -74,7 +74,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    h = params.require(:event).permit(:name, :eventable_type).to_h
+    h = params.require(:event).permit(:name, :eventable_type, :hours_before_close).to_h
     h[:start_time] = ApplicationHelper.datetime_represent(params[:event], 'start_time')
     h[:owner] = Character.where(user: Current.user).find_by(id: params[:event][:owner_id])
     h[:dungeon] = Dungeon.find_by(id: params[:event][:dungeon_id])

@@ -46,6 +46,7 @@ ru:
     dungeon: Подземелье
     access_type: Тип доступа
     start_time: Время начала (GTM +0)
+    hours_before_close: Часов до закрытия регистрации
   event:
     world: "Событие доступно для всех персонажей из Мира %{world_name} для фракции %{fraction}"
     guild: "Событие доступно только для гильдии %{guild_name}"

@@ -1,9 +1,11 @@
 class SubscribesController < ApplicationController
   include EventPresentable
 
+  before_action :find_event, only: %i[create]
   before_action :find_subscribe, only: %i[update]
 
   def create
+    authorize! @event, with: SubscribePolicy, context: { status: update_subscribe_params[:status] }
     perform_subscribe(subscribe_params)
   end
 
@@ -13,6 +15,11 @@ class SubscribesController < ApplicationController
   end
 
   private
+
+  def find_event
+    @event = Event.find_by(id: params[:subscribe][:event_id])
+    render_error('Object is not found') if @event.nil?
+  end
 
   def find_subscribe
     @subscribe = Subscribe.find_by(id: params[:id])
@@ -30,7 +37,7 @@ class SubscribesController < ApplicationController
 
   def subscribe_params
     h = update_subscribe_params.to_h
-    h[:event] = Event.find_by(id: params[:subscribe][:event_id])
+    h[:event] = @event
     h[:character] = Current.user.characters.find_by(id: params[:subscribe][:character_id])
     h
   end

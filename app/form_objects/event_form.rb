@@ -12,10 +12,12 @@ class EventForm
   attribute :eventable_id, Integer
   attribute :eventable_type, String
   attribute :start_time, DateTime
+  attribute :hours_before_close, Integer, default: 0
 
-  validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, presence: true
+  validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, :hours_before_close, presence: true
   validates :event_type, inclusion: { in: %w[instance raid] }
   validates :eventable_type, inclusion: { in: %w[World Guild] }
+  validates :hours_before_close, inclusion: 0..24
 
   attr_reader :event
 
@@ -28,6 +30,7 @@ class EventForm
     # validation
     return false unless valid?
     return false unless eventable_exists?
+    return false unless valid_time?
     @event = id ? Event.find_by(id: id) : Event.new
     return false if @event.nil?
     @event.attributes = attributes.except(:id)
@@ -39,5 +42,9 @@ class EventForm
 
   def eventable_exists?
     eventable_type.constantize.find_by(id: eventable_id).present?
+  end
+
+  def valid_time?
+    DateTime.now < start_time - hours_before_close.hours
   end
 end

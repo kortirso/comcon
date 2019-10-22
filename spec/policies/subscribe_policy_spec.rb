@@ -4,6 +4,39 @@ describe SubscribePolicy do
   let!(:owner) { create :user }
   let!(:owner_character) { create :character, user: owner }
   let!(:event) { create :event, owner: owner_character }
+  let!(:closed_event) { create :event, owner: owner_character, start_time: DateTime.now + 1.hour, hours_before_close: 24 }
+
+  describe '#create?' do
+    context 'for invalid status' do
+      let(:policy) { described_class.new(event, user: user, status: 'approved') }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'for valid status' do
+      context 'for open event' do
+        let(:policy) { described_class.new(event, user: user, status: 'signed') }
+
+        it 'returns true' do
+          expect(policy_access).to eq true
+        end
+      end
+
+      context 'for closed event' do
+        let(:policy) { described_class.new(closed_event, user: user, status: 'signed') }
+
+        it 'returns false' do
+          expect(policy_access).to eq false
+        end
+      end
+    end
+
+    def policy_access
+      policy.create?
+    end
+  end
 
   describe '#update?' do
     context 'for simple user' do
@@ -19,7 +52,7 @@ describe SubscribePolicy do
       context 'for user subscribe' do
         let!(:subscribe) { create :subscribe, character: user_character, status: 'signed', event: event }
 
-        context 'for user subscribe, to approved' do
+        context 'to approved' do
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
           it 'returns false' do
@@ -27,7 +60,16 @@ describe SubscribePolicy do
           end
         end
 
-        context 'for user subscribe, to rejected' do
+        context 'to rejected, for closed event' do
+          let!(:closed_subscribe) { create :subscribe, character: user_character, status: 'signed', event: closed_event }
+          let(:policy) { described_class.new(closed_subscribe, user: user, status: 'rejected') }
+
+          it 'returns false' do
+            expect(policy_access).to eq false
+          end
+        end
+
+        context 'to rejected' do
           let(:policy) { described_class.new(subscribe, user: user, status: 'rejected') }
 
           it 'returns true' do
@@ -52,8 +94,8 @@ describe SubscribePolicy do
         context 'to unknown' do
           let(:policy) { described_class.new(subscribe, user: owner, status: 'unknown') }
 
-          it 'returns true' do
-            expect(policy_access).to eq true
+          it 'returns false' do
+            expect(policy_access).to eq false
           end
         end
       end
