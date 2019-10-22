@@ -1,4 +1,7 @@
-= javascript_pack_tag 'event_calendar'
 .container
-  = link_to t('events.add'), new_event_path, class: 'btn btn-primary btn-sm with_bottom_margin'
-  = react_component('EventCalendar', locale: I18n.locale.to_s)
+  - if Current.user.characters.size.positive?
+    = link_to t('events.add'), new_event_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+    = javascript_pack_tag 'event_calendar'
+    = react_component('EventCalendar', locale: I18n.locale.to_s)
+  - else
+    p= t('events.no_characters')

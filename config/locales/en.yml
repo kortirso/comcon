@@ -38,6 +38,7 @@ en:
     update: Update
   events:
     add: Add event
+    no_characters: For viewing events you need to attach new character to your account
   event_new:
     name: Name
     name_title: Event's name
