@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_22_162003) do
+ActiveRecord::Schema.define(version: 2019_10_23_120257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,14 @@ ActiveRecord::Schema.define(version: 2019_10_22_162003) do
     t.index ["fraction_id"], name: "index_guilds_on_fraction_id"
     t.index ["name"], name: "index_guilds_on_name"
     t.index ["world_id"], name: "index_guilds_on_world_id"
+  end
+
+  create_table "professions", force: :cascade do |t|
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.boolean "main", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_professions_on_name", using: :gin
   end
 
   create_table "races", force: :cascade do |t|

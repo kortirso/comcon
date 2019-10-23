@@ -143,3 +143,43 @@ end
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: ranged.id, combinateable_type: 'Role')
   combination_form.persist?
 end
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Skinning', 'ru' => 'Снятие шкур' })
+profession_form.persist?
+_skinning = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Leatherworking', 'ru' => 'Кожевничество' })
+profession_form.persist?
+_leatherworking = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Herbalism', 'ru' => 'Травничество' })
+profession_form.persist?
+_herbalism = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Alchemy', 'ru' => 'Алхимия' })
+profession_form.persist?
+_alchemy = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Mining', 'ru' => 'Горное дело' })
+profession_form.persist?
+_mining = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Blacksmithing', 'ru' => 'Кузнечное дело' })
+profession_form.persist?
+_blacksmithing = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Engineering', 'ru' => 'Инженерное дело' })
+profession_form.persist?
+_engineering = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Tailoring', 'ru' => 'Портняжное дело' })
+profession_form.persist?
+_tailoring = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Enchanting', 'ru' => 'Наложение чар' })
+profession_form.persist?
+_enchanting = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Cooking', 'ru' => 'Кулинария' }, main: false)
+profession_form.persist?
+_cooking = profession_form.profession
