@@ -17,7 +17,11 @@ export default class LineUp extends React.Component {
     this.state = {
       userCharacters: [],
       characters: [],
-      selectedCharacterForSign: null
+      selectedCharacterForSign: null,
+      approved: 0,
+      signed: 0,
+      unknown: 0,
+      rejected: 0
     }
   }
 
@@ -33,17 +37,11 @@ export default class LineUp extends React.Component {
   }
 
   _getEventsSubscribes() {
-    const _this = this
     $.ajax({
       method: 'GET',
       url: `/api/v1/events/${this.props.event_id}.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        const userCharacters = this._filterCharacters(data.user_characters)
-        this.setState({
-          userCharacters: userCharacters,
-          characters: data.characters,
-          selectedCharacterForSign: userCharacters.length > 0 ? userCharacters[0].id : null
-        })
+        this._setState(data)
       }
     })
   }
@@ -55,12 +53,7 @@ export default class LineUp extends React.Component {
       url: `/api/v1/subscribes.json?access_token=${this.props.access_token}`,
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event_id, status: status } },
       success: (data) => {
-        const userCharacters = this._filterCharacters(data.user_characters)
-        this.setState({
-          userCharacters: userCharacters,
-          characters: data.characters,
-          selectedCharacterForSign: userCharacters.length > 0 ? userCharacters[0].id : null
-        })
+        this._setState(data)
       }
     })
   }
@@ -72,13 +65,43 @@ export default class LineUp extends React.Component {
       url: `/api/v1/subscribes/${subscribeId}.json?access_token=${this.props.access_token}`,
       data: { subscribe: { status: status } },
       success: (data) => {
-        const userCharacters = this._filterCharacters(data.user_characters)
-        this.setState({
-          userCharacters: userCharacters,
-          characters: data.characters,
-          selectedCharacterForSign: userCharacters.length > 0 ? userCharacters[0].id : null
-        })
+        this._setState(data)
       }
+    })
+  }
+
+  _calcEventListeners(characters) {
+    let result = [0, 0, 0, 0]
+    characters.forEach((character) => {
+      switch (character.subscribe_for_event.status) {
+        case 'approved':
+          result[0] += 1
+          break
+        case 'signed':
+          result[1] += 1
+          break
+        case 'unknown':
+          result[2] += 1
+          break
+        case 'rejected':
+          result[3] += 1
+          break
+      }
+    })
+    return result
+  }
+
+  _setState(data) {
+    const userCharacters = this._filterCharacters(data.user_characters)
+    const eventListeners = this._calcEventListeners(data.characters)
+    this.setState({
+      userCharacters: userCharacters,
+      characters: data.characters,
+      selectedCharacterForSign: userCharacters.length > 0 ? userCharacters[0].id : null,
+      approved: eventListeners[0],
+      signed: eventListeners[1],
+      unknown: eventListeners[2],
+      rejected: eventListeners[3]
     })
   }
 
@@ -233,20 +256,20 @@ export default class LineUp extends React.Component {
     return (
       <div className="line_up">
         <div className="approved">
-          <div className="line_name">{strings.lineUp}</div>
+          <div className="line_name">{strings.lineUp} ({this.state.approved})</div>
           {this._renderLineUp()}
         </div>
         <div className="signed">
-          <div className="line_name">{strings.signers}</div>
+          <div className="line_name">{strings.signers} ({this.state.signed})</div>
           {this._renderSignBlock()}
           {this._renderSigners('signers')}
         </div>
         <div className="unknown">
-          <div className="line_name">{strings.unknown}</div>
+          <div className="line_name">{strings.unknown} ({this.state.unknown})</div>
           {this._renderSigners('unknown')}
         </div>
         <div className="rejected">
-          <div className="line_name">{strings.rejected}</div>
+          <div className="line_name">{strings.rejected} ({this.state.rejected})</div>
           {this._renderSigners('rejecters')}
         </div>
       </div>
