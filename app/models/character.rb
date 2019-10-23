@@ -17,4 +17,6 @@ class Character < ApplicationRecord
   has_many :main_roles, through: :main_character_roles, source: :role
   has_many :secondary_character_roles, -> { where main: false }, class_name: 'CharacterRole'
   has_many :secondary_roles, through: :secondary_character_roles, source: :role
+  has_many :character_professions, dependent: :destroy
+  has_many :professions, through: :character_professions
 end

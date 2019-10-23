@@ -1,0 +1,6 @@
+FactoryBot.define do
+  factory :character_profession do
+    association :character
+    association :profession
+  end
+end

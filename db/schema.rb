@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_120257) do
+ActiveRecord::Schema.define(version: 2019_10_23_124234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 2019_10_23_120257) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_character_classes_on_name", using: :gin
+  end
+
+  create_table "character_professions", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "profession_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_id", "profession_id"], name: "index_character_professions_on_character_id_and_profession_id", unique: true
   end
 
   create_table "character_roles", force: :cascade do |t|
