@@ -31,7 +31,10 @@ export default class RecipesList extends React.Component {
       method: 'GET',
       url: `/api/v1/professions.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({professions: data.professions})
+        const professions = data.professions.filter((profession) => {
+          return profession.recipeable
+        })
+        this.setState({professions: professions})
       }
     })
   }

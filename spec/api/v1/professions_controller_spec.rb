@@ -14,7 +14,7 @@ RSpec.describe 'Professions API' do
         expect(response.status).to eq 200
       end
 
-      %w[id name main].each do |attr|
+      %w[id name main recipeable].each do |attr|
         it "and contains profession #{attr}" do
           expect(response.body).to have_json_path("professions/0/#{attr}")
         end

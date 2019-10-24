@@ -13,6 +13,7 @@ class RecipeForm
   validates :skill, inclusion: 1..300
   validate :name_as_hash
   validate :links_as_hash
+  validate :profession_with_recipes
 
   attr_reader :recipe
 
@@ -44,5 +45,10 @@ class RecipeForm
     return errors[:links] << 'Links is not hash' unless links.is_a?(Hash)
     errors[:links] << 'Links EN is empty' unless links['en'].present?
     errors[:links] << 'Links RU is empty' unless links['ru'].present?
+  end
+
+  def profession_with_recipes
+    return if profession.nil?
+    profession.recipeable?
   end
 end

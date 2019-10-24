@@ -5,6 +5,7 @@ class ProfessionForm
 
   attribute :name, Hash
   attribute :main, Boolean, default: true
+  attribute :recipeable, Boolean, default: false
 
   validates :name, presence: true
   validate :name_as_hash

@@ -148,7 +148,7 @@ profession_form = ProfessionForm.new(name: { 'en' => 'Skinning', 'ru' => 'Сня
 profession_form.persist?
 _skinning = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Leatherworking', 'ru' => 'Кожевничество' })
+profession_form = ProfessionForm.new(name: { 'en' => 'Leatherworking', 'ru' => 'Кожевничество' }, recipeable: true)
 profession_form.persist?
 _leatherworking = profession_form.profession
 
@@ -156,7 +156,7 @@ profession_form = ProfessionForm.new(name: { 'en' => 'Herbalism', 'ru' => 'Тр�
 profession_form.persist?
 _herbalism = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Alchemy', 'ru' => 'Алхимия' })
+profession_form = ProfessionForm.new(name: { 'en' => 'Alchemy', 'ru' => 'Алхимия' }, recipeable: true)
 profession_form.persist?
 _alchemy = profession_form.profession
 
@@ -164,22 +164,22 @@ profession_form = ProfessionForm.new(name: { 'en' => 'Mining', 'ru' => 'Горн
 profession_form.persist?
 _mining = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Blacksmithing', 'ru' => 'Кузнечное дело' })
+profession_form = ProfessionForm.new(name: { 'en' => 'Blacksmithing', 'ru' => 'Кузнечное дело' }, recipeable: true)
 profession_form.persist?
 _blacksmithing = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Engineering', 'ru' => 'Инженерное дело' })
+profession_form = ProfessionForm.new(name: { 'en' => 'Engineering', 'ru' => 'Инженерное дело' }, recipeable: true)
 profession_form.persist?
 _engineering = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Tailoring', 'ru' => 'Портняжное дело' })
+profession_form = ProfessionForm.new(name: { 'en' => 'Tailoring', 'ru' => 'Портняжное дело' }, recipeable: true)
 profession_form.persist?
 _tailoring = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Enchanting', 'ru' => 'Наложение чар' })
+profession_form = ProfessionForm.new(name: { 'en' => 'Enchanting', 'ru' => 'Наложение чар' }, recipeable: true)
 profession_form.persist?
 _enchanting = profession_form.profession
 
-profession_form = ProfessionForm.new(name: { 'en' => 'Cooking', 'ru' => 'Кулинария' }, main: false)
+profession_form = ProfessionForm.new(name: { 'en' => 'Cooking', 'ru' => 'Кулинария' }, main: false, recipeable: true)
 profession_form.persist?
 _cooking = profession_form.profession
