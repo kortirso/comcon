@@ -16,6 +16,22 @@
   }
 
   .form-group {
+    .professions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .form-group {
+        width: auto;
+        margin-bottom: 0.5rem;
+        margin-right: 1rem;
+
+        label {
+          margin-bottom: 0;
+        }
+      }
+    }
+
     &.roles {
       display: flex;
       flex-direction: row;

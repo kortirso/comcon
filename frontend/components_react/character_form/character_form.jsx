@@ -33,7 +33,10 @@ export default class CharacterForm extends React.Component {
       currentMainRole: null,
       currentSecondaryRoles: {},
       currentDungeons: {},
-      characterId: props.character_id
+      characterId: props.character_id,
+      professions: [],
+      currentProfessions: {},
+      secondaryProfessionIds: []
     }
   }
 
@@ -66,8 +69,14 @@ export default class CharacterForm extends React.Component {
         data.dungeons.forEach((dungeon) => {
           currentDungeons[dungeon.id] = 0
         })
+        let currentProfessions = {}
+        let secondaryProfessionIds = []
+        data.professions.forEach((profession) => {
+          if (!profession.main) secondaryProfessionIds.push(profession.id)
+          currentProfessions[profession.id] = 0
+        })
 
-        this.setState({worlds: data.worlds, guilds: data.guilds, dungeons: data.dungeons, keyDungeons: keyDungeons, questDungeons: questDungeons, currentDungeons: currentDungeons, data: data.races, races: data.races, currentRace: currentRace, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole}, () => {
+        this.setState({worlds: data.worlds, guilds: data.guilds, dungeons: data.dungeons, keyDungeons: keyDungeons, questDungeons: questDungeons, currentDungeons: currentDungeons, data: data.races, races: data.races, currentRace: currentRace, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, professions: data.professions, currentProfessions: currentProfessions, secondaryProfessionIds: secondaryProfessionIds}, () => {
           this._getCharacter()
         })
       }
@@ -111,8 +120,12 @@ export default class CharacterForm extends React.Component {
             name: role[1].name
           })
         })
+        let currentProfessions = {}
+        this.state.professions.forEach((profession) => {
+          currentProfessions[profession.id] = (character.profession_ids.includes(parseInt(profession.id)) ? 1 : 0)
+        })
 
-        this.setState({name: character.name, level: character.level, currentRace: character.race_id, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, currentGuild: currentGuild, currentWorld: currentWorld, currentDungeons: currentDungeons, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles})
+        this.setState({name: character.name, level: character.level, currentRace: character.race_id, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, currentGuild: currentGuild, currentWorld: currentWorld, currentDungeons: currentDungeons, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles, currentProfessions: currentProfessions})
       }
     })
   }
@@ -124,7 +137,7 @@ export default class CharacterForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/characters.json?access_token=${this.props.access_token}`,
-      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, guild_id: state.currentGuild, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons } },
+      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, guild_id: state.currentGuild, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons, professions: state.currentProfessions } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
@@ -141,7 +154,7 @@ export default class CharacterForm extends React.Component {
     $.ajax({
       method: 'PATCH',
       url: `/api/v1/characters/${state.characterId}.json?access_token=${this.props.access_token}`,
-      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, guild_id: state.currentGuild, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons } },
+      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, guild_id: state.currentGuild, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons, professions: state.currentProfessions } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
@@ -193,6 +206,17 @@ export default class CharacterForm extends React.Component {
         <div className="form-group form-check" key={role.id}>
           <input className="form-check-input" type="checkbox" checked={this.state.currentSecondaryRoles[role.id] === 1} onChange={this._onChangeRole.bind(this, role.id)} id={`character_roles[${role.id}]`} />
           <label htmlFor={`character_roles[${role.id}]`}>{role.name[this.props.locale]}</label>
+        </div>
+      )
+    })
+  }
+
+  _renderProfessions() {
+    return this.state.professions.map((profession) => {
+      return (
+        <div className="form-group form-check" key={profession.id}>
+          <input className="form-check-input" type="checkbox" checked={this.state.currentProfessions[profession.id] === 1} onChange={this._onChangeProfession.bind(this, profession.id)} id={`character_professions[${profession.id}]`} />
+          <label htmlFor={`character_professions[${profession.id}]`}>{profession.name[this.props.locale]}</label>
         </div>
       )
     })
@@ -285,6 +309,31 @@ export default class CharacterForm extends React.Component {
     this.setState({currentSecondaryRoles: roles})
   }
 
+  _onChangeProfession(professionId) {
+    let professions = this.state.currentProfessions
+    if (professions[professionId] === 1) {
+      professions[professionId] = 0
+      this.setState({currentProfessions: professions})
+    } else {
+      let existedProfessions = 0
+      let mainProfessions = 0
+      let currentSelectingProfession = {}
+
+      this.state.professions.forEach((profession) => {
+        if (professions[profession.id] === 1) {
+          existedProfessions += 1
+          if (profession.main) mainProfessions += 1
+        }
+        if (profession.id === professionId) currentSelectingProfession = profession
+      })
+
+      if (existedProfessions < 2 || existedProfessions === 2 && (!currentSelectingProfession.main || mainProfessions === 1)) {
+        professions[professionId] = (professions[professionId] === 0 ? 1 : 0)
+        this.setState({currentProfessions: professions})
+      } else return false
+    }
+  }
+
   _onChangeDungeon(dungeonId) {
     let dungeons = this.state.currentDungeons
     dungeons[dungeonId] = (dungeons[dungeonId] === 0 ? 1 : 0)
@@ -350,6 +399,16 @@ export default class CharacterForm extends React.Component {
             }
           </div>
         </div>
+        {this.state.professions.length > 0 &&
+          <div className="double_line">
+            <div className="form-group">
+              <p>{strings.professions}</p>
+              <div className="professions">
+                {this._renderProfessions()}
+              </div>
+            </div>
+          </div>
+        }
         {this.state.dungeons.length > 0 &&
           <div className="double_line">
             {this.state.questDungeons.length > 0 &&

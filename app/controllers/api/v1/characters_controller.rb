@@ -4,12 +4,14 @@ module Api
       include Concerns::WorldCacher
       include Concerns::GuildCacher
       include Concerns::DungeonCacher
+      include Concerns::ProfessionCacher
 
       before_action :find_character, only: %i[show update]
       before_action :get_races_from_cache, only: %i[default_values]
       before_action :get_worlds_from_cache, only: %i[default_values]
       before_action :get_guilds_from_cache, only: %i[default_values]
       before_action :get_dungeons_from_cache, only: %i[default_values]
+      before_action :get_professions_from_cache, only: %i[default_values]
 
       resource_description do
         short 'Character resources'
@@ -31,8 +33,7 @@ module Api
       def create
         character_form = CharacterForm.new(character_params)
         if character_form.persist?
-          CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
-          CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
+          create_additional_structures_for_character(character_form.character)
           render json: character_form.character, status: 201
         else
           render json: { errors: character_form.errors.full_messages }, status: 409
@@ -47,8 +48,7 @@ module Api
         character_form = CharacterForm.new(@character.attributes.merge(character_params))
         if character_form.persist?
           character_form.character.character_roles.destroy_all
-          CreateCharacterRoles.call(character_id: character_form.character.id, character_role_params: character_role_params)
-          CreateDungeonAccess.call(character_id: character_form.character.id, dungeon_params: dungeon_params)
+          create_additional_structures_for_character(character_form.character)
           render json: character_form.character, status: 200
         else
           render json: { errors: character_form.errors.full_messages }, status: 409
@@ -62,7 +62,8 @@ module Api
           races: @races_json,
           guilds: @guilds_json,
           worlds: @worlds_json,
-          dungeons: @dungeons_json
+          dungeons: @dungeons_json,
+          professions: @professions_json
         }, status: 200
       end
 
@@ -103,6 +104,12 @@ module Api
         end
       end
 
+      def create_additional_structures_for_character(character)
+        CreateCharacterRoles.call(character_id: character.id, character_role_params: character_role_params)
+        CreateDungeonAccess.call(character_id: character.id, dungeon_params: dungeon_params)
+        CreateCharacterProfessions.call(character_id: character.id, profession_params: profession_params)
+      end
+
       def character_params
         h = params.require(:character).permit(:name, :level).to_h
         h[:race] = Race.find_by(id: params[:character][:race_id])
@@ -119,6 +126,10 @@ module Api
 
       def character_role_params
         params.require(:character).permit(:main_role_id, roles: {}).to_h
+      end
+
+      def profession_params
+        params.require(:character).permit(professions: {})[:professions]
       end
     end
   end

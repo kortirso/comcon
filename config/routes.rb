@@ -16,6 +16,7 @@ Rails.application.routes.draw do
         get :filter_values, on: :collection
       end
       resources :subscribes, only: %i[create update]
+      resources :professions, only: %i[index]
     end
   end
 
