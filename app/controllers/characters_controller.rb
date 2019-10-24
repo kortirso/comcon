@@ -1,6 +1,7 @@
 class CharactersController < ApplicationController
   before_action :find_characters, only: %i[index]
-  before_action :find_character, only: %i[edit destroy]
+  before_action :find_character, only: %i[edit destroy recipes update_recipes]
+  before_action :find_character_professions, only: %i[recipes]
 
   def index; end
 
@@ -13,6 +14,13 @@ class CharactersController < ApplicationController
     redirect_to characters_path, status: 303
   end
 
+  def recipes; end
+
+  def update_recipes
+    UpdateCharacterRecipes.call(character_id: @character.id, recipe_params: recipe_params)
+    redirect_to characters_path
+  end
+
   private
 
   def find_characters
@@ -22,5 +30,19 @@ class CharactersController < ApplicationController
   def find_character
     @character = Character.where(user: Current.user).find_by(id: params[:id])
     render_error('Object is not found') if @character.nil?
+  end
+
+  def find_character_professions
+    @character_professions = @character.character_professions.includes(:character_recipes, profession: :recipes).where('professions.recipeable = true').references(:professions)
+  end
+
+  def recipe_params
+    char_profs = @character.character_professions.includes(:profession).where('professions.recipeable = true').references(:professions)
+    h = params[:character].present? && params[:character][:recipes].present? ? params.require(:character).permit(recipes: {}).to_h[:recipes] : {}
+    char_profs.each do |profession|
+      next if h.key?(profession.id.to_s)
+      h[profession.id.to_s] = {}
+    end
+    h
   end
 end

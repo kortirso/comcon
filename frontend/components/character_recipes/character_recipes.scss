@@ -1,0 +1,22 @@
+.character_professions {
+  display: flex;
+  flex-direction: row;
+
+  .character_profession {
+    flex: 1;
+    padding-right: 1rem;
+    margin-bottom: 2rem;
+
+    .recipes {
+      .recipe {
+        margin-bottom: 0.25rem;
+
+        label {
+          a {
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+}

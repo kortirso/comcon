@@ -9,6 +9,7 @@ import "components/character_new/character_new";
 import "components/events/events";
 import "components/event/event";
 import "components/recipes/recipes";
+import "components/character_recipes/character_recipes";
 
 import Rails from "rails-ujs";
 

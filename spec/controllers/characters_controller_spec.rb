@@ -105,4 +105,71 @@ RSpec.describe CharactersController, type: :controller do
       delete :destroy, params: { locale: 'en', id: 999 }
     end
   end
+
+  describe 'GET#recipes' do
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted character' do
+        it 'renders error template' do
+          get :recipes, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed character' do
+        let!(:character) { create :character, :human_warrior, user: @current_user }
+
+        it 'renders recipes template' do
+          get :recipes, params: { locale: 'en', id: character.id }
+
+          expect(response).to render_template :recipes
+        end
+      end
+    end
+
+    def do_request
+      get :recipes, params: { locale: 'en', id: 999 }
+    end
+  end
+
+  describe 'POST#recipes' do
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted character' do
+        it 'renders error template' do
+          post :update_recipes, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed character' do
+        let!(:character) { create :character, :human_warrior, user: @current_user }
+        let(:request) { post :update_recipes, params: { locale: 'en', id: character.id } }
+
+        it 'calls UpdateCharacterRecipes' do
+          expect(UpdateCharacterRecipes).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and redirects to characters path' do
+          request
+
+          expect(response).to redirect_to characters_en_path
+        end
+      end
+    end
+
+    def do_request
+      post :update_recipes, params: { locale: 'en', id: 999 }
+    end
+  end
 end

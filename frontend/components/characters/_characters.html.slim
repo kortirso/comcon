@@ -20,5 +20,6 @@
           td= character.level
           td= character.guild&.name
           td
+            = link_to t('buttons.recipes'), recipes_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to t('buttons.edit'), edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to t('buttons.delete'), character, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

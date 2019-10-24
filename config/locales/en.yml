@@ -37,6 +37,7 @@ en:
     delete: Delete
     create: Create
     update: Update
+    recipes: Recipes
   events:
     add: Add event
     no_characters: For viewing events you need to attach new character to your account

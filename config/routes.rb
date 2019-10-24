@@ -22,7 +22,10 @@ Rails.application.routes.draw do
   end
 
   localized do
-    resources :characters, except: %i[show create update]
+    resources :characters, except: %i[show create update] do
+      get :recipes, on: :member
+      post :update_recipes, on: :member
+    end
     resources :events, only: %i[index show new create]
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]

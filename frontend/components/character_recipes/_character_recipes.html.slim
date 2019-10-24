@@ -1,0 +1,14 @@
+.container
+  = form_with url: update_recipes_character_path(@character), local: true do |f|
+    .character_professions
+      - @character_professions.each do |character_profession|
+        .character_profession
+          h2= character_profession.profession.name[I18n.locale.to_s]
+          .recipes
+            - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
+            - character_profession.profession.recipes.order(skill: :desc).each do |recipe|
+              .form-group.form-check.recipe
+                = check_box_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", '1', existed_recipe_ids.include?(recipe.id), class: 'form-check-input'
+                = label_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", class: 'form-check-label'
+                  = recipe.name[I18n.locale.to_s]
+    = f.submit t('buttons.update'), class: 'btn btn-primary'
