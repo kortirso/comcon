@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       end
       resources :subscribes, only: %i[create update]
       resources :professions, only: %i[index]
+      resources :recipes, only: %i[index create update]
     end
   end
 
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
     resources :events, only: %i[index show new create]
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]
+    resources :recipes, only: %i[index new edit destroy]
 
     root to: 'welcome#index'
   end

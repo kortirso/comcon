@@ -1,7 +1,7 @@
 shared_examples_for 'API auth with invalid token' do
   let!(:user) { create :user }
-  let(:token) { JwtService.new.json_response(user: user)[:token] }
-  before { do_request('Authorization' => "#{token}1") }
+  let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+  before { do_request('Authorization' => "#{access_token}1") }
 
   it 'returns status 401' do
     expect(response.status).to eq 401
