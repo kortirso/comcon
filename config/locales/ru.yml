@@ -84,3 +84,5 @@ ru:
       - :year
   recipes:
     add: Добавить рецепт
+  character_recipes:
+    no_data: У вашего персонажа нет профессий с рецептами

@@ -66,3 +66,5 @@ en:
     guild: Guild
   recipes:
     add: Add
+  character_recipes:
+    no_data: Your character does not have professions with recipes
