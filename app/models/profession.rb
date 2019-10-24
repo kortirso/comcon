@@ -2,6 +2,7 @@
 class Profession < ApplicationRecord
   has_many :character_professions, dependent: :destroy
   has_many :characters, through: :character_professions
+  has_many :recipes, dependent: :destroy
 
   def self.cache_key(professions)
     {
