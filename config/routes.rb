@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       end
       resources :subscribes, only: %i[create update]
       resources :professions, only: %i[index]
-      resources :recipes, only: %i[index create update]
+      resources :recipes, only: %i[index show create update]
     end
   end
 

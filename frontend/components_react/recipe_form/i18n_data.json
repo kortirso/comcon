@@ -1,0 +1,32 @@
+{
+  "en": {
+    "nameEn": "Name EN",
+    "nameRu": "Name RU",
+    "nameLabelEn": "Name EN",
+    "nameLabelRu": "Name RU",
+    "linkEn": "Link for recipe EN",
+    "linkRu": "Link for recipe RU",
+    "linkLabelEn": "Link for recipe EN",
+    "linkLabelRu": "Link for recipe RU",
+    "profession": "Profession",
+    "skill": "Skill",
+    "skillLabel": "Skill",
+    "create": "Create",
+    "update": "Update"
+  },
+  "ru": {
+    "nameEn": "Название EN",
+    "nameRu": "Название RU",
+    "nameLabelEn": "Название рецепта EN",
+    "nameLabelRu": "Название рецепта RU",
+    "linkEn": "Ссылка EN",
+    "linkRu": "Ссылка RU",
+    "linkLabelEn": "Ссылка на рецепт EN",
+    "linkLabelRu": "Ссылка на рецепт RU",
+    "profession": "Профессия",
+    "skill": "Уровень навыка",
+    "skillLabel": "Уровень навыка",
+    "create": "Создать",
+    "update": "Обновить"
+  }
+}

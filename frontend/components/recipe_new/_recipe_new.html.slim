@@ -1,0 +1,3 @@
+= javascript_pack_tag 'recipe_form'
+.container
+  = react_component('RecipeForm', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

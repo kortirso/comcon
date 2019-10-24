@@ -11,7 +11,9 @@
     "professions": "Professions",
     "otherRoles": "Other roles",
     "quests": "Completed quests for dungeons",
-    "keys": "Available keys for dungeons"
+    "keys": "Available keys for dungeons",
+    "create": "Create",
+    "update": "Update"
   },
   "ru": {
     "name": "Имя",
@@ -25,6 +27,8 @@
     "professions": "Профессии",
     "otherRoles": "Другие роли",
     "quests": "Выполненные квесты для подземелий",
-    "keys": "Полученные ключи для подземелий"
+    "keys": "Полученные ключи для подземелий",
+    "create": "Создать",
+    "update": "Обновить"
   }
 }

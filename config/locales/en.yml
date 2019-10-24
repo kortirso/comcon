@@ -2,6 +2,7 @@ en:
   navigation:
     worlds: Worlds
     users: Users
+    recipes: Recipes
     characters: Characters
     events: Events
     login: Login
@@ -62,3 +63,5 @@ en:
   select:
     world: World
     guild: Guild
+  recipes:
+    add: Add

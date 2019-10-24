@@ -1,0 +1,22 @@
+{
+  "en": {
+    "all": "all",
+    "filterProfession": "Filter by profession",
+    "id": "ID",
+    "name": "Name",
+    "links": "Links",
+    "skill": "Skill",
+    "edit": "Edit",
+    "deleteButton": "Delete"
+  },
+  "ru": {
+    "all": "все",
+    "filterProfession": "Фильтр по профессии",
+    "id": "ID",
+    "name": "Название рецепта",
+    "links": "Ссылка",
+    "skill": "Уровень навыка",
+    "edit": "Изменить",
+    "deleteButton": "Удалить"
+  }
+}

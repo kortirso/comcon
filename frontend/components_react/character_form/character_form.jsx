@@ -426,10 +426,10 @@ export default class CharacterForm extends React.Component {
           </div>
         }
         {this.state.characterId === undefined &&
-          <input type="submit" name="commit" value="Создать" className="btn btn-primary" onClick={this._onCreate.bind(this)} />
+          <input type="submit" name="commit" value={strings.create} className="btn btn-primary" onClick={this._onCreate.bind(this)} />
         }
         {this.state.characterId !== undefined &&
-          <input type="submit" name="commit" value="Обновить" className="btn btn-primary" onClick={this._onUpdate.bind(this)} />
+          <input type="submit" name="commit" value={strings.update} className="btn btn-primary" onClick={this._onUpdate.bind(this)} />
         }
       </div>
     )

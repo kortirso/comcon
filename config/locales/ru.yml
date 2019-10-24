@@ -2,6 +2,7 @@ ru:
   navigation:
     worlds: Миры
     users: Пользователи
+    recipes: Рецепты
     characters: Персонажи
     events: События
     login: Вход
@@ -80,3 +81,5 @@ ru:
       - :day
       - :month
       - :year
+  recipes:
+    add: Добавить рецепт

@@ -27,6 +27,48 @@ RSpec.describe 'Recipes API' do
     end
   end
 
+  describe 'GET#show' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth admins'
+
+    context 'with valid admin token in params' do
+      let!(:user) { create :user, :admin }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted recipe' do
+        before { get '/api/v1/recipes/unknown.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed recipe' do
+        let!(:recipe) { create :recipe }
+        before { get "/api/v1/recipes/#{recipe.id}.json", params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name links skill profession_id].each do |attr|
+          it "and contains recipe #{attr}" do
+            expect(response.body).to have_json_path("recipe/#{attr}")
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/recipes/999.json', headers: headers
+    end
+  end
+
   describe 'POST#create' do
     let!(:profession) { create :profession }
 
