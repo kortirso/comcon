@@ -24,7 +24,7 @@ class CharactersController < ApplicationController
   private
 
   def find_characters
-    @characters = Character.where(user: Current.user).order(level: :desc).includes(:race, :character_class, :world, :guild)
+    @characters = Character.where(user: Current.user).order(level: :desc).includes(:character_class, :world, :guild, race: :fraction)
   end
 
   def find_character

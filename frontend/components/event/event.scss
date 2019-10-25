@@ -1,3 +1,5 @@
+@import '../../init/variables.scss';
+
 .event {
   .event_details {
     p {
@@ -56,39 +58,39 @@
         tbody {
           tr {
             &.Druid {
-              background: #ff7c0a;
+              background: $druid;
             }
 
             &.Hunter {
-              background: #aad372;
+              background: $hunter;
             }
 
             &.Mage {
-              background: #68ccef;
+              background: $mage;
             }
 
             &.Paladin {
-              background: #f48cba;
+              background: $paladin;
             }
 
             &.Priest {
-              background: #fff;
+              background: $priest;
             }
 
             &.Rogue {
-              background: #fff468;
+              background: $rogue;
             }
 
             &.Shaman {
-              background: #2359ff;
+              background: $shaman;
             }
 
             &.Warlock {
-              background: #9382c9;
+              background: $warlock;
             }
 
             &.Warrior {
-              background: #c69b6d;
+              background: $warrior;
             }
 
             td {

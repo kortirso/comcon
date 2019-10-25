@@ -19,6 +19,8 @@ export default class EventCalendar extends React.Component {
       worlds: [],
       guilds: [],
       fractions: [],
+      alliance: 0,
+      horde: 0,
       characters: [],
       accessType: 'none',
       world: 'none',
@@ -61,7 +63,13 @@ export default class EventCalendar extends React.Component {
       method: 'GET',
       url: `/api/v1/events/filter_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({worlds: data.worlds, fractions: data.fractions, guilds: data.guilds, characters: data.characters})
+        let alliance
+        let horde
+        data.fractions.forEach((fraction) => {
+          if (fraction.name.en === 'Horde') horde = fraction.id
+          else alliance = fraction.id
+        })
+        this.setState({worlds: data.worlds, fractions: data.fractions, alliance: alliance, horde: horde, guilds: data.guilds, characters: data.characters})
       }
     })
   }
@@ -101,12 +109,17 @@ export default class EventCalendar extends React.Component {
     })
     return filtered.map((event) => {
       return (
-        <a className="event" key={event.id} href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${event.slug}`}>
+        <a className={this._eventFractionClass(event.fraction_id)} key={event.id} href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${event.slug}`}>
           <p className="name">{event.name}</p>
           <p className="time">{event.time}</p>
         </a>
       )
     })
+  }
+
+  _eventFractionClass(fractionId) {
+    if (fractionId === this.state.alliance) return "event alliance"
+    else return "event horde"
   }
 
   _renderFilters() {

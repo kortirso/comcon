@@ -1,24 +1,25 @@
-.container
+.container.characters
   = link_to t('characters.add'), new_character_path, class: 'btn btn-primary btn-sm with_bottom_margin'
   table.table.table-striped
     thead
       tr
         th= t('characters.name')
-        th= t('characters.world')
         th= t('characters.race')
         th= t('characters.character_class')
         th= t('characters.level')
         th= t('characters.guild')
+        th= t('characters.world')
         th
     tbody
       - @characters.each do |character|
         tr
           td= character.name
-          td= character.world.full_name
           td= character.race.name[I18n.locale.to_s]
           td= character.character_class.name[I18n.locale.to_s]
           td= character.level
-          td= character.guild&.name
+          td class="#{character.race.fraction.name['en'].downcase}"
+            = character.guild&.name
+          td= character.world.full_name
           td
             = link_to t('buttons.recipes'), recipes_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to t('buttons.edit'), edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'

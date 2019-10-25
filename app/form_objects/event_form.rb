@@ -25,7 +25,7 @@ class EventForm
     # initial values
     self.event_type = (dungeon.raid? ? 'raid' : 'instance') if !event_type.present? && dungeon.present?
     self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
-    self.eventable_id = (eventable_type == 'World' ? owner.world.id : owner.guild&.id) if owner.present?
+    self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if owner.present?
     self.fraction = owner.race.fraction if owner.present?
     # validation
     return false unless valid?
