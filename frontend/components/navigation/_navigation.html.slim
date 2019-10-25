@@ -4,10 +4,11 @@ nav.navbar
       = link_to 'RaidPlanner', root_path, class: 'navbar-brand'
       - if user_signed_in?
         - if Current.user.is_admin?
-          = link_to t('navigation.worlds'), worlds_path, class: 'with_right_margin'
-          = link_to t('navigation.users'), users_path, class: 'with_right_margin'
-          = link_to t('navigation.recipes'), recipes_path, class: 'with_right_margin'
+          = link_to t('navigation.worlds'), worlds_path, class: 'with_right_margin for_admins'
+          = link_to t('navigation.users'), users_path, class: 'with_right_margin for_admins'
+          = link_to t('navigation.recipes'), recipes_path, class: 'with_right_margin for_admins'
         = link_to t('navigation.characters'), characters_path, class: 'with_right_margin'
+        = link_to t('navigation.guilds'), guilds_path, class: 'with_right_margin'
         = link_to t('navigation.events'), events_path, class: 'with_right_margin'
     .right
       - if user_signed_in?

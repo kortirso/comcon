@@ -1,0 +1,18 @@
+{
+  "en": {
+    "none": "none",
+    "id": "ID",
+    "name": "Name",
+    "world": "Realm",
+    "filterWorld": "Filter by realm",
+    "filterFraction": "Filter by fraction"
+  },
+  "ru": {
+    "none": "все",
+    "id": "ID",
+    "name": "Название",
+    "world": "Игровой Мир",
+    "filterWorld": "Фильтр по мирам",
+    "filterFraction": "Фильтр по фракциям"
+  }
+}

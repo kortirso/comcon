@@ -1,3 +1,3 @@
 class WorldSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :zone
 end

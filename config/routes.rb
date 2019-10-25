@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :guilds, only: %i[index]
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]
+      resources :fractions, only: %i[index]
       resources :characters, only: %i[show create update] do
         get :default_values, on: :collection
       end
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]
     resources :recipes, only: %i[index new edit destroy]
+    resources :guilds, only: %i[index]
 
     root to: 'welcome#index'
   end

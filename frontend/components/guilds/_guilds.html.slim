@@ -1,0 +1,3 @@
+= javascript_pack_tag 'guilds_list'
+.container
+  = react_component('GuildsList', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

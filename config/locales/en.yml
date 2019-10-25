@@ -1,9 +1,10 @@
 en:
   navigation:
-    worlds: Worlds
+    worlds: Realms
     users: Users
     recipes: Recipes
     characters: Characters
+    guilds: Guilds
     events: Events
     login: Login
     sign_up: Sign Up
@@ -20,7 +21,7 @@ en:
     hello: Welcome back!
     title: Sign In to your personal account
   worlds:
-    add: Add world
+    add: Add realm
     name: Name
     zone: Zone
   users:
@@ -28,9 +29,9 @@ en:
     role: Role
   world:
     name: Name
-    name_title: World's name
+    name_title: Realm's name
     zone: Zone
-    zone_title: World's zone
+    zone_title: Realm's zone
   buttons:
     sure: Are you sure?
     edit: Edit
@@ -50,19 +51,19 @@ en:
     start_time: Start time (GTM +0)
     hours_before_close: Hours before close
   event:
-    world: "Event is available for everyone in %{world_name} world for %{fraction} fraction"
+    world: "Event is available for everyone in %{world_name} realm for %{fraction} fraction"
     guild: "Event is available only for guild %{guild_name}"
     owner: "Owner of event is %{name}"
   characters:
     add: Add
     name: Name
-    world: World
+    world: Realm
     race: Race
     character_class: Character class
     level: Level
     guild: Guild
   select:
-    world: World
+    world: Realm
     guild: Guild
   recipes:
     add: Add
