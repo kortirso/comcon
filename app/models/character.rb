@@ -19,4 +19,5 @@ class Character < ApplicationRecord
   has_many :secondary_roles, through: :secondary_character_roles, source: :role
   has_many :character_professions, dependent: :destroy
   has_many :professions, through: :character_professions
+  has_one :guild_role, dependent: :destroy
 end

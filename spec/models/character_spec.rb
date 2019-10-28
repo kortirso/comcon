@@ -17,6 +17,7 @@ RSpec.describe Character, type: :model do
   it { should have_many(:secondary_roles).through(:secondary_character_roles).source(:role) }
   it { should have_many(:character_professions).dependent(:destroy) }
   it { should have_many(:professions).through(:character_professions) }
+  it { should have_one(:guild_role).dependent(:destroy) }
 
   it 'factory should be valid' do
     character = build :character, :human_warrior

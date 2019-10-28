@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_121715) do
+ActiveRecord::Schema.define(version: 2019_10_28_125655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,15 @@ ActiveRecord::Schema.define(version: 2019_10_28_121715) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_fractions_on_name", using: :gin
+  end
+
+  create_table "guild_roles", force: :cascade do |t|
+    t.integer "guild_id"
+    t.integer "character_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guild_id", "character_id"], name: "index_guild_roles_on_guild_id_and_character_id", unique: true
   end
 
   create_table "guilds", force: :cascade do |t|

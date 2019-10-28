@@ -3,6 +3,8 @@ RSpec.describe Guild, type: :model do
   it { should belong_to :fraction }
   it { should have_many(:characters).dependent(:nullify) }
   it { should have_many(:events).dependent(:destroy) }
+  it { should have_many(:guild_roles).dependent(:destroy) }
+  it { should have_many(:characters_with_role).through(:guild_roles).source(:character) }
 
   it 'factory should be valid' do
     guild = build :guild
