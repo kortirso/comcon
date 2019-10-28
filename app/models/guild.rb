@@ -13,6 +13,8 @@ class Guild < ApplicationRecord
   has_many :characters, dependent: :nullify
   has_many :guild_roles, dependent: :destroy
   has_many :characters_with_role, through: :guild_roles, source: :character
+  has_many :leader_guild_roles, -> { where(name: 'rl').or(where(name: 'cl')) }, class_name: 'GuildRole'
+  has_many :characters_with_leader_role, through: :leader_guild_roles, source: :character
 
   def self.cache_key(guilds)
     {

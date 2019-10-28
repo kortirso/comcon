@@ -32,6 +32,17 @@ class Event < ApplicationRecord
     DateTime.now < start_time - hours_before_close.hours
   end
 
+  def guild_role_of_user(user_id)
+    return nil if eventable_type != 'Guild'
+    # leaders from guild of this user
+    leaders = eventable.characters_with_leader_role.select { |character| character.user_id == user_id }
+    return nil if leaders.empty?
+    return ['rl', nil] if leaders.any? { |character| character.guild_role.name == 'rl' }
+    class_leading = leaders.select { |character| character.guild_role.name == 'cl' }
+    return nil if class_leading.empty?
+    ['cl', class_leading.map! { |character| character.character_class.name['en'] }]
+  end
+
   private
 
   def slug_candidates

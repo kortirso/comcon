@@ -5,6 +5,12 @@ describe SubscribePolicy do
   let!(:owner_character) { create :character, user: owner }
   let!(:event) { create :event, owner: owner_character }
   let!(:closed_event) { create :event, owner: owner_character, start_time: DateTime.now + 1.hour, hours_before_close: 24 }
+  let!(:guild) { create :guild }
+  let!(:guild_character1) { create :character, user: user, guild: guild }
+  let!(:guild_character2) { create :character, user: owner, guild: guild }
+  let!(:character_class) { create :character_class, :warrior }
+  let!(:guild_character3) { create :character, user: owner, guild: guild, character_class: character_class }
+  let!(:guild_event) { create :event, eventable: guild }
 
   describe '#create?' do
     context 'for invalid status' do
@@ -41,11 +47,61 @@ describe SubscribePolicy do
   describe '#update?' do
     context 'for simple user' do
       context 'for not user subscribe' do
-        let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: event }
-        let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
+        context 'world event' do
+          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: event }
+          let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
-        it 'returns false' do
-          expect(policy_access).to eq false
+          it 'returns false' do
+            expect(policy_access).to eq false
+          end
+        end
+
+        context 'guild event, without guild role, permitted status' do
+          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: guild_event }
+          let(:policy) { described_class.new(subscribe, user: user, status: 'unknown') }
+
+          it 'returns false' do
+            expect(policy_access).to eq false
+          end
+        end
+
+        context 'guild event, without guild role, valid status' do
+          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: guild_event }
+          let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
+
+          it 'returns false' do
+            expect(policy_access).to eq false
+          end
+        end
+
+        context 'guild event, with rl guild role, valid status' do
+          let!(:subscribe) { create :subscribe, character: guild_character2, status: 'signed', event: guild_event }
+          let!(:guild_role) { create :guild_role, guild: guild, character: guild_character1, name: 'rl' }
+          let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
+
+          it 'returns true' do
+            expect(policy_access).to eq true
+          end
+        end
+
+        context 'guild event, with cl guild role, same classes, valid status' do
+          let!(:subscribe) { create :subscribe, character: guild_character2, status: 'signed', event: guild_event }
+          let!(:guild_role) { create :guild_role, guild: guild, character: guild_character1, name: 'cl' }
+          let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
+
+          it 'returns true' do
+            expect(policy_access).to eq true
+          end
+        end
+
+        context 'guild event, with cl guild role, different classes, valid status' do
+          let!(:subscribe) { create :subscribe, character: guild_character3, status: 'signed', event: guild_event }
+          let!(:guild_role) { create :guild_role, guild: guild, character: guild_character1, name: 'cl' }
+          let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
+
+          it 'returns false' do
+            expect(policy_access).to eq false
+          end
         end
       end
 

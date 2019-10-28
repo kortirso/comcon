@@ -114,13 +114,13 @@ export default class LineUp extends React.Component {
       })
       return (
         <div className="user_signers">
-          <p>You can sign your character for this event</p>
-          <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind()} value={this.state.selectedCharacterForSign}>
+          <p>{strings.signCharacter}</p>
+          <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind(this)} value={this.state.selectedCharacterForSign}>
             {characters}
           </select>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'signed')}>Subscribe</button>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'unknown')}>Unknown</button>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'rejected')}>Reject</button>
+          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'signed')}>{strings.subscribe}</button>
+          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'unknown')}>{strings.unknown}</button>
+          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'rejected')}>{strings.reject}</button>
         </div>
       )
     }
@@ -161,7 +161,7 @@ export default class LineUp extends React.Component {
             <td>{character.guild}</td>
             <td>
               <div className="buttons">
-                {this.props.is_owner && option === 'signers' && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
+                {this._checkAdminButton(character) && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
                 {this.props.current_user_id === character.user_id && this._renderUserButton(character.subscribe_for_event.id, option)}
               </div>
             </td>
@@ -204,11 +204,11 @@ export default class LineUp extends React.Component {
         })
 
         lineUp.push(<tr key={index}><td colSpan="6" className="role_name">{role}</td></tr>)
-        if (chars.length === 0) lineUp.push(<tr key={- index}><td colSpan="6">{strings.noData}</td></tr>)
+        if (chars.length === 0) lineUp.push(<tr key={(index + 1) * 4}><td colSpan="6">{strings.noData}</td></tr>)
         else {
           chars.forEach((character) => {
             lineUp.push(
-              <tr className={character.character_class.en} key={character.name}>
+              <tr className={character.character_class.en} key={character.id}>
                 <td><div className="character_name">{character.name}</div></td>
                 <td>{character.level}</td>
                 <td>{character.race[this.props.locale]}</td>
@@ -216,7 +216,7 @@ export default class LineUp extends React.Component {
                 <td>{character.guild}</td>
                 <td>
                   <div className="buttons">
-                    {this.props.is_owner && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
+                    {this._checkAdminButton(character) && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
                     {this.props.current_user_id === character.user_id && this._renderUserButton(character.subscribe_for_event.id, 'signers')}
                   </div>
                 </td>
@@ -235,6 +235,13 @@ export default class LineUp extends React.Component {
         </table>
       )
     }
+  }
+
+  _checkAdminButton(character) {
+    if (this.props.is_owner) return true
+    else if (this.props.guild_role === null) return false
+    else if (this.props.guild_role[0] === 'rl') return true
+    else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1] === character.character_class.en
   }
 
   _renderTableHead() {

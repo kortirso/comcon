@@ -17,7 +17,9 @@
     "reject": "Reject",
     "approve": "Approve",
     "remove": "Remove",
-    "noData": "No data"
+    "noData": "No data",
+    "signCharacter": "You can sign your character for this event",
+    "subscribe": "Subscribe"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -37,6 +39,8 @@
     "reject": "Отклонить",
     "approve": "Утвердить",
     "remove": "Исключить",
-    "noData": "Нет данных"
+    "noData": "Нет данных",
+    "signCharacter": "Вы можете подписать своего персонажа на это событие",
+    "subscribe": "Подписать"
   }
 }
