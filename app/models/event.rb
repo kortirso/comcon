@@ -2,7 +2,7 @@
 class Event < ApplicationRecord
   extend FriendlyId
 
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   belongs_to :owner, class_name: 'Character'
   belongs_to :dungeon, optional: true
@@ -22,11 +22,17 @@ class Event < ApplicationRecord
     where("eventable_type = 'World' AND eventable_id = ? AND fraction_id = ? OR eventable_type = 'Guild' AND eventable_id = ?", character.world_id, character.race.fraction_id, character.guild_id)
   end
 
-  def normalize_friendly_id(text)
-    text.to_slug.transliterate(:russian).normalize.to_s
-  end
-
   def is_open?
     DateTime.now < start_time - hours_before_close.hours
+  end
+
+  private
+
+  def slug_candidates
+    [
+      :name,
+      %i[name owner_id],
+      %i[name owner_id id]
+    ]
   end
 end
