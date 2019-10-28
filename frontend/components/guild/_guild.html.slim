@@ -1,18 +1,4 @@
 = javascript_pack_tag 'guild'
 .container#guild
   h2= @guild.full_name(I18n.locale.to_s)
-  = react_component('Guild', guild_slug: @guild.slug, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
-  /table.table
-    thead
-      tr
-        th= t('characters.name')
-        th= t('characters.race')
-        th= t('characters.level')
-        th
-    tbody
-      - @guild_characters.each do |character|
-        tr class="#{character.character_class.name['en']}"
-          td= character.name
-          td= character.race.name[I18n.locale.to_s]
-          td= character.level
-          td
+  = react_component('Guild', guild_slug: @guild.slug, guild_id: @guild.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token], is_admin: Current.user.is_admin?, is_gm: @user_characters.has_guild_master?, current_user_character_ids: @user_characters.pluck(:id))

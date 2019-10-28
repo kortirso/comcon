@@ -20,4 +20,9 @@ class Character < ApplicationRecord
   has_many :character_professions, dependent: :destroy
   has_many :professions, through: :character_professions
   has_one :guild_role, dependent: :destroy
+
+  def self.has_guild_master?
+    return false if first.nil?
+    GuildRole.where(guild_id: first.guild_id, character_id: pluck(:id)).any? { |character_role| character_role.name == 'gm' }
+  end
 end

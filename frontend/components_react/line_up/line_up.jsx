@@ -115,7 +115,7 @@ export default class LineUp extends React.Component {
       return (
         <div className="user_signers">
           <p>You can sign your character for this event</p>
-          <select className="form-control" onChange={this._onChangeCharacter.bind()} value={this.state.selectedCharacterForSign}>
+          <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind()} value={this.state.selectedCharacterForSign}>
             {characters}
           </select>
           <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'signed')}>Subscribe</button>

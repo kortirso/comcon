@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :subscribes, only: %i[create update]
       resources :professions, only: %i[index]
       resources :recipes, only: %i[index show create update]
+      resources :guild_roles, only: %i[create update destroy]
     end
   end
 

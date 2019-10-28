@@ -2,11 +2,21 @@
   "en": {
     "name": "Name",
     "race": "Race",
-    "level": "Level"
+    "level": "Level",
+    "guildRole": "Guild role",
+    "none": "none",
+    "gm": "Guild master",
+    "rl": "Raid leader",
+    "cl": "Class leader"
   },
   "ru": {
     "name": "Имя персонажа",
     "race": "Раса",
-    "level": "Уровень"
+    "level": "Уровень",
+    "guildRole": "Роль в гильдии",
+    "none": "нет",
+    "gm": "Гильд мастер",
+    "rl": "Рейд лидер",
+    "cl": "Класс лидер"
   }
 }
