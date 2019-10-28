@@ -1,0 +1,12 @@
+{
+  "en": {
+    "name": "Name",
+    "race": "Race",
+    "level": "Level"
+  },
+  "ru": {
+    "name": "Имя персонажа",
+    "race": "Раса",
+    "level": "Уровень"
+  }
+}

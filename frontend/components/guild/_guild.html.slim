@@ -1,6 +1,8 @@
+= javascript_pack_tag 'guild'
 .container#guild
   h2= @guild.full_name(I18n.locale.to_s)
-  table.table
+  = react_component('Guild', guild_slug: @guild.slug, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+  /table.table
     thead
       tr
         th= t('characters.name')
