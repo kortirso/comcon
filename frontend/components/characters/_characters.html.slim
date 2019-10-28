@@ -18,7 +18,8 @@
           td= character.character_class.name[I18n.locale.to_s]
           td= character.level
           td class="#{character.race.fraction.name['en'].downcase}"
-            = character.guild&.name
+            - if character.guild_id.present?
+              = link_to character.guild.name, guild_path(id: character.guild.slug)
           td= character.world.full_name
           td
             = link_to t('buttons.recipes'), recipes_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'

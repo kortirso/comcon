@@ -126,10 +126,10 @@ ActiveRecord::Schema.define(version: 2019_10_28_121715) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "fraction_id"
-    t.string "slug", default: "", null: false
+    t.string "slug"
     t.index ["fraction_id"], name: "index_guilds_on_fraction_id"
     t.index ["name"], name: "index_guilds_on_name"
-    t.index ["slug"], name: "index_guilds_on_slug"
+    t.index ["slug"], name: "index_guilds_on_slug", unique: true
     t.index ["world_id"], name: "index_guilds_on_world_id"
   end
 

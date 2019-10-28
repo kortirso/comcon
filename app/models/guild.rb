@@ -1,3 +1,5 @@
+require 'babosa'
+
 # Represents guild
 class Guild < ApplicationRecord
   include Eventable
@@ -15,6 +17,10 @@ class Guild < ApplicationRecord
       serializer: 'guilds',
       stat_record: guilds.maximum(:updated_at)
     }
+  end
+
+  def normalize_friendly_id(text)
+    text.to_slug.transliterate(:russian).normalize.to_s
   end
 
   def full_name(locale = 'en')

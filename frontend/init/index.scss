@@ -88,6 +88,48 @@ body {
   .horde {
     color: $horde;
   }
+
+  table {
+    tbody {
+      tr {
+        &.Druid {
+          background: $druid;
+        }
+
+        &.Hunter {
+          background: $hunter;
+        }
+
+        &.Mage {
+          background: $mage;
+        }
+
+        &.Paladin {
+          background: $paladin;
+        }
+
+        &.Priest {
+          background: $priest;
+        }
+
+        &.Rogue {
+          background: $rogue;
+        }
+
+        &.Shaman {
+          background: $shaman;
+        }
+
+        &.Warlock {
+          background: $warlock;
+        }
+
+        &.Warrior {
+          background: $warrior;
+        }
+      }
+    }
+  }
 }
 
 * {

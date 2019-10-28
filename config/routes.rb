@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]
     resources :recipes, only: %i[index new edit destroy]
-    resources :guilds, only: %i[index]
+    resources :guilds, only: %i[index show]
 
     root to: 'welcome#index'
   end

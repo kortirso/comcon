@@ -1,3 +1,5 @@
+require 'babosa'
+
 # Represents events
 class Event < ApplicationRecord
   extend FriendlyId
@@ -20,6 +22,10 @@ class Event < ApplicationRecord
 
   def self.available_for_character(character)
     where("eventable_type = 'World' AND eventable_id = ? AND fraction_id = ? OR eventable_type = 'Guild' AND eventable_id = ?", character.world_id, character.race.fraction_id, character.guild_id)
+  end
+
+  def normalize_friendly_id(text)
+    text.to_slug.transliterate(:russian).normalize.to_s
   end
 
   def is_open?

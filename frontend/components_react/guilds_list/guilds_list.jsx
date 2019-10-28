@@ -116,7 +116,7 @@ export default class GuildsList extends React.Component {
   _renderGuilds() {
     return this.state.guilds.map((guild) => {
       return (
-        <tr className="guild_link" onClick={this._goToGuild.bind(this, guild.id)} key={guild.id}>
+        <tr className="guild_link" onClick={this._goToGuild.bind(this, guild.slug)} key={guild.id}>
           <td>{guild.id}</td>
           <td className={guild.fraction.name.en.toLowerCase()}>{guild.name}</td>
           <td>{guild.world.name} ({guild.world.zone})</td>
@@ -137,7 +137,8 @@ export default class GuildsList extends React.Component {
     })
   }
 
-  _goToGuild(guildId) {
+  _goToGuild(guildSlug) {
+    window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/guilds/${guildSlug}`
   }
 
   render() {
