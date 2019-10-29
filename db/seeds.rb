@@ -111,6 +111,66 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => "Onyxia's Lair", 'ru' => 'Логово Ониксии' }, raid: true, quest_access: true)
 dungeon_form.persist?
 
+dungeon_form = DungeonForm.new(name: { 'en' => 'Ragefire Chasm', 'ru' => 'Огненная пропасть' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Deadmines', 'ru' => 'Мертвые копи' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Wailing Caverns', 'ru' => 'Пещеры Стенаний' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Shadowfang Keep', 'ru' => 'Крепость Темного Клыка' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Blackfathom Deeps', 'ru' => 'Непроглядная Пучина' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Stockade', 'ru' => 'Тюрьма' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Gnomeregan', 'ru' => 'Гномреган' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Razorfen Kraul', 'ru' => 'Лабиринты Иглошкурых' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Scarlet Monastery', 'ru' => 'Монастырь Алого ордена' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Razorfen Downs', 'ru' => 'Курганы Иглошкурых' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Uldaman', 'ru' => 'Ульдаман' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => "Zul'Farrak", 'ru' => "Зул'Фаррак" })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Sunken Temple', 'ru' => 'Затонувший храм' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Blackrock Depths', 'ru' => 'Глубины Черной горы' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Upper Blackrock Spire', 'ru' => 'Вершина Черной горы (верхняя часть)' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Lower Blackrock Spire', 'ru' => 'Вершина Черной горы (нижняя часть)' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Stratholme (living)', 'ru' => 'Стратхольм (живой)' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Stratholme (undead)', 'ru' => 'Стратхольм (мертвый)' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Dire Maul', 'ru' => 'Забытый Город' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Scholomance', 'ru' => 'Некроситет' }, key_access: true)
+dungeon_form.persist?
+
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
 role_form.persist?
 tank = role_form.role
