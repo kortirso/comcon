@@ -88,8 +88,6 @@ export default class RecipesList extends React.Component {
     return this.state.recipes.map((recipe) => {
       return (
         <tr key={recipe.id}>
-          <td>{recipe.id}</td>
-          <td>{recipe.name[this.props.locale]}</td>
           <td><a href={recipe.links[this.props.locale]}>{recipe.name[this.props.locale]}</a></td>
           <td>{recipe.skill}</td>
           <td>
@@ -108,9 +106,7 @@ export default class RecipesList extends React.Component {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>{strings.id}</th>
               <th>{strings.name}</th>
-              <th>{strings.links}</th>
               <th>{strings.skill}</th>
               <th></th>
             </tr>
