@@ -10,6 +10,7 @@ nav.navbar
         = link_to t('navigation.characters'), characters_path, class: 'with_right_margin'
         = link_to t('navigation.guilds'), guilds_path, class: 'with_right_margin'
         = link_to t('navigation.events'), events_path, class: 'with_right_margin'
+        = link_to t('navigation.craft'), craft_index_path, class: 'with_right_margin'
     .right
       - if user_signed_in?
         = link_to t('navigation.logout'), destroy_user_session_path, method: :delete

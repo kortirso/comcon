@@ -1,0 +1,32 @@
+{
+  "en": {
+    "none": "none",
+    "filterProfession": "Profession",
+    "filterRecipe": "Recipe",
+    "filterWorld": "In realm",
+    "filterGuild": "In guild",
+    "filterFraction": "At fraction",
+    "search": "Search",
+    "name": "Name",
+    "race": "Race",
+    "level": "Level",
+    "guild": "Guild",
+    "noData": "No crafters data yet",
+    "searchTrue": "Search was made"
+  },
+  "ru": {
+    "none": "все",
+    "filterProfession": "Профессия",
+    "filterRecipe": "Рецепт",
+    "filterWorld": "В мире",
+    "filterGuild": "В гильдии",
+    "filterFraction": "Во фракции",
+    "search": "Поиск",
+    "name": "Имя",
+    "race": "Раса",
+    "level": "Уровень",
+    "guild": "Гильдия",
+    "noData": "Пока никаких данных о крафтерах",
+    "searchTrue": "Поиск был осуществлен"
+  }
+}

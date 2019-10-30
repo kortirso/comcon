@@ -22,6 +22,10 @@ Rails.application.routes.draw do
       resources :professions, only: %i[index]
       resources :recipes, only: %i[index show create update]
       resources :guild_roles, only: %i[create update destroy]
+      resources :craft, only: %i[] do
+        get :filter_values, on: :collection
+        get :search, on: :collection
+      end
     end
   end
 
@@ -35,6 +39,7 @@ Rails.application.routes.draw do
     resources :users, except: %i[show new create]
     resources :recipes, only: %i[index new edit destroy]
     resources :guilds, only: %i[index show]
+    resources :craft, only: %i[index]
 
     root to: 'welcome#index'
   end

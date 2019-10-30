@@ -6,6 +6,7 @@ en:
     characters: Characters
     guilds: Guilds
     events: Events
+    craft: Search craft
     login: Login
     sign_up: Sign Up
     logout: Logout
@@ -69,3 +70,6 @@ en:
     add: Add
   character_recipes:
     no_data: Your character does not have professions with recipes
+  craft:
+    title: Crafters search
+    description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help!
