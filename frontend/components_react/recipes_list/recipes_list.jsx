@@ -107,7 +107,7 @@ export default class RecipesList extends React.Component {
           <td>{recipe.skill}</td>
           <td>
             <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}/edit`}>{strings.edit}</a>
-            <a data-confirm="Are you sure?" className="btn btn-primary btn-sm" rel="nofollow" data-method="delete" href={`/recipes/${recipe.id}`}>{strings.deleteButton}</a>
+            <a data-confirm="Are you sure?" className="btn btn-primary btn-sm" rel="nofollow" data-method="delete" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}`}>{strings.deleteButton}</a>
           </td>
         </tr>
       )
