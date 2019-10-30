@@ -16,14 +16,20 @@ export default class RecipesList extends React.Component {
     super(props)
     this.state = {
       professions: [],
-      profession: 0,
-      recipes: []
+      profession: '0',
+      professionIds: [],
+      recipes: [],
+      currentRecipes: []
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
     this._getProfessions()
+  }
+
+  componentDidMount() {
+    this._getRecipes()
   }
 
   _getProfessions() {
@@ -34,20 +40,21 @@ export default class RecipesList extends React.Component {
         const professions = data.professions.filter((profession) => {
           return profession.recipeable
         })
-        this.setState({professions: professions})
+        let professionIds = {}
+        professions.forEach((profession) => {
+          professionIds[profession.id] = profession.name[this.props.locale]
+        })
+        this.setState({professions: professions, professionIds: professionIds})
       }
     })
   }
 
   _getRecipes() {
-    let params = []
-    if (this.state.profession !== '0') params.push(`profession_id=${this.state.profession}`)
-    const url = `/api/v1/recipes.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
-      url: url,
+      url: `/api/v1/recipes.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({recipes: data.recipes})
+        this.setState({recipes: data.recipes, currentRecipes: data.recipes})
       }
     })
   }
@@ -79,15 +86,23 @@ export default class RecipesList extends React.Component {
   }
 
   _onChangeProfession(event) {
-    this.setState({profession: event.target.value}, () => {
-      this._getRecipes()
+    this.setState({profession: event.target.value, currentRecipes: this._defineCurrentRecipes(parseInt(event.target.value))})
+  }
+
+  _defineCurrentRecipes(profession_id) {
+    if (profession_id === 0) return this.state.recipes
+    return this.state.recipes.filter((recipe) => {
+      return recipe.profession_id === profession_id
     })
   }
 
   _renderRecipes() {
-    return this.state.recipes.map((recipe) => {
+    return this.state.currentRecipes.map((recipe) => {
       return (
         <tr key={recipe.id}>
+          {this.state.profession === '0' &&
+            <td>{this.state.professionIds[recipe.profession_id]}</td>
+          }
           <td><a href={recipe.links[this.props.locale]}>{recipe.name[this.props.locale]}</a></td>
           <td>{recipe.skill}</td>
           <td>
@@ -106,6 +121,9 @@ export default class RecipesList extends React.Component {
         <table className="table table-striped">
           <thead>
             <tr>
+              {this.state.profession === '0' &&
+                <th>{strings.profession}</th>
+              }
               <th>{strings.name}</th>
               <th>{strings.skill}</th>
               <th></th>

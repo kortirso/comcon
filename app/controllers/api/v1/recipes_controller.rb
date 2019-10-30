@@ -1,8 +1,10 @@
 module Api
   module V1
     class RecipesController < Api::V1::BaseController
+      include Concerns::RecipeCacher
+
       before_action :is_admin?
-      before_action :find_recipes, only: %i[index]
+      before_action :get_recipes_from_cache, only: %i[index]
       before_action :find_recipe, only: %i[show update]
 
       resource_description do
@@ -13,14 +15,14 @@ module Api
       api :GET, '/v1/recipes.json', 'Get all recipes'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: @recipes, status: 200
+        render json: { recipes: @recipes_json }, status: 200
       end
 
       api :GET, '/v1/recipes/:id.json', 'Show recipe info'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def show
-        render json: @recipe, status: 200
+        render json: { recipe: @recipe }, status: 200
       end
 
       api :POST, '/v1/recipes.json', 'Create recipe'
@@ -29,7 +31,7 @@ module Api
       def create
         recipe_form = RecipeForm.new(recipe_params)
         if recipe_form.persist?
-          render json: recipe_form.recipe, status: 201
+          render json: { recipe: recipe_form.recipe }, status: 201
         else
           render json: { errors: recipe_form.errors.full_messages }, status: 409
         end
@@ -42,18 +44,13 @@ module Api
       def update
         recipe_form = RecipeForm.new(@recipe.attributes.merge(recipe_params))
         if recipe_form.persist?
-          render json: recipe_form.recipe, status: 200
+          render json: { recipe: recipe_form.recipe }, status: 200
         else
           render json: { errors: recipe_form.errors.full_messages }, status: 409
         end
       end
 
       private
-
-      def find_recipes
-        @recipes = Recipe.order(skill: :desc)
-        @recipes = @recipes.where(profession_id: params[:profession_id]) if params[:profession_id].present?
-      end
 
       def find_recipe
         @recipe = Recipe.find_by(id: params[:id])
