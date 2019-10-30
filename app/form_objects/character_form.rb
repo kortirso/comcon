@@ -13,6 +13,7 @@ class CharacterForm
   attribute :guild, Guild
 
   validates :name, :level, :race, :character_class, :user, :world, presence: true
+  validates :name, length: { in: 2..20 }
   validates :level, inclusion: 1..60
   validate :race_class_restrictions
   validate :guild_from_world

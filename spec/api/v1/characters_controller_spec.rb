@@ -75,7 +75,7 @@ RSpec.describe 'Characters API' do
       end
 
       context 'for valid params' do
-        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '1', level: 1, race_id: race.id, character_class_id: character_class.id, guild_id: guild.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
+        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '134', level: 1, race_id: race.id, character_class_id: character_class.id, guild_id: guild.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
 
         it 'calls CreateCharacterRoles' do
           expect(CreateCharacterRoles).to receive(:call).and_call_original
@@ -171,7 +171,7 @@ RSpec.describe 'Characters API' do
         end
 
         context 'for valid params' do
-          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '1', level: 1, race_id: character.race_id, character_class_id: character.character_class_id, guild_id: character.guild_id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
+          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '123', level: 1, race_id: character.race_id, character_class_id: character.character_class_id, guild_id: character.guild_id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
 
           it 'calls CreateCharacterRoles' do
             expect(CreateCharacterRoles).to receive(:call).and_call_original
@@ -195,7 +195,7 @@ RSpec.describe 'Characters API' do
             request
             character.reload
 
-            expect(character.name).to eq '1'
+            expect(character.name).to eq '123'
           end
 
           context 'in answer' do
