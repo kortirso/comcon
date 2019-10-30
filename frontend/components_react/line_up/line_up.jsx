@@ -161,7 +161,7 @@ export default class LineUp extends React.Component {
             <td>{character.guild}</td>
             <td>
               <div className="buttons">
-                {this._checkAdminButton(character) && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
+                {this._checkAdminButton(character, option) && this._renderAdminButton(character.subscribe_for_event.id, 'approved', strings.approve)}
                 {this.props.current_user_id === character.user_id && this._renderUserButton(character.subscribe_for_event.id, option)}
               </div>
             </td>
@@ -216,7 +216,7 @@ export default class LineUp extends React.Component {
                 <td>{character.guild}</td>
                 <td>
                   <div className="buttons">
-                    {this._checkAdminButton(character) && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
+                    {this._checkAdminButton(character, 'lineup') && this._renderAdminButton(character.subscribe_for_event.id, 'signed', strings.remove)}
                     {this.props.current_user_id === character.user_id && this._renderUserButton(character.subscribe_for_event.id, 'signers')}
                   </div>
                 </td>
@@ -237,8 +237,9 @@ export default class LineUp extends React.Component {
     }
   }
 
-  _checkAdminButton(character) {
-    if (this.props.is_owner) return true
+  _checkAdminButton(character, option) {
+    if (option !== 'signers' && option !== 'lineup') return false
+    else if (this.props.is_owner) return true
     else if (this.props.guild_role === null) return false
     else if (this.props.guild_role[0] === 'rl') return true
     else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1] === character.character_class.en
