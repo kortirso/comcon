@@ -19,6 +19,7 @@ class EventForm
   validates :event_type, inclusion: { in: %w[instance raid custom] }
   validates :eventable_type, inclusion: { in: %w[World Guild] }
   validates :hours_before_close, inclusion: 0..24
+  validates :name, length: { in: 2..20 }
 
   attr_reader :event
 

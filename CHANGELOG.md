@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - event form with react component
 - time presentation in local time zone for events page
+- name length limit for event
 
 ### Fixed
 - bug with events for not current month
