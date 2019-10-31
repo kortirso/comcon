@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - event form with react component
 - time presentation in local time zone for events page
 
+### Fixed
+- bug with events for not current month
+
 ## [0.5.2] - 2019-10-30
 ### Added
 - recipes cacher

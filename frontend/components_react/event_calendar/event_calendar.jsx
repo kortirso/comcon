@@ -293,6 +293,8 @@ export default class EventCalendar extends React.Component {
       daysAmount: (new Date(currentYear, currentMonth, 0)).getDate(),
       currentYear: currentYear,
       currentMonth: currentMonth
+    }, () => {
+      this._getEvents()
     })
   }
 
