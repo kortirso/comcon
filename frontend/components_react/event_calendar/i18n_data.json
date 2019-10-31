@@ -10,7 +10,17 @@
     "filterCharacter": "Filter by character",
     "previous": "Previous month",
     "next": "Next month",
-    "timeZone": "The time on the calendar is for your time zone"
+    "timeZone": "The time on the calendar is for your time zone",
+    "subscribed": "Subscribed",
+    "edit": "Edit",
+    "place": "Place",
+    "startTime": "Start time",
+    "noEvents": "No event selected",
+    "at": "at",
+    "selectedDay": "Chosen day",
+    "selectedEvent": "Chosen event",
+    "noDay": "No day selected",
+    "noDayEvents": "No events at this day"
   },
   "ru": {
     "none": "все",
@@ -23,6 +33,16 @@
     "filterCharacter": "Фильтр по персонажам",
     "previous": "Предыдущий месяц",
     "next": "Следующий месяц",
-    "timeZone": "Время в календаре указано для вашего часового пояса"
+    "timeZone": "Время в календаре указано для вашего часового пояса",
+    "subscribed": "Подписавшиеся",
+    "edit": "Изменить",
+    "place": "Место проведения",
+    "startTime": "Время начала",
+    "noEvents": "Пока не выбрано никаких событий",
+    "at": "в",
+    "selectedDay": "Выбранный день",
+    "selectedEvent": "Выбранное событие",
+    "noDay": "Пока не выбран никакой день",
+    "noDayEvents": "В данный день нет никаких событий"
   }
 }

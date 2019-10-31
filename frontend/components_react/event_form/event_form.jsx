@@ -59,7 +59,7 @@ export default class EventForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/events.json?access_token=${this.props.access_token}`,
-      data: { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger } },
+      data: { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
       },

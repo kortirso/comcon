@@ -308,7 +308,7 @@ export default class EventCalendar extends React.Component {
   }
 
   _renderCurrentDay() {
-    if (this.state.currentDayId === null) return <p>Пока не выбран никакой день</p>
+    if (this.state.currentDayId === null) return <p>{strings.noDay}</p>
     else {
       const filtered = this.state.events.filter((event) => {
         return event.date == this.state.currentDayId
@@ -326,14 +326,19 @@ export default class EventCalendar extends React.Component {
       return (
         <div className="current-day-data">
           <p className="current-date">{this.state.currentDayId}</p>
-          {events}
+          {this._renderDayEvents(events)}
         </div>
       )
     }
   }
 
+  _renderDayEvents(events) {
+    if (events.length === 0) return <p>{strings.noDayEvents}</p>
+    return events
+  }
+
   _renderCurrentEvent() {
-    if (this.state.currentEventId === null) return <p>Пока не выбрано никаких событий</p>
+    if (this.state.currentEventId === null) return <p>{strings.noEvents}</p>
     else {
       const currentEvent = this.state.events.filter((event) => {
         return event.id === this.state.currentEventId
@@ -347,16 +352,16 @@ export default class EventCalendar extends React.Component {
         <div className="current-event-data">
           <p className={'name ' + this._eventFractionClass(currentEvent.fraction_id)}>{currentEvent.name}</p>
           {currentDungeon.length !== 0 &&
-            <p>Место проведения - {currentDungeon[0].name[this.props.locale]}</p>
+            <p>{strings.place} - {currentDungeon[0].name[this.props.locale]}</p>
           }
-          <p>Время начала - {currentEvent.date} в {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+          <p>{strings.startTime} - {currentEvent.date} {strings.at} {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
           {currentEvent.description !== '' &&
             <p>{currentEvent.description}</p>
           }
           <div className="buttons">
-            <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}`}>Подписавшиеся</a>
+            <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}`}>{strings.subscribed}</a>
             {this.props.user_character_ids.includes(currentEvent.owner_id) &&
-              <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.id}/edit`}>Изменить</a>
+              <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.id}/edit`}>{strings.edit}</a>
             }
           </div>
         </div>
@@ -383,11 +388,11 @@ export default class EventCalendar extends React.Component {
           </div>
           <div className="current-data">
             <div className="current-day">
-              <p>Выбранный день</p>
+              <p>{strings.selectedDay}</p>
               {this._renderCurrentDay()}
             </div>
             <div className="current-event">
-              <p>Выбранное событие</p>
+              <p>{strings.selectedEvent}</p>
               {this._renderCurrentEvent()}
             </div>
           </div>
