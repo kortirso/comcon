@@ -29,7 +29,8 @@ export default class EventCalendar extends React.Component {
       guild: 'none',
       fraction: 'none',
       character: 'none',
-      currentEventId: null
+      currentEventId: null,
+      currentDayId: null
     }
   }
 
@@ -96,7 +97,7 @@ export default class EventCalendar extends React.Component {
     for (let i = 0; i < this.state.daysAmount; i++) {
       days.push(
         <div className="day" key={i}>
-          <div className="day_content">
+          <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i + 1)}>
             <div className="day_date">{i + 1}.{this.state.currentMonth}</div>
             {this._renderEvents(i + 1)}
           </div>
@@ -120,6 +121,10 @@ export default class EventCalendar extends React.Component {
         </a>
       )
     })
+  }
+
+  _onSelectCurrentDay(value) {
+    this.setState({currentDayId: `${value}.${this.state.currentMonth}.${this.state.currentYear}`})
   }
 
   _eventFractionClass(fractionId) {
@@ -246,25 +251,25 @@ export default class EventCalendar extends React.Component {
   }
 
   _onChangeWorld(event) {
-    this.setState({world: event.target.value, currentEventId: null}, () => {
+    this.setState({world: event.target.value, currentEventId: null, currentDayId: null}, () => {
       this._getEvents()
     })
   }
 
   _onChangeGuild(event) {
-    this.setState({guild: event.target.value, currentEventId: null}, () => {
+    this.setState({guild: event.target.value, currentEventId: null, currentDayId: null}, () => {
       this._getEvents()
     })
   }
 
   _onChangeFraction(event) {
-    this.setState({fraction: event.target.value, currentEventId: null}, () => {
+    this.setState({fraction: event.target.value, currentEventId: null, currentDayId: null}, () => {
       this._getEvents()
     })
   }
 
   _onChangeCharacter(event) {
-    this.setState({character: event.target.value, currentEventId: null}, () => {
+    this.setState({character: event.target.value, currentEventId: null, currentDayId: null}, () => {
       this._getEvents()
     })
   }
@@ -295,10 +300,36 @@ export default class EventCalendar extends React.Component {
       daysAmount: (new Date(currentYear, currentMonth, 0)).getDate(),
       currentYear: currentYear,
       currentMonth: currentMonth,
-      currentEventId: null
+      currentEventId: null,
+      currentDayId: null
     }, () => {
       this._getEvents()
     })
+  }
+
+  _renderCurrentDay() {
+    if (this.state.currentDayId === null) return <p>Пока не выбран никакой день</p>
+    else {
+      const filtered = this.state.events.filter((event) => {
+        return event.date == this.state.currentDayId
+      })
+      const events = filtered.map((event) => {
+        const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        const minutes = event.time.minutes
+        return (
+          <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
+            <p className="name">{event.name}</p>
+            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+          </a>
+        )
+      })
+      return (
+        <div className="current-day-data">
+          <p className="current-date">{this.state.currentDayId}</p>
+          {events}
+        </div>
+      )
+    }
   }
 
   _renderCurrentEvent() {
@@ -350,9 +381,15 @@ export default class EventCalendar extends React.Component {
             {this._renderMonthDays()}
             {this._renderPreviousMonth('next')}
           </div>
-          <div className="current-event">
-            <p>Выбранное событие</p>
-            {this._renderCurrentEvent()}
+          <div className="current-data">
+            <div className="current-day">
+              <p>Выбранный день</p>
+              {this._renderCurrentDay()}
+            </div>
+            <div className="current-event">
+              <p>Выбранное событие</p>
+              {this._renderCurrentEvent()}
+            </div>
           </div>
         </div>
       </div>

@@ -37,22 +37,62 @@
     max-width: 1600px;
     margin: 0 auto;
 
-    .current-event {
+    .current-data {
       width: 400px;
-      padding-top: 1rem;
       padding-left: 50px;
 
-      .current-event-data {
-        p {
-          margin-bottom: 0.25rem;
+      p {
+        margin-bottom: 0.25rem;
+      }
 
-          &.name {
-            font-size: 1.5rem;
+      .current-day {
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+
+        .current-day-data {
+          .event {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0 0.25rem;
+
+            &.alliance {
+              color: $alliance;
+            }
+
+            &.horde {
+              color: $horde;
+            }
+
+            .name, .time {
+              margin: 0;
+              font-size: 0.9rem;
+            }
+
+            &:hover {
+              cursor: pointer;
+              background: #F4F4F4;
+              text-decoration: none;
+            }
           }
         }
+      }
 
-        .buttons {
-          margin-top: 1rem;
+      .current-event {
+        padding-top: 1rem;
+
+        .current-event-data {
+          p {
+            margin-bottom: 0.25rem;
+
+            &.name {
+              font-size: 1.5rem;
+            }
+          }
+
+          .buttons {
+            margin-top: 1rem;
+          }
         }
       }
     }

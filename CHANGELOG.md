@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ## Added
 - show selected event at calendar
+- show selected day at calendar
 
 ### Modified
 - event form with react component
