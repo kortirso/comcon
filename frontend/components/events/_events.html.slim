@@ -1,7 +1,9 @@
-.container
-  - if Current.user.characters.size.positive?
-    = link_to t('events.add'), new_event_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+- if Current.user.characters.size.positive?
+  .event_calendar
+    .container
+      = link_to t('events.add'), new_event_path, class: 'btn btn-primary btn-sm with_bottom_margin'
     = javascript_pack_tag 'event_calendar'
-    = react_component('EventCalendar', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
-  - else
+    = react_component('EventCalendar', user_character_ids: @user_character_ids, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+- else
+  .container
     p= t('events.no_characters')

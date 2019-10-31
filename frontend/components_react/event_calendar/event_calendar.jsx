@@ -20,6 +20,7 @@ export default class EventCalendar extends React.Component {
       worlds: [],
       guilds: [],
       fractions: [],
+      dungeons: [],
       alliance: 0,
       horde: 0,
       characters: [],
@@ -27,7 +28,8 @@ export default class EventCalendar extends React.Component {
       world: 'none',
       guild: 'none',
       fraction: 'none',
-      character: 'none'
+      character: 'none',
+      currentEventId: null
     }
   }
 
@@ -70,7 +72,7 @@ export default class EventCalendar extends React.Component {
           if (fraction.name.en === 'Horde') horde = fraction.id
           else alliance = fraction.id
         })
-        this.setState({worlds: data.worlds, fractions: data.fractions, alliance: alliance, horde: horde, guilds: data.guilds, characters: data.characters})
+        this.setState({worlds: data.worlds, fractions: data.fractions, alliance: alliance, horde: horde, guilds: data.guilds, characters: data.characters, dungeons: data.dungeons})
       }
     })
   }
@@ -112,7 +114,7 @@ export default class EventCalendar extends React.Component {
       const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
       const minutes = event.time.minutes
       return (
-        <a className={this._eventFractionClass(event.fraction_id)} key={event.id} href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${event.slug}`}>
+        <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
           <p className="name">{event.name}</p>
           <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
         </a>
@@ -233,36 +235,36 @@ export default class EventCalendar extends React.Component {
 
   _onChangeAccessType(event) {
     if (event.target.value === 'none') {
-      this.setState({accessType: 'none', world: 'none', guild: 'none'}, () => {
+      this.setState({accessType: 'none', world: 'none', guild: 'none', currentEventId: null}, () => {
         this._getEvents()
       })
     } else {
-      this.setState({accessType: event.target.value, world: 'none', guild: 'none'}, () => {
+      this.setState({accessType: event.target.value, world: 'none', guild: 'none', currentEventId: null}, () => {
         this._getEvents()
       })
     }
   }
 
   _onChangeWorld(event) {
-    this.setState({world: event.target.value}, () => {
+    this.setState({world: event.target.value, currentEventId: null}, () => {
       this._getEvents()
     })
   }
 
   _onChangeGuild(event) {
-    this.setState({guild: event.target.value}, () => {
+    this.setState({guild: event.target.value, currentEventId: null}, () => {
       this._getEvents()
     })
   }
 
   _onChangeFraction(event) {
-    this.setState({fraction: event.target.value}, () => {
+    this.setState({fraction: event.target.value, currentEventId: null}, () => {
       this._getEvents()
     })
   }
 
   _onChangeCharacter(event) {
-    this.setState({character: event.target.value}, () => {
+    this.setState({character: event.target.value, currentEventId: null}, () => {
       this._getEvents()
     })
   }
@@ -292,25 +294,66 @@ export default class EventCalendar extends React.Component {
       previousDaysAmount: previous,
       daysAmount: (new Date(currentYear, currentMonth, 0)).getDate(),
       currentYear: currentYear,
-      currentMonth: currentMonth
+      currentMonth: currentMonth,
+      currentEventId: null
     }, () => {
       this._getEvents()
     })
   }
 
+  _renderCurrentEvent() {
+    if (this.state.currentEventId === null) return <p>Пока не выбрано никаких событий</p>
+    else {
+      const currentEvent = this.state.events.filter((event) => {
+        return event.id === this.state.currentEventId
+      })[0]
+      const currentDungeon = this.state.dungeons.filter((dungeon) => {
+        return dungeon.id === currentEvent.dungeon_id
+      })
+      const hours = currentEvent.time.hours - this.state.timeZoneOffsetMinutes / 60
+      const minutes = currentEvent.time.minutes
+      return (
+        <div className="current-event-data">
+          <p className={'name ' + this._eventFractionClass(currentEvent.fraction_id)}>{currentEvent.name}</p>
+          {currentDungeon.length !== 0 &&
+            <p>Место проведения - {currentDungeon[0].name[this.props.locale]}</p>
+          }
+          <p>Время начала - {currentEvent.date} в {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+          {currentEvent.description !== '' &&
+            <p>{currentEvent.description}</p>
+          }
+          <div className="buttons">
+            <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}`}>Подписавшиеся</a>
+            {this.props.user_character_ids.includes(currentEvent.owner_id) &&
+              <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.id}/edit`}>Изменить</a>
+            }
+          </div>
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div className="events">
-        {this._renderFilters()}
-        <div className="calendar_arrows">
-          <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
-          <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
+        <div className="container">
+          {this._renderFilters()}
+          <div className="calendar_arrows">
+            <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
+            <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
+          </div>
+          <p>{strings.timeZone}</p>
         </div>
-        <p>{strings.timeZone}</p>
-        <div className="calendar">
-          {this._renderPreviousMonth('previous')}
-          {this._renderMonthDays()}
-          {this._renderPreviousMonth('next')}
+        <div className="calendar-block">
+          <div className="calendar">
+            {this._renderPreviousMonth('previous')}
+            {this._renderMonthDays()}
+            {this._renderPreviousMonth('next')}
+          </div>
+          <div className="current-event">
+            <p>Выбранное событие</p>
+            {this._renderCurrentEvent()}
+          </div>
         </div>
       </div>
     )

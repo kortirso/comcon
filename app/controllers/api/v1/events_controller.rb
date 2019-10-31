@@ -11,7 +11,7 @@ module Api
       before_action :find_event, only: %i[show]
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
-      before_action :get_dungeons_from_cache, only: %i[event_form_values]
+      before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
 
       def index
         render json: {
@@ -39,7 +39,8 @@ module Api
           worlds: @worlds_json,
           fractions: @fractions_json,
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds]
+          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds],
+          dungeons: @dungeons_json
         }, status: 200
       end
 

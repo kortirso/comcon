@@ -1,5 +1,9 @@
 @import '../../init/variables.scss';
 
+.event_calendar {
+  width: 100%;
+}
+
 .events {
   .filters {
     display: flex;
@@ -28,7 +32,34 @@
     margin-bottom: 1rem;
   }
 
+  .calendar-block {
+    display: flex;
+    max-width: 1600px;
+    margin: 0 auto;
+
+    .current-event {
+      width: 400px;
+      padding-top: 1rem;
+      padding-left: 50px;
+
+      .current-event-data {
+        p {
+          margin-bottom: 0.25rem;
+
+          &.name {
+            font-size: 1.5rem;
+          }
+        }
+
+        .buttons {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+
   .calendar {
+    flex: 1;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
