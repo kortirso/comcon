@@ -3,7 +3,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :validatable
 
   has_many :characters, dependent: :destroy
-  has_many :guilds, through: :characters
+  has_many :guilds, -> { distinct }, through: :characters
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
 
