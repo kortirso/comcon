@@ -15,7 +15,8 @@ Rails.application.routes.draw do
       resources :characters, only: %i[show create update] do
         get :default_values, on: :collection
       end
-      resources :events, only: %i[index show create] do
+      resources :events, only: %i[index show create update] do
+        get :subscribers, on: :member
         get :filter_values, on: :collection
         get :event_form_values, on: :collection
       end
@@ -35,7 +36,7 @@ Rails.application.routes.draw do
       get :recipes, on: :member
       post :update_recipes, on: :member
     end
-    resources :events, only: %i[index show new]
+    resources :events, only: %i[index show new edit]
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]
     resources :recipes, only: %i[index new edit destroy]

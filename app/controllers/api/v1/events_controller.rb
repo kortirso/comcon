@@ -8,22 +8,29 @@ module Api
 
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
-      before_action :find_event, only: %i[show]
+      before_action :find_event, only: %i[show update subscribers]
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
 
+      api :GET, '/v1/events.json', 'Show events'
+      error code: 401, desc: 'Unauthorized'
       def index
         render json: {
           events: ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventSerializer).as_json[:events]
         }, status: 200
       end
 
+      api :GET, '/v1/events/:id.json', 'Show event info'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
       def show
-        authorize! @event
-        render_event_characters(@event)
+        render json: @event, status: 200
       end
 
+      api :POST, '/v1/events.json', 'Create event'
+      error code: 401, desc: 'Unauthorized'
+      error code: 409, desc: 'Conflict'
       def create
         event_form = EventForm.new(event_params)
         if event_form.persist?
@@ -32,6 +39,27 @@ module Api
         else
           render json: { errors: event_form.errors.full_messages }, status: 409
         end
+      end
+
+      api :PATCH, '/v1/events/:id.json', 'Update event'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 409, desc: 'Conflict'
+      def update
+        event_form = EventForm.new(@event.attributes.merge(event_params))
+        if event_form.persist?
+          render json: event_form.event, status: 200
+        else
+          render json: { errors: event_form.errors.full_messages }, status: 409
+        end
+      end
+
+      api :GET, '/v1/events/:id/subscribers.json', 'Show event subscribers'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def subscribers
+        authorize! @event
+        render_event_characters(@event)
       end
 
       def filter_values
@@ -78,7 +106,7 @@ module Api
       def event_params
         h = params.require(:event).permit(:name, :eventable_type, :hours_before_close, :description).to_h
         h[:start_time] = Time.at(params[:event][:start_time].to_i).utc
-        h[:owner] = Current.user.characters.find_by(id: params[:event][:owner_id])
+        h[:owner] = @event.present? ? @event.owner : Current.user.characters.find_by(id: params[:event][:owner_id])
         h[:dungeon] = Dungeon.find_by(id: params[:event][:dungeon_id])
         h
       end

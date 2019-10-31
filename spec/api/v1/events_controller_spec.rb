@@ -36,16 +36,31 @@ RSpec.describe 'Events API' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
-      let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-      before { get "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token } }
 
-      it 'returns status 200' do
-        expect(response.status).to eq 200
+      context 'for unexisted event' do
+        before { get '/api/v1/events/unexisted.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
       end
 
-      %w[user_characters characters].each do |attr|
-        it "and contains #{attr}" do
-          expect(response.body).to have_json_path(attr)
+      context 'for existed event' do
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+        before { get "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name date time slug fraction_id description dungeon_id owner_id event_type eventable_type].each do |attr|
+          it "and contains event #{attr}" do
+            expect(response.body).to have_json_path("event/#{attr}")
+          end
         end
       end
     end
@@ -118,6 +133,131 @@ RSpec.describe 'Events API' do
 
     def do_request(headers = {})
       post '/api/v1/events.json', params: { event: { name: '1' } }, headers: headers
+    end
+  end
+
+  describe 'PATCH#update' do
+    let!(:event) { create :event }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let!(:character) { create :character, user: user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted event' do
+        before { patch '/api/v1/events/unexisted.json', params: { access_token: access_token, event: { name: '123' } } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed event' do
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction, owner: character }
+
+        context 'for invalid params' do
+          let(:request) { patch "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token, event: { name: '' } } }
+
+          it 'does not update event' do
+            request
+            world_event.reload
+
+            expect(world_event.name).to_not eq ''
+          end
+
+          context 'in answer' do
+            before { request }
+
+            it 'returns status 409' do
+              expect(response.status).to eq 409
+            end
+
+            it 'and returns error message' do
+              expect(JSON.parse(response.body)['errors']).to_not eq nil
+            end
+          end
+        end
+
+        context 'for valid params' do
+          let(:request) { patch "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token, event: { name: 'NEW Cool', dungeon_id: world_event.dungeon_id, start_time: event.start_time.to_i } } }
+
+          it 'updates event' do
+            request
+            world_event.reload
+
+            expect(world_event.name).to eq 'NEW Cool'
+          end
+
+          context 'in answer' do
+            before { request }
+
+            it 'returns status 200' do
+              expect(response.status).to eq 200
+            end
+
+            %w[id name date time slug fraction_id description dungeon_id owner_id event_type eventable_type].each do |attr|
+              it "and contains event #{attr}" do
+                expect(response.body).to have_json_path("event/#{attr}")
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      patch "/api/v1/events/#{event.id}.json", params: { event: { name: '1' } }, headers: headers
+    end
+  end
+
+  describe 'GET#subscribers' do
+    let!(:event) { create :event }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+      let!(:character) { create :character, user: user }
+
+      context 'for unexisted event' do
+        before { get '/api/v1/events/unexisted/subscribers.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed event' do
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+        before { get "/api/v1/events/#{world_event.id}/subscribers.json", params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[user_characters characters].each do |attr|
+          it "and contains #{attr}" do
+            expect(response.body).to have_json_path(attr)
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get "/api/v1/events/#{event.id}/subscribers.json", headers: headers
     end
   end
 

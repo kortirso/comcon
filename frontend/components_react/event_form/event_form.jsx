@@ -14,8 +14,8 @@ $.ajaxSetup({
 });
 
 export default class EventForm extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       name: '',
       creatorId: '',
@@ -27,7 +27,8 @@ export default class EventForm extends React.Component {
       dungeonId: '',
       description: '',
       startTime: this._defineStartTime(),
-      hoursBeforeClose: 0
+      hoursBeforeClose: 0,
+      eventId: props.event_id,
     }
   }
 
@@ -47,7 +48,28 @@ export default class EventForm extends React.Component {
       url: `/api/v1/events/event_form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const currentDungeons = this._selectDungeons(data.dungeons)
-        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id)})
+        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id)}, () => {
+          this._getEvent()
+        })
+      }
+    })
+  }
+
+  _getEvent() {
+    if (this.state.eventId === undefined) return false
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const event = data.event
+        let dates = event.date.split('.').map((time) => {
+          return parseInt(time)
+        })
+        const date = new Date()
+        const timeZoneOffset = date.getTimezoneOffset() / 60
+        dates.push(event.time.hours - timeZoneOffset)
+        dates.push(event.time.minutes)
+        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: event.eventable_type, startTime: dates})
       }
     })
   }
@@ -59,6 +81,23 @@ export default class EventForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/events.json?access_token=${this.props.access_token}`,
+      data: { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } },
+      success: () => {
+        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
+      },
+      error: (data) => {
+        console.log(data.responseJSON.errors)
+      }
+    })
+  }
+
+  _onUpdate() {
+    const state = this.state
+    const startTime = state.startTime
+    const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
+    $.ajax({
+      method: 'PATCH',
+      url: `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`,
       data: { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
@@ -108,10 +147,6 @@ export default class EventForm extends React.Component {
     this.setState({startTime: startTime})
   }
 
-  _onUpdate() {
-
-  }
-
   render() {
     return (
       <div className="character_form">
@@ -122,7 +157,7 @@ export default class EventForm extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="event_owner_id">{strings.creator}</label>
-            <select className="form-control form-control-sm" id="event_owner_id" onChange={(event) => this.setState({creatorId: event.target.value})} value={this.state.creatorId}>
+            <select className="form-control form-control-sm" id="event_owner_id" onChange={(event) => this.setState({creatorId: event.target.value})} value={this.state.creatorId} disabled={this.state.eventId !== undefined}>
               {this._renderUserCharacters()}
             </select>
           </div>

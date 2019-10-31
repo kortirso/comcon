@@ -1,0 +1,4 @@
+= javascript_pack_tag 'event_form'
+.container
+  = react_component('EventForm', event_id: @event.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    

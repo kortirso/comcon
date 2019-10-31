@@ -39,7 +39,7 @@ export default class LineUp extends React.Component {
   _getEventsSubscribes() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/events/${this.props.event_id}.json?access_token=${this.props.access_token}`,
+      url: `/api/v1/events/${this.props.event_id}/subscribers.json?access_token=${this.props.access_token}`,
       success: (data) => {
         this._setState(data)
       }

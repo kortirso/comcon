@@ -38,4 +38,34 @@ describe EventPolicy do
       policy.show?
     end
   end
+
+  describe '#subscribers?' do
+    context 'for available world event' do
+      let(:policy) { described_class.new(world_event1, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'for unavailable world event' do
+      let(:policy) { described_class.new(world_event2, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'for available guild event' do
+      let(:policy) { described_class.new(guild_event, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    def policy_access
+      policy.subscribers?
+    end
+  end
 end
