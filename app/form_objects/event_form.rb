@@ -8,6 +8,7 @@ class EventForm
   attribute :dungeon, Dungeon
   attribute :fraction, Fraction
   attribute :name, String
+  attribute :description, String, default: ''
   attribute :event_type, String
   attribute :eventable_id, Integer
   attribute :eventable_type, String
@@ -15,7 +16,7 @@ class EventForm
   attribute :hours_before_close, Integer, default: 0
 
   validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, :hours_before_close, presence: true
-  validates :event_type, inclusion: { in: %w[instance raid] }
+  validates :event_type, inclusion: { in: %w[instance raid custom] }
   validates :eventable_type, inclusion: { in: %w[World Guild] }
   validates :hours_before_close, inclusion: 0..24
 
@@ -23,7 +24,12 @@ class EventForm
 
   def persist?
     # initial values
-    self.event_type = (dungeon.raid? ? 'raid' : 'instance') if !event_type.present? && dungeon.present?
+    self.event_type =
+      if !event_type.present? && dungeon.present?
+        (dungeon.raid? ? 'raid' : 'instance')
+      else
+        'custom'
+      end
     self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
     self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if owner.present?
     self.fraction = owner.race.fraction if owner.present?

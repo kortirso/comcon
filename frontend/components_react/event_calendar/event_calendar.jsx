@@ -16,6 +16,7 @@ export default class EventCalendar extends React.Component {
       daysAmount: (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate(),
       currentYear: date.getFullYear(),
       currentMonth: date.getMonth() + 1,
+      timeZoneOffsetMinutes: date.getTimezoneOffset(),
       worlds: [],
       guilds: [],
       fractions: [],
@@ -108,10 +109,12 @@ export default class EventCalendar extends React.Component {
       return event.date == `${day}.${this.state.currentMonth}.${this.state.currentYear}`
     })
     return filtered.map((event) => {
+      const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+      const minutes = event.time.minutes
       return (
         <a className={this._eventFractionClass(event.fraction_id)} key={event.id} href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${event.slug}`}>
           <p className="name">{event.name}</p>
-          <p className="time">{event.time}</p>
+          <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
         </a>
       )
     })
@@ -301,6 +304,7 @@ export default class EventCalendar extends React.Component {
           <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
           <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
         </div>
+        <p>{strings.timeZone}</p>
         <div className="calendar">
           {this._renderPreviousMonth('previous')}
           {this._renderMonthDays()}

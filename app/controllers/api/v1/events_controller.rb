@@ -4,12 +4,14 @@ module Api
       include Concerns::EventPresentable
       include Concerns::WorldCacher
       include Concerns::FractionCacher
+      include Concerns::DungeonCacher
 
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
       before_action :find_event, only: %i[show]
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
+      before_action :get_dungeons_from_cache, only: %i[event_form_values]
 
       def index
         render json: {
@@ -22,13 +24,30 @@ module Api
         render_event_characters(@event)
       end
 
+      def create
+        event_form = EventForm.new(event_params)
+        if event_form.persist?
+          CreateSubscribe.call(event: event_form.event, character: event_form.event.owner, status: 'signed')
+          render json: event_form.event, status: 201
+        else
+          render json: { errors: event_form.errors.full_messages }, status: 409
+        end
+      end
+
       def filter_values
         render json: {
           worlds: @worlds_json,
           fractions: @fractions_json,
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
           guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds]
-        }
+        }, status: 200
+      end
+
+      def event_form_values
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
+          dungeons: @dungeons_json
+        }, status: 200
       end
 
       private
@@ -38,7 +57,7 @@ module Api
       end
 
       def find_events
-        @events = Event.where('start_time >= ? AND start_time < ?', @start_of_month.beginning_of_month, @start_of_month.end_of_month)
+        @events = Event.where('start_time >= ? AND start_time < ?', @start_of_month.beginning_of_month, @start_of_month.end_of_month).order(start_time: :asc)
         @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
         @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
         @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
@@ -53,6 +72,14 @@ module Api
       def find_event
         @event = Event.find_by(id: params[:id])
         render_error('Object is not found') if @event.nil?
+      end
+
+      def event_params
+        h = params.require(:event).permit(:name, :eventable_type, :hours_before_close, :description).to_h
+        h[:start_time] = Time.at(params[:event][:start_time].to_i).utc
+        h[:owner] = Current.user.characters.find_by(id: params[:event][:owner_id])
+        h[:dungeon] = Dungeon.find_by(id: params[:event][:dungeon_id])
+        h
       end
     end
   end

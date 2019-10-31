@@ -45,11 +45,25 @@ body {
     justify-content: space-between;
 
     .double_line {
-      width: 48%;
+      width: 49%;
     }
 
     .form-group, .block {
-      width: 48%;
+      width: 49%;
+    }
+  }
+
+  .triple_line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .form-group, .block {
+      width: 32%;
+
+      &.double {
+        width: 66%;
+      }
     }
   }
 

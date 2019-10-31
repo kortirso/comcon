@@ -1,0 +1,38 @@
+{
+  "en": {
+    "name": "Name",
+    "nameLabel": "Event's name",
+    "eventableType": "Access type",
+    "creator": "Creator",
+    "eventType": "Event type",
+    "eventTarget": "Event target",
+    "create": "Create",
+    "update": "Update",
+    "guild": "Guild",
+    "world": "Realm",
+    "instance": "Instance",
+    "raid": "Raid",
+    "custom": "Custom",
+    "description": "Description",
+    "startTime": "Start time of event (at your local time zone)",
+    "hoursBeforeClose": "Hours before close"
+  },
+  "ru": {
+    "name": "Название",
+    "nameLabel": "Название события",
+    "eventableType": "Тип доступа",
+    "creator": "Создатель",
+    "eventType": "Тип события",
+    "eventTarget": "Место проведения",
+    "create": "Создать",
+    "update": "Обновить",
+    "guild": "Гильдия",
+    "world": "Игровой Мир",
+    "instance": "Подземелье",
+    "raid": "Рейд",
+    "custom": "Другое",
+    "description": "Описание",
+    "startTime": "Время начала события (в вашем часовом поясе)",
+    "hoursBeforeClose": "Часов до закрытия"
+  }
+}

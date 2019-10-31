@@ -6,6 +6,9 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def time
-    object.start_time.strftime('%H:%M')
+    {
+      hours: object.start_time.strftime('%H').to_i,
+      minutes: object.start_time.strftime('%M').to_i
+    }
   end
 end

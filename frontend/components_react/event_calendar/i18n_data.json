@@ -9,7 +9,8 @@
     "filterFraction": "Filter by fraction",
     "filterCharacter": "Filter by character",
     "previous": "Previous month",
-    "next": "Next month"
+    "next": "Next month",
+    "timeZone": "The time on the calendar is for your time zone"
   },
   "ru": {
     "none": "все",
@@ -21,6 +22,7 @@
     "filterFraction": "Фильтр по фракциям",
     "filterCharacter": "Фильтр по персонажам",
     "previous": "Предыдущий месяц",
-    "next": "Следующий месяц"
+    "next": "Следующий месяц",
+    "timeZone": "Время в календаре указано для вашего часового пояса"
   }
 }
