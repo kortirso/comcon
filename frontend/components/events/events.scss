@@ -145,13 +145,22 @@
 
           .name, .time {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
           }
 
           &:hover {
             cursor: pointer;
             background: #F4F4F4;
             text-decoration: none;
+          }
+        }
+
+        .others {
+          padding: 0 0.25rem;
+
+          p {
+            margin: 0;
+            font-size: 0.75rem;
           }
         }
       }

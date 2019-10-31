@@ -111,16 +111,36 @@ export default class EventCalendar extends React.Component {
     const filtered = this.state.events.filter((event) => {
       return event.date == `${day}.${this.state.currentMonth}.${this.state.currentYear}`
     })
-    return filtered.map((event) => {
-      const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
-      const minutes = event.time.minutes
-      return (
-        <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
-          <p className="name">{event.name}</p>
-          <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+    if (filtered.length <= 4) {
+      return filtered.map((event) => {
+        const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        const minutes = event.time.minutes
+        return (
+          <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
+            <p className="name">{event.name}</p>
+            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+          </a>
+        )
+      })
+    } else {
+      let result = []
+      filtered.slice(0, 4).map((event) => {
+        const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        const minutes = event.time.minutes
+        result.push(
+          <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
+            <p className="name">{event.name}</p>
+            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+          </a>
+        )
+      })
+      result.push(
+        <a className='others' key={0}>
+          <p>And other events</p>
         </a>
       )
-    })
+      return result
+    }
   }
 
   _onSelectCurrentDay(value) {

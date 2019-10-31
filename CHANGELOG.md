@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - event form with react component
 - time presentation in local time zone for events page
 - name length limit for event
+- show only 4 first events in event calendar's day
 
 ### Fixed
 - bug with events for not current month
