@@ -7,6 +7,7 @@ RSpec.describe Guild, type: :model do
   it { should have_many(:characters_with_role).through(:guild_roles).source(:character) }
   it { should have_many(:leader_guild_roles).class_name('GuildRole') }
   it { should have_many(:characters_with_leader_role).through(:leader_guild_roles).source(:character) }
+  it { should have_many(:statics).dependent(:destroy) }
 
   it 'factory should be valid' do
     guild = build :guild
