@@ -46,6 +46,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def update
+        authorize! @event
         event_form = EventForm.new(@event.attributes.merge(event_params))
         if event_form.persist?
           render json: event_form.event, status: 200

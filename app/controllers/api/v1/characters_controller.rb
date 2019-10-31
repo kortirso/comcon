@@ -45,6 +45,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def update
+        authorize! @character
         character_form = CharacterForm.new(@character.attributes.merge(character_params))
         if character_form.persist?
           character_form.character.character_roles.destroy_all

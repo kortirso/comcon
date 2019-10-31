@@ -64,7 +64,7 @@ RSpec.describe 'GuildRoles API' do
     it_behaves_like 'API auth with invalid token'
 
     context 'with valid user token in params' do
-      let!(:user) { create :user }
+      let!(:user) { create :user, :admin }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'for unexisted guild role' do
@@ -142,7 +142,7 @@ RSpec.describe 'GuildRoles API' do
     it_behaves_like 'API auth with invalid token'
 
     context 'with valid user token in params' do
-      let!(:user) { create :user }
+      let!(:user) { create :user, :admin }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'for unexisted guild role' do

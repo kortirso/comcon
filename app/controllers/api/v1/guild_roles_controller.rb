@@ -14,7 +14,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def create
-        # authorize! @guild, with: GuildRolePolicy
+        authorize! @guild, with: GuildRolePolicy
         guild_role_form = GuildRoleForm.new(guild_role_params)
         if guild_role_form.persist?
           render json: guild_role_form.guild_role, status: 201
@@ -28,7 +28,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def update
-        # authorize! @guild_role, with: GuildRolePolicy
+        authorize! @guild_role
         guild_role_form = GuildRoleForm.new(@guild_role.attributes.merge(guild_role_params))
         if guild_role_form.persist?
           render json: guild_role_form.guild_role, status: 200
@@ -41,7 +41,7 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def destroy
-        # authorize! @guild_role, with: GuildRolePolicy
+        authorize! @guild_role
         @guild_role.destroy
         render json: { result: 'Success' }, status: 200
       end
