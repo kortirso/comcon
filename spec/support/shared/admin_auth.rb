@@ -3,7 +3,7 @@ RSpec.shared_examples_for 'Admin Auth' do
     it 'redirects to login page' do
       do_request
 
-      expect(response).to redirect_to new_user_session_path
+      expect(response).to redirect_to new_user_session_en_path
     end
   end
 

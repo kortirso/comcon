@@ -5,7 +5,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     let!(:user) { create :user }
 
     context 'for invalid data' do
-      before { post :create, params: { user: { email: user.email, password: '11111' } } }
+      before { post :create, params: { locale: 'en', user: { email: user.email, password: '11111' } } }
 
       it 'redirects new login template' do
         expect(response).to render_template :new
@@ -13,7 +13,7 @@ RSpec.describe Users::SessionsController, type: :controller do
     end
 
     context 'for valid data' do
-      before { post :create, params: { user: { email: user.email, password: user.password } } }
+      before { post :create, params: { locale: 'en', user: { email: user.email, password: user.password } } }
 
       it 'redirects to root path' do
         expect(response).to redirect_to root_en_path

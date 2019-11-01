@@ -13,7 +13,7 @@ RSpec.describe RecipesController, type: :controller do
     end
 
     def do_request
-      get :index, params: { locale: 'ru' }
+      get :index, params: { locale: 'en' }
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe RecipesController, type: :controller do
     end
 
     def do_request
-      get :new, params: { locale: 'ru' }
+      get :new, params: { locale: 'en' }
     end
   end
 
@@ -61,7 +61,7 @@ RSpec.describe RecipesController, type: :controller do
     end
 
     def do_request
-      get :edit, params: { locale: 'ru', id: recipe.id }
+      get :edit, params: { locale: 'en', id: recipe.id }
     end
   end
 
@@ -103,7 +103,7 @@ RSpec.describe RecipesController, type: :controller do
     end
 
     def do_request
-      delete :destroy, params: { locale: 'ru', id: recipe.id }
+      delete :destroy, params: { locale: 'en', id: recipe.id }
     end
   end
 end

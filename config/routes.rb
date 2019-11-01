@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
-
   namespace :api do
     namespace :v1 do
       resources :races, only: %i[index]
@@ -35,6 +33,8 @@ Rails.application.routes.draw do
   end
 
   localized do
+    devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
+
     resources :characters, except: %i[show create update] do
       get :recipes, on: :member
       post :update_recipes, on: :member

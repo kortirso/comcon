@@ -13,7 +13,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      get :index, params: { locale: 'ru' }
+      get :index, params: { locale: 'en' }
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      get :new, params: { locale: 'ru' }
+      get :new, params: { locale: 'en' }
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      post :create, params: { locale: 'ru', world: { name: '', zone: '' } }
+      post :create, params: { locale: 'en', world: { name: '', zone: '' } }
     end
   end
 
@@ -101,7 +101,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      get :edit, params: { locale: 'ru', id: world.id }
+      get :edit, params: { locale: 'en', id: world.id }
     end
   end
 
@@ -159,7 +159,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      patch :update, params: { locale: 'ru', id: world.id, world: { name: '1', zone: '2' } }
+      patch :update, params: { locale: 'en', id: world.id, world: { name: '1', zone: '2' } }
     end
   end
 
@@ -201,7 +201,7 @@ RSpec.describe WorldsController, type: :controller do
     end
 
     def do_request
-      delete :destroy, params: { locale: 'ru', id: world.id }
+      delete :destroy, params: { locale: 'en', id: world.id }
     end
   end
 end

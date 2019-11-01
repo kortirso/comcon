@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
   prepend_view_path Rails.root.join('frontend')
 
   before_action :save_current_path
+  before_action :set_locale
   before_action :authenticate_user!
   before_action :set_current_user
-  before_action :set_locale
   skip_before_action :authenticate_user!, only: %i[catch_route_error]
   skip_before_action :set_current_user, only: %i[catch_route_error]
 

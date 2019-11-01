@@ -13,7 +13,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     def do_request
-      get :index, params: { locale: 'ru' }
+      get :index, params: { locale: 'en' }
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     def do_request
-      get :edit, params: { locale: 'ru', id: user.id }
+      get :edit, params: { locale: 'en', id: user.id }
     end
   end
 
@@ -101,7 +101,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     def do_request
-      patch :update, params: { locale: 'ru', id: user.id, user: { role: 'user' } }
+      patch :update, params: { locale: 'en', id: user.id, user: { role: 'user' } }
     end
   end
 
@@ -143,7 +143,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     def do_request
-      delete :destroy, params: { locale: 'ru', id: user.id }
+      delete :destroy, params: { locale: 'en', id: user.id }
     end
   end
 end
