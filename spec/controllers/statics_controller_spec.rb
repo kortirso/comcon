@@ -71,4 +71,103 @@ RSpec.describe StaticsController, type: :controller do
       get :new, params: { locale: 'en' }
     end
   end
+
+  describe 'GET#edit' do
+    let!(:guild) { create :guild }
+    let!(:static) { create :static, staticable: guild }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:character) { create :character, user: @current_user, guild: guild }
+
+      context 'for unexisted static' do
+        it 'renders error page' do
+          get :edit, params: { locale: 'en', id: 'unexisted' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed static' do
+        context 'for invalid access' do
+          it 'renders error page' do
+            get :edit, params: { locale: 'en', id: static.slug }
+
+            expect(response).to render_template 'shared/error'
+          end
+        end
+
+        context 'for valid access' do
+          let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+          it 'renders edit template' do
+            get :edit, params: { locale: 'en', id: static.slug }
+
+            expect(response).to render_template :edit
+          end
+        end
+      end
+    end
+
+    def do_request
+      get :edit, params: { locale: 'en', id: static.slug }
+    end
+  end
+
+  describe 'DELETE#destroy' do
+    let!(:guild) { create :guild }
+    let!(:static) { create :static, staticable: guild }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:character) { create :character, user: @current_user, guild: guild }
+
+      context 'for unexisted static' do
+        it 'renders error page' do
+          delete :destroy, params: { locale: 'en', id: 'unexisted' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed static' do
+        context 'for invalid access' do
+          let(:request) { delete :destroy, params: { locale: 'en', id: static.slug } }
+
+          it 'does not delete static' do
+            expect { request }.to_not change(Static, :count)
+          end
+
+          it 'and renders error page' do
+            request
+
+            expect(response).to render_template 'shared/error'
+          end
+        end
+
+        context 'for valid access' do
+          let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+          let(:request) { delete :destroy, params: { locale: 'en', id: static.slug } }
+
+          it 'deletes static' do
+            expect { request }.to change { Static.count }.by(-1)
+          end
+
+          it 'and redirects to guild management page' do
+            request
+
+            expect(response).to redirect_to management_guild_en_path(guild.slug)
+          end
+        end
+      end
+    end
+
+    def do_request
+      delete :destroy, params: { locale: 'en', id: static.slug }
+    end
+  end
 end

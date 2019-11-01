@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         get :filter_values, on: :collection
         get :search, on: :collection
       end
-      resources :statics, only: %i[create] do
+      resources :statics, only: %i[show create update] do
         get :form_values, on: :collection
       end
     end
@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       get :management, on: :member
     end
     resources :craft, only: %i[index]
-    resources :statics
+    resources :statics, except: %i[show create update]
 
     root to: 'welcome#index'
   end

@@ -96,3 +96,5 @@ ru:
     title: Статики
     add: Добавить статик
     name: Название
+  guild:
+    management: Управление

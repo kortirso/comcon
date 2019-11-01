@@ -28,7 +28,7 @@ export default class EventForm extends React.Component {
       description: '',
       startTime: this._defineStartTime(),
       hoursBeforeClose: 0,
-      eventId: props.event_id,
+      eventId: props.event_id
     }
   }
 

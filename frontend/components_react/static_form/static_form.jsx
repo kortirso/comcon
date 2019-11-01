@@ -19,8 +19,9 @@ export default class StaticForm extends React.Component {
       userCharacters: [],
       userGuilds: [],
       currentCharacterId: '0',
-      currentGuildId: props.guild_id !== undefined ? props.guild_id : '0',
-      description: ''
+      currentGuildId: props.guild_id !== null && props.static_id === undefined ? props.guild_id : '0',
+      description: '',
+      staticId: props.static_id,
     }
   }
 
@@ -34,7 +35,21 @@ export default class StaticForm extends React.Component {
       method: 'GET',
       url: `/api/v1/statics/form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({userCharacters: data.characters, userGuilds: data.guilds})
+        this.setState({userCharacters: data.characters, userGuilds: data.guilds}, () => {
+          this._getStatic()
+        })
+      }
+    })
+  }
+
+  _getStatic() {
+    if (this.state.staticId === undefined) return false
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const object = data['static']
+        this.setState({name: object.name, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id : '0'})
       }
     })
   }
@@ -58,7 +73,19 @@ export default class StaticForm extends React.Component {
   }
 
   _onUpdate() {
-
+    const state = this.state
+    $.ajax({
+      method: 'PATCH',
+      url: `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`,
+      data: { static: { name: state.name, description: state.description } },
+      success: (data) => {
+        if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
+        else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/management`)
+      },
+      error: (data) => {
+        console.log(data.responseJSON.errors)
+      }
+    })
   }
 
   _renderUserCharacters() {
@@ -94,14 +121,14 @@ export default class StaticForm extends React.Component {
           <div className="double_line">
             <div className="form-group">
               <label htmlFor="event_character_id">{strings.characterOwner}</label>
-              <select className="form-control form-control-sm" id="event_character_id" onChange={this._onCharacterChange.bind(this)} value={this.state.currentCharacterId} disabled={this.props.guild_id !== undefined}>
+              <select className="form-control form-control-sm" id="event_character_id" onChange={this._onCharacterChange.bind(this)} value={this.state.currentCharacterId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
                 <option value='0' key='0'></option>
                 {this._renderUserCharacters()}
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="event_guild_id">{strings.guildOwner}</label>
-              <select className="form-control form-control-sm" id="event_guild_id" onChange={this._onGuildChange.bind(this)} value={this.state.currentGuildId} disabled={this.props.guild_id !== undefined}>
+              <select className="form-control form-control-sm" id="event_guild_id" onChange={this._onGuildChange.bind(this)} value={this.state.currentGuildId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
                 <option value='0' key='0'></option>
                 {this._renderUserGuilds()}
               </select>

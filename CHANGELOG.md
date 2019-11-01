@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - model Static
 - new and create endpoints for statics (for characters and for guilds)
+- edit, update and destroy endpoints for statics
 
 ## [0.5.4] - 2019-10-31
 ### Fixed

@@ -49,6 +49,48 @@ describe StaticPolicy do
     end
   end
 
+  describe '#show?' do
+    context 'for admin' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: admin) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has gm character' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'if user has character with no gm or rl role' do
+      let!(:static) { create :static, staticable: guild2 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without role' do
+      let!(:static) { create :static, staticable: guild3 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    def policy_access
+      policy.show?
+    end
+  end
+
   describe '#create?' do
     context 'for admin' do
       let(:policy) { described_class.new(guild3, user: admin) }
@@ -84,6 +126,132 @@ describe StaticPolicy do
 
     def policy_access
       policy.create?
+    end
+  end
+
+  describe '#edit?' do
+    context 'for admin' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: admin) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has gm character' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'if user has character with no gm or rl role' do
+      let!(:static) { create :static, staticable: guild2 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without role' do
+      let!(:static) { create :static, staticable: guild3 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    def policy_access
+      policy.edit?
+    end
+  end
+
+  describe '#update?' do
+    context 'for admin' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: admin) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has gm character' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'if user has character with no gm or rl role' do
+      let!(:static) { create :static, staticable: guild2 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without role' do
+      let!(:static) { create :static, staticable: guild3 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    def policy_access
+      policy.update?
+    end
+  end
+
+  describe '#destroy?' do
+    context 'for admin' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: admin) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has gm character' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'if user has character with no gm or rl role' do
+      let!(:static) { create :static, staticable: guild2 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without role' do
+      let!(:static) { create :static, staticable: guild3 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    def policy_access
+      policy.destroy?
     end
   end
 end

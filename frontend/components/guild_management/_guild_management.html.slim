@@ -6,12 +6,13 @@
       thead
         tr
           th= t('statics.name')
+          th= t('statics.description')
           th
       tbody
         - @guild.statics.each do |static|
           tr
             td= static.name
+            td= static.description
             td
-              /= link_to t('buttons.members'), members_static_path(static), class: 'btn btn-primary btn-sm with_right_margin'
-              /= link_to t('buttons.edit'), edit_static_path(static), class: 'btn btn-primary btn-sm with_right_margin'
-              /= link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+              = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
+              = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

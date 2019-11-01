@@ -78,3 +78,5 @@ en:
     title: Statics
     add: Add static
     name: Name
+  guild:
+    management: Management
