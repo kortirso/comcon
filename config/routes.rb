@@ -28,6 +28,9 @@ Rails.application.routes.draw do
         get :filter_values, on: :collection
         get :search, on: :collection
       end
+      resources :statics, only: %i[create] do
+        get :form_values, on: :collection
+      end
     end
   end
 
@@ -40,8 +43,11 @@ Rails.application.routes.draw do
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]
     resources :recipes, only: %i[index new edit destroy]
-    resources :guilds, only: %i[index show]
+    resources :guilds, only: %i[index show] do
+      get :management, on: :member
+    end
     resources :craft, only: %i[index]
+    resources :statics
 
     root to: 'welcome#index'
   end

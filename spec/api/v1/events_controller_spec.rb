@@ -71,8 +71,6 @@ RSpec.describe 'Events API' do
   end
 
   describe 'POST#create' do
-    let!(:event) { create :event }
-
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
 
@@ -262,8 +260,6 @@ RSpec.describe 'Events API' do
   end
 
   describe 'GET#filter_values' do
-    let!(:event) { create :event }
-
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
 
@@ -289,8 +285,6 @@ RSpec.describe 'Events API' do
   end
 
   describe 'GET#event_form_values' do
-    let!(:event) { create :event }
-
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
 

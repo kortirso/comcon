@@ -5,6 +5,7 @@ en:
     recipes: Recipes
     characters: Characters
     guilds: Guilds
+    statics: Statics
     events: Events
     craft: Search craft
     login: Login
@@ -73,3 +74,7 @@ en:
   craft:
     title: Crafters search
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help!
+  statics:
+    title: Statics
+    add: Add static
+    name: Name

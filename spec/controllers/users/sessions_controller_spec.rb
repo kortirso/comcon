@@ -16,7 +16,7 @@ RSpec.describe Users::SessionsController, type: :controller do
       before { post :create, params: { user: { email: user.email, password: user.password } } }
 
       it 'redirects to root path' do
-        expect(response).to redirect_to root_ru_path
+        expect(response).to redirect_to root_en_path
       end
     end
   end

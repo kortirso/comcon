@@ -1,10 +1,14 @@
 class GuildsController < ApplicationController
-  before_action :find_guild, only: %i[show]
+  before_action :find_guild, only: %i[show management]
   before_action :find_user_characters, only: %i[show]
 
   def index; end
 
   def show; end
+
+  def management
+    authorize! @guild
+  end
 
   private
 

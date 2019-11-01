@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_194520) do
+ActiveRecord::Schema.define(version: 2019_11_01_083535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,11 +180,19 @@ ActiveRecord::Schema.define(version: 2019_10_31_194520) do
   end
 
   create_table "statics", force: :cascade do |t|
-    t.integer "guild_id"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["guild_id", "name"], name: "index_statics_on_guild_id_and_name", unique: true
+    t.integer "staticable_id"
+    t.string "staticable_type"
+    t.string "slug"
+    t.text "description", default: "", null: false
+    t.integer "fraction_id"
+    t.integer "world_id"
+    t.index ["fraction_id"], name: "index_statics_on_fraction_id"
+    t.index ["slug"], name: "index_statics_on_slug"
+    t.index ["staticable_id", "staticable_type", "name"], name: "index_statics_on_staticable_id_and_staticable_type_and_name", unique: true
+    t.index ["world_id"], name: "index_statics_on_world_id"
   end
 
   create_table "subscribes", force: :cascade do |t|

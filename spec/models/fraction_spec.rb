@@ -2,6 +2,7 @@ RSpec.describe Fraction, type: :model do
   it { should have_many(:races).dependent(:destroy) }
   it { should have_many(:guilds).dependent(:destroy) }
   it { should have_many(:events).dependent(:destroy) }
+  it { should have_many(:statics).dependent(:destroy) }
 
   it 'factory should be valid' do
     fraction = build :fraction, :alliance

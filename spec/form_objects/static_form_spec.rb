@@ -13,10 +13,10 @@ RSpec.describe StaticForm, type: :service do
     end
 
     context 'for valid data' do
-      let!(:static) { create :static }
+      let!(:static) { create :static, :guild }
 
       context 'for existed static' do
-        let(:service) { StaticForm.new(name: static.name, guild: static.guild) }
+        let(:service) { StaticForm.new(name: static.name, staticable_id: static.staticable_id, staticable_type: 'Guild') }
 
         it 'does not create new static' do
           expect { service.persist? }.to_not change(Static, :count)
@@ -29,7 +29,7 @@ RSpec.describe StaticForm, type: :service do
 
       context 'for unexisted static' do
         let!(:guild) { create :guild }
-        let(:service) { StaticForm.new(name: '123', guild: guild) }
+        let(:service) { StaticForm.new(name: '123', staticable_id: guild.id, staticable_type: 'Guild') }
 
         it 'creates new static' do
           expect { service.persist? }.to change { guild.statics.count }.by(1)

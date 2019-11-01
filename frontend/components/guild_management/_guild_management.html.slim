@@ -1,0 +1,17 @@
+.container
+  #statics
+    h2= t('statics.title')
+    = link_to t('statics.add'), new_static_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
+    table.table.table-striped
+      thead
+        tr
+          th= t('statics.name')
+          th
+      tbody
+        - @guild.statics.each do |static|
+          tr
+            td= static.name
+            td
+              /= link_to t('buttons.members'), members_static_path(static), class: 'btn btn-primary btn-sm with_right_margin'
+              /= link_to t('buttons.edit'), edit_static_path(static), class: 'btn btn-primary btn-sm with_right_margin'
+              /= link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

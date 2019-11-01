@@ -1,0 +1,20 @@
+{
+  "en": {
+    "name": "Name",
+    "nameLabel": "Static name",
+    "characterOwner": "Owner-character",
+    "guildOwner": "Owner-guild",
+    "description": "Description",
+    "create": "Create",
+    "update": "Update"
+  },
+  "ru": {
+    "name": "Название",
+    "nameLabel": "Название статика",
+    "characterOwner": "Владелец-персонаж",
+    "guildOwner": "Владелец-гильдия",
+    "description": "Описание",
+    "create": "Создать",
+    "update": "Обновить"
+  }
+}

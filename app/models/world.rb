@@ -4,6 +4,7 @@ class World < ApplicationRecord
 
   has_many :characters, dependent: :destroy
   has_many :guilds, dependent: :destroy
+  has_many :statics, dependent: :destroy
 
   def self.cache_key(worlds)
     {
