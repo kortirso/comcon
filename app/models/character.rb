@@ -10,7 +10,7 @@ class Character < ApplicationRecord
 
   has_many :dungeon_accesses, dependent: :destroy
   has_many :dungeons, through: :dungeon_accesses
-  has_many :owned_events, class_name: 'Event', foreign_key: 'owner_id'
+  has_many :owned_events, class_name: 'Event', foreign_key: 'owner_id', dependent: :destroy
   has_many :subscribes, dependent: :destroy
   has_many :events, through: :subscribes
   has_many :character_roles, dependent: :destroy

@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - new and create endpoints for statics (for characters and for guilds)
 - edit, update and destroy endpoints for statics
 
+### Fixed
+- bug with opening events without user
+
 ## [0.5.4] - 2019-10-31
 ### Fixed
 - bug with guild duplicates in event calendar
