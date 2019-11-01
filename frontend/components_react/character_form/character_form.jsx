@@ -356,13 +356,13 @@ export default class CharacterForm extends React.Component {
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="character_race_id">{strings.race}</label>
-            <select className="form-control" id="character_race_id" onChange={this._onChangeRace.bind(this)} value={this.state.currentRace === null ? '0' : this.state.currentRace}>
+            <select className="form-control" id="character_race_id" onChange={this._onChangeRace.bind(this)} value={this.state.currentRace === null ? '0' : this.state.currentRace} disabled={this.state.characterId !== undefined}>
               {this._renderRaces()}
             </select>
           </div>
           <div className="form-group">
             <label htmlFor="character_character_class_id">{strings.characterClass}</label>
-            <select className="form-control" id="character_character_class_id" onChange={this._onChangeClass.bind(this)} value={this.state.currentCharacterClass === null ? '0' : this.state.currentCharacterClass}>
+            <select className="form-control" id="character_character_class_id" onChange={this._onChangeClass.bind(this)} value={this.state.currentCharacterClass === null ? '0' : this.state.currentCharacterClass} disabled={this.state.characterId !== undefined}>
               {this._renderRaceCharacterClasses()}
             </select>
           </div>
@@ -371,14 +371,14 @@ export default class CharacterForm extends React.Component {
           <div className="double_line">
             <div className="form-group">
               <label htmlFor="character_guild_id">{strings.guild}</label>
-              <select className="form-control" id="character_guild_id" onChange={this._onChangeGuild.bind(this)} value={this.state.currentGuild}>
+              <select className="form-control" id="character_guild_id" onChange={this._onChangeGuild.bind(this)} value={this.state.currentGuild} disabled={this.state.characterId !== undefined}>
                 <option value="0"></option>
                 {this._renderGuilds()}
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="world_id">{strings.world}</label>
-              <select className="form-control" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld}>
+              <select className="form-control" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld} disabled={this.state.characterId !== undefined}>
                 <option value="0"></option>
                 {this._renderWorlds()}
               </select>
