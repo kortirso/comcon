@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - bug with opening events without user
+- bug with searching crafters with fraction_id param
 
 ## [0.5.4] - 2019-10-31
 ### Fixed

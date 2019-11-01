@@ -45,7 +45,7 @@ module Api
           @characters = @characters.where(guild_id: params[:guild_id])
         else
           @characters = @characters.where(world_id: params[:world_id]) if params[:world_id].present?
-          @characters = @characters.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
+          @characters = @characters.includes(:race).where('races.fraction_id = ?', params[:fraction_id]).references(:race) if params[:fraction_id].present?
         end
       end
     end
