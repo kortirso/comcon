@@ -65,6 +65,9 @@ gem 'friendly_id', '~> 5.2.4'
 # API documentation
 gem 'apipie-rails', '0.5.8'
 
+# Search engine
+gem 'pg_search'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'

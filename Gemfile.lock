@@ -155,6 +155,9 @@ GEM
     parser (2.6.5.0)
       ast (~> 2.4.0)
     pg (0.21.0)
+    pg_search (2.3.0)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
     powerpack (0.1.2)
     puma (3.7.0)
     rack (2.0.7)
@@ -337,6 +340,7 @@ DEPENDENCIES
   oj_mimic_json
   parallel_tests
   pg (= 0.21)
+  pg_search
   puma (= 3.7)
   rails (= 5.2.3)
   rails-controller-testing

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - creating static member for new characters statics
 - rendering statics for user with membership
 - rendering members of statics
+- search engine
 
 ## [0.6.0] - 2019-11-01
 ### Added
