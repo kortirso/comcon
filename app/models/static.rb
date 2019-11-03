@@ -8,6 +8,9 @@ class Static < ApplicationRecord
   belongs_to :fraction
   belongs_to :world
 
+  has_many :static_members, dependent: :destroy
+  has_many :characters, through: :static_members
+
   friendly_id :slug_candidates, use: :slugged
 
   def normalize_friendly_id(text)

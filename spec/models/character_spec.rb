@@ -18,6 +18,8 @@ RSpec.describe Character, type: :model do
   it { should have_many(:character_professions).dependent(:destroy) }
   it { should have_many(:professions).through(:character_professions) }
   it { should have_many(:statics).dependent(:destroy) }
+  it { should have_many(:static_members).dependent(:destroy) }
+  it { should have_many(:in_statics).through(:static_members).source(:static) }
   it { should have_one(:guild_role).dependent(:destroy) }
 
   it 'factory should be valid' do
