@@ -109,7 +109,35 @@ RSpec.describe 'Statics API' do
         end
       end
 
-      context 'for valid params' do
+      context 'for valid character params' do
+        let(:request) { post '/api/v1/statics.json', params: { access_token: access_token, static: { name: '123', staticable_type: 'Character', staticable_id: character.id, description: '123' } } }
+
+        it 'creates new static' do
+          expect { request }.to change { character.statics.count }.by(1)
+        end
+
+        it 'and calls CreateStaticMember' do
+          expect(CreateStaticMember).to receive(:call).and_call_original
+
+          request
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 201' do
+            expect(response.status).to eq 201
+          end
+
+          %w[id name description staticable_id staticable_type guild_slug].each do |attr|
+            it "and contains #{attr}" do
+              expect(response.body).to have_json_path("static/#{attr}")
+            end
+          end
+        end
+      end
+
+      context 'for valid guild params' do
         let(:request) { post '/api/v1/statics.json', params: { access_token: access_token, static: { name: '123', staticable_type: 'Guild', staticable_id: guild.id, description: '123' } } }
 
         it 'creates new static' do

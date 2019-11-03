@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - static show page
 - static management page
 - StaticMember model
+- creating static member for new characters statics
 
 ## [0.6.0] - 2019-11-01
 ### Added

@@ -20,7 +20,9 @@ module Api
         authorize! @guild, with: StaticPolicy if @guild.present?
         static_form = StaticForm.new(static_params)
         if static_form.persist?
-          render json: static_form.static, status: 201
+          static = static_form.static
+          CreateStaticMember.call(static: static, character: static.staticable) unless static.for_guild?
+          render json: static, status: 201
         else
           render json: { errors: static_form.errors.full_messages }, status: 409
         end

@@ -17,6 +17,10 @@ class Static < ApplicationRecord
     text.to_slug.transliterate(:russian).normalize.to_s
   end
 
+  def for_guild?
+    staticable_type == 'Guild'
+  end
+
   private
 
   def slug_candidates
