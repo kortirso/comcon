@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - StaticMember model
 - creating static member for new characters statics
 - rendering statics for user with membership
+- rendering members of statics
 
 ## [0.6.0] - 2019-11-01
 ### Added

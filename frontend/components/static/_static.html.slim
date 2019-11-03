@@ -1,3 +1,19 @@
 .container.static
   - if Current.user.any_static_role?(@static)
     = link_to t('guild.management'), management_static_path(@static.slug), class: 'btn btn-sm btn-primary with_bottom_margin'
+  table.table
+    thead
+      tr
+        th= t('characters.name')
+        th= t('characters.race')
+        th= t('characters.level')
+        th= t('characters.guild')
+    tbody
+      - @static.characters.includes(:race, :guild, :character_class).each do |character|
+        tr class="#{character.character_class.name['en']}"
+          td= character.name
+          td= character.race.name[I18n.locale.to_s]
+          td= character.level
+          td
+            - unless character.guild_id.nil?
+              = character.guild.name

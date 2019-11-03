@@ -21,7 +21,7 @@ class User < ApplicationRecord
 
   def statics
     character_ids = Character.where(user_id: id).pluck(:id)
-    static_ids = StaticMember.where(character_id: character_ids).pluck(:id)
+    static_ids = StaticMember.where(character_id: character_ids).pluck(:static_id)
     Static.where(id: static_ids)
   end
 
