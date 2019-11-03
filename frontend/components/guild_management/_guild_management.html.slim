@@ -11,7 +11,7 @@
       tbody
         - @guild.statics.each do |static|
           tr
-            td= static.name
+            td= link_to static.name, static
             td= static.description
             td
               = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'

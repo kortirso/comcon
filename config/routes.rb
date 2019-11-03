@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       get :management, on: :member
     end
     resources :craft, only: %i[index]
-    resources :statics, except: %i[show create update]
+    resources :statics, except: %i[create update]
 
     root to: 'welcome#index'
   end

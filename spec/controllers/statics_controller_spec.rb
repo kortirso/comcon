@@ -17,6 +17,51 @@ RSpec.describe StaticsController, type: :controller do
     end
   end
 
+  describe 'GET#show' do
+    let!(:guild) { create :guild }
+    let!(:static) { create :static, staticable: guild }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:character) { create :character, user: @current_user, guild: guild }
+
+      context 'for unexisted static' do
+        it 'renders error page' do
+          get :show, params: { locale: 'en', id: 'unexisted' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed static' do
+        context 'for invalid access' do
+          it 'renders error page' do
+            skip 'need add access check'
+            get :show, params: { locale: 'en', id: static.slug }
+
+            expect(response).to render_template 'shared/error'
+          end
+        end
+
+        context 'for valid access' do
+          let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+          it 'renders show template' do
+            get :show, params: { locale: 'en', id: static.slug }
+
+            expect(response).to render_template :show
+          end
+        end
+      end
+    end
+
+    def do_request
+      get :show, params: { locale: 'en', id: static.slug }
+    end
+  end
+
   describe 'GET#new' do
     let!(:guild) { create :guild }
 

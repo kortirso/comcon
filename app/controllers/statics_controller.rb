@@ -1,8 +1,10 @@
 class StaticsController < ApplicationController
   before_action :find_guild, only: %i[new]
-  before_action :find_static_by_slug, only: %i[edit destroy]
+  before_action :find_static_by_slug, only: %i[show edit destroy]
 
   def index; end
+
+  def show; end
 
   def new
     authorize! @guild, with: StaticPolicy if @guild.present?
