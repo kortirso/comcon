@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - rendering members of statics
 - search engine
 - api endpoint characters#search
+- rendering search results
 
 ## [0.6.0] - 2019-11-01
 ### Added

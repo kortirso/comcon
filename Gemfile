@@ -66,7 +66,8 @@ gem 'friendly_id', '~> 5.2.4'
 gem 'apipie-rails', '0.5.8'
 
 # Search engine
-gem 'pg_search'
+gem 'mysql2', '~> 0.3', platform: :ruby
+gem 'thinking-sphinx', '~> 4.4'
 
 group :development, :test do
   gem 'bullet'

@@ -73,7 +73,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def search
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(@characters.includes(:race, :character_class, guild: :world), each_serializer: CharacterCrafterSerializer).as_json[:characters]
+          characters: ActiveModelSerializers::SerializableResource.new(Character.where(id: @character_ids).includes(:race, :character_class, guild: :world), each_serializer: CharacterCrafterSerializer).as_json[:characters]
         }, status: 200
       end
 
@@ -115,16 +115,19 @@ module Api
       end
 
       def search_characters
-        search_params = params[:search]
-        @characters = Character.all
-        @characters = @characters.where(world_id: search_params[:world_id]) if search_params[:world_id].present?
-        @characters = @characters.where(character_class_id: search_params[:character_class_id]) if search_params[:character_class_id].present?
-        if search_params[:race_id].present?
-          @characters = @characters.where(race_id: search_params[:race_id])
-        elsif search_params[:fraction_id].present?
-          @characters = @characters.includes(:race).where('races.fraction_id = ?', search_params[:fraction_id]).references(:race)
+        @character_ids = Character.search("*#{params[:query]}*", with: define_additional_search_params).map!(&:id)
+      end
+
+      def define_additional_search_params(with = {})
+        with[:world_id] = params[:world_id].to_i if params[:world_id].present?
+        with[:character_class_id] = params[:character_class_id].to_i if params[:character_class_id].present?
+        if params[:race_id].present?
+          with[:race_id] = params[:race_id].to_i
+        elsif params[:fraction_id].present?
+          fraction = Fraction.find_by(id: params[:fraction_id])
+          with[:race_id] = fraction.races.pluck(:id) unless fraction.nil?
         end
-        @characters = @characters.search_by_name(search_params[:query])
+        with
       end
 
       def create_additional_structures_for_character(character)

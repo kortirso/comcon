@@ -30,3 +30,6 @@ config/database.yml
 /config/application.yml
 coverage/*
 dump.rdb
+
+/db/sphinx
+/config/*.sphinx.conf

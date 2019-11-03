@@ -2,7 +2,7 @@ module Api
   module V1
     class StaticsController < Api::V1::BaseController
       before_action :find_guild, only: %i[create]
-      before_action :find_static, only: %i[show update]
+      before_action :find_static, only: %i[show update members]
       before_action :find_user_guilds, only: %i[form_values]
 
       api :GET, '/v1/statics/:id.json', 'Show static info'
@@ -48,6 +48,16 @@ module Api
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
           guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds]
+        }, status: 200
+      end
+
+      api :GET, '/v1/statics/:id/members.json', 'Show static members'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def members
+        authorize! @static
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@static.characters, each_serializer: CharacterCrafterSerializer).as_json[:characters]
         }, status: 200
       end
 

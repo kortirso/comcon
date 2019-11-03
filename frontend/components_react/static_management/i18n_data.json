@@ -1,0 +1,24 @@
+{
+  "en": {
+    "alreadyMembers": "Static members",
+    "name": "Name",
+    "race": "Race",
+    "level": "Level",
+    "guild": "Guild",
+    "realm": "Realm",
+    "invites": "Invites",
+    "search": "Search characters",
+    "nameLabel": "Search character by name or guild name (minimum 3 symbols)"
+  },
+  "ru": {
+    "alreadyMembers": "Состав статика",
+    "name": "Имя",
+    "race": "Раса",
+    "level": "Уровень",
+    "guild": "Гильдия",
+    "realm": "Игровой Мир",
+    "invites": "Приглашения",
+    "search": "Поиск персонажей",
+    "nameLabel": "Поиск персонажа по имени или названию гильдии (минимум 3 символа)"
+  }
+}

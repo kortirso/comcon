@@ -37,5 +37,31 @@ namespace :yarn do
   end
 end
 
+namespace :sphinx do
+  desc 'Rebuild sphinx'
+  task :rebuild do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'ts:rebuild'
+        end
+      end
+    end
+  end
+
+  desc 'Configure sphinx'
+  task :configure do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'ts:configure'
+        end
+      end
+    end
+  end
+end
+
 after 'bundler:install', 'yarn:install'
 after 'deploy:published', 'bundler:clean'
+after 'deploy:restart', 'sphinx:configure'
+after 'sphinx:configure', 'sphinx:rebuild'

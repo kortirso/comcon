@@ -27,4 +27,8 @@ class StaticPolicy < ApplicationPolicy
   def management?
     show?
   end
+
+  def members?
+    show?
+  end
 end

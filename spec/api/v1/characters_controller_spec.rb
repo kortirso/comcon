@@ -263,68 +263,82 @@ RSpec.describe 'Characters API' do
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'without params' do
-        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First' } } }
+        let(:request) { get '/api/v1/characters/search.json', params: { access_token: access_token, query: 'First' } }
 
-        it 'returns status 200' do
+        it 'calls search' do
+          expect(Character).to receive(:search).with('*First*', with: {}).and_call_original
+
+          request
+        end
+
+        it 'and returns status 200' do
+          request
+
           expect(response.status).to eq 200
-        end
-
-        it 'and returns 1 character' do
-          expect(JSON.parse(response.body)['characters'].size).to eq 1
-        end
-
-        %w[id name level character_class race guild world].each do |attr|
-          it "and contains character #{attr}" do
-            expect(response.body).to have_json_path("characters/0/#{attr}")
-          end
         end
       end
 
-      context 'with world param' do
-        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', world_id: character.world_id } } }
+      context 'with world' do
+        let(:request) { get '/api/v1/characters/search.json', params: { access_token: access_token, query: 'First', world_id: character.world_id } }
 
-        it 'returns status 200' do
-          expect(response.status).to eq 200
+        it 'calls search' do
+          expect(Character).to receive(:search).with('*First*', with: { world_id: character.world_id }).and_call_original
+
+          request
         end
 
-        it 'and returns 1 character' do
-          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
         end
       end
 
-      context 'with race param' do
-        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', race_id: character.race_id } } }
+      context 'with character_class' do
+        let(:request) { get '/api/v1/characters/search.json', params: { access_token: access_token, query: 'First', character_class_id: character.character_class_id } }
 
-        it 'returns status 200' do
-          expect(response.status).to eq 200
+        it 'calls search' do
+          expect(Character).to receive(:search).with('*First*', with: { character_class_id: character.character_class_id }).and_call_original
+
+          request
         end
 
-        it 'and returns 1 character' do
-          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
         end
       end
 
-      context 'with character_class param' do
-        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', character_class_id: character.character_class_id } } }
+      context 'with race' do
+        let(:request) { get '/api/v1/characters/search.json', params: { access_token: access_token, query: 'First', race_id: character.race_id } }
 
-        it 'returns status 200' do
-          expect(response.status).to eq 200
+        it 'calls search' do
+          expect(Character).to receive(:search).with('*First*', with: { race_id: character.race_id }).and_call_original
+
+          request
         end
 
-        it 'and returns 1 character' do
-          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
         end
       end
 
-      context 'with fraction param' do
-        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', fraction_id: character.race.fraction_id } } }
+      context 'with fraction' do
+        let(:request) { get '/api/v1/characters/search.json', params: { access_token: access_token, query: 'First', fraction_id: character.race.fraction_id } }
 
-        it 'returns status 200' do
-          expect(response.status).to eq 200
+        it 'calls search' do
+          expect(Character).to receive(:search).with('*First*', with: { race_id: character.race.fraction.races.pluck(:id) }).and_call_original
+
+          request
         end
 
-        it 'and returns 1 character' do
-          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
         end
       end
     end

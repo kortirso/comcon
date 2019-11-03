@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       end
       resources :statics, only: %i[show create update] do
         get :form_values, on: :collection
+        get :members, on: :member
       end
     end
   end

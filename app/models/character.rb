@@ -1,11 +1,6 @@
 # Represent game characters
 class Character < ApplicationRecord
-  include PgSearch::Model
   include Staticable
-
-  pg_search_scope :search_by_name, against: :name, associated_against: {
-    guild: :name
-  }
 
   belongs_to :user
   belongs_to :race
