@@ -1,6 +1,6 @@
 class StaticsController < ApplicationController
   before_action :find_guild, only: %i[new]
-  before_action :find_static_by_slug, only: %i[show edit destroy]
+  before_action :find_static_by_slug, only: %i[show edit destroy management]
 
   def index; end
 
@@ -18,6 +18,10 @@ class StaticsController < ApplicationController
     authorize! @static
     @static.destroy
     redirect_to @static.staticable_type == 'Guild' ? management_guild_path(@static.staticable.slug) : statics_path
+  end
+
+  def management
+    authorize! @static
   end
 
   private

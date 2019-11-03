@@ -36,23 +36,12 @@ RSpec.describe StaticsController, type: :controller do
       end
 
       context 'for existed static' do
-        context 'for invalid access' do
-          it 'renders error page' do
-            skip 'need add access check'
-            get :show, params: { locale: 'en', id: static.slug }
+        let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
 
-            expect(response).to render_template 'shared/error'
-          end
-        end
+        it 'renders show template' do
+          get :show, params: { locale: 'en', id: static.slug }
 
-        context 'for valid access' do
-          let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
-
-          it 'renders show template' do
-            get :show, params: { locale: 'en', id: static.slug }
-
-            expect(response).to render_template :show
-          end
+          expect(response).to render_template :show
         end
       end
     end
@@ -213,6 +202,50 @@ RSpec.describe StaticsController, type: :controller do
 
     def do_request
       delete :destroy, params: { locale: 'en', id: static.slug }
+    end
+  end
+
+  describe 'GET#management' do
+    let!(:guild) { create :guild }
+    let!(:static) { create :static, staticable: guild }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:character) { create :character, user: @current_user, guild: guild }
+
+      context 'for unexisted static' do
+        it 'renders error page' do
+          get :management, params: { locale: 'en', id: 'unexisted' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed static' do
+        context 'for invalid access' do
+          it 'renders error page' do
+            get :management, params: { locale: 'en', id: static.slug }
+
+            expect(response).to render_template 'shared/error'
+          end
+        end
+
+        context 'for valid access' do
+          let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+          it 'renders management template' do
+            get :management, params: { locale: 'en', id: static.slug }
+
+            expect(response).to render_template :management
+          end
+        end
+      end
+    end
+
+    def do_request
+      get :management, params: { locale: 'en', id: static.slug }
     end
   end
 end

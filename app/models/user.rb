@@ -13,6 +13,12 @@ class User < ApplicationRecord
     GuildRole.where(guild_id: guild_id, character_id: character_ids, name: allowed_roles).exists?
   end
 
+  def any_static_role?(static)
+    return true if static.staticable_type == 'Guild' && any_role?(static.staticable_id, 'gm', 'rl')
+    return true if static.staticable_type == 'Character' && characters.pluck(:id).include?(static.staticable_id)
+    false
+  end
+
   def is_admin?
     role == 'admin'
   end

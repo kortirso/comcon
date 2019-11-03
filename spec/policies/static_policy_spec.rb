@@ -254,4 +254,46 @@ describe StaticPolicy do
       policy.destroy?
     end
   end
+
+  describe '#management?' do
+    context 'for admin' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: admin) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has gm character' do
+      let!(:static) { create :static, staticable: guild1 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'if user has character with no gm or rl role' do
+      let!(:static) { create :static, staticable: guild2 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without role' do
+      let!(:static) { create :static, staticable: guild3 }
+      let(:policy) { described_class.new(static, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    def policy_access
+      policy.management?
+    end
+  end
 end

@@ -5,9 +5,7 @@ class StaticPolicy < ApplicationPolicy
   end
 
   def show?
-    return true if record.staticable_type == 'Guild' && user.any_role?(record.staticable_id, 'gm', 'rl')
-    return true if record.staticable_type == 'Character' && user.characters.pluck(:id).include?(record.staticable_id)
-    false
+    user.any_static_role?(record)
   end
 
   def create?
@@ -23,6 +21,10 @@ class StaticPolicy < ApplicationPolicy
   end
 
   def destroy?
+    show?
+  end
+
+  def management?
     show?
   end
 end
