@@ -20,7 +20,7 @@ RSpec.describe Guild, type: :model do
       let!(:guild) { create :guild }
 
       it 'returns full name for guild' do
-        expect(guild.full_name).to eq "#{guild.name}, #{guild.fraction.name['en']}, #{guild.world.full_name}"
+        expect(guild.full_name).to eq "#{guild.name}, #{guild.world.full_name}"
       end
     end
   end
