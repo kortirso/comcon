@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :fractions, only: %i[index]
       resources :characters, only: %i[show create update] do
         get :default_values, on: :collection
+        get :search, on: :collection
       end
       resources :events, only: %i[index show create update] do
         get :subscribers, on: :member

@@ -250,4 +250,87 @@ RSpec.describe 'Characters API' do
       get '/api/v1/characters/default_values.json', headers: headers
     end
   end
+
+  describe 'GET#search' do
+    let!(:character) { create :character, name: 'First' }
+    let!(:other_character) { create :character }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'with valid user token in params' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'without params' do
+        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First' } } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        it 'and returns 1 character' do
+          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        end
+
+        %w[id name level character_class race guild world].each do |attr|
+          it "and contains character #{attr}" do
+            expect(response.body).to have_json_path("characters/0/#{attr}")
+          end
+        end
+      end
+
+      context 'with world param' do
+        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', world_id: character.world_id } } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        it 'and returns 1 character' do
+          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        end
+      end
+
+      context 'with race param' do
+        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', race_id: character.race_id } } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        it 'and returns 1 character' do
+          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        end
+      end
+
+      context 'with character_class param' do
+        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', character_class_id: character.character_class_id } } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        it 'and returns 1 character' do
+          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        end
+      end
+
+      context 'with fraction param' do
+        before { get '/api/v1/characters/search.json', params: { access_token: access_token, search: { query: 'First', fraction_id: character.race.fraction_id } } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        it 'and returns 1 character' do
+          expect(JSON.parse(response.body)['characters'].size).to eq 1
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/characters/search.json', headers: headers
+    end
+  end
 end

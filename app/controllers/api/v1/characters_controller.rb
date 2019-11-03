@@ -12,6 +12,7 @@ module Api
       before_action :get_guilds_from_cache, only: %i[default_values]
       before_action :get_dungeons_from_cache, only: %i[default_values]
       before_action :get_professions_from_cache, only: %i[default_values]
+      before_action :search_characters, only: %i[search]
 
       resource_description do
         short 'Character resources'
@@ -68,6 +69,14 @@ module Api
         }, status: 200
       end
 
+      api :GET, '/v1/characters/search.json', 'Search characters by name with params'
+      error code: 401, desc: 'Unauthorized'
+      def search
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@characters.includes(:race, :character_class, guild: :world), each_serializer: CharacterCrafterSerializer).as_json[:characters]
+        }, status: 200
+      end
+
       private
 
       def find_character
@@ -103,6 +112,19 @@ module Api
             }
           )
         end
+      end
+
+      def search_characters
+        search_params = params[:search]
+        @characters = Character.all
+        @characters = @characters.where(world_id: search_params[:world_id]) if search_params[:world_id].present?
+        @characters = @characters.where(character_class_id: search_params[:character_class_id]) if search_params[:character_class_id].present?
+        if search_params[:race_id].present?
+          @characters = @characters.where(race_id: search_params[:race_id])
+        elsif search_params[:fraction_id].present?
+          @characters = @characters.includes(:race).where('races.fraction_id = ?', search_params[:fraction_id]).references(:race)
+        end
+        @characters = @characters.search_by_name(search_params[:query])
       end
 
       def create_additional_structures_for_character(character)
