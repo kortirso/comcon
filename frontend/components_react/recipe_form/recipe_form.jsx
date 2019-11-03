@@ -97,43 +97,43 @@ export default class RecipeForm extends React.Component {
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="recipe_name_en">{strings.nameEn}</label>
-            <input required="required" placeholder={strings.nameLabelEn} className="form-control" type="text" id="recipe_name_en" value={this.state.name.en} onChange={(event) => this.setState({name: { en: event.target.value, ru: this.state.name.ru }})} />
+            <input required="required" placeholder={strings.nameLabelEn} className="form-control form-control-sm" type="text" id="recipe_name_en" value={this.state.name.en} onChange={(event) => this.setState({name: { en: event.target.value, ru: this.state.name.ru }})} />
           </div>
           <div className="form-group">
             <label htmlFor="recipe_name_ru">{strings.nameRu}</label>
-            <input required="required" placeholder={strings.nameLabelRu} className="form-control" type="text" id="recipe_name_ru" value={this.state.name.ru} onChange={(event) => this.setState({name: { en: this.state.name.en, ru: event.target.value }})} />
+            <input required="required" placeholder={strings.nameLabelRu} className="form-control form-control-sm" type="text" id="recipe_name_ru" value={this.state.name.ru} onChange={(event) => this.setState({name: { en: this.state.name.en, ru: event.target.value }})} />
           </div>
         </div>
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="recipe_links_en">{strings.linkEn}</label>
-            <input required="required" placeholder={strings.linkLabelEn} className="form-control" type="text" id="recipe_links_en" value={this.state.links.en} onChange={(event) => this.setState({links: { en: event.target.value, ru: this.state.links.ru }})} />
+            <input required="required" placeholder={strings.linkLabelEn} className="form-control form-control-sm" type="text" id="recipe_links_en" value={this.state.links.en} onChange={(event) => this.setState({links: { en: event.target.value, ru: this.state.links.ru }})} />
           </div>
           <div className="form-group">
             <label htmlFor="recipe_links_ru">{strings.linkRu}</label>
-            <input required="required" placeholder={strings.linkLabelRu} className="form-control" type="text" id="recipe_links_ru" value={this.state.links.ru} onChange={(event) => this.setState({links: { en: this.state.links.en, ru: event.target.value }})} />
+            <input required="required" placeholder={strings.linkLabelRu} className="form-control form-control-sm" type="text" id="recipe_links_ru" value={this.state.links.ru} onChange={(event) => this.setState({links: { en: this.state.links.en, ru: event.target.value }})} />
           </div>
         </div>
         <div className="double_line">
           <div className="double_line">
             <div className="form-group">
               <label htmlFor="recipe_profession_id">{strings.profession}</label>
-              <select className="form-control" id="recipe_profession_id" onChange={(event) => this.setState({profession: event.target.value})} value={this.state.profession}>
+              <select className="form-control form-control-sm" id="recipe_profession_id" onChange={(event) => this.setState({profession: event.target.value})} value={this.state.profession}>
                 <option value="0"></option>
                 {this._renderProfessions()}
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="recipe_skill">{strings.skill}</label>
-              <input required="required" placeholder={strings.skillLabel} className="form-control" type="number" id="recipe_skill" value={this.state.skill} onChange={(event) => this.setState({skill: event.target.value})} />
+              <input required="required" placeholder={strings.skillLabel} className="form-control form-control-sm" type="number" id="recipe_skill" value={this.state.skill} onChange={(event) => this.setState({skill: event.target.value})} />
             </div>
           </div>
         </div>
         {this.state.recipeId === undefined &&
-          <input type="submit" name="commit" value={strings.create} className="btn btn-primary" onClick={this._onCreate.bind(this)} />
+          <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
         }
         {this.state.recipeId !== undefined &&
-          <input type="submit" name="commit" value={strings.update} className="btn btn-primary" onClick={this._onUpdate.bind(this)} />
+          <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
         }
       </div>
     )

@@ -84,7 +84,7 @@ export default class Craft extends React.Component {
     return (
       <div className="filter profession">
         <p>{strings.filterProfession}</p>
-        <select className="form-control" onChange={this._onChangeProfession.bind(this)} value={this.state.profession}>
+        <select className="form-control form-control-sm" onChange={this._onChangeProfession.bind(this)} value={this.state.profession}>
           <option value='0' key='0'>{strings.none}</option>
           {this._renderProfessionsList()}
         </select>
@@ -102,7 +102,7 @@ export default class Craft extends React.Component {
     return (
       <div className="filter recipe">
         <p>{strings.filterRecipe}</p>
-        <select className="form-control" onChange={(event) => this.setState({recipe: event.target.value})} value={this.state.recipe}>
+        <select className="form-control form-control-sm" onChange={(event) => this.setState({recipe: event.target.value})} value={this.state.recipe}>
           {this._renderRecipesList()}
         </select>
       </div>
@@ -119,7 +119,7 @@ export default class Craft extends React.Component {
     return (
       <div className="filter world">
         <p>{strings.filterWorld}</p>
-        <select className="form-control" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
+        <select className="form-control form-control-sm" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
           <option value='0' key='0'>{strings.none}</option>
           {this._renderWorldsList()}
         </select>
@@ -137,7 +137,7 @@ export default class Craft extends React.Component {
     return (
       <div className="filter guild">
         <p>{strings.filterGuild}</p>
-        <select className="form-control" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
+        <select className="form-control form-control-sm" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
           <option value='0' key='0'>{strings.none}</option>
           {this._renderGuildsList()}
         </select>
@@ -155,7 +155,7 @@ export default class Craft extends React.Component {
     return (
       <div className="filter fraction">
         <p>{strings.filterFraction}</p>
-        <select className="form-control" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
+        <select className="form-control form-control-sm" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
           <option value='0' key='0'>{strings.none}</option>
           {this._renderFractionsList()}
         </select>
@@ -173,7 +173,7 @@ export default class Craft extends React.Component {
     if (this.state.crafters.length === 0) return <div>{this._renderSearchStatus()}<p>{strings.noData}</p></div>
     return (
       <div className="characters">
-        <table className="table">
+        <table className="table table-sm">
           <thead>
             <tr>
               <th>{strings.name}</th>

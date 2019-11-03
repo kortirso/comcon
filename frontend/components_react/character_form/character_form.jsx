@@ -346,23 +346,23 @@ export default class CharacterForm extends React.Component {
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="character_name">{strings.name}</label>
-            <input required="required" placeholder={strings.nameLabel} className="form-control" type="text" id="character_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
+            <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="character_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
           </div>
           <div className="form-group">
             <label htmlFor="character_level">{strings.level}</label>
-            <input required="required" placeholder={strings.level} className="form-control" type="number" id="character_level" value={this.state.level} onChange={(event) => this.setState({level: event.target.value})} />
+            <input required="required" placeholder={strings.level} className="form-control form-control-sm" type="number" id="character_level" value={this.state.level} onChange={(event) => this.setState({level: event.target.value})} />
           </div>
         </div>
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="character_race_id">{strings.race}</label>
-            <select className="form-control" id="character_race_id" onChange={this._onChangeRace.bind(this)} value={this.state.currentRace === null ? '0' : this.state.currentRace} disabled={this.state.characterId !== undefined}>
+            <select className="form-control form-control-sm" id="character_race_id" onChange={this._onChangeRace.bind(this)} value={this.state.currentRace === null ? '0' : this.state.currentRace} disabled={this.state.characterId !== undefined}>
               {this._renderRaces()}
             </select>
           </div>
           <div className="form-group">
             <label htmlFor="character_character_class_id">{strings.characterClass}</label>
-            <select className="form-control" id="character_character_class_id" onChange={this._onChangeClass.bind(this)} value={this.state.currentCharacterClass === null ? '0' : this.state.currentCharacterClass} disabled={this.state.characterId !== undefined}>
+            <select className="form-control form-control-sm" id="character_character_class_id" onChange={this._onChangeClass.bind(this)} value={this.state.currentCharacterClass === null ? '0' : this.state.currentCharacterClass} disabled={this.state.characterId !== undefined}>
               {this._renderRaceCharacterClasses()}
             </select>
           </div>
@@ -371,14 +371,14 @@ export default class CharacterForm extends React.Component {
           <div className="double_line">
             <div className="form-group">
               <label htmlFor="character_guild_id">{strings.guild}</label>
-              <select className="form-control" id="character_guild_id" onChange={this._onChangeGuild.bind(this)} value={this.state.currentGuild} disabled={this.state.characterId !== undefined}>
+              <select className="form-control form-control-sm" id="character_guild_id" onChange={this._onChangeGuild.bind(this)} value={this.state.currentGuild} disabled={this.state.characterId !== undefined}>
                 <option value="0"></option>
                 {this._renderGuilds()}
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="world_id">{strings.world}</label>
-              <select className="form-control" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld} disabled={this.state.characterId !== undefined}>
+              <select className="form-control form-control-sm" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld} disabled={this.state.characterId !== undefined}>
                 <option value="0"></option>
                 {this._renderWorlds()}
               </select>
@@ -387,7 +387,7 @@ export default class CharacterForm extends React.Component {
           <div className="form-group roles">
             <div className="main_role">
               <label htmlFor="character_main_role_id">{strings.mainRole}</label>
-              <select className="form-control" id="character_main_role_id" onChange={this._onChangeMainRole.bind(this)} value={this.state.currentMainRole === null ? '0' : this.state.currentMainRole}>
+              <select className="form-control form-control-sm" id="character_main_role_id" onChange={this._onChangeMainRole.bind(this)} value={this.state.currentMainRole === null ? '0' : this.state.currentMainRole}>
                 {this._renderClassRoles()}
               </select>
             </div>
@@ -426,10 +426,10 @@ export default class CharacterForm extends React.Component {
           </div>
         }
         {this.state.characterId === undefined &&
-          <input type="submit" name="commit" value={strings.create} className="btn btn-primary" onClick={this._onCreate.bind(this)} />
+          <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
         }
         {this.state.characterId !== undefined &&
-          <input type="submit" name="commit" value={strings.update} className="btn btn-primary" onClick={this._onUpdate.bind(this)} />
+          <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
         }
       </div>
     )

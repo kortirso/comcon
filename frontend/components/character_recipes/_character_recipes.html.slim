@@ -14,4 +14,4 @@
                   = check_box_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", '1', existed_recipe_ids.include?(recipe.id), class: 'form-check-input'
                   = label_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", class: 'form-check-label'
                     = recipe.name[I18n.locale.to_s]
-      = f.submit t('buttons.update'), class: 'btn btn-primary'
+      = f.submit t('buttons.update'), class: 'btn btn-primary btn-sm'

@@ -1,6 +1,6 @@
 = javascript_pack_tag 'guild'
 .container#guild
-  h2= @guild.full_name(I18n.locale.to_s)
+  h2= @guild.full_name
   - if Current.user.any_role?(@guild.id, 'gm', 'rl')
     = link_to t('guild.management'), management_guild_path(@guild.slug), class: 'btn btn-sm btn-primary with_bottom_margin'
   = react_component('Guild', guild_slug: @guild.slug, guild_id: @guild.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token], is_admin: Current.user.is_admin?, is_gm: Current.user.any_role?(@guild.id, 'gm'), current_user_character_ids: @user_characters.pluck(:id))

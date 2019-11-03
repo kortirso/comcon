@@ -81,7 +81,7 @@ export default class GuildsList extends React.Component {
     return (
       <div className="filter world">
         <p>{strings.filterWorld}</p>
-        <select className="form-control" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
+        <select className="form-control form-control-sm" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
           <option value='0' key='0'>{strings.none}</option>
           {this._renderWorldsList()}
         </select>
@@ -99,7 +99,7 @@ export default class GuildsList extends React.Component {
     return (
       <div className="filter fraction">
         <p>{strings.filterFraction}</p>
-        <select className="form-control" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
+        <select className="form-control form-control-sm" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
           <option value='0' key='0'>{strings.none}</option>
           {this._renderFractionsList()}
         </select>
@@ -145,7 +145,7 @@ export default class GuildsList extends React.Component {
     return (
       <div className="guilds">
         {this._renderFilters()}
-        <table className="table table-striped">
+        <table className="table table-striped table-sm">
           <thead>
             <tr>
               <th>{strings.id}</th>

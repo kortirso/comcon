@@ -76,6 +76,8 @@ en:
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help!
   statics:
     title: Statics
+    description: Description
+    owner: Owner
     add: Add static
     name: Name
   guild:

@@ -2,7 +2,7 @@
   #statics
     h2= t('statics.title')
     = link_to t('statics.add'), new_static_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
-    table.table.table-striped
+    table.table.table-striped.table-sm
       thead
         tr
           th= t('statics.name')

@@ -113,7 +113,7 @@ export default class Guild extends React.Component {
   render() {
     return (
       <div className="characters">
-        <table className="table">
+        <table className="table table-sm">
           <thead>
             <tr>
               <th>{strings.name}</th>

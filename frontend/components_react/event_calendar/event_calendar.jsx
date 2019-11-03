@@ -168,7 +168,7 @@ export default class EventCalendar extends React.Component {
     return (
       <div className="filter access_type">
         <p>{strings.filterAccess}</p>
-        <select className="form-control" onChange={this._onChangeAccessType.bind(this)} value={this.state.accessType}>
+        <select className="form-control form-control-sm" onChange={this._onChangeAccessType.bind(this)} value={this.state.accessType}>
           <option value='none'>{strings.none}</option>
           <option value='World'>{strings.onlyWorlds}</option>
           <option value='Guild'>{strings.onlyGuilds}</option>
@@ -183,7 +183,7 @@ export default class EventCalendar extends React.Component {
       return (
         <div className="filter world">
           <p>{strings.filterWorld}</p>
-          <select className="form-control" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
+          <select className="form-control form-control-sm" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderWorldsList()}
           </select>
@@ -204,7 +204,7 @@ export default class EventCalendar extends React.Component {
       return (
         <div className="filter guild">
           <p>{strings.filterGuild}</p>
-          <select className="form-control" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
+          <select className="form-control form-control-sm" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderGuildsList()}
           </select>
@@ -225,7 +225,7 @@ export default class EventCalendar extends React.Component {
       return (
         <div className="filter fraction">
           <p>{strings.filterFraction}</p>
-          <select className="form-control" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
+          <select className="form-control form-control-sm" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderFractionsList()}
           </select>
@@ -244,7 +244,7 @@ export default class EventCalendar extends React.Component {
     return (
       <div className="filter character">
         <p>{strings.filterCharacter}</p>
-        <select className="form-control" onChange={this._onChangeCharacter.bind(this)} value={this.state.character}>
+        <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind(this)} value={this.state.character}>
           <option value='none' key='0'>{strings.none}</option>
           {this._renderCharactersList()}
         </select>

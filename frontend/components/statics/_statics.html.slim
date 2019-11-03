@@ -2,17 +2,19 @@
   #statics
     h2= t('statics.title')
     = link_to t('statics.add'), new_static_path, class: 'btn btn-primary btn-sm with_bottom_margin'
-    table.table.table-striped
+    table.table.table-striped.table-sm
       thead
         tr
           th= t('statics.name')
           th= t('statics.description')
+          th= t('statics.owner')
           th
       tbody
-        - @user_statics.each do |static|
+        - @user_statics.includes(staticable: :world).each do |static|
           tr
             td= link_to static.name, static
             td= static.description
+            td= static.staticable.full_name
             td
               - if Current.user.any_static_role?(static)
                 = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'

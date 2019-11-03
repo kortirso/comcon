@@ -1,7 +1,9 @@
 .container
   = form_with model: @user, local: true do |f|
-    .form-group
-      = f.label :role, t('users.role')
-      = f.select :role, options_for_select([['User', 'user'], ['Admin', 'admin']], '@user.role'), {}, { class: 'form-control' }
-    = f.submit t('buttons.update'), class: 'btn btn-primary'
+    .double_line
+      .double_line
+        .form-group
+          = f.label :role, t('users.role')
+          = f.select :role, options_for_select([['User', 'user'], ['Admin', 'admin']], '@user.role'), {}, { class: 'form-control form-control-sm' }
+    = f.submit t('buttons.update'), class: 'btn btn-primary btn-sm'
     

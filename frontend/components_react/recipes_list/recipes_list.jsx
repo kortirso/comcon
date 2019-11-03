@@ -71,7 +71,7 @@ export default class RecipesList extends React.Component {
     return (
       <div className="filter profession">
         <p>{strings.filterProfession}</p>
-        <select className="form-control" onChange={this._onChangeProfession.bind(this)} value={this.state.profession}>
+        <select className="form-control form-control-sm" onChange={this._onChangeProfession.bind(this)} value={this.state.profession}>
           <option value='0' key='0'>{strings.all}</option>
           {this._renderProfessions()}
         </select>
@@ -118,7 +118,7 @@ export default class RecipesList extends React.Component {
     return (
       <div className="recipes">
         {this._renderFilters()}
-        <table className="table table-striped">
+        <table className="table table-striped table-sm">
           <thead>
             <tr>
               {this.state.profession === '0' &&

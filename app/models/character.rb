@@ -30,4 +30,8 @@ class Character < ApplicationRecord
   has_many :in_statics, through: :static_members, source: :static
 
   has_one :guild_role, dependent: :destroy
+
+  def full_name
+    "#{name} - #{world.full_name}"
+  end
 end

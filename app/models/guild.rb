@@ -28,8 +28,8 @@ class Guild < ApplicationRecord
     text.to_slug.transliterate(:russian).normalize.to_s
   end
 
-  def full_name(locale = 'en')
-    "#{name}, #{fraction.name[locale]}, #{world.full_name}"
+  def full_name
+    "#{name}, #{world.full_name}"
   end
 
   private
