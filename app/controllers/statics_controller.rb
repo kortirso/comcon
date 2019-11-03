@@ -1,4 +1,5 @@
 class StaticsController < ApplicationController
+  before_action :find_user_statics, only: %i[index]
   before_action :find_guild, only: %i[new]
   before_action :find_static_by_slug, only: %i[show edit destroy management]
 
@@ -25,6 +26,10 @@ class StaticsController < ApplicationController
   end
 
   private
+
+  def find_user_statics
+    @user_statics = Current.user.statics
+  end
 
   def find_guild
     return unless params[:guild_id].present?

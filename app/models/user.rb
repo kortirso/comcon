@@ -19,6 +19,12 @@ class User < ApplicationRecord
     false
   end
 
+  def statics
+    character_ids = Character.where(user_id: id).pluck(:id)
+    static_ids = StaticMember.where(character_id: character_ids).pluck(:id)
+    Static.where(id: static_ids)
+  end
+
   def is_admin?
     role == 'admin'
   end

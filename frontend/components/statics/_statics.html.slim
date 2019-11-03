@@ -2,3 +2,18 @@
   #statics
     h2= t('statics.title')
     = link_to t('statics.add'), new_static_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+    table.table.table-striped
+      thead
+        tr
+          th= t('statics.name')
+          th= t('statics.description')
+          th
+      tbody
+        - @user_statics.each do |static|
+          tr
+            td= link_to static.name, static
+            td= static.description
+            td
+              - if Current.user.any_static_role?(static)
+                = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
+                = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

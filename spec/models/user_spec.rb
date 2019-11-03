@@ -76,5 +76,19 @@ RSpec.describe User, type: :model do
         expect(result).to eq true
       end
     end
+
+    context '.statics' do
+      let!(:character) { create :character }
+      let!(:static1) { create :static, :guild, world: character.world, fraction: character.race.fraction }
+      let!(:static2) { create :static, :guild, world: character.world, fraction: character.race.fraction }
+      let!(:static_member) { create :static_member, static: static1, character: character }
+
+      it 'returns only statics where user character has membership' do
+        result = character.user.statics
+
+        expect(result.size).to eq 1
+        expect(result[0].id).to eq static1.id
+      end
+    end
   end
 end
