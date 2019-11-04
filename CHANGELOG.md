@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - styles and translations
 
+### Fix
+- 24 hours time presentation for events calendar
+
 ## [0.6.0] - 2019-11-01
 ### Added
 - model Static

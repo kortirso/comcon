@@ -113,24 +113,40 @@ export default class EventCalendar extends React.Component {
     })
     if (filtered.length <= 4) {
       return filtered.map((event) => {
-        const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        let days = '0'
+        let hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        if (hours < 0) {
+          hours += 24
+          days = '-1'
+        } else if (hours > 24) {
+          hours -= 24
+          days = '+1'
+        }
         const minutes = event.time.minutes
         return (
           <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
             <p className="name">{event.name}</p>
-            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</p>
           </a>
         )
       })
     } else {
       let result = []
       filtered.slice(0, 4).map((event) => {
-        const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        let days = '0'
+        let hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        if (hours < 0) {
+          hours += 24
+          days = '-1'
+        } else if (hours > 24) {
+          hours -= 24
+          days = '+1'
+        }
         const minutes = event.time.minutes
         result.push(
           <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
             <p className="name">{event.name}</p>
-            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</p>
           </a>
         )
       })
@@ -141,6 +157,11 @@ export default class EventCalendar extends React.Component {
       )
       return result
     }
+  }
+
+  _renderOtherDays(value) {
+    if (value === '0') return false
+    else return ` (${value})`
   }
 
   _onSelectCurrentDay(value) {
@@ -334,12 +355,20 @@ export default class EventCalendar extends React.Component {
         return event.date == this.state.currentDayId
       })
       const events = filtered.map((event) => {
-        const hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        let days = '0'
+        let hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+        if (hours < 0) {
+          hours += 24
+          days = '-1'
+        } else if (hours > 24) {
+          hours -= 24
+          days = '+1'
+        }
         const minutes = event.time.minutes
         return (
           <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
             <p className="name">{event.name}</p>
-            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+            <p className="time">{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</p>
           </a>
         )
       })
@@ -366,7 +395,15 @@ export default class EventCalendar extends React.Component {
       const currentDungeon = this.state.dungeons.filter((dungeon) => {
         return dungeon.id === currentEvent.dungeon_id
       })
-      const hours = currentEvent.time.hours - this.state.timeZoneOffsetMinutes / 60
+      let days = '0'
+      let hours = currentEvent.time.hours - this.state.timeZoneOffsetMinutes / 60
+      if (hours < 0) {
+        hours += 24
+        days = '-1'
+      } else if (hours > 24) {
+        hours -= 24
+        days = '+1'
+      }
       const minutes = currentEvent.time.minutes
       return (
         <div className="current-event-data">
@@ -374,7 +411,7 @@ export default class EventCalendar extends React.Component {
           {currentDungeon.length !== 0 &&
             <p>{strings.place} - {currentDungeon[0].name[this.props.locale]}</p>
           }
-          <p>{strings.startTime} - {currentEvent.date} {strings.at} {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}</p>
+          <p>{strings.startTime} - {currentEvent.date} {strings.at} {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</p>
           {currentEvent.description !== '' &&
             <p>{currentEvent.description}</p>
           }
