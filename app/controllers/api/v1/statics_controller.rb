@@ -57,7 +57,8 @@ module Api
       def members
         authorize! @static
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(@static.characters, each_serializer: CharacterCrafterSerializer).as_json[:characters]
+          characters: ActiveModelSerializers::SerializableResource.new(@static.characters, each_serializer: CharacterCrafterSerializer).as_json[:characters],
+          invites: ActiveModelSerializers::SerializableResource.new(@static.static_invites, each_serializer: StaticInviteSerializer).as_json[:static_invites]
         }, status: 200
       end
 

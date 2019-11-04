@@ -7,6 +7,6 @@ class CreateStaticMember
   # context.character
   def call
     static_member_form = StaticMemberForm.new(static: context.static, character: context.character)
-    static_member_form.persist?
+    context.fail!(message: static_member_form.errors.full_messages) unless static_member_form.persist?
   end
 end

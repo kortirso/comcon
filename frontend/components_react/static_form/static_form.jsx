@@ -142,10 +142,10 @@ export default class StaticForm extends React.Component {
           </div>
         </div>
         {this.state.staticId === undefined &&
-          <input type="submit" name="commit" value={strings.create} className="btn btn-primary" onClick={this._onCreate.bind(this)} />
+          <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
         }
         {this.state.staticId !== undefined &&
-          <input type="submit" name="commit" value={strings.update} className="btn btn-primary" onClick={this._onUpdate.bind(this)} />
+          <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
         }
       </div>
     )
