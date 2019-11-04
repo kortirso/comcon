@@ -13,6 +13,7 @@
     "timeZone": "The time on the calendar is for your time zone",
     "subscribed": "Subscribed",
     "edit": "Edit",
+    "deleteButton": "Delete",
     "place": "Place",
     "startTime": "Start time",
     "noEvents": "No event selected",
@@ -20,7 +21,9 @@
     "selectedDay": "Chosen day",
     "selectedEvent": "Chosen event",
     "noDay": "No day selected",
-    "noDayEvents": "No events at this day"
+    "noDayEvents": "No events at this day",
+    "otherEvents": "And other events",
+    "sure": "Are sure?"
   },
   "ru": {
     "none": "все",
@@ -36,6 +39,7 @@
     "timeZone": "Время в календаре указано для вашего часового пояса",
     "subscribed": "Подписавшиеся",
     "edit": "Изменить",
+    "deleteButton": "Удалить",
     "place": "Место проведения",
     "startTime": "Время начала",
     "noEvents": "Пока не выбрано никаких событий",
@@ -43,6 +47,8 @@
     "selectedDay": "Выбранный день",
     "selectedEvent": "Выбранное событие",
     "noDay": "Пока не выбран никакой день",
-    "noDayEvents": "В данный день нет никаких событий"
+    "noDayEvents": "В данный день нет никаких событий",
+    "otherEvents": "И другие события",
+    "sure": "Вы уверены?"
   }
 }

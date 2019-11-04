@@ -14,7 +14,7 @@ Rails.application.routes.draw do
         get :default_values, on: :collection
         get :search, on: :collection
       end
-      resources :events, only: %i[index show create update] do
+      resources :events, except: %i[new edit] do
         get :subscribers, on: :member
         get :filter_values, on: :collection
         get :event_form_values, on: :collection

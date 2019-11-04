@@ -8,6 +8,10 @@ class EventPolicy < ApplicationPolicy
     record.owner.user_id == user.id
   end
 
+  def destroy?
+    update?
+  end
+
   def subscribers?
     show?
   end

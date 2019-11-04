@@ -215,6 +215,56 @@ RSpec.describe 'Events API' do
     end
   end
 
+  describe 'DELETE#destroy' do
+    let!(:event) { create :event }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let!(:character) { create :character, user: user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted event' do
+        before { delete '/api/v1/events/unexisted.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed event' do
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction, owner: character }
+        let(:request) { delete "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token } }
+
+        it 'deletes event' do
+          expect { request }.to change { Event.count }.by(-1)
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 200' do
+            expect(response.status).to eq 200
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('result' => 'Event is destroyed')
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      delete "/api/v1/events/#{event.id}.json", headers: headers
+    end
+  end
+
   describe 'GET#subscribers' do
     let!(:event) { create :event }
 

@@ -8,7 +8,7 @@ module Api
 
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
-      before_action :find_event, only: %i[show update subscribers]
+      before_action :find_event, only: %i[show update destroy subscribers]
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
@@ -53,6 +53,15 @@ module Api
         else
           render json: { errors: event_form.errors.full_messages }, status: 409
         end
+      end
+
+      api :DELETE, '/v1/events/:id.json', 'Delete event'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def destroy
+        authorize! @event
+        @event.destroy
+        render json: { result: 'Event is destroyed' }, status: 200
       end
 
       api :GET, '/v1/events/:id/subscribers.json', 'Show event subscribers'

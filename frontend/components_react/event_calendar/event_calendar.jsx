@@ -78,6 +78,19 @@ export default class EventCalendar extends React.Component {
     })
   }
 
+  _onDeleteEvent(event) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/v1/events/${event.id}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const events = [... this.state.events]
+        const eventIndex = events.indexOf(event)
+        events.splice(eventIndex, 1)
+        this.setState({events: events, currentEventId: null})
+      }
+    })
+  }
+
   _renderPreviousMonth(value) {
     let days = []
     let amount = this.state.previousDaysAmount
@@ -152,7 +165,7 @@ export default class EventCalendar extends React.Component {
       })
       result.push(
         <a className='others' key={0}>
-          <p>And other events</p>
+          <p>{strings.otherEvents}</p>
         </a>
       )
       return result
@@ -419,6 +432,9 @@ export default class EventCalendar extends React.Component {
             <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}`}>{strings.subscribed}</a>
             {this.props.user_character_ids.includes(currentEvent.owner_id) &&
               <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.id}/edit`}>{strings.edit}</a>
+            }
+            {this.props.user_character_ids.includes(currentEvent.owner_id) &&
+              <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteEvent.bind(this, currentEvent)}>{strings.deleteButton}</button>
             }
           </div>
         </div>
