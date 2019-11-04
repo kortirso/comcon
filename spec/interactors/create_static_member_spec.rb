@@ -28,4 +28,14 @@ describe CreateStaticMember do
       end
     end
   end
+
+  describe '.rollback' do
+    subject(:interactor) { CreateStaticMember.new(static: static, character: character) }
+
+    it 'removes the created static member' do
+      interactor.call
+
+      expect { interactor.rollback }.to change { StaticMember.count }.by(-1)
+    end
+  end
 end

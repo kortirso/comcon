@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - rendering search results
 - StaticInvite model
 - creating invites to statics
+- approving and declining for static invites
 
 ## [0.6.0] - 2019-11-01
 ### Added

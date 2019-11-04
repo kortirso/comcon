@@ -55,19 +55,6 @@ RSpec.describe StaticInviteForm, type: :service do
         end
       end
 
-      context 'for existed membership' do
-        let!(:static_member) { create :static_member, static: static, character: character }
-        let(:service) { StaticInviteForm.new(static: static, character: character) }
-
-        it 'does not create new static invite' do
-          expect { service.persist? }.to_not change(StaticInvite, :count)
-        end
-
-        it 'and returns false' do
-          expect(service.persist?).to eq false
-        end
-      end
-
       context 'for unexisted static invite, but invalid status' do
         let(:service) { StaticInviteForm.new(static: static, character: character, status: 1) }
 

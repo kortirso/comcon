@@ -29,6 +29,7 @@ class StaticsController < ApplicationController
 
   def find_user_statics
     @user_statics = Current.user.statics
+    @user_static_invites = Current.user.static_invites
   end
 
   def find_guild

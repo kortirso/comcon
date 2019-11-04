@@ -3,6 +3,7 @@ module Api
     class StaticInvitesController < Api::V1::BaseController
       before_action :find_static, only: %i[create]
       before_action :find_character, only: %i[create]
+      before_action :check_static_member, only: %i[create]
 
       resource_description do
         short 'StaticInvite resources'
@@ -31,6 +32,10 @@ module Api
       def find_character
         @character = Character.find_by(id: params[:static_invite][:character_id])
         render_error('Object is not found') if @character.nil?
+      end
+
+      def check_static_member
+        render json: { error: 'Static member already exists' }, status: 409 if StaticMember.where(static: @static, character: @character).exists?
       end
 
       def create_static_member

@@ -74,7 +74,7 @@ RSpec.describe 'StaticInvites API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)).to eq('error' => 'Static member already exists')
             end
           end
         end
@@ -132,7 +132,7 @@ RSpec.describe 'StaticInvites API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)).to eq('error' => 'Static member already exists')
             end
           end
         end

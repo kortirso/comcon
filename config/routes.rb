@@ -53,6 +53,10 @@ Rails.application.routes.draw do
     resources :statics, except: %i[create update] do
       get :management, on: :member
     end
+    resources :static_invites, only: %i[] do
+      get :approve, on: :member
+      get :decline, on: :member
+    end
 
     root to: 'welcome#index'
   end

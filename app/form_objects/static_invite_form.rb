@@ -11,7 +11,6 @@ class StaticInviteForm
   validates :static, :character, presence: true
   validates :status, inclusion: 0..2
   validate :status_value
-  validate :character_in_static?
   validate :same_world?
   validate :same_fraction?
 
@@ -38,10 +37,6 @@ class StaticInviteForm
     return if id && !status.zero?
     return if id.nil? && status.zero?
     errors[:status] << 'not valid'
-  end
-
-  def character_in_static?
-    errors[:character] << 'already in static' if StaticMember.where(static: static, character: character).exists?
   end
 
   def same_world?

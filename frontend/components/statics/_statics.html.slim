@@ -19,3 +19,24 @@
               - if Current.user.any_static_role?(static)
                 = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
                 = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+    - if @user_static_invites.size.positive?
+      .invites
+        h3= t('statics.invites')
+        table.table.table-striped.table-sm
+          thead
+            tr
+              th= t('statics.name')
+              th= t('statics.description')
+              th= t('statics.owner')
+              th= t('statics.invited_character')
+              th
+          tbody
+            - @user_static_invites.includes(:character, static: :staticable).each do |invite|
+              tr
+                td= link_to invite.static.name, invite.static
+                td= invite.static.description
+                td= invite.static.staticable.full_name
+                td= invite.character.name
+                td
+                  = link_to t('buttons.accept'), approve_static_invite_path(invite.id), class: 'btn btn-primary btn-sm with_right_margin'
+                  = link_to t('buttons.decline'), decline_static_invite_path(invite.id), class: 'btn btn-primary btn-sm'

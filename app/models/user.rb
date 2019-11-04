@@ -25,6 +25,11 @@ class User < ApplicationRecord
     Static.where(id: static_ids)
   end
 
+  def static_invites
+    character_ids = Character.where(user_id: id).pluck(:id)
+    StaticInvite.where(character_id: character_ids, status: 0)
+  end
+
   def is_admin?
     role == 'admin'
   end
