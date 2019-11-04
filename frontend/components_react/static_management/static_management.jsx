@@ -39,8 +39,8 @@ export default class StaticManagement extends React.Component {
       method: 'GET',
       url: `/api/v1/statics/${this.props.static_id}/members.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        const memberIds = data.characters.map((character) => {
-          return character.id
+        const memberIds = data.members.map((member) => {
+          return member.character.id
         })
         const invites = data.invites.filter((invite) => {
           return ['send', 'declined'].includes(invite.status)
@@ -48,7 +48,7 @@ export default class StaticManagement extends React.Component {
         const inviteIds = invites.map((invite) => {
           return invite.character.id
         })
-        this.setState({members: data.characters, memberIds: memberIds, invites: invites, inviteIds: inviteIds})
+        this.setState({members: data.members, memberIds: memberIds, invites: invites, inviteIds: inviteIds})
       }
     })
   }
@@ -108,16 +108,16 @@ export default class StaticManagement extends React.Component {
     })
   }
 
-  _onDeleteStaticMember(character) {
+  _onDeleteStaticMember(member) {
     $.ajax({
       method: 'DELETE',
-      url: `/api/v1/static_members/${character.id}.json?access_token=${this.props.access_token}`,
+      url: `/api/v1/static_members/${member.id}.json?access_token=${this.props.access_token}`,
       success: () => {
         const members = [... this.state.members]
-        const memberIndex = members.indexOf(character)
+        const memberIndex = members.indexOf(member)
         members.splice(memberIndex, 1)
         const memberIds = [... this.state.memberIds]
-        const memberIdIndex = memberIds.indexOf(character.id)
+        const memberIdIndex = memberIds.indexOf(member.character.id)
         memberIds.splice(memberIdIndex, 1)
         this.setState({members: members, memberIds: memberIds})
       }
@@ -213,15 +213,15 @@ export default class StaticManagement extends React.Component {
   }
 
   _renderStaticMembers() {
-    return this.state.members.map((character) => {
+    return this.state.members.map((member) => {
       return (
-        <tr className={character.character_class.en} key={character.id}>
-          <td>{character.name}</td>
-          <td>{character.race[this.props.locale]}</td>
-          <td>{character.level}</td>
-          <td>{character.guild}</td>
+        <tr className={member.character.character_class.en} key={member.id}>
+          <td>{member.character.name}</td>
+          <td>{member.character.race[this.props.locale]}</td>
+          <td>{member.character.level}</td>
+          <td>{member.character.guild}</td>
           <td>
-            <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteStaticMember.bind(this, character)}>{strings.deleteInvite}</button>
+            <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteStaticMember.bind(this, member)}>{strings.deleteInvite}</button>
           </td>
         </tr>
       )

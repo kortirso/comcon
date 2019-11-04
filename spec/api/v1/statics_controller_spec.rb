@@ -316,7 +316,7 @@ RSpec.describe 'Statics API' do
             expect(response.status).to eq 200
           end
 
-          %w[characters invites].each do |attr|
+          %w[members invites].each do |attr|
             it "and #{attr}" do
               expect(response.body).to have_json_path(attr)
             end
