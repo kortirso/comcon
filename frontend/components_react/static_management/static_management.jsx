@@ -42,10 +42,13 @@ export default class StaticManagement extends React.Component {
         const memberIds = data.characters.map((character) => {
           return character.id
         })
-        const inviteIds = data.invites.map((invite) => {
+        const invites = data.invites.filter((invite) => {
+          return ['send', 'declined'].includes(invite.status)
+        })
+        const inviteIds = invites.map((invite) => {
           return invite.character.id
         })
-        this.setState({members: data.characters, memberIds: memberIds, invites: data.invites, inviteIds: inviteIds})
+        this.setState({members: data.characters, memberIds: memberIds, invites: invites, inviteIds: inviteIds})
       }
     })
   }
@@ -89,6 +92,22 @@ export default class StaticManagement extends React.Component {
     })
   }
 
+  _onDeleteInvite(invite) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/v1/static_invites/${invite.id}.json?access_token=${this.props.access_token}`,
+      success: () => {
+        const invites = [... this.state.invites]
+        const inviteIndex = invites.indexOf(invite)
+        invites.splice(inviteIndex, 1)
+        const inviteIds = [... this.state.inviteIds]
+        const inviteIdIndex = inviteIds.indexOf(invite.id)
+        inviteIds.splice(inviteIdIndex, 1)
+        this.setState({invites: invites, inviteIds: inviteIds})
+      }
+    })
+  }
+
   _renderStaticMembers() {
     return this.state.members.map((character) => {
       return (
@@ -97,14 +116,13 @@ export default class StaticManagement extends React.Component {
           <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
           <td>{character.guild}</td>
-          <td>{character.world}</td>
         </tr>
       )
     })
   }
 
   _renderInvites() {
-    if (this.state.invites.length === 0) return <p>No invites</p>
+    if (this.state.invites.length === 0) return <p>{strings.noInvites}</p>
     else {
       return (
         <table className="table table-sm">
@@ -134,6 +152,9 @@ export default class StaticManagement extends React.Component {
           <td>{invite.character.level}</td>
           <td>{invite.character.guild}</td>
           <td>
+            {invite.status === 'declined' &&
+              <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
+            }
           </td>
         </tr>
       )
@@ -158,7 +179,7 @@ export default class StaticManagement extends React.Component {
           </tbody>
         </table>
       )
-    } else return <p>No characters</p>
+    } else return <p>{strings.noCharacters}</p>
   }
 
   _renderSearchResults() {
@@ -170,7 +191,7 @@ export default class StaticManagement extends React.Component {
           <td>{character.level}</td>
           <td>{character.guild}</td>
           <td>
-            <input type="submit" name="commit" value='Invite' className="btn btn-primary btn-sm" onClick={this._onInviteCharacter.bind(this, character)} />
+            <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onInviteCharacter.bind(this, character)} />
           </td>
         </tr>
       )
@@ -179,7 +200,6 @@ export default class StaticManagement extends React.Component {
 
   _onChangeQuery(event) {
     if (this.typingTimeout) clearTimeout(this.typingTimeout)
-
     const queryValue = event.target.value
     if (queryValue.length < 3) return this.setState({query: queryValue})
     else this.setState({query: queryValue}, () => {
@@ -201,7 +221,6 @@ export default class StaticManagement extends React.Component {
                 <th>{strings.race}</th>
                 <th>{strings.level}</th>
                 <th>{strings.guild}</th>
-                <th>{strings.realm}</th>
               </tr>
             </thead>
             <tbody>

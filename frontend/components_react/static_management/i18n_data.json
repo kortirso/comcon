@@ -8,7 +8,11 @@
     "realm": "Realm",
     "invites": "Invites",
     "search": "Search characters",
-    "nameLabel": "Search character by name or guild name (minimum 3 symbols)"
+    "nameLabel": "Search character by name or guild name (minimum 3 symbols)",
+    "noCharacters": "No characters",
+    "noInvites": "No invites",
+    "invite": "Invite",
+    "deleteInvite": "Delete"
   },
   "ru": {
     "alreadyMembers": "Состав статика",
@@ -19,6 +23,10 @@
     "realm": "Игровой Мир",
     "invites": "Приглашения",
     "search": "Поиск персонажей",
-    "nameLabel": "Поиск персонажа по имени или названию гильдии (минимум 3 символа)"
+    "nameLabel": "Поиск персонажа по имени или названию гильдии (минимум 3 символа)",
+    "noCharacters": "Персонажи не найдены",
+    "noInvites": "Инвайтов в статик нет",
+    "invite": "Инвайт",
+    "deleteInvite": "Удалить"
   }
 }

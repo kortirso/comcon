@@ -31,7 +31,7 @@ Rails.application.routes.draw do
         get :form_values, on: :collection
         get :members, on: :member
       end
-      resources :static_invites, only: %i[create]
+      resources :static_invites, only: %i[create destroy]
     end
   end
 

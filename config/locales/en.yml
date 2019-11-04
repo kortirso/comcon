@@ -41,6 +41,8 @@ en:
     create: Create
     update: Update
     recipes: Recipes
+    accept: Accept
+    decline: Decline
   events:
     add: Add event
     no_characters: For viewing events you need to attach new character to your account
@@ -80,5 +82,9 @@ en:
     owner: Owner
     add: Add static
     name: Name
+    invites: Invites
+    invited_character: Invited character
+  static:
+    label: Static roster
   guild:
     management: Management

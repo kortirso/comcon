@@ -41,6 +41,8 @@ ru:
     create: Создать
     update: Обновить
     recipes: Рецепты
+    accept: Принять
+    decline: Отклонить
   events:
     add: Добавить событие
     no_characters: Для просмотра событий привяжите персонажа к учетной записи
@@ -98,5 +100,9 @@ ru:
     owner: Владелец
     add: Добавить статик
     name: Название
+    invites: Приглашения
+    invited_character: Приглашенный персонаж
+  static:
+    label: Состав статика
   guild:
     management: Управление

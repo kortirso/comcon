@@ -4,6 +4,7 @@ module Api
       before_action :find_static, only: %i[create]
       before_action :find_character, only: %i[create]
       before_action :check_static_member, only: %i[create]
+      before_action :find_static_invite, only: %i[destroy]
 
       resource_description do
         short 'StaticInvite resources'
@@ -22,6 +23,12 @@ module Api
         end
       end
 
+      def destroy
+        authorize! @static_invite.static, to: :management?
+        @static_invite.destroy
+        render json: { result: 'Static invite is destroyed' }, status: 200
+      end
+
       private
 
       def find_static
@@ -36,6 +43,11 @@ module Api
 
       def check_static_member
         render json: { error: 'Static member already exists' }, status: 409 if StaticMember.where(static: @static, character: @character).exists?
+      end
+
+      def find_static_invite
+        @static_invite = StaticInvite.find_by(id: params[:id])
+        render_error('Object is not found') if @static_invite.nil?
       end
 
       def create_static_member
