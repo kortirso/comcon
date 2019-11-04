@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         get :members, on: :member
       end
       resources :static_invites, only: %i[create destroy]
+      resources :static_members, only: %i[destroy]
     end
   end
 

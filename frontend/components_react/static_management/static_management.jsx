@@ -108,16 +108,30 @@ export default class StaticManagement extends React.Component {
     })
   }
 
-  _renderStaticMembers() {
-    return this.state.members.map((character) => {
-      return (
-        <tr className={character.character_class.en} key={character.id}>
-          <td>{character.name}</td>
-          <td>{character.race[this.props.locale]}</td>
-          <td>{character.level}</td>
-          <td>{character.guild}</td>
-        </tr>
-      )
+  _onDeleteStaticMember(character) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/v1/static_members/${character.id}.json?access_token=${this.props.access_token}`,
+      success: () => {
+        const members = [... this.state.members]
+        const memberIndex = members.indexOf(character)
+        members.splice(memberIndex, 1)
+        const memberIds = [... this.state.memberIds]
+        const memberIdIndex = memberIds.indexOf(character.id)
+        memberIds.splice(memberIdIndex, 1)
+        this.setState({members: members, memberIds: memberIds})
+      }
+    })
+  }
+
+  _onChangeQuery(event) {
+    if (this.typingTimeout) clearTimeout(this.typingTimeout)
+    const queryValue = event.target.value
+    if (queryValue.length < 3) return this.setState({query: queryValue})
+    else this.setState({query: queryValue}, () => {
+      this.typingTimeout = setTimeout(() => {
+        this._searchCharacters()
+      }, 1000)
     })
   }
 
@@ -198,14 +212,19 @@ export default class StaticManagement extends React.Component {
     })
   }
 
-  _onChangeQuery(event) {
-    if (this.typingTimeout) clearTimeout(this.typingTimeout)
-    const queryValue = event.target.value
-    if (queryValue.length < 3) return this.setState({query: queryValue})
-    else this.setState({query: queryValue}, () => {
-      this.typingTimeout = setTimeout(() => {
-        this._searchCharacters()
-      }, 1000)
+  _renderStaticMembers() {
+    return this.state.members.map((character) => {
+      return (
+        <tr className={character.character_class.en} key={character.id}>
+          <td>{character.name}</td>
+          <td>{character.race[this.props.locale]}</td>
+          <td>{character.level}</td>
+          <td>{character.guild}</td>
+          <td>
+            <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteStaticMember.bind(this, character)}>{strings.deleteInvite}</button>
+          </td>
+        </tr>
+      )
     })
   }
 
@@ -221,6 +240,7 @@ export default class StaticManagement extends React.Component {
                 <th>{strings.race}</th>
                 <th>{strings.level}</th>
                 <th>{strings.guild}</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

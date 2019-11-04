@@ -12,7 +12,8 @@
     "noCharacters": "No characters",
     "noInvites": "No invites",
     "invite": "Invite",
-    "deleteInvite": "Delete"
+    "deleteInvite": "Delete",
+    "sure": "Are you sure?"
   },
   "ru": {
     "alreadyMembers": "Состав статика",
@@ -27,6 +28,7 @@
     "noCharacters": "Персонажи не найдены",
     "noInvites": "Инвайтов в статик нет",
     "invite": "Инвайт",
-    "deleteInvite": "Удалить"
+    "deleteInvite": "Удалить",
+    "sure": "Вы уверены?"
   }
 }
