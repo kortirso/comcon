@@ -29,4 +29,14 @@ RSpec.describe Character, type: :model do
 
     expect(character).to be_valid
   end
+
+  describe 'methods' do
+    context '.full_name' do
+      let!(:character) { create :character }
+
+      it 'returns full name for character' do
+        expect(character.full_name).to eq "#{character.name} - #{character.world.full_name}"
+      end
+    end
+  end
 end

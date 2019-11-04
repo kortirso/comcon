@@ -39,6 +39,28 @@ describe EventPolicy do
     end
   end
 
+  describe '#edit?' do
+    context 'for not user event' do
+      let(:policy) { described_class.new(world_event1, user: user) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'for user event' do
+      let(:policy) { described_class.new(guild_event, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    def policy_access
+      policy.edit?
+    end
+  end
+
   describe '#update?' do
     context 'for not user event' do
       let(:policy) { described_class.new(world_event1, user: user) }

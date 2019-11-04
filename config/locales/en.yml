@@ -57,6 +57,7 @@ en:
   event:
     world: "Event is available for everyone in %{world_name} realm for %{fraction} fraction"
     guild: "Event is available only for guild %{guild_name}"
+    static: "Event is available only for static %{static_name}"
     owner: "Owner of event is %{name}"
   characters:
     add: Add

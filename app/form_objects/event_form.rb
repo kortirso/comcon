@@ -17,7 +17,7 @@ class EventForm
 
   validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, :hours_before_close, presence: true
   validates :event_type, inclusion: { in: %w[instance raid custom] }
-  validates :eventable_type, inclusion: { in: %w[World Guild] }
+  validates :eventable_type, inclusion: { in: %w[World Guild Static] }
   validates :hours_before_close, inclusion: 0..24
   validates :name, length: { in: 2..20 }
 
@@ -32,7 +32,7 @@ class EventForm
         'custom'
       end
     self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
-    self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if owner.present?
+    self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if owner.present? && eventable_type != 'Static'
     self.fraction = owner.race.fraction if owner.present?
     # validation
     return false unless valid?

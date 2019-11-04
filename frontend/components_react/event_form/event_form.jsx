@@ -28,7 +28,10 @@ export default class EventForm extends React.Component {
       description: '',
       startTime: this._defineStartTime(),
       hoursBeforeClose: 0,
-      eventId: props.event_id
+      eventId: props.event_id,
+      statics: [],
+      currentStatics: [],
+      staticId: ''
     }
   }
 
@@ -48,7 +51,10 @@ export default class EventForm extends React.Component {
       url: `/api/v1/events/event_form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const currentDungeons = this._selectDungeons(data.dungeons)
-        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id)}, () => {
+        const currentStatics = data.statics.filter((staticItem) => {
+          return staticItem.characters.includes(data.characters[0].id)
+        })
+        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id), statics: data.statics, currentStatics: currentStatics}, () => {
           this._getEvent()
         })
       }
@@ -69,7 +75,20 @@ export default class EventForm extends React.Component {
         const timeZoneOffset = date.getTimezoneOffset() / 60
         dates.push(event.time.hours - timeZoneOffset)
         dates.push(event.time.minutes)
-        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: event.eventable_type, startTime: dates})
+        const currentStatics = this.state.statics.filter((staticItem) => {
+          return staticItem.characters.includes(event.owner_id)
+        })
+        let eventableType = event.eventable_type
+        let staticId
+        if (eventableType === 'Static') {
+          if (currentStatics.length === 0) {
+            staticId = ''
+            eventableType = 'World'
+          } else {
+            staticId = currentStatics[0].id
+          }
+        }
+        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: dates, staticId: staticId, currentStatics: currentStatics})
       }
     })
   }
@@ -78,10 +97,12 @@ export default class EventForm extends React.Component {
     const state = this.state
     const startTime = state.startTime
     const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
+    if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     $.ajax({
       method: 'POST',
       url: `/api/v1/events.json?access_token=${this.props.access_token}`,
-      data: { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } },
+      data: data,
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
       },
@@ -95,10 +116,12 @@ export default class EventForm extends React.Component {
     const state = this.state
     const startTime = state.startTime
     const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
+    if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     $.ajax({
       method: 'PATCH',
       url: `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`,
-      data: { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } },
+      data: data,
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
       },
@@ -111,6 +134,12 @@ export default class EventForm extends React.Component {
   _renderUserCharacters() {
     return this.state.userCharacters.map((character) => {
       return <option value={character.id} key={character.id}>{character.name}</option>
+    })
+  }
+
+  _renderStatics() {
+    return this.state.currentStatics.map((staticItem) => {
+      return <option value={staticItem.id} key={staticItem.id}>{staticItem.name}</option>
     })
   }
 
@@ -147,6 +176,28 @@ export default class EventForm extends React.Component {
     this.setState({startTime: startTime})
   }
 
+  _onChangeCreator(event) {
+    const creatorId = parseInt(event.target.value)
+    const currentStatics = this.state.statics.filter((staticItem) => {
+      return staticItem.characters.includes(creatorId)
+    })
+    let eventableType = this.state.eventableType
+    let staticId
+    if (eventableType === 'Static') {
+      if (currentStatics.length === 0) {
+        staticId = ''
+        eventableType = 'World'
+      } else {
+        staticId = currentStatics[0].id
+      }
+    }
+    this.setState({creatorId: event.target.value, currentStatics: currentStatics, staticId: staticId, eventableType: eventableType})
+  }
+
+  _onChangeEventableType(event) {
+    this.setState({eventableType: event.target.value})
+  }
+
   render() {
     return (
       <div className="character_form">
@@ -157,32 +208,48 @@ export default class EventForm extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="event_owner_id">{strings.creator}</label>
-            <select className="form-control form-control-sm" id="event_owner_id" onChange={(event) => this.setState({creatorId: event.target.value})} value={this.state.creatorId} disabled={this.state.eventId !== undefined}>
+            <select className="form-control form-control-sm" id="event_owner_id" onChange={this._onChangeCreator.bind(this)} value={this.state.creatorId} disabled={this.state.eventId !== undefined}>
               {this._renderUserCharacters()}
             </select>
           </div>
         </div>
-        <div className="triple_line">
-          <div className="form-group">
-            <label htmlFor="event_eventable_type">{strings.eventableType}</label>
-            <select className="form-control form-control-sm" id="event_eventable_type" onChange={(event) => this.setState({eventableType: event.target.value})} value={this.state.eventableType}>
-              <option value='Guild' key='Guild'>{strings.guild}</option>
-              <option value='World' key='World'>{strings.world}</option>
-            </select>
+        <div className="double_line">
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="event_eventable_type">{strings.eventableType}</label>
+              <select className="form-control form-control-sm" id="event_eventable_type" onChange={this._onChangeEventableType.bind(this)} value={this.state.eventableType} disabled={this.state.eventId !== undefined}>
+                <option value='Guild' key='Guild'>{strings.guild}</option>
+                <option value='World' key='World'>{strings.world}</option>
+                {this.state.currentStatics.length > 0 &&
+                  <option value='Static' key='Static'>{strings.staticLabel}</option>
+                }
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="event_static_id">{strings.statics}</label>
+              <select className="form-control form-control-sm" id="event_static_id" onChange={(event) => this.setState({staticId: event.target.value})} value={this.state.staticId} disabled={this.state.eventableType !== 'Static' || this.state.eventId !== undefined}>
+                {this.state.eventableType !== 'Static' &&
+                  <option value='' key={0}></option>
+                }
+                {this._renderStatics()}
+              </select>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="event_type">{strings.eventType}</label>
-            <select className="form-control form-control-sm" id="event_type" onChange={this._onChangeEventType.bind(this)} value={this.state.eventType}>
-              <option value='instance' key='instance'>{strings.instance}</option>
-              <option value='raid' key='raid'>{strings.raid}</option>
-              <option value='custom' key='custom'>{strings.custom}</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="event_dungeon_id">{strings.eventTarget}</label>
-            <select className="form-control form-control-sm" id="event_dungeon_id" onChange={(event) => this.setState({dungeonId: event.target.value})} value={this.state.dungeonId}>
-              {this._renderDungeons()}
-            </select>
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="event_type">{strings.eventType}</label>
+              <select className="form-control form-control-sm" id="event_type" onChange={this._onChangeEventType.bind(this)} value={this.state.eventType}>
+                <option value='instance' key='instance'>{strings.instance}</option>
+                <option value='raid' key='raid'>{strings.raid}</option>
+                <option value='custom' key='custom'>{strings.custom}</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="event_dungeon_id">{strings.eventTarget}</label>
+              <select className="form-control form-control-sm" id="event_dungeon_id" onChange={(event) => this.setState({dungeonId: event.target.value})} value={this.state.dungeonId}>
+                {this._renderDungeons()}
+              </select>
+            </div>
           </div>
         </div>
         <div className="triple_line">

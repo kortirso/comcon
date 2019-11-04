@@ -42,6 +42,37 @@ RSpec.describe CharacterForm, type: :service do
         end
       end
 
+      context 'for invalid guild world' do
+        let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
+        let!(:guild) { create :guild }
+        let(:service) { CharacterForm.new(name: 'Хроми', world: character.world, level: 60, user: character.user, race: character.race, character_class: character.character_class, guild: guild) }
+
+        it 'does not create new character' do
+          expect { service.persist? }.to_not change(Character, :count)
+          expect(service.errors.full_messages[0]).to eq 'Guild is not from selected world'
+        end
+
+        it 'and returns false' do
+          expect(service.persist?).to eq false
+        end
+      end
+
+      context 'for invalid guild fraction' do
+        let!(:horde) { create :fraction, :horde }
+        let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
+        let!(:guild) { create :guild, fraction: horde, world: character.world }
+        let(:service) { CharacterForm.new(name: 'Хроми', world: character.world, level: 60, user: character.user, race: character.race, character_class: character.character_class, guild: guild) }
+
+        it 'does not create new character' do
+          expect { service.persist? }.to_not change(Character, :count)
+          expect(service.errors.full_messages[0]).to eq 'Race is not available for this fraction'
+        end
+
+        it 'and returns false' do
+          expect(service.persist?).to eq false
+        end
+      end
+
       context 'for unexisted character' do
         let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
         let(:service) { CharacterForm.new(name: 'Хроми', world: character.world, level: 60, user: character.user, race: character.race, character_class: character.character_class) }

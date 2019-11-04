@@ -66,4 +66,36 @@ RSpec.describe EventsController, type: :controller do
       get :new, params: { locale: 'en' }
     end
   end
+
+  describe 'GET#edit' do
+    let!(:event) { create :event }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:character) { create :character, user: @current_user }
+      let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction, owner: character }
+
+      context 'for unexisted event' do
+        it 'renders error template' do
+          get :edit, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed event' do
+        it 'renders edit template' do
+          get :edit, params: { locale: 'en', id: world_event.slug }
+
+          expect(response).to render_template :edit
+        end
+      end
+    end
+
+    def do_request
+      get :edit, params: { locale: 'en', id: event.slug }
+    end
+  end
 end

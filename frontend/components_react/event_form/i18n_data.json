@@ -10,12 +10,14 @@
     "update": "Update",
     "guild": "Guild",
     "world": "Realm",
+    "staticLabel": "Static",
     "instance": "Instance",
     "raid": "Raid",
     "custom": "Custom",
     "description": "Description",
     "startTime": "Start time of event (at your local time zone)",
-    "hoursBeforeClose": "Hours before close"
+    "hoursBeforeClose": "Hours before close",
+    "statics": "Statics"
   },
   "ru": {
     "name": "Название",
@@ -28,11 +30,13 @@
     "update": "Обновить",
     "guild": "Гильдия",
     "world": "Игровой Мир",
+    "staticLabel": "Статик",
     "instance": "Подземелье",
     "raid": "Рейд",
     "custom": "Другое",
     "description": "Описание",
     "startTime": "Время начала события (в вашем часовом поясе)",
-    "hoursBeforeClose": "Часов до закрытия"
+    "hoursBeforeClose": "Часов до закрытия",
+    "statics": "Статики"
   }
 }

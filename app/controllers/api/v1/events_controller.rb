@@ -85,7 +85,8 @@ module Api
       def event_form_values
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
-          dungeons: @dungeons_json
+          dungeons: @dungeons_json,
+          statics: user_statics
         }, status: 200
       end
 
@@ -113,8 +114,18 @@ module Api
         render_error('Object is not found') if @event.nil?
       end
 
+      def user_statics
+        Current.user.statics.includes(:characters).map do |static|
+          {
+            'id' => static.id,
+            'name' => static.name,
+            'characters' => static.characters.where(user_id: Current.user.id).pluck(:id)
+          }
+        end
+      end
+
       def event_params
-        h = params.require(:event).permit(:name, :eventable_type, :hours_before_close, :description).to_h
+        h = params.require(:event).permit(:name, :eventable_type, :eventable_id, :hours_before_close, :description).to_h
         h[:start_time] = Time.at(params[:event][:start_time].to_i).utc
         h[:owner] = @event.present? ? @event.owner : Current.user.characters.find_by(id: params[:event][:owner_id])
         h[:dungeon] = Dungeon.find_by(id: params[:event][:dungeon_id])

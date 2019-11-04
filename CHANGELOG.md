@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - events deleting
 - static members deleting
+- creating static events
+
+### Modified
+- tests
 
 ## [0.6.1] - 2019-11-04
 ### Added

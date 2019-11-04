@@ -4,12 +4,16 @@ class EventPolicy < ApplicationPolicy
     Event.available_for_user(user).pluck(:id).include?(record.id)
   end
 
-  def update?
+  def edit?
     record.owner.user_id == user.id
   end
 
+  def update?
+    edit?
+  end
+
   def destroy?
-    update?
+    edit?
   end
 
   def subscribers?

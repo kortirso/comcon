@@ -7,8 +7,8 @@ const $ = require("jquery")
 let strings = new LocalizedStrings(I18nData)
 
 export default class EventCalendar extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     const date = new Date()
     this.state = {
       events: [],
@@ -431,7 +431,7 @@ export default class EventCalendar extends React.Component {
           <div className="buttons">
             <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}`}>{strings.subscribed}</a>
             {this.props.user_character_ids.includes(currentEvent.owner_id) &&
-              <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.id}/edit`}>{strings.edit}</a>
+              <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}/edit`}>{strings.edit}</a>
             }
             {this.props.user_character_ids.includes(currentEvent.owner_id) &&
               <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteEvent.bind(this, currentEvent)}>{strings.deleteButton}</button>
