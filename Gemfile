@@ -69,6 +69,9 @@ gem 'apipie-rails', '0.5.8'
 gem 'mysql2', '~> 0.3', platform: :ruby
 gem 'thinking-sphinx', '~> 4.4'
 
+# Cron job
+gem 'whenever', require: false
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'

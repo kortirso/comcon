@@ -79,6 +79,7 @@ GEM
       sshkit (~> 1.2)
     case_transform (0.2)
       activesupport
+    chronic (0.10.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.5)
@@ -322,6 +323,8 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -370,6 +373,7 @@ DEPENDENCIES
   virtus
   webpacker (~> 4.x)
   webpacker-react (= 0.3.2)
+  whenever
 
 RUBY VERSION
    ruby 2.5.1p57
