@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_03_121005) do
+ActiveRecord::Schema.define(version: 2019_11_04_081037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -178,6 +178,16 @@ ActiveRecord::Schema.define(version: 2019_11_03_121005) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_roles_on_name", using: :gin
+  end
+
+  create_table "static_invites", force: :cascade do |t|
+    t.integer "static_id"
+    t.integer "character_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["static_id", "character_id"], name: "index_static_invites_on_static_id_and_character_id", unique: true
+    t.index ["status"], name: "index_static_invites_on_status"
   end
 
   create_table "static_members", force: :cascade do |t|

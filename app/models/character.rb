@@ -29,6 +29,9 @@ class Character < ApplicationRecord
   has_many :static_members, dependent: :destroy
   has_many :in_statics, through: :static_members, source: :static
 
+  has_many :static_invites, dependent: :destroy
+  has_many :invitations_to_statics, through: :static_invites, source: :static
+
   has_one :guild_role, dependent: :destroy
 
   def full_name
