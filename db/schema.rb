@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_191345) do
+ActiveRecord::Schema.define(version: 2019_11_05_194652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -74,6 +74,15 @@ ActiveRecord::Schema.define(version: 2019_11_05_191345) do
     t.datetime "updated_at", null: false
     t.index ["character_class_id"], name: "index_combinations_on_character_class_id"
     t.index ["combinateable_id", "combinateable_type"], name: "index_combinations_on_combinateable_id_and_combinateable_type"
+  end
+
+  create_table "deliveries", force: :cascade do |t|
+    t.integer "guild_id"
+    t.integer "notification_id"
+    t.integer "delivery_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guild_id", "notification_id"], name: "index_deliveries_on_guild_id_and_notification_id"
   end
 
   create_table "dungeon_accesses", force: :cascade do |t|
