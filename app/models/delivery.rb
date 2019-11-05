@@ -7,4 +7,6 @@ class Delivery < ApplicationRecord
 
   belongs_to :guild
   belongs_to :notification
+
+  has_one :delivery_param, dependent: :destroy
 end
