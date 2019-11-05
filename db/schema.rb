@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_04_081037) do
+ActiveRecord::Schema.define(version: 2019_11_05_191345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -142,6 +142,14 @@ ActiveRecord::Schema.define(version: 2019_11_04_081037) do
     t.index ["name"], name: "index_guilds_on_name"
     t.index ["slug"], name: "index_guilds_on_slug", unique: true
     t.index ["world_id"], name: "index_guilds_on_world_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.string "event"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_notifications_on_name", using: :gin
   end
 
   create_table "professions", force: :cascade do |t|

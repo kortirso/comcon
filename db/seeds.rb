@@ -243,3 +243,6 @@ _enchanting = profession_form.profession
 profession_form = ProfessionForm.new(name: { 'en' => 'Cooking', 'ru' => 'Кулинария' }, main: false, recipeable: true)
 profession_form.persist?
 _cooking = profession_form.profession
+
+notification_form = NotificationForm.new(name: { 'en' => 'Guild event creation', 'ru' => 'Создание гильдейского события' }, event: 'guild_event_creation')
+notification_form.persist?

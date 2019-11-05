@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - discord_bot library
+- Notification model
 
 ## [0.6.2] - 2019-11-04
 ### Added
