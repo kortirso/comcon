@@ -72,6 +72,9 @@ gem 'thinking-sphinx', '~> 4.4'
 # Cron job
 gem 'whenever', require: false
 
+# Discord bot
+gem 'discord_bot', '0.2.0'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'
