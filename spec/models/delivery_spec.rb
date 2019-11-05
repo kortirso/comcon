@@ -1,5 +1,5 @@
 RSpec.describe Delivery, type: :model do
-  it { should belong_to :guild }
+  it { should belong_to :deliveriable }
   it { should belong_to :notification }
   it { should have_one(:delivery_param).dependent(:destroy) }
 

@@ -4,6 +4,7 @@ require 'babosa'
 class Guild < ApplicationRecord
   include Eventable
   include Staticable
+  include Deliveriable
   extend FriendlyId
 
   friendly_id :slug_candidates, use: :slugged
@@ -16,8 +17,6 @@ class Guild < ApplicationRecord
   has_many :characters_with_role, through: :guild_roles, source: :character
   has_many :leader_guild_roles, -> { where(name: 'rl').or(where(name: 'cl')) }, class_name: 'GuildRole'
   has_many :characters_with_leader_role, through: :leader_guild_roles, source: :character
-  has_many :deliveries, dependent: :destroy
-  has_many :notifications, through: :deliveries
 
   def self.cache_key(guilds)
     {

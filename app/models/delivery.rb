@@ -5,7 +5,7 @@ class Delivery < ApplicationRecord
     email: 1
   }
 
-  belongs_to :guild
+  belongs_to :deliveriable, polymorphic: true
   belongs_to :notification
 
   has_one :delivery_param, dependent: :destroy

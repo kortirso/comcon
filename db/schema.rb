@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_200823) do
+ActiveRecord::Schema.define(version: 2019_11_05_204548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -77,12 +77,13 @@ ActiveRecord::Schema.define(version: 2019_11_05_200823) do
   end
 
   create_table "deliveries", force: :cascade do |t|
-    t.integer "guild_id"
     t.integer "notification_id"
     t.integer "delivery_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["guild_id", "notification_id"], name: "index_deliveries_on_guild_id_and_notification_id"
+    t.integer "deliveriable_id"
+    t.string "deliveriable_type"
+    t.index ["deliveriable_id", "deliveriable_type", "notification_id"], name: "delivery_owner"
   end
 
   create_table "delivery_params", force: :cascade do |t|

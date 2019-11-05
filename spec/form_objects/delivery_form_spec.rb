@@ -1,7 +1,7 @@
 RSpec.describe DeliveryForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { DeliveryForm.new(guild: nil, notification: nil) }
+      let(:service) { DeliveryForm.new(deliveriable_id: 0, deliveriable_type: 'Guild', notification: nil) }
 
       it 'does not create new delivery' do
         expect { service.persist? }.to_not change(Delivery, :count)
@@ -16,7 +16,7 @@ RSpec.describe DeliveryForm, type: :service do
       let!(:delivery) { create :delivery }
 
       context 'for existed delivery' do
-        let(:service) { DeliveryForm.new(guild: delivery.guild, notification: delivery.notification, delivery_type: delivery.delivery_type) }
+        let(:service) { DeliveryForm.new(deliveriable_id: delivery.deliveriable_id, deliveriable_type: 'Guild', notification: delivery.notification, delivery_type: delivery.delivery_type) }
 
         it 'does not create new delivery' do
           expect { service.persist? }.to_not change(Delivery, :count)
@@ -30,7 +30,7 @@ RSpec.describe DeliveryForm, type: :service do
       context 'for unexisted delivery' do
         let!(:guild) { create :guild }
         let!(:notification) { create :notification }
-        let(:service) { DeliveryForm.new(guild: guild, notification: notification, delivery_type: 0) }
+        let(:service) { DeliveryForm.new(deliveriable_id: guild.id, deliveriable_type: 'Guild', notification: notification, delivery_type: 0) }
 
         it 'creates new delivery' do
           expect { service.persist? }.to change { Delivery.count }.by(1)

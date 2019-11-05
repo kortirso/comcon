@@ -4,15 +4,18 @@ class DeliveryForm
   include Virtus.model
 
   attribute :delivery_type, Integer, default: 0
-  attribute :guild, Guild
+  attribute :deliveriable_id, Integer
+  attribute :deliveriable_type, String
   attribute :notification, Notification
 
-  validates :delivery_type, :guild, :notification, presence: true
+  validates :delivery_type, :deliveriable_id, :deliveriable_type, :notification, presence: true
+  validates :deliveriable_type, inclusion: { in: %w[Guild] }
 
   attr_reader :delivery
 
   def persist?
     return false unless valid?
+    return false unless deliveriable_exists?
     return false if exists?
     @delivery = Delivery.new
     @delivery.attributes = attributes
@@ -22,7 +25,11 @@ class DeliveryForm
 
   private
 
+  def deliveriable_exists?
+    deliveriable_type.constantize.where(id: deliveriable_id).exists?
+  end
+
   def exists?
-    Delivery.find_by(guild: guild, notification: notification, delivery_type: delivery_type).present?
+    Delivery.where(deliveriable_id: deliveriable_id, deliveriable_type: deliveriable_type, notification: notification, delivery_type: delivery_type).exists?
   end
 end
