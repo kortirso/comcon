@@ -35,7 +35,7 @@ module Api
         event_form = EventForm.new(event_params)
         if event_form.persist?
           CreateSubscribe.call(event: event_form.event, character: event_form.event.owner, status: 'signed')
-          CreateEventNotificationJob.perform_later(event_id: event_form.event.id)
+          CreateEventNotificationJob.perform_now(event_id: event_form.event.id)
           render json: event_form.event, status: 201
         else
           render json: { errors: event_form.errors.full_messages }, status: 409
