@@ -29,9 +29,11 @@ class CreateEventNotificationJob < ApplicationJob
     end
   end
 
-  def define_content(event)
-    content = "Создано событие для гильдии, название - #{event.name}, время начала (GTM +0) - #{event.start_time.strftime('%H:%M %-d.%-m.%Y')}"
-    content += ", подземелье - #{event.dungeon.name['ru']}" unless event.dungeon_id.nil?
-    content + ', пожалуй стоит отметиться ради ЕПГП'
+  def define_content(event, content = [])
+    start_time = event.start_time
+    content.push "Создано событие для гильдии - \"#{event.name}\" от #{event.owner.full_name}"
+    content.push "место проведения - #{event.dungeon.name['ru']}" unless event.dungeon_id.nil?
+    content.push "время начала (по мск) - #{start_time.strftime('%-d.%-m.%Y')} #{start_time.strftime('%H').to_i + 3}:#{start_time.strftime('%M')}, для ознакомления с событием посетите портал гильдии по адресу http://206.81.30.158:3001/ru/events/#{event.slug}"
+    content.join(', ')
   end
 end
