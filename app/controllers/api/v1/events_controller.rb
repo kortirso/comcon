@@ -6,6 +6,25 @@ module Api
       include Concerns::FractionCacher
       include Concerns::DungeonCacher
 
+      resource_description do
+        short 'Event information resources'
+        formats ['json']
+      end
+
+      def_param_group :event_params do
+        param :event, Hash do
+          param :name, String, required: false, description: 'Event name'
+          param :owner_id, String, required: true, description: 'Character ID'
+          param :eventable_type, String, required: true, description: 'World/Guild/Static'
+          param :eventable_id, String, required: true, description: 'Eventable ID'
+          param :event_type, String, required: true, description: 'raid/instance/custom'
+          param :hours_before_close, String, required: true, description: 'Hours before close, from 0 to 24'
+          param :description, String, required: false, description: 'Description'
+          param :start_time, String, required: true, description: 'Integer value of seconds'
+          param :dungeon_id, String, required: false, description: ''
+        end
+      end
+
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
       before_action :find_event, only: %i[show update destroy subscribers]
@@ -29,6 +48,7 @@ module Api
       end
 
       api :POST, '/v1/events.json', 'Create event'
+      param_group :event_params
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def create
@@ -44,6 +64,7 @@ module Api
 
       api :PATCH, '/v1/events/:id.json', 'Update event'
       param :id, String, required: true
+      param_group :event_params
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def update
@@ -73,6 +94,8 @@ module Api
         render_event_characters(@event)
       end
 
+      api :GET, '/v1/events/filter_values.json', 'Values for events filter'
+      error code: 401, desc: 'Unauthorized'
       def filter_values
         render json: {
           worlds: @worlds_json,
@@ -83,6 +106,8 @@ module Api
         }, status: 200
       end
 
+      api :GET, '/v1/events/filter_values.json', 'Values for event form'
+      error code: 401, desc: 'Unauthorized'
       def event_form_values
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],

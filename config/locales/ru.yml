@@ -1,4 +1,25 @@
 ru:
+  activemodel:
+    attributes:
+      event_form:
+        name: Название события
+        start_time: Время начала
+        eventable: Владелец события
+        hours_before_close: Часы до закрытия
+    errors:
+      models:
+        event_form:
+          attributes:
+            name:
+              too_long: слишком длинное (максимум 50 символов)
+              too_short: слишком короткое (минимум 2 символа)
+              blank: не может быть пустым
+            start_time:
+              in_the_past: должно быть в будущем
+            eventable:
+              is_not_exist: не существует
+            hours_before_close:
+              inclusion: должны быть в диапазоне от 0 до 24
   navigation:
     worlds: Миры
     users: Пользователи
@@ -70,24 +91,6 @@ ru:
   select:
     world: Игровой Мир
     guild: Гильдия
-  month:
-    jan: Январь
-    fed: Февраль
-    mar: Март
-    apr: Апрель
-    may: Май
-    jun: Июнь
-    jul: Июль
-    aug: Август
-    sep: Сентябрь
-    oct: Октябрь
-    nov: Ноябрь
-    dec: Декабрь
-  date:
-    order:
-      - :day
-      - :month
-      - :year
   recipes:
     add: Добавить рецепт
   character_recipes:

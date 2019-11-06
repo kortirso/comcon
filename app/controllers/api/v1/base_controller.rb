@@ -8,10 +8,13 @@ module Api
       skip_before_action :save_current_path
       skip_before_action :authenticate_user!
       skip_before_action :set_current_user
-      skip_before_action :set_locale
       before_action :authenticate
 
       private
+
+      def set_locale
+        I18n.locale = params[:locale] || :en
+      end
 
       def authenticate
         auto_auth

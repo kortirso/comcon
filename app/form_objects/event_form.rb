@@ -19,7 +19,9 @@ class EventForm
   validates :event_type, inclusion: { in: %w[instance raid custom] }
   validates :eventable_type, inclusion: { in: %w[World Guild Static] }
   validates :hours_before_close, inclusion: 0..24
-  validates :name, length: { in: 2..20 }
+  validates :name, length: { in: 2..50 }
+  validate :valid_time?
+  validate :eventable_exists?
 
   attr_reader :event
 
@@ -36,11 +38,9 @@ class EventForm
     self.fraction = owner.race.fraction if owner.present?
     # validation
     return false unless valid?
-    return false unless eventable_exists?
-    return false unless valid_time?
     @event = id ? Event.find_by(id: id) : Event.new
     return false if @event.nil?
-    @event.attributes = attributes.except(:id)
+    @event.attributes = attributes.except(:id, :locale)
     @event.save
     true
   end
@@ -48,10 +48,14 @@ class EventForm
   private
 
   def eventable_exists?
-    eventable_type.constantize.find_by(id: eventable_id).present?
+    return if eventable_type.nil?
+    return if eventable_type.constantize.where(id: eventable_id).exists?
+    errors[:eventable] << I18n.t('activemodel.errors.models.event_form.attributes.eventable.is_not_exist')
   end
 
   def valid_time?
-    DateTime.now < start_time - hours_before_close.hours
+    return if start_time.nil?
+    return if DateTime.now < start_time - hours_before_close.hours
+    errors[:start_time] << I18n.t('activemodel.errors.models.event_form.attributes.start_time.in_the_past')
   end
 end

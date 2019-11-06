@@ -1,4 +1,24 @@
 en:
+  activemodel:
+    attributes:
+      event_form:
+        name: Event name
+        start_time: Start time
+        eventable: Event owner
+    errors:
+      models:
+        event_form:
+          attributes:
+            name:
+              too_long: is too long (maximum is 50 characters)
+              too_short: is too short (minimum is 2 characters)
+              blank: can't be blank
+            start_time:
+              in_the_past: must be in the future
+            eventable:
+              is_not_exist: is not exist
+            hours_before_close:
+              inclusion: must be in the list from 0 to 24
   navigation:
     worlds: Realms
     users: Users

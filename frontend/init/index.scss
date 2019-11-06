@@ -144,6 +144,25 @@ body {
       }
     }
   }
+
+  .alert {
+    width: 50%;
+    margin: 0 auto 1rem;
+    padding: 0.5rem 1rem;
+
+    p {
+      margin: 0 0 0.5rem;
+      font-size: 0.9rem;
+
+      &:nth-last-of-type(1) {
+        margin: 0;
+      }
+    }
+
+    @media screen and (max-width: 796px) {
+      width: 100%;
+    }
+  }
 }
 
 * {

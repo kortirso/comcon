@@ -3,6 +3,7 @@ import LocalizedStrings from 'react-localization'
 import I18nData from './i18n_data.json'
 
 import TimeSelector from './time_selector'
+import ErrorView from '../error_view/error_view'
 
 const $ = require("jquery")
 
@@ -31,7 +32,8 @@ export default class EventForm extends React.Component {
       eventId: props.event_id,
       statics: [],
       currentStatics: [],
-      staticId: ''
+      staticId: '',
+      errors: []
     }
   }
 
@@ -97,17 +99,19 @@ export default class EventForm extends React.Component {
     const state = this.state
     const startTime = state.startTime
     const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
+    let url = `/api/v1/events.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'POST',
-      url: `/api/v1/events.json?access_token=${this.props.access_token}`,
+      url: url,
       data: data,
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -116,17 +120,19 @@ export default class EventForm extends React.Component {
     const state = this.state
     const startTime = state.startTime
     const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: state.hoursBeforeClose, dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
+    let url = `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'PATCH',
-      url: `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`,
+      url: url,
       data: data,
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -147,6 +153,11 @@ export default class EventForm extends React.Component {
     return this.state.currentDungeons.map((dungeon) => {
       return <option value={dungeon.id} key={dungeon.id}>{dungeon.name[this.props.locale]}</option>
     })
+  }
+
+  _renderSubmitButton() {
+    if (this.state.eventId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
+    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
   }
 
   _onChangeEventType(event) {
@@ -201,6 +212,9 @@ export default class EventForm extends React.Component {
   render() {
     return (
       <div className="character_form">
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="event_name">{strings.name}</label>
@@ -259,7 +273,7 @@ export default class EventForm extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="event_hours_before_close">{strings.hoursBeforeClose}</label>
-            <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: parseInt(event.target.value)})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
+            <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: event.target.value})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
           </div>
         </div>
         <div className="double_line">
@@ -268,12 +282,7 @@ export default class EventForm extends React.Component {
             <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="event_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
           </div>
         </div>
-        {this.state.eventId === undefined &&
-          <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
-        }
-        {this.state.eventId !== undefined &&
-          <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
-        }
+        {this._renderSubmitButton()}
       </div>
     )
   }
