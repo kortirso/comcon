@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Delivery model
 - DeliveryParam model
 - creating delivery with param
+- sending notifications through discord webhooks
 
 ## [0.6.2] - 2019-11-04
 ### Added
