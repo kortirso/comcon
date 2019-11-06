@@ -143,6 +143,12 @@
             color: $horde;
           }
 
+          .name {
+            height: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
           .name, .time {
             margin: 0;
             font-size: 0.75rem;

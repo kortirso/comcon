@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ErrorView react component for rendering errors in forms
 - API localization with locale param
 
+### Modified
+- events name cutting at event calendar
+
 ## [0.6.3] - 2019-11-06
 ### Added
 - discord_bot library
