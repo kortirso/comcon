@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       end
       resources :static_invites, only: %i[create destroy]
       resources :static_members, only: %i[destroy]
+      resources :notifications, only: %i[index]
+      resources :deliveries, only: %i[create]
     end
   end
 
@@ -58,6 +60,7 @@ Rails.application.routes.draw do
       get :approve, on: :member
       get :decline, on: :member
     end
+    resources :deliveries, only: %i[new destroy]
 
     root to: 'welcome#index'
   end

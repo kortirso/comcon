@@ -1,6 +1,6 @@
 .container
   #statics
-    h2= t('statics.title')
+    h3= t('statics.title')
     = link_to t('statics.add'), new_static_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
     table.table.table-striped.table-sm
       thead
@@ -16,3 +16,20 @@
             td
               = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
               = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+  #notifications
+    h3= t('notifications.title')
+    = link_to t('notifications.add'), new_delivery_path(deliveriable_id: @guild.id, deliveriable_type: 'Guild'), class: 'btn btn-primary btn-sm with_bottom_margin'
+    - @guild.notifications.each do |notification|
+      .notification
+        table.table.table-striped.table-sm
+          tbody
+            - notification.deliveries.where(deliveriable_id: @guild.id, deliveriable_type: 'Guild').each do |delivery|
+              tr
+                td= notification.name[I18n.locale.to_s]
+                td= delivery.delivery_type
+                td.delivery_param
+                  - if delivery.delivery_param.present?
+                    - delivery.delivery_param.params.each do |key, value|
+                      span= "#{key}: #{value}"
+                td
+                  = link_to t('buttons.delete'), delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

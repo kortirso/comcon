@@ -1,0 +1,13 @@
+#notifications {
+  table {
+    tbody {
+      td {
+        &.delivery_param {
+          span {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }  
+}

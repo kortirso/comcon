@@ -13,6 +13,7 @@ import "components/character_recipes/character_recipes";
 import "components/guilds/guilds";
 import "components/craft/craft";
 import "components/static_management/static_management";
+import "components/guild_management/guild_management";
 
 import Rails from "rails-ujs";
 

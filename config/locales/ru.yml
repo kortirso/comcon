@@ -107,3 +107,6 @@ ru:
     label: Состав статика
   guild:
     management: Управление
+  notifications:
+    title: Уведомления
+    add: Создать уведомление

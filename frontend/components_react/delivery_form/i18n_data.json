@@ -1,0 +1,14 @@
+{
+  "en": {
+    "notification": "Notification type",
+    "deliveryType": "Delivery type",
+    "webhookId": "Webhook ID",
+    "webhookToken": "Webhook token"
+  },
+  "ru": {
+    "notification": "Тип уведомления",
+    "deliveryType": "Тип доставки",
+    "webhookId": "Webhook ID",
+    "webhookToken": "Webhook token"
+  }
+}

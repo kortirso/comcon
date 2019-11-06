@@ -89,3 +89,6 @@ en:
     label: Static roster
   guild:
     management: Management
+  notifications:
+    title: Notifications
+    add: Add notification
