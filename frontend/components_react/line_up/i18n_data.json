@@ -19,7 +19,13 @@
     "remove": "Remove",
     "noData": "No data",
     "signCharacter": "You can sign your character for this event",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe",
+    "worldEvent": "Event is available for everyone in {worldName} realm for {fraction} fraction",
+    "guildEvent": "Event is available only for guild {guildName}",
+    "staticEvent": "Event is available only for static {staticName}",
+    "owner": "Owner of event is",
+    "eventLocation": "Event location",
+    "startTime": "Event start time"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -41,6 +47,12 @@
     "remove": "Исключить",
     "noData": "Нет данных",
     "signCharacter": "Вы можете подписать своего персонажа на это событие",
-    "subscribe": "Подписать"
+    "subscribe": "Подписать",
+    "worldEvent": "Событие доступно для всех персонажей из Мира {worldName} для фракции {fraction}",
+    "guildEvent": "Событие доступно только для гильдии {guildName}",
+    "staticEvent": "Событие доступно только для статика {staticName}",
+    "owner": "Создатель события",
+    "eventLocation": "Место проведения события",
+    "startTime": "Время начала события"
   }
 }

@@ -21,7 +21,8 @@ export default class LineUp extends React.Component {
       approved: 0,
       signed: 0,
       unknown: 0,
-      rejected: 0
+      rejected: 0,
+      eventInfo: null
     }
   }
 
@@ -41,7 +42,9 @@ export default class LineUp extends React.Component {
       method: 'GET',
       url: `/api/v1/events/${this.props.event_id}/subscribers.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this._setState(data)
+        this.setState({eventInfo: data.event_info}, () => {
+          this._setState(data)
+        })
       }
     })
   }
@@ -260,25 +263,83 @@ export default class LineUp extends React.Component {
     )
   }
 
+  _renderLocalTime(time) {
+    const date = new Date()
+    let days = '0'
+    let hours = time.hours - date.getTimezoneOffset() / 60
+    if (hours < 0) {
+      hours += 24
+      days = '-1'
+    } else if (hours > 24) {
+      hours -= 24
+      days = '+1'
+    }
+    const minutes = time.minutes
+    return <span>{hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</span>
+  }
+
+  _renderOtherDays(value) {
+    if (value === '0') return false
+    else return ` (${value})`
+  }
+
+  _renderAccess(eventInfo) {
+    if (eventInfo.eventable_type === 'World') {
+      return (
+        strings.formatString(strings.worldEvent, {
+          worldName: eventInfo.eventable_name,
+          fraction: eventInfo.fraction_name
+        })
+      )
+    } else if (eventInfo.eventable_type === 'Guild') {
+      return (
+        strings.formatString(strings.guildEvent, {
+          guildName: eventInfo.eventable_name
+        })
+      )
+    } else if (eventInfo.eventable_type === 'Static') {
+      return (
+        strings.formatString(strings.staticEvent, {
+          staticName: eventInfo.eventable_name
+        })
+      )
+    } 
+  }
+
   render() {
+    const eventInfo = this.state.eventInfo
     return (
-      <div className="line_up">
-        <div className="approved">
-          <div className="line_name">{strings.lineUp} ({this.state.approved})</div>
-          {this._renderLineUp()}
-        </div>
-        <div className="signed">
-          <div className="line_name">{strings.signers} ({this.state.signed})</div>
-          {this._renderSignBlock()}
-          {this._renderSigners('signers')}
-        </div>
-        <div className="unknown">
-          <div className="line_name">{strings.unknown} ({this.state.unknown})</div>
-          {this._renderSigners('unknown')}
-        </div>
-        <div className="rejected">
-          <div className="line_name">{strings.rejected} ({this.state.rejected})</div>
-          {this._renderSigners('rejecters')}
+      <div className="event">
+        {eventInfo !== null &&
+          <div className="event_details">
+            <h2 className="event_name">{eventInfo.name}</h2>
+            <p>{eventInfo.description}</p>
+            {eventInfo.dungeon_name !== null &&
+              <p className="event_location">{strings.eventLocation} - {eventInfo.dungeon_name[this.props.locale]}</p>
+            }
+            <p className="event_location">{strings.startTime} - {eventInfo.date} {this._renderLocalTime(eventInfo.time)}</p>
+            <p>{this._renderAccess(eventInfo)}</p>
+            <p>{strings.owner} - {eventInfo.owner_name}</p>
+          </div>
+        }
+        <div className="line_up">
+          <div className="approved">
+            <div className="line_name">{strings.lineUp} ({this.state.approved})</div>
+            {this._renderLineUp()}
+          </div>
+          <div className="signed">
+            <div className="line_name">{strings.signers} ({this.state.signed})</div>
+            {this._renderSignBlock()}
+            {this._renderSigners('signers')}
+          </div>
+          <div className="unknown">
+            <div className="line_name">{strings.unknown} ({this.state.unknown})</div>
+            {this._renderSigners('unknown')}
+          </div>
+          <div className="rejected">
+            <div className="line_name">{strings.rejected} ({this.state.rejected})</div>
+            {this._renderSigners('rejecters')}
+          </div>
         </div>
       </div>
     )

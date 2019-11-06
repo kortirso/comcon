@@ -44,7 +44,7 @@ RSpec.describe 'Subscribes API' do
             expect(response.status).to eq 200
           end
 
-          %w[user_characters characters].each do |attr|
+          %w[event_info user_characters characters].each do |attr|
             it "and contains race #{attr}" do
               expect(response.body).to have_json_path(attr)
             end
@@ -122,7 +122,7 @@ RSpec.describe 'Subscribes API' do
             expect(response.status).to eq 200
           end
 
-          %w[user_characters characters].each do |attr|
+          %w[event_info user_characters characters].each do |attr|
             it "and contains race #{attr}" do
               expect(response.body).to have_json_path(attr)
             end

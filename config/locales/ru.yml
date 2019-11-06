@@ -75,11 +75,6 @@ ru:
     access_type: Тип доступа
     start_time: Время начала (GTM +0)
     hours_before_close: Часов до закрытия регистрации
-  event:
-    world: "Событие доступно для всех персонажей из Мира %{world_name} для фракции %{fraction}"
-    guild: "Событие доступно только для гильдии %{guild_name}"
-    static: "Событие доступно только для статика %{static_name}"
-    owner: "Создатель события - %{name}"
   characters:
     add: Добавить персонаж
     name: Имя

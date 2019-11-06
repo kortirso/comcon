@@ -302,7 +302,7 @@ RSpec.describe 'Events API' do
           expect(response.status).to eq 200
         end
 
-        %w[user_characters characters].each do |attr|
+        %w[event_info user_characters characters].each do |attr|
           it "and contains #{attr}" do
             expect(response.body).to have_json_path(attr)
           end
