@@ -5,9 +5,11 @@
     "level": "Level",
     "guildRole": "Guild role",
     "none": "none",
-    "gm": "Guild master",
-    "rl": "Raid leader",
-    "cl": "Class leader"
+    "gm": "GM",
+    "rl": "RL",
+    "cl": "CL",
+    "deleteButton": "Kick",
+    "sure": "Are sure?"
   },
   "ru": {
     "name": "Имя персонажа",
@@ -15,8 +17,10 @@
     "level": "Уровень",
     "guildRole": "Роль в гильдии",
     "none": "нет",
-    "gm": "Гильд мастер",
-    "rl": "Рейд лидер",
-    "cl": "Класс лидер"
+    "gm": "ГМ",
+    "rl": "РЛ",
+    "cl": "КЛ",
+    "deleteButton": "Исключить",
+    "sure": "Вы уверены?"
   }
 }

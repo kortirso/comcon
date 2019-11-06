@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - ErrorView react component for rendering errors in forms
 - API localization with locale param
+- kick from guild
 
 ### Modified
 - events name cutting at event calendar

@@ -71,6 +71,19 @@ export default class Guild extends React.Component {
     })
   }
 
+  _onKickCharacter(character) {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/guilds/${this.props.guild_slug}/kick_character.json?access_token=${this.props.access_token}&character_id=${character.id}`,
+      success: (data) => {
+        const characters = [... this.state.characters]
+        const characterIndex = characters.indexOf(character)
+        characters.splice(characterIndex, 1)
+        this.setState({characters: characters})
+      }
+    })
+  }
+
   _updateCharacterGuildRole(character, guildRole) {
     const characters = [... this.state.characters]
     const characterIndex = characters.indexOf(character)
@@ -86,19 +99,21 @@ export default class Guild extends React.Component {
           <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
           <td>{character.guild_role !== null ? strings[character.guild_role.name] : ''}</td>
-          <td>
-            {this._renderRoleSelector(character)}
-          </td>
+          {this._renderManageButtons(character)}
         </tr>
       )
     })
   }
 
-  _renderRoleSelector(character) {
-    if (this.props.current_user_character_ids.includes(character.id)) return false
-    else if (this.props.is_admin || this.props.is_gm) {
-      return <GuildRoleSelector character={character} isAdmin={this.props.is_admin} isGmm={this.props.is_gm} locale={this.props.locale} onChangeGuildRole={this._onChangeGuildRole.bind(this)} />
-    } else return false
+  _renderManageButtons(character) {
+    if (!this.props.current_user_character_ids.includes(character.id) && (this.props.is_admin || this.props.is_gm)) {
+      return (
+        <td className="management_buttons">
+          <GuildRoleSelector character={character} isAdmin={this.props.is_admin} isGmm={this.props.is_gm} locale={this.props.locale} onChangeGuildRole={this._onChangeGuildRole.bind(this)} />
+          <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onKickCharacter.bind(this, character)}>{strings.deleteButton}</button>
+        </td>
+      )
+    } else return <td></td>
   }
 
   _onChangeGuildRole(characterId, guildRole) {

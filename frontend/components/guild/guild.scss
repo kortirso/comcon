@@ -1,0 +1,19 @@
+#guild {
+  .characters {
+    table {
+      tbody {
+        td {
+          &.management_buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            select, button {
+              width: 48%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

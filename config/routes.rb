@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :worlds, only: %i[index]
       resources :guilds, only: %i[index] do
         get :characters, on: :member
+        get :kick_character, on: :member
       end
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]
