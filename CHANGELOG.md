@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - deleting guild invites
 - approving/declining guild invites by users
 
+### Modified
+- removed guild selection from character form
+
 ## [0.6.4] - 2019-11-06
 ### Added
 - ErrorView react component for rendering errors in forms
