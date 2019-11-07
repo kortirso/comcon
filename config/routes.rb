@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       resources :static_members, only: %i[destroy]
       resources :notifications, only: %i[index]
       resources :deliveries, only: %i[create]
+      resources :guild_invites, only: %i[create]
     end
   end
 

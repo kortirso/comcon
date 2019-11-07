@@ -1,0 +1,20 @@
+{
+  "en": {
+    "label": "Search characters for invite",
+    "name": "Name",
+    "race": "Race",
+    "level": "Level",
+    "nameLabel": "Search character by name or guild name (minimum 3 symbols)",
+    "invite": "Invite",
+    "noCharacters": "No characters"
+  },
+  "ru": {
+    "label": "Поиск персонажей для приглашения",
+    "name": "Имя",
+    "race": "Раса",
+    "level": "Уровень",
+    "nameLabel": "Поиск персонажа по имени или названию гильдии (минимум 3 символа)",
+    "invite": "Инвайт",
+    "noCharacters": "Персонажи не найдены"
+  }
+}
