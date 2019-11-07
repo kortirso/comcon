@@ -12,4 +12,6 @@
       .form-group
         = f.label :password_confirmation, t('registration.confirm')
         = f.password_field :password_confirmation, autocomplete: 'off', placeholder: t('registration.confirm'), class: 'form-control'
+      .form-group
+        = link_to 'Login throug Discord', localized_omniauth_path(:discord), title: "#{t('login_through')} Discord", class: 'icon social discord'
       = f.submit t('buttons.create'), id: 'registration', class: 'btn btn-primary'

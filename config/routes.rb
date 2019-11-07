@@ -46,7 +46,8 @@ Rails.application.routes.draw do
   end
 
   localized do
-    devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
+    get 'omniauth/:provider' => 'users/omniauth#localized', as: :localized_omniauth
+    devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }, controllers: { sessions: 'users/sessions', registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
     resources :characters, except: %i[show create update] do
       get :recipes, on: :member

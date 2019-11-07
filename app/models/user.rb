@@ -1,11 +1,23 @@
 # Represents users in the system
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable, :validatable
+  devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 
   has_many :characters, dependent: :destroy
   has_many :guilds, -> { distinct }, through: :characters
+  has_many :identities, dependent: :destroy
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
+
+  def self.find_for_oauth(auth)
+    identity = Identity.find_for_oauth(auth)
+    return identity.user if identity.present?
+    return false if auth.info[:email].nil?
+    user = User.find_or_create_by(email: auth.info[:email]) do |u|
+      u.password = Devise.friendly_token[0, 20]
+    end
+    user.identities.create(provider: auth.provider, uid: auth.uid)
+    user
+  end
 
   # has characters of user any role in guild?
   def any_role?(guild_id, *allowed_roles)
