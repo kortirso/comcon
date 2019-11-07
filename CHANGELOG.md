@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - left guild by characters
 - generate new gm or disbund the guild
+- GuildInvite model
 
 ## [0.6.4] - 2019-11-06
 ### Added
