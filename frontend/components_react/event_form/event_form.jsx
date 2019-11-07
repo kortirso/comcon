@@ -1,13 +1,13 @@
 import React from "react"
 import LocalizedStrings from 'react-localization'
 import I18nData from './i18n_data.json'
-import 'air-datepicker/dist/js/datepicker.js'
-import 'air-datepicker/dist/js/i18n/datepicker.en.js'
-import 'air-datepicker/dist/css/datepicker.min.css'
-
-import ErrorView from '../error_view/error_view'
 
 const $ = require("jquery")
+
+import 'air-datepicker/dist/js/datepicker.js'
+import 'air-datepicker/dist/js/i18n/datepicker.en.js'
+
+import ErrorView from '../error_view/error_view'
 
 let strings = new LocalizedStrings(I18nData)
 
@@ -160,8 +160,8 @@ export default class EventForm extends React.Component {
   }
 
   _renderSubmitButton() {
-    if (this.state.eventId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm with_top_margin" onClick={this._onCreate.bind(this)} />
-    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm with_top_margin" onClick={this._onUpdate.bind(this)} />
+    if (this.state.eventId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
+    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
   }
 
   _onChangeEventType(event) {
@@ -228,18 +228,12 @@ export default class EventForm extends React.Component {
           </div>
           <div className="double_line">
             <div className="form-group">
-              <label htmlFor="event_type">{strings.eventType}</label>
-              <select className="form-control form-control-sm" id="event_type" onChange={this._onChangeEventType.bind(this)} value={this.state.eventType}>
-                <option value='instance' key='instance'>{strings.instance}</option>
-                <option value='raid' key='raid'>{strings.raid}</option>
-                <option value='custom' key='custom'>{strings.custom}</option>
-              </select>
+              <label htmlFor="event_start_time">{strings.startTime}</label>
+              <input type="text" className="datepicker-here form-control form-control-sm" id="event_start_time" data-language={this.props.locale} data-date-format="dd.mm.yyyy" data-timepicker="true" />
             </div>
             <div className="form-group">
-              <label htmlFor="event_dungeon_id">{strings.eventTarget}</label>
-              <select className="form-control form-control-sm" id="event_dungeon_id" onChange={(event) => this.setState({dungeonId: event.target.value})} value={this.state.dungeonId}>
-                {this._renderDungeons()}
-              </select>
+              <label htmlFor="event_hours_before_close">{strings.hoursBeforeClose}</label>
+              <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: event.target.value})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
             </div>
           </div>
         </div>
@@ -265,24 +259,30 @@ export default class EventForm extends React.Component {
               </select>
             </div>
           </div>
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="event_type">{strings.eventType}</label>
+              <select className="form-control form-control-sm" id="event_type" onChange={this._onChangeEventType.bind(this)} value={this.state.eventType}>
+                <option value='instance' key='instance'>{strings.instance}</option>
+                <option value='raid' key='raid'>{strings.raid}</option>
+                <option value='custom' key='custom'>{strings.custom}</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="event_dungeon_id">{strings.eventTarget}</label>
+              <select className="form-control form-control-sm" id="event_dungeon_id" onChange={(event) => this.setState({dungeonId: event.target.value})} value={this.state.dungeonId}>
+                {this._renderDungeons()}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="double_line">
           <div className="form-group">
             <label htmlFor="event_description">{strings.description}</label>
             <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="event_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
           </div>
         </div>
-        <div className="double_line">
-          <div className="double_line">
-            <div className="form-group">
-              <label htmlFor="event_start_time">{strings.startTime}</label>
-              <div className="datepicker-here" id="event_start_time" data-language={this.props.locale} data-date-format="dd.mm.yyyy" data-timepicker="true"></div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="event_hours_before_close">{strings.hoursBeforeClose}</label>
-              <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: event.target.value})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
-              {this._renderSubmitButton()}
-            </div>
-          </div>
-        </div>
+        {this._renderSubmitButton()}
       </div>
     )
   }
