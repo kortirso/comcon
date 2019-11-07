@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - GuildInvite model
 - page for guild invites
 - api endpoint for creating guild invites
+- deleting guild invites
 
 ## [0.6.4] - 2019-11-06
 ### Added

@@ -10,4 +10,8 @@ class GuildInvitePolicy < ApplicationPolicy
   def create?
     new?
   end
+
+  def destroy?
+    new?
+  end
 end
