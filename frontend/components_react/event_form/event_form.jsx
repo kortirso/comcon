@@ -1,8 +1,10 @@
 import React from "react"
 import LocalizedStrings from 'react-localization'
 import I18nData from './i18n_data.json'
+import 'air-datepicker/dist/js/datepicker.js'
+import 'air-datepicker/dist/js/i18n/datepicker.en.js'
+import 'air-datepicker/dist/css/datepicker.min.css'
 
-import TimeSelector from './time_selector'
 import ErrorView from '../error_view/error_view'
 
 const $ = require("jquery")
@@ -27,7 +29,7 @@ export default class EventForm extends React.Component {
       currentDungeons: [],
       dungeonId: '',
       description: '',
-      startTime: this._defineStartTime(),
+      startTime: 0,
       hoursBeforeClose: 0,
       eventId: props.event_id,
       statics: [],
@@ -39,12 +41,15 @@ export default class EventForm extends React.Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
+    // datetime picker
+    const _this = this
+    $(".datepicker-here").datepicker({
+      minDate: new Date(),
+      onSelect: function(formattedDate, date) {
+        _this.setState({startTime: Number(date) / 1000})
+      }
+    })
     this._getDefaultValues()
-  }
-
-  _defineStartTime() {
-    const date = new Date()
-    return [date.getDate(), date.getMonth() + 1, date.getFullYear(), date.getHours(), date.getMinutes()]
   }
 
   _getDefaultValues() {
@@ -64,42 +69,45 @@ export default class EventForm extends React.Component {
   }
 
   _getEvent() {
-    if (this.state.eventId === undefined) return false
-    $.ajax({
-      method: 'GET',
-      url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
-      success: (data) => {
-        const event = data.event
-        let dates = event.date.split('.').map((time) => {
-          return parseInt(time)
-        })
-        const date = new Date()
-        const timeZoneOffset = date.getTimezoneOffset() / 60
-        dates.push(event.time.hours - timeZoneOffset)
-        dates.push(event.time.minutes)
-        const currentStatics = this.state.statics.filter((staticItem) => {
-          return staticItem.characters.includes(event.owner_id)
-        })
-        let eventableType = event.eventable_type
-        let staticId
-        if (eventableType === 'Static') {
-          if (currentStatics.length === 0) {
-            staticId = ''
-            eventableType = 'World'
-          } else {
-            staticId = currentStatics[0].id
+    if (this.state.eventId === undefined) {
+      const currentDate = new Date()
+      $(".datepicker-here").data('datepicker').selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()))
+      return false
+    } else {
+      $.ajax({
+        method: 'GET',
+        url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
+        success: (data) => {
+          const event = data.event
+          let dates = event.date.split('.').map((time) => {
+            return parseInt(time)
+          })
+          const currentDate = new Date()
+          const timeZoneOffset = currentDate.getTimezoneOffset() / 60
+          const newDate = new Date(dates[2], dates[1], dates[0], event.time.hours - timeZoneOffset, event.time.minutes)
+          $(".datepicker-here").data('datepicker').selectDate(newDate)
+          const currentStatics = this.state.statics.filter((staticItem) => {
+            return staticItem.characters.includes(event.owner_id)
+          })
+          let eventableType = event.eventable_type
+          let staticId
+          if (eventableType === 'Static') {
+            if (currentStatics.length === 0) {
+              staticId = ''
+              eventableType = 'World'
+            } else {
+              staticId = currentStatics[0].id
+            }
           }
+          this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: newDate, staticId: staticId, currentStatics: currentStatics})
         }
-        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: dates, staticId: staticId, currentStatics: currentStatics})
-      }
-    })
+      })
+    }
   }
 
   _onCreate() {
     const state = this.state
-    const startTime = state.startTime
-    const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -118,9 +126,7 @@ export default class EventForm extends React.Component {
 
   _onUpdate() {
     const state = this.state
-    const startTime = state.startTime
-    const startTimeInteger = Number(new Date(startTime[2], startTime[1] - 1, startTime[0], startTime[3], startTime[4])) / 1000
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: startTimeInteger, description: state.description } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -181,12 +187,6 @@ export default class EventForm extends React.Component {
     return currentDungeons
   }
 
-  _onChangeStartTime(index, value) {
-    let startTime = this.state.startTime
-    startTime[index] = parseInt(value)
-    this.setState({startTime: startTime})
-  }
-
   _onChangeCreator(event) {
     const creatorId = parseInt(event.target.value)
     const currentStatics = this.state.statics.filter((staticItem) => {
@@ -216,15 +216,27 @@ export default class EventForm extends React.Component {
           <ErrorView errors={this.state.errors} />
         }
         <div className="double_line">
-          <div className="form-group">
-            <label htmlFor="event_name">{strings.name}</label>
-            <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="event_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="event_name">{strings.name}</label>
+              <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="event_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="event_owner_id">{strings.creator}</label>
+              <select className="form-control form-control-sm" id="event_owner_id" onChange={this._onChangeCreator.bind(this)} value={this.state.creatorId} disabled={this.state.eventId !== undefined}>
+                {this._renderUserCharacters()}
+              </select>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="event_owner_id">{strings.creator}</label>
-            <select className="form-control form-control-sm" id="event_owner_id" onChange={this._onChangeCreator.bind(this)} value={this.state.creatorId} disabled={this.state.eventId !== undefined}>
-              {this._renderUserCharacters()}
-            </select>
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="event_start_time">{strings.startTime}</label>
+              <input type="text" className="datepicker-here form-control form-control-sm" id="event_start_time" data-language={this.props.locale} data-date-format="dd.mm.yyyy" data-timepicker="true" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="event_hours_before_close">{strings.hoursBeforeClose}</label>
+              <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: event.target.value})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
+            </div>
           </div>
         </div>
         <div className="double_line">
@@ -264,16 +276,6 @@ export default class EventForm extends React.Component {
                 {this._renderDungeons()}
               </select>
             </div>
-          </div>
-        </div>
-        <div className="triple_line">
-          <div className="form-group double">
-            <label htmlFor="event_start_time">{strings.startTime}</label>
-            <TimeSelector locale={this.props.locale} startTime={this.state.startTime} onChangeStartTime={this._onChangeStartTime.bind(this)} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="event_hours_before_close">{strings.hoursBeforeClose}</label>
-            <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: event.target.value})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
           </div>
         </div>
         <div className="double_line">

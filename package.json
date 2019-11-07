@@ -2,6 +2,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.6.3",
     "@rails/webpacker": "^4.0.7",
+    "air-datepicker": "^2.2.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
