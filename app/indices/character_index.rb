@@ -9,5 +9,5 @@ ThinkingSphinx::Index.define :character, with: :real_time do
   has character_class_id, type: :integer
 
   # properties
-  set_property min_infix_len: 4
+  set_property min_infix_len: 3
 end
