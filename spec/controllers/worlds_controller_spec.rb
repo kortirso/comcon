@@ -172,7 +172,7 @@ RSpec.describe WorldsController, type: :controller do
       sign_in_admin
 
       context 'for unexisted world' do
-        let(:request) { delete :destroy, params: { locale: 'ru', id: 999 } }
+        let(:request) { delete :destroy, params: { locale: 'ru', id: 'unexisted' } }
 
         it 'does not delete any world' do
           expect { request }.to_not change(World, :count)

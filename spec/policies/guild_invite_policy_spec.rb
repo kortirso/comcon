@@ -56,4 +56,50 @@ describe GuildInvitePolicy do
       policy.new?
     end
   end
+
+  describe '#approve?' do
+    context 'for admin' do
+      let(:policy) { described_class.new('false', user: admin, guild: guild3, character: guild3) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has gm character' do
+      let(:policy) { described_class.new('false', user: user, guild: guild1, character: guild1) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    context 'if user has character with no gm or rl role' do
+      let(:policy) { described_class.new('false', user: user, guild: guild2, character: guild2) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without role' do
+      let(:policy) { described_class.new('false', user: user, guild: guild3, character: guild3) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character without guild' do
+      let(:policy) { described_class.new('true', user: user, guild: character4, character: character4) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    def policy_access
+      policy.approve?
+    end
+  end
 end

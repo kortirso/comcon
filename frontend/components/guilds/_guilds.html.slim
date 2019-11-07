@@ -1,3 +1,21 @@
 = javascript_pack_tag 'guilds_list'
 .container
+  - if @guild_invites.size.positive?
+    .double_line
+      .form-group
+        h3 Пришлашения в гильдии
+        table.table.table-sm
+          thead
+            tr
+              th= t('characters.name')
+              th= t('guilds.name')
+              th
+          tbody
+            - @guild_invites.includes(:character, guild: :world).each do |guild_invite|
+              tr
+                td= guild_invite.character.name
+                td= guild_invite.guild.full_name
+                td
+                  = link_to t('buttons.accept'), approve_guild_invite_path(guild_invite.id), class: 'btn btn-primary btn-sm with_right_margin'
+                  = link_to t('buttons.decline'), decline_guild_invite_path(guild_invite.id), class: 'btn btn-primary btn-sm'
   = react_component('GuildsList', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

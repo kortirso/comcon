@@ -112,3 +112,5 @@ ru:
     invitations: Приглашения в гильдию
     create_invite: Создать приглашение
     invites: Заявки в гильдию
+  guilds: 
+    name: Название гильдии

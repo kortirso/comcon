@@ -111,3 +111,5 @@ en:
     invitations: Invites to guild
     create_invite: Create invite to guild
     invites: Requests to guild
+  guilds: 
+    name: Guild name

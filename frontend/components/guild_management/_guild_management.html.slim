@@ -10,6 +10,7 @@
               th= t('characters.name')
               th= t('characters.race')
               th= t('characters.level')
+              th= t('guild_invites.status')
               th
           tbody
             - @guild.guild_invites.from_guild.includes(character: [:race, :character_class]).each do |guild_invite|
@@ -17,6 +18,7 @@
                 td= guild_invite.character.name
                 td= guild_invite.character.race.name[I18n.locale.to_s]
                 td= guild_invite.character.level
+                td= guild_invite.status
                 td
                   = link_to t('buttons.delete'), guild_invite, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
     #invites.form-group

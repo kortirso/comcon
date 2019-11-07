@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_090040) do
+ActiveRecord::Schema.define(version: 2019_11_07_122736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 2019_11_07_090040) do
     t.boolean "from_guild", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["guild_id", "character_id", "from_guild"], name: "index_guild_invites_on_guild_id_and_character_id_and_from_guild", unique: true
   end
 

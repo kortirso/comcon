@@ -150,4 +150,100 @@ RSpec.describe GuildInvitesController, type: :controller do
       delete :destroy, params: { locale: 'en', id: guild_invite.id }
     end
   end
+
+  describe 'GET#approve' do
+    let!(:guild) { create :guild }
+    let!(:character) { create :character }
+    let!(:guild_invite) { create :guild_invite, guild: guild, character: character, from_guild: false }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:user_character) { create :character, user: @current_user }
+      let!(:user_invite) { create :guild_invite, guild: guild, character: user_character, from_guild: true }
+
+      context 'for unexisted guild invite' do
+        it 'renders error page' do
+          get :approve, params: { locale: 'en', id: 'unexisted' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed user invite' do
+        let(:request) { get :approve, params: { locale: 'en', id: user_invite.id } }
+
+        it 'updates character guild' do
+          request
+          user_character.reload
+
+          expect(user_character.guild_id).to eq guild.id
+        end
+
+        it 'and deletes guild invite' do
+          expect { request }.to change { GuildInvite.count }.by(-1)
+        end
+
+        it 'and redirects to guild page' do
+          request
+
+          expect(response).to redirect_to guild_en_path(guild.slug)
+        end
+      end
+    end
+
+    def do_request
+      get :approve, params: { locale: 'en', id: guild_invite.id }
+    end
+  end
+
+  describe 'GET#decline' do
+    let!(:guild) { create :guild }
+    let!(:character) { create :character }
+    let!(:guild_invite) { create :guild_invite, guild: guild, character: character, from_guild: false }
+
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+      let!(:user_character) { create :character, user: @current_user }
+      let!(:user_invite) { create :guild_invite, guild: guild, character: user_character, from_guild: true }
+
+      context 'for unexisted guild invite' do
+        it 'renders error page' do
+          get :decline, params: { locale: 'en', id: 'unexisted' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed user invite' do
+        let(:request) { get :decline, params: { locale: 'en', id: user_invite.id } }
+
+        it 'does not update character guild' do
+          request
+          user_character.reload
+
+          expect(user_character.guild_id).to eq nil
+        end
+
+        it 'calls UpdateGuildInvite' do
+          expect(UpdateGuildInvite).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and redirects to guilds page' do
+          request
+
+          expect(response).to redirect_to guilds_en_path
+        end
+      end
+    end
+
+    def do_request
+      get :decline, params: { locale: 'en', id: guild_invite.id }
+    end
+  end
 end

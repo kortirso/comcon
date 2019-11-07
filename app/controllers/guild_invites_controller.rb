@@ -1,6 +1,6 @@
 class GuildInvitesController < ApplicationController
   before_action :find_guild, only: %i[new]
-  before_action :find_guild_invite, only: %i[destroy]
+  before_action :find_guild_invite, only: %i[destroy approve decline]
 
   def new
     authorize! @from_guild, with: GuildInvitePolicy, context: { guild: @invite_creator, character: @invite_creator }
@@ -10,6 +10,19 @@ class GuildInvitesController < ApplicationController
     authorize! @guild_invite.from_guild.to_s, with: GuildInvitePolicy, context: { guild: @guild_invite.guild, character: @guild_invite.character }
     @guild_invite.destroy
     redirect_to management_guild_path(@guild_invite.guild.slug)
+  end
+
+  def approve
+    authorize! @guild_invite.from_guild.to_s, with: GuildInvitePolicy, context: { guild: @guild_invite.guild, character: @guild_invite.character }
+    @guild_invite.character.update(guild_id: @guild_invite.guild.id)
+    @guild_invite.destroy
+    redirect_to guild_path(@guild_invite.guild.slug)
+  end
+
+  def decline
+    authorize! @guild_invite.from_guild.to_s, with: GuildInvitePolicy, context: { guild: @guild_invite.guild, character: @guild_invite.character }
+    UpdateGuildInvite.call(guild_invite: @guild_invite, status: 1)
+    redirect_to guilds_path
   end
 
   private
