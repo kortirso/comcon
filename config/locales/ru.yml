@@ -108,3 +108,7 @@ ru:
   notifications:
     title: Уведомления
     add: Создать уведомление
+  management:
+    invitations: Приглашения в гильдию
+    create_invite: Создать приглашение
+    invites: Заявки в гильдию

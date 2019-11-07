@@ -1,21 +1,37 @@
 .container
+  .double_line
+    #invitations.form-group
+      h3= t('management.invitations')
+      = link_to t('management.create_invite'), new_guild_invite_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
+      /- if @guild.guild_invites.from_guild.size.positive?
+        table.table.table-striped.table-sm
+          thead
+            tr
+              th
+          tbody
+            - @guild.guild_invites.from_guild.each do |guild_invite|
+              tr
+                td
+    #invites.form-group
+      h3= t('management.invites')
   #statics
     h3= t('statics.title')
     = link_to t('statics.add'), new_static_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
-    table.table.table-striped.table-sm
-      thead
-        tr
-          th= t('statics.name')
-          th= t('statics.description')
-          th
-      tbody
-        - @guild.statics.each do |static|
+    - if @guild.statics.size.positive?
+      table.table.table-striped.table-sm
+        thead
           tr
-            td= link_to static.name, static
-            td= static.description
-            td
-              = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
-              = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+            th= t('statics.name')
+            th= t('statics.description')
+            th
+        tbody
+          - @guild.statics.each do |static|
+            tr
+              td= link_to static.name, static
+              td= static.description
+              td
+                = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
+                = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
   #notifications
     h3= t('notifications.title')
     = link_to t('notifications.add'), new_delivery_path(deliveriable_id: @guild.id, deliveriable_type: 'Guild'), class: 'btn btn-primary btn-sm with_bottom_margin'

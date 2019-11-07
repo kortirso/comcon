@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       get :decline, on: :member
     end
     resources :deliveries, only: %i[new destroy]
+    resources :guild_invites, only: %i[new]
 
     root to: 'welcome#index'
   end

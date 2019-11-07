@@ -107,3 +107,7 @@ en:
   notifications:
     title: Notifications
     add: Add notification
+  management:
+    invitations: Invites to guild
+    create_invite: Create invite to guild
+    invites: Requests to guild
