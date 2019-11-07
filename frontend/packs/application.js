@@ -6,6 +6,7 @@ import "components/footer/footer";
 
 import "components/sessions/sessions";
 import "components/character_new/character_new";
+import "components/characters/characters";
 import "components/events/events";
 import "components/event/event";
 import "components/recipes/recipes";

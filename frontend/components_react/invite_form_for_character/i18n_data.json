@@ -1,0 +1,34 @@
+{
+  "en": {
+    "label": "Search guilds for invite",
+    "name": "Name",
+    "nameLabel": "Search guild by name (minimum 3 symbols)",
+    "invite": "Request",
+    "noCharacters": "No guilds",
+    "forCharacter": "Search guild for your character",
+    "requestsLabel": "Existed requests to guild",
+    "noRequests": "No requests",
+    "deleteRequest": "Delete",
+    "invitesLabel": "Existed invites from guilds",
+    "noInvites": "No invites",
+    "approveInvite": "Approve",
+    "declineInvite": "Decline",
+    "status": "Status"
+  },
+  "ru": {
+    "label": "Поиск гильдий для вступления",
+    "name": "Название",
+    "nameLabel": "Поиск гильдий по названию (минимум 3 символа)",
+    "invite": "Запрос",
+    "noCharacters": "Гильдии не найдены",
+    "forCharacter": "Поиск гильдии для вашего персонажа",
+    "requestsLabel": "Отправленные запросы на вступление",
+    "noRequests": "Нет запросов",
+    "deleteRequest": "Удалить",
+    "invitesLabel": "Полученные запросы на вступление",
+    "noInvites": "Нет приглашений",
+    "approveInvite": "Принять",
+    "declineInvite": "Отменить",
+    "status": "Статус"
+  }
+}

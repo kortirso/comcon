@@ -76,13 +76,14 @@ ru:
     start_time: Время начала (GTM +0)
     hours_before_close: Часов до закрытия регистрации
   characters:
-    add: Добавить персонаж
+    add: Добавить персонажа
     name: Имя
     world: Мир
     race: Раса
     character_class: Класс
     level: Уровень
     guild: Гильдия
+    find_guild: Найти гильдию
   select:
     world: Игровой Мир
     guild: Гильдия
@@ -110,7 +111,6 @@ ru:
     add: Создать уведомление
   management:
     invitations: Приглашения в гильдию
-    create_invite: Создать приглашение
-    invites: Заявки в гильдию
+    create_invite: Управление приглашениями в гильдию
   guilds: 
     name: Название гильдии

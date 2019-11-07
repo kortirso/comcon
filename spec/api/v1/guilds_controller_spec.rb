@@ -209,4 +209,68 @@ RSpec.describe 'Guilds API' do
       post "/api/v1/guilds/#{guild.id}/leave_character.json", params: { character_id: character.id }, headers: headers
     end
   end
+
+  describe 'GET#search' do
+    let!(:guild) { create :guild, name: 'First' }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'with valid user token in params' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'without params' do
+        let(:request) { get '/api/v1/guilds/search.json', params: { access_token: access_token, query: 'First' } }
+
+        it 'calls search' do
+          expect(Guild).to receive(:search).with('*First*', with: {}).and_call_original
+
+          request
+        end
+
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
+        end
+      end
+
+      context 'with world' do
+        let(:request) { get '/api/v1/guilds/search.json', params: { access_token: access_token, query: 'First', world_id: guild.world_id } }
+
+        it 'calls search' do
+          expect(Guild).to receive(:search).with('*First*', with: { world_id: guild.world_id }).and_call_original
+
+          request
+        end
+
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
+        end
+      end
+
+      context 'with fraction' do
+        let(:request) { get '/api/v1/guilds/search.json', params: { access_token: access_token, query: 'First', fraction_id: guild.fraction_id } }
+
+        it 'calls search' do
+          expect(Guild).to receive(:search).with('*First*', with: { fraction_id: guild.fraction_id }).and_call_original
+
+          request
+        end
+
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/guilds/search.json', headers: headers
+    end
+  end
 end

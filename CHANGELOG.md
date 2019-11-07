@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - guild search indexes
 
+### Modified
+- guild invite page with react components
+
 ## [0.6.5] - 2019-11-06
 ### Added
 - left guild by characters

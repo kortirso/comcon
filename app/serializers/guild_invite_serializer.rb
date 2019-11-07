@@ -1,3 +1,5 @@
 class GuildInviteSerializer < ActiveModel::Serializer
-  attributes :id, :guild_id, :character_id, :from_guild, :status
+  attributes :id, :from_guild, :status
+  belongs_to :guild, serializer: GuildSerializer
+  belongs_to :character, serializer: CharacterCrafterSerializer
 end

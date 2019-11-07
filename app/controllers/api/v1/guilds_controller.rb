@@ -6,6 +6,7 @@ module Api
       before_action :find_guild_character, only: %i[kick_character]
       before_action :find_user_character_in_guild, only: %i[leave_character]
       before_action :find_guild_characters, only: %i[characters]
+      before_action :search_guilds, only: %i[search]
 
       resource_description do
         short 'Guild resources'
@@ -52,6 +53,14 @@ module Api
         render json: { result: 'Character is left from guild' }, status: 200
       end
 
+      api :GET, '/v1/guilds/search.json', 'Search guilds by name with params'
+      error code: 401, desc: 'Unauthorized'
+      def search
+        render json: {
+          guilds: ActiveModelSerializers::SerializableResource.new(Guild.where(id: @guild_ids).includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds]
+        }, status: 200
+      end
+
       private
 
       def find_guilds
@@ -77,6 +86,16 @@ module Api
 
       def find_guild_characters
         @guild_characters = @guild.characters.includes(:race, :character_class, :guild_role).order(level: :desc, character_class_id: :desc)
+      end
+
+      def search_guilds
+        @guild_ids = Guild.search("*#{params[:query]}*", with: define_additional_search_params).map!(&:id)
+      end
+
+      def define_additional_search_params(with = {})
+        with[:world_id] = params[:world_id].to_i if params[:world_id].present?
+        with[:fraction_id] = params[:fraction_id].to_i if params[:fraction_id].present?
+        with
       end
     end
   end

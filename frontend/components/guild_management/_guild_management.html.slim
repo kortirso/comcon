@@ -1,28 +1,7 @@
 .container
-  .double_line
-    #invitations.form-group
-      h3= t('management.invitations')
-      = link_to t('management.create_invite'), new_guild_invite_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
-      - if @guild.guild_invites.from_guild.size.positive?
-        table.table.table-sm
-          thead
-            tr
-              th= t('characters.name')
-              th= t('characters.race')
-              th= t('characters.level')
-              th= t('guild_invites.status')
-              th
-          tbody
-            - @guild.guild_invites.from_guild.includes(character: [:race, :character_class]).each do |guild_invite|
-              tr class="#{guild_invite.character.character_class.name['en']}"
-                td= guild_invite.character.name
-                td= guild_invite.character.race.name[I18n.locale.to_s]
-                td= guild_invite.character.level
-                td= guild_invite.status
-                td
-                  = link_to t('buttons.delete'), guild_invite, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
-    #invites.form-group
-      h3= t('management.invites')
+  #invitations
+    h3= t('management.invitations')
+    = link_to t('management.create_invite'), new_guild_invite_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
   #statics
     h3= t('statics.title')
     = link_to t('statics.add'), new_static_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'

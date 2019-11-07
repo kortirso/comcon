@@ -75,13 +75,14 @@ en:
     start_time: Start time (GTM +0)
     hours_before_close: Hours before close
   characters:
-    add: Add
+    add: Add character
     name: Name
     world: Realm
     race: Race
     character_class: Character class
     level: Level
     guild: Guild
+    find_guild: Find guild
   select:
     world: Realm
     guild: Guild
@@ -109,7 +110,6 @@ en:
     add: Add notification
   management:
     invitations: Invites to guild
-    create_invite: Create invite to guild
-    invites: Requests to guild
+    create_invite: Guild invite management
   guilds: 
     name: Guild name

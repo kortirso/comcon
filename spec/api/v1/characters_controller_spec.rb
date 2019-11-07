@@ -253,7 +253,6 @@ RSpec.describe 'Characters API' do
 
   describe 'GET#search' do
     let!(:character) { create :character, name: 'First' }
-    let!(:other_character) { create :character }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'

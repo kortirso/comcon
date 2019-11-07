@@ -20,16 +20,35 @@ export default class InviteFormForGuild extends React.Component {
     this.state = {
       query: '',
       searchedCharacters: [],
-      errors: []
+      errors: [],
+      guildInvites: [],
+      userRequests: []
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
+    this._getGuildInvites()
   }
 
   componentWillUnmount() {
     if (this.typingTimeout) clearTimeout(this.typingTimeout)
+  }
+
+  _getGuildInvites() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
+      success: (data) => {
+        const userRequests = data.guild_invites.filter((guildInvite) => {
+          return !guildInvite.from_guild
+        })
+        const guildInvites = data.guild_invites.filter((guildInvite) => {
+          return guildInvite.from_guild
+        })
+        this.setState({userRequests: userRequests, guildInvites: guildInvites})
+      }
+    })
   }
 
   _searchCharacters() {
@@ -45,7 +64,7 @@ export default class InviteFormForGuild extends React.Component {
     })
   }
 
-  _onInviteCharacter(character) {
+  _onSendInvite(character) {
     $.ajax({
       method: 'POST',
       url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}`,
@@ -54,10 +73,39 @@ export default class InviteFormForGuild extends React.Component {
         const searchedCharacters = [... this.state.searchedCharacters]
         const characterIndex = searchedCharacters.indexOf(character)
         searchedCharacters.splice(characterIndex, 1)
-        this.setState({searchedCharacters: searchedCharacters})
+        let guildInvites = this.state.guildInvites
+        guildInvites.push(data.guild_invite)
+        this.setState({searchedCharacters: searchedCharacters, guildInvites: guildInvites})
       },
       error: (data) => {
         this.setState({errors: data.responseJSON.errors})
+      }
+    })
+  }
+
+  _onDeleteInvite(invite) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/v1/guild_invites/${invite.id}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const guildInvites = [... this.state.guildInvites]
+        const inviteIndex = guildInvites.indexOf(invite)
+        guildInvites.splice(inviteIndex, 1)
+        this.setState({guildInvites: guildInvites})
+      }
+    })
+  }
+
+  _onSubmitRequest(request, endpoint) {
+    $.ajax({
+      method: 'POST',
+      url: `/api/v1/guild_invites/${request.id}/${endpoint}.json?access_token=${this.props.access_token}`,
+      data: {},
+      success: (data) => {
+        const userRequests = [... this.state.userRequests]
+        const requestIndex = userRequests.indexOf(request)
+        userRequests.splice(requestIndex, 1)
+        this.setState({userRequests: userRequests})
       }
     })
   }
@@ -90,7 +138,82 @@ export default class InviteFormForGuild extends React.Component {
           <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
           <td>
-            <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onInviteCharacter.bind(this, character)} />
+            <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onSendInvite.bind(this, character)} />
+          </td>
+        </tr>
+      )
+    })
+  }
+
+  _renderGuildInvites() {
+    if (this.state.guildInvites.length > 0) {
+      return (
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              <th>{strings.name}</th>
+              <th>{strings.race}</th>
+              <th>{strings.level}</th>
+              <th>{strings.status}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this._renderGuildInvitesResults()}
+          </tbody>
+        </table>
+      )
+    } else return <p>{strings.noInvites}</p>
+  }
+
+  _renderGuildInvitesResults() {
+    return this.state.guildInvites.map((invite) => {
+      return (
+        <tr className={invite.character.character_class.en} key={invite.id}>
+          <td>{invite.character.name}</td>
+          <td>{invite.character.race[this.props.locale]}</td>
+          <td>{invite.character.level}</td>
+          <td>{invite.status}</td>
+          <td>
+            <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
+          </td>
+        </tr>
+      )
+    })
+  }
+
+  _renderUserRequests() {
+    if (this.state.userRequests.length > 0) {
+      return (
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              <th>{strings.name}</th>
+              <th>{strings.race}</th>
+              <th>{strings.level}</th>
+              <th>{strings.status}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this._renderUserRequestsResult()}
+          </tbody>
+        </table>
+      )
+    } else return <p>{strings.noRequests}</p>
+  }
+
+  _renderUserRequestsResult() {
+    return this.state.userRequests.map((request) => {
+      return (
+        <tr className={request.character.character_class.en} key={request.id}>
+          <td>{request.character.name}</td>
+          <td>{request.character.race[this.props.locale]}</td>
+          <td>{request.character.level}</td>
+          <td>{request.status}</td>
+          <td>
+            <input type="submit" name="commit" value={strings.approveRequest} className="btn btn-primary btn-sm with_right_margin" onClick={this._onSubmitRequest.bind(this, request, 'approve')} />
+            <input type="submit" name="commit" value={strings.declineRequest} className="btn btn-primary btn-sm" onClick={this._onSubmitRequest.bind(this, request, 'decline')} />
           </td>
         </tr>
       )
@@ -111,6 +234,7 @@ export default class InviteFormForGuild extends React.Component {
   render() {
     return (
       <div className="invite_form_for_guild">
+        <h2>{strings.forGuild} - {this.props.guild_name}</h2>
         <div className="double_line">
           <div className="form-group search">
             {this.state.errors.length > 0 &&
@@ -119,6 +243,12 @@ export default class InviteFormForGuild extends React.Component {
             <h3>{strings.label}</h3>
             <input placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
             {this._renderSearchedCharacters()}
+          </div>
+          <div className="form-group invites">
+            <h3>{strings.requestsLabel}</h3>
+            {this._renderGuildInvites()}
+            <h3>{strings.invitesLabel}</h3>
+            {this._renderUserRequests()}
           </div>
         </div>
       </div>

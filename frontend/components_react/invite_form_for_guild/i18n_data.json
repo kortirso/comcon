@@ -5,8 +5,15 @@
     "race": "Race",
     "level": "Level",
     "nameLabel": "Search character by name or guild name (minimum 3 symbols)",
-    "invite": "Invite",
-    "noCharacters": "No characters"
+    "requestsLabel": "Existed requests to guild",
+    "noRequests": "No requests",
+    "deleteInvite": "Delete",
+    "invitesLabel": "Existed invites from guilds",
+    "noInvites": "No invites",
+    "approveRequest": "Approve",
+    "declineRequest": "Decline",
+    "forGuild": "Search characters for your guild",
+    "status": "Status"
   },
   "ru": {
     "label": "Поиск персонажей для приглашения",
@@ -14,7 +21,14 @@
     "race": "Раса",
     "level": "Уровень",
     "nameLabel": "Поиск персонажа по имени или названию гильдии (минимум 3 символа)",
-    "invite": "Инвайт",
-    "noCharacters": "Персонажи не найдены"
+    "requestsLabel": "Отправленные запросы на вступление",
+    "noRequests": "Нет запросов",
+    "deleteInvite": "Удалить",
+    "invitesLabel": "Полученные запросы на вступление",
+    "noInvites": "Нет приглашений",
+    "approveRequest": "Принять",
+    "declineRequest": "Отклонить",
+    "forGuild": "Поиск персонажей для вашей гильдии",
+    "status": "Статус"
   }
 }

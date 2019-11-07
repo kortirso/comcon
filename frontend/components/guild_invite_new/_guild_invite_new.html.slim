@@ -1,7 +1,7 @@
 .container
   - if @invite_creator.is_a?(Guild)
     = javascript_pack_tag 'invite_form_for_guild'
-    = react_component('InviteFormForGuild', guild_id: @invite_creator.id, fraction_id: @invite_creator.fraction_id, world_id: @invite_creator.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('InviteFormForGuild', guild_id: @invite_creator.id, guild_name: @invite_creator.full_name, fraction_id: @invite_creator.fraction_id, world_id: @invite_creator.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
   - else
-    /= javascript_pack_tag 'invite_form_for_character'
-    /= react_component('InviteFormForCharacter', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = javascript_pack_tag 'invite_form_for_character'
+    = react_component('InviteFormForCharacter', character_id: @invite_creator.id, character_name: @invite_creator.full_name, fraction_id: @invite_creator.race.fraction_id, world_id: @invite_creator.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

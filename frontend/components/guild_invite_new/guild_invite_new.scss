@@ -1,6 +1,11 @@
-.invite_form_for_guild {
+.invite_form_for_guild, .invite_form_for_character {
+  h2 {
+    margin-bottom: 2rem;
+  }
+
   h3 {
     margin-bottom: 1rem;
+    font-size: 1.25rem;
   }
 
   .search {
