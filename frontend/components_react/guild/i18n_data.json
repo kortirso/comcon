@@ -9,6 +9,7 @@
     "rl": "RL",
     "cl": "CL",
     "deleteButton": "Kick",
+    "leave": "Leave",
     "sure": "Are sure?"
   },
   "ru": {
@@ -21,6 +22,7 @@
     "rl": "РЛ",
     "cl": "КЛ",
     "deleteButton": "Исключить",
+    "leave": "Выйти",
     "sure": "Вы уверены?"
   }
 }

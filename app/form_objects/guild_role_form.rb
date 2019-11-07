@@ -10,12 +10,13 @@ class GuildRoleForm
 
   validates :name, :guild, :character, presence: true
   validates :name, inclusion: { in: %w[gm rl cl] }
+  validate :character_in_guild?
+  validate :guild_role_exists?
 
   attr_reader :guild_role
 
   def persist?
     return false unless valid?
-    return false if exists?
     @guild_role = id ? GuildRole.find_by(id: id) : GuildRole.new
     return false if @guild_role.nil?
     @guild_role.attributes = attributes.except(:id)
@@ -25,8 +26,15 @@ class GuildRoleForm
 
   private
 
-  def exists?
+  def guild_role_exists?
     guild_roles = id.nil? ? GuildRole.all : GuildRole.where.not(id: id)
-    guild_roles.find_by(guild: guild, character: character).present?
+    return unless guild_roles.where(guild: guild, character: character).exists?
+    errors[:guild_role] << 'already exists'
+  end
+
+  def character_in_guild?
+    return if character.nil? || guild.nil?
+    return if character.guild_id == guild.id
+    errors[:character] << 'is not in the guild'
   end
 end
