@@ -10,7 +10,7 @@ class CharacterForm
   attribute :character_class, CharacterClass
   attribute :user, User
   attribute :world, World
-  attribute :guild, Guild
+  attribute :guild, Guild, default: nil
 
   validates :name, :level, :race, :character_class, :user, :world, presence: true
   validates :name, length: { in: 2..20 }
@@ -22,7 +22,6 @@ class CharacterForm
   attr_reader :character
 
   def persist?
-    self.world = guild.world if world.nil? && guild.present?
     return false unless valid?
     return false if exists?
     @character = id ? Character.find_by(id: id) : Character.new

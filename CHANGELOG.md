@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.5] - 2019-11-06
+### Added
+- left guild by characters
+- generate new gm or disbund the guild
+- GuildInvite model
+- page for guild invites
+- api endpoint for creating guild invites
+- deleting guild invites
+- approving/declining guild invites by users
+
+### Modified
+- removed guild selection from character form
+
 ## [0.6.4] - 2019-11-06
 ### Added
 - ErrorView react component for rendering errors in forms

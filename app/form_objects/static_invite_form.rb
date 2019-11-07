@@ -8,7 +8,7 @@ class StaticInviteForm
   attribute :character, Character
   attribute :status, Integer, default: 0
 
-  validates :static, :character, presence: true
+  validates :status, :static, :character, presence: true
   validates :status, inclusion: 0..2
   validate :status_value
   validate :same_world?

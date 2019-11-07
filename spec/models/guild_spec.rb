@@ -10,6 +10,8 @@ RSpec.describe Guild, type: :model do
   it { should have_many(:statics).dependent(:destroy) }
   it { should have_many(:deliveries).dependent(:destroy) }
   it { should have_many(:notifications).through(:deliveries) }
+  it { should have_many(:guild_invites).dependent(:destroy) }
+  it { should have_many(:character_invitations).through(:guild_invites).source(:character) }
 
   it 'factory should be valid' do
     guild = build :guild

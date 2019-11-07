@@ -15,11 +15,11 @@ module Api
       error code: 409, desc: 'Conflict'
       def create
         authorize! @guild, with: GuildRolePolicy
-        guild_role_form = GuildRoleForm.new(guild_role_params)
-        if guild_role_form.persist?
-          render json: guild_role_form.guild_role, status: 201
+        result = CreateGuildRole.call(guild: @guild, character: @character, name: params[:guild_role][:name])
+        if result.success?
+          render json: result.guild_role, status: 201
         else
-          render json: { errors: guild_role_form.errors.full_messages }, status: 409
+          render json: { errors: result.message }, status: 409
         end
       end
 
@@ -29,7 +29,7 @@ module Api
       error code: 409, desc: 'Conflict'
       def update
         authorize! @guild_role
-        guild_role_form = GuildRoleForm.new(@guild_role.attributes.merge(guild_role_params))
+        guild_role_form = GuildRoleForm.new(@guild_role.attributes.merge(guild: @guild, character: @character, name: params[:guild_role][:name]))
         if guild_role_form.persist?
           render json: guild_role_form.guild_role, status: 200
         else
@@ -61,13 +61,6 @@ module Api
       def find_character
         @character = params[:guild_role][:character_id].present? ? Character.find_by(id: params[:guild_role][:character_id]) : @guild_role&.character
         render_error('Object is not found') if @character.nil?
-      end
-
-      def guild_role_params
-        h = params.require(:guild_role).permit(:name).to_h
-        h[:guild] = @guild
-        h[:character] = @character
-        h
       end
     end
   end

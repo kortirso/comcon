@@ -2,14 +2,12 @@ module Api
   module V1
     class CharactersController < Api::V1::BaseController
       include Concerns::WorldCacher
-      include Concerns::GuildCacher
       include Concerns::DungeonCacher
       include Concerns::ProfessionCacher
 
       before_action :find_character, only: %i[show update]
       before_action :get_races_from_cache, only: %i[default_values]
       before_action :get_worlds_from_cache, only: %i[default_values]
-      before_action :get_guilds_from_cache, only: %i[default_values]
       before_action :get_dungeons_from_cache, only: %i[default_values]
       before_action :get_professions_from_cache, only: %i[default_values]
       before_action :search_characters, only: %i[search]
@@ -62,7 +60,6 @@ module Api
       def default_values
         render json: {
           races: @races_json,
-          guilds: @guilds_json,
           worlds: @worlds_json,
           dungeons: @dungeons_json,
           professions: @professions_json
@@ -140,8 +137,7 @@ module Api
         h = params.require(:character).permit(:name, :level).to_h
         h[:race] = Race.find_by(id: params[:character][:race_id])
         h[:character_class] = CharacterClass.find_by(id: params[:character][:character_class_id])
-        h[:world] = World.find_by(id: params[:character][:world_id]) if params[:character][:world_id].present?
-        h[:guild] = Guild.find_by(id: params[:character][:guild_id])
+        h[:world] = World.find_by(id: params[:character][:world_id])
         h[:user] = Current.user
         h
       end

@@ -22,6 +22,8 @@ RSpec.describe Character, type: :model do
   it { should have_many(:in_statics).through(:static_members).source(:static) }
   it { should have_many(:static_invites).dependent(:destroy) }
   it { should have_many(:invitations_to_statics).through(:static_invites).source(:static) }
+  it { should have_many(:guild_invites).dependent(:destroy) }
+  it { should have_many(:guild_invitations).through(:guild_invites).source(:guild) }
   it { should have_one(:guild_role).dependent(:destroy) }
 
   it 'factory should be valid' do

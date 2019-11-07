@@ -2,8 +2,9 @@ module Api
   module V1
     class GuildsController < Api::V1::BaseController
       before_action :find_guilds, only: %i[index]
-      before_action :find_guild, only: %i[characters kick_character]
+      before_action :find_guild, only: %i[characters kick_character leave_character]
       before_action :find_guild_character, only: %i[kick_character]
+      before_action :find_user_character_in_guild, only: %i[leave_character]
       before_action :find_guild_characters, only: %i[characters]
 
       resource_description do
@@ -29,7 +30,7 @@ module Api
         }, status: 200
       end
 
-      api :GET, '/v1/guilds/:id/kick_character.json', 'Kick character from guild'
+      api :POST, '/v1/guilds/:id/kick_character.json', 'Kick character from guild'
       param :id, String, required: true
       param :character_id, String, required: true
       error code: 401, desc: 'Unauthorized'
@@ -38,6 +39,17 @@ module Api
         authorize! @guild, to: :management?
         @character.update(guild_id: nil)
         render json: { result: 'Character is kicked from guild' }, status: 200
+      end
+
+      api :POST, '/v1/guilds/:id/leave_character.json', 'Character leave from guild'
+      param :id, String, required: true
+      param :character_id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 400, desc: 'Object is not found'
+      def leave_character
+        @character.update(guild_id: nil)
+        RebuildGuildRoles.call(guild: @guild)
+        render json: { result: 'Character is left from guild' }, status: 200
       end
 
       private
@@ -54,7 +66,12 @@ module Api
       end
 
       def find_guild_character
-        @character = @guild.characters.find_by(id: params[:character_id])
+        @character = @guild.characters.where.not(user_id: Current.user.id).find_by(id: params[:character_id])
+        render_error('Object is not found') if @character.nil?
+      end
+
+      def find_user_character_in_guild
+        @character = @guild.characters.where(user_id: Current.user.id).find_by(id: params[:character_id])
         render_error('Object is not found') if @character.nil?
       end
 

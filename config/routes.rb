@@ -6,7 +6,8 @@ Rails.application.routes.draw do
       resources :worlds, only: %i[index]
       resources :guilds, only: %i[index] do
         get :characters, on: :member
-        get :kick_character, on: :member
+        post :kick_character, on: :member
+        post :leave_character, on: :member
       end
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
       resources :static_members, only: %i[destroy]
       resources :notifications, only: %i[index]
       resources :deliveries, only: %i[create]
+      resources :guild_invites, only: %i[create]
     end
   end
 
@@ -62,6 +64,10 @@ Rails.application.routes.draw do
       get :decline, on: :member
     end
     resources :deliveries, only: %i[new destroy]
+    resources :guild_invites, only: %i[new destroy] do
+      get :approve, on: :member
+      get :decline, on: :member
+    end
 
     root to: 'welcome#index'
   end

@@ -80,7 +80,9 @@ RSpec.describe 'GuildRoles API' do
       end
 
       context 'for existed character' do
-        let!(:guild_role) { create :guild_role }
+        let!(:guild) { create :guild }
+        let!(:character) { create :character, guild: guild }
+        let!(:guild_role) { create :guild_role, guild: guild, character: character }
 
         context 'for invalid params' do
           let(:request) { patch "/api/v1/guild_roles/#{guild_role.id}.json", params: { access_token: access_token, guild_role: { name: '' } } }
