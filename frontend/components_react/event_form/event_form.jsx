@@ -1,13 +1,14 @@
 import React from "react"
 import LocalizedStrings from 'react-localization'
 import I18nData from './i18n_data.json'
+
+const $ = require("jquery")
+
 import 'air-datepicker/dist/js/datepicker.js'
 import 'air-datepicker/dist/js/i18n/datepicker.en.js'
 import 'air-datepicker/dist/css/datepicker.min.css'
 
 import ErrorView from '../error_view/error_view'
-
-const $ = require("jquery")
 
 let strings = new LocalizedStrings(I18nData)
 
@@ -41,7 +42,6 @@ export default class EventForm extends React.Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
-    // datetime picker
     const _this = this
     $(".datepicker-here").datepicker({
       minDate: new Date(),
@@ -73,36 +73,35 @@ export default class EventForm extends React.Component {
       const currentDate = new Date()
       $(".datepicker-here").data('datepicker').selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()))
       return false
-    } else {
-      $.ajax({
-        method: 'GET',
-        url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
-        success: (data) => {
-          const event = data.event
-          let dates = event.date.split('.').map((time) => {
-            return parseInt(time)
-          })
-          const currentDate = new Date()
-          const timeZoneOffset = currentDate.getTimezoneOffset() / 60
-          const newDate = new Date(dates[2], dates[1], dates[0], event.time.hours - timeZoneOffset, event.time.minutes)
-          $(".datepicker-here").data('datepicker').selectDate(newDate)
-          const currentStatics = this.state.statics.filter((staticItem) => {
-            return staticItem.characters.includes(event.owner_id)
-          })
-          let eventableType = event.eventable_type
-          let staticId
-          if (eventableType === 'Static') {
-            if (currentStatics.length === 0) {
-              staticId = ''
-              eventableType = 'World'
-            } else {
-              staticId = currentStatics[0].id
-            }
-          }
-          this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: newDate, staticId: staticId, currentStatics: currentStatics})
-        }
-      })
     }
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const event = data.event
+        let dates = event.date.split('.').map((time) => {
+          return parseInt(time)
+        })
+        const currentDate = new Date()
+        const timeZoneOffset = currentDate.getTimezoneOffset() / 60
+        const startTime = new Date(dates[2], dates[1], dates[0], event.time.hours - timeZoneOffset, event.time.minutes)
+        $(".datepicker-here").data('datepicker').selectDate(startTime)
+        const currentStatics = this.state.statics.filter((staticItem) => {
+          return staticItem.characters.includes(event.owner_id)
+        })
+        let eventableType = event.eventable_type
+        let staticId
+        if (eventableType === 'Static') {
+          if (currentStatics.length === 0) {
+            staticId = ''
+            eventableType = 'World'
+          } else {
+            staticId = currentStatics[0].id
+          }
+        }
+        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: startTime, staticId: staticId, currentStatics: currentStatics})
+      }
+    })
   }
 
   _onCreate() {
