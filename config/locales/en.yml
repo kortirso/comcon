@@ -31,6 +31,11 @@ en:
     login: Login
     sign_up: Sign Up
     logout: Logout
+  welcome:
+    bindings_title: Linking external services
+    bindings_1: Link your social network and IT community accounts to your account.
+    bindings_2: After that, you can enter the service in one click.
+    bindings_existed: Discord's account linked to your account
   registration:
     title: Create your profile
     email: Email
@@ -43,6 +48,7 @@ en:
     hello: Welcome back!
     title: Sign In to your personal account
     login_through: Login through
+    linking: Sign In by using account at other networks
   worlds:
     add: Add realm
     name: Name

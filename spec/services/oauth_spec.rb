@@ -1,7 +1,7 @@
 RSpec.describe Oauth, type: :service do
-  describe '.call' do
+  describe '.auth_login' do
     let!(:oauth) { create :oauth, :with_credentials }
-    let(:request) { Oauth.find_user(oauth) }
+    let(:request) { Oauth.auth_login(auth: oauth) }
 
     context 'for unexisted user and identity' do
       it 'creates new User' do

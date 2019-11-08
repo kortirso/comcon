@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - omniauth support
 - login through discord
 - save user in session for discord auth
+- linking other network's accounts with existed account
 
 ### Fixed
 - security vulnerability

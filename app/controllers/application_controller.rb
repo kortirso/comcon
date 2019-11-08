@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   prepend_view_path Rails.root.join('frontend')
 
+  before_action :set_external_services_tag
   before_action :set_current_user
   before_action :save_current_path
   before_action :set_locale
@@ -24,6 +25,10 @@ class ApplicationController < ActionController::Base
   def is_admin?
     return invalid_request unless Current.user.is_admin?
     true
+  end
+
+  def set_external_services_tag
+    session[:external_services_tag] = false
   end
 
   def set_current_user

@@ -1,0 +1,24 @@
+.welcome {
+  .external_bindings {
+    p {
+      margin-bottom: 0.25rem;
+
+      &.title {
+        font-size: 1.25rem;
+      }
+    }
+
+    a {
+      &.binding {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        margin-right: 1rem;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

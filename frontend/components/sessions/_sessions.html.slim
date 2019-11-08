@@ -9,6 +9,7 @@
       .form-group
         = f.label :password, t('registration.password')
         = f.password_field :password, autocomplete: 'off', placeholder: t('registration.your_password'), class: 'form-control', required: true
-      .form-group
+      = f.submit t('navigation.login'), id: 'authorization', class: 'btn btn-primary btn-sm with_bottom_margin'
+      .form-group.other_services
+        p= t('session.linking')
         = link_to '', user_discord_omniauth_authorize_path, method: :post, title: "#{t('session.login_through')} Discord", class: 'icon_social discord'
-      = f.submit t('navigation.login'), id: 'authorization', class: 'btn btn-primary'

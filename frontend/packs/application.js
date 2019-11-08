@@ -1,9 +1,11 @@
 import "init";
+import "images";
 
 import "components/page/page";
 import "components/navigation/navigation";
 import "components/footer/footer";
 
+import "components/welcome/welcome";
 import "components/sessions/sessions";
 import "components/character_new/character_new";
 import "components/characters/characters";
