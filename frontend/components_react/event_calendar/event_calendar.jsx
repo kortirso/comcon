@@ -29,6 +29,7 @@ export default class EventCalendar extends React.Component {
       guild: 'none',
       fraction: 'none',
       character: 'none',
+      subscribe: 'none',
       currentEventId: null,
       currentDayId: null
     }
@@ -44,14 +45,16 @@ export default class EventCalendar extends React.Component {
   }
 
   _getEvents() {
+    const state = this.state
     let params = []
-    if (this.state.accessType !== 'none') params.push(`eventable_type=${this.state.accessType}`)
-    if (this.state.world !== 'none') params.push(`eventable_id=${this.state.world}`)
-    if (this.state.guild !== 'none') params.push(`eventable_id=${this.state.guild}`)
-    if (this.state.fraction !== 'none') params.push(`fraction_id=${this.state.fraction}`)
-    if (this.state.character !== 'none') params.push(`character_id=${this.state.character}`)
-    params.push(`month=${this.state.currentMonth}`)
-    params.push(`year=${this.state.currentYear}`)
+    if (state.accessType !== 'none') params.push(`eventable_type=${state.accessType}`)
+    if (state.world !== 'none') params.push(`eventable_id=${state.world}`)
+    if (state.guild !== 'none') params.push(`eventable_id=${state.guild}`)
+    if (state.fraction !== 'none') params.push(`fraction_id=${state.fraction}`)
+    if (state.character !== 'none') params.push(`character_id=${state.character}`)
+    if (state.subscribe === 'all') params.push(`subscribed=true`)
+    params.push(`month=${state.currentMonth}`)
+    params.push(`year=${state.currentYear}`)
     const url = `/api/v1/events.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
@@ -194,6 +197,7 @@ export default class EventCalendar extends React.Component {
         {this._renderGuildFilter()}
         {this._renderFractionFilter()}
         {this._renderCharacterFilter()}
+        {this._renderSubscribeFilter()}
       </div>
     )
   }
@@ -292,6 +296,18 @@ export default class EventCalendar extends React.Component {
     })
   }
 
+  _renderSubscribeFilter() {
+    return (
+      <div className="filter subscribe">
+        <p>{strings.filterSubscribe}</p>
+        <select className="form-control form-control-sm" onChange={this._onChangeSubscribe.bind(this)} value={this.state.subscribe}>
+          <option value='none' key='0'>{strings.none}</option>
+          <option value='all' key='1'>{strings.withSubscription}</option>
+        </select>
+      </div>
+    )
+  }
+
   _onChangeAccessType(event) {
     if (event.target.value === 'none') {
       this.setState({accessType: 'none', world: 'none', guild: 'none', currentEventId: null}, () => {
@@ -324,6 +340,12 @@ export default class EventCalendar extends React.Component {
 
   _onChangeCharacter(event) {
     this.setState({character: event.target.value, currentEventId: null, currentDayId: null}, () => {
+      this._getEvents()
+    })
+  }
+
+  _onChangeSubscribe(event) {
+    this.setState({subscribe: event.target.value, currentEventId: null, currentDayId: null}, () => {
       this._getEvents()
     })
   }

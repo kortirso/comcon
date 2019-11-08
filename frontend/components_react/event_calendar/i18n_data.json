@@ -1,13 +1,14 @@
 {
   "en": {
     "none": "none",
-    "filterAccess": "Filter by access type",
+    "filterAccess": "Access type",
     "onlyWorlds": "World events",
     "onlyGuilds": "Guild events",
-    "filterWorld": "Filter by realm",
-    "filterGuild": "Filter by guild",
-    "filterFraction": "Filter by fraction",
-    "filterCharacter": "Filter by character",
+    "filterWorld": "Realm",
+    "filterGuild": "Guild",
+    "filterFraction": "Fraction",
+    "filterCharacter": "Character",
+    "filterSubscribe": "Subscription",
     "previous": "Previous month",
     "next": "Next month",
     "timeZone": "The time on the calendar is for your time zone",
@@ -23,17 +24,19 @@
     "noDay": "No day selected",
     "noDayEvents": "No events at this day",
     "otherEvents": "And other events",
-    "sure": "Are sure?"
+    "sure": "Are sure?",
+    "withSubscription": "Subscribed"
   },
   "ru": {
     "none": "все",
-    "filterAccess": "Фильтр по доступу",
+    "filterAccess": "Доступ",
     "onlyWorlds": "События в Мире",
     "onlyGuilds": "События в Гильдии",
-    "filterWorld": "Фильтр по мирам",
-    "filterGuild": "Фильтр по гильдиям",
-    "filterFraction": "Фильтр по фракциям",
-    "filterCharacter": "Фильтр по персонажам",
+    "filterWorld": "Мир",
+    "filterGuild": "Гильдия",
+    "filterFraction": "Фракция",
+    "filterCharacter": "Персонаж",
+    "filterSubscribe": "Участие",
     "previous": "Предыдущий месяц",
     "next": "Следующий месяц",
     "timeZone": "Время в календаре указано для вашего часового пояса",
@@ -49,6 +52,7 @@
     "noDay": "Пока не выбран никакой день",
     "noDayEvents": "В данный день нет никаких событий",
     "otherEvents": "И другие события",
-    "sure": "Вы уверены?"
+    "sure": "Вы уверены?",
+    "withSubscription": "Подписавшиеся"
   }
 }

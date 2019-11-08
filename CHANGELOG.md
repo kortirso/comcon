@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Added
-- characters recipes uplaoder
+- characters recipes uploader
+- event calendar filter to see only subscribed events
 
 ### Modified
 - render identities of users at users page

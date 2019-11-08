@@ -127,6 +127,9 @@ module Api
         @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
         @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
         @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
+        if params[:subscribed] == 'true'
+          @events = @events.where_user_subscribed(Current.user)
+        end
         if params[:character_id].present?
           character = Current.user.characters.find_by(id: params[:character_id])
           @events = character.present? ? @events.available_for_character(character) : @events.available_for_user(Current.user)

@@ -14,6 +14,9 @@ class Event < ApplicationRecord
   has_many :subscribes, dependent: :destroy
   has_many :characters, through: :subscribes
 
+  has_many :signed_subscribes, -> { where status: %w[approved signed] }, class_name: 'Subscribe'
+  has_many :signed_characters, through: :signed_subscribes, source: :character
+
   scope :for_statics, -> { where eventable_type: 'Static' }
 
   def self.available_for_user(user)
@@ -25,6 +28,11 @@ class Event < ApplicationRecord
   def self.available_for_character(character)
     static_ids = character.in_statics.pluck(:id)
     where("eventable_type = 'World' AND eventable_id = ? AND fraction_id = ? OR eventable_type = 'Guild' AND eventable_id = ?", character.world_id, character.race.fraction_id, character.guild_id).or(for_statics.where(eventable_id: static_ids))
+  end
+
+  def self.where_user_subscribed(user)
+    character_ids = user.characters.pluck(:id)
+    joins(:signed_characters).where(characters: { id: character_ids })
   end
 
   def normalize_friendly_id(text)
