@@ -55,8 +55,9 @@ ru:
     name: Название
     zone: Зона
   users:
-    email: Email
+    email: Почта
     role: Роль
+    identities: Соцсети
   world:
     name: Название
     name_title: Название Мира

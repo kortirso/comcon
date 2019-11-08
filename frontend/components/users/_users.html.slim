@@ -1,10 +1,11 @@
-.container
+.container.users
   table.table.table-striped.table-sm
     thead
       tr
         th ID
         th= t('users.email')
         th= t('users.role')
+        th= t('users.identities')
         th
     tbody
       - @users.each do |user|
@@ -12,6 +13,9 @@
           td= user.id
           td= user.email
           td= user.role
+          td.identities
+            - user.identities.each do |identity|
+              p= "#{identity.provider}, #{identity.uid}, #{identity.email}"
           td
             = link_to t('buttons.edit'), edit_user_path(user), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to t('buttons.delete'), user, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

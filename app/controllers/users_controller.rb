@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   private
 
   def find_users
-    @users = User.order(id: :asc)
+    @users = User.order(id: :asc).includes(:identities)
   end
 
   def find_user
