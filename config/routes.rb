@@ -48,7 +48,6 @@ Rails.application.routes.draw do
   devise_for :users, skip: %i[session registration], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   localized do
-    get 'omniauth/:provider' => 'users/omniauth#localized', as: :localized_omniauth
     devise_for :users, skip: :omniauth_callbacks, path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
 
     resources :characters, except: %i[show create update] do

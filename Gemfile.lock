@@ -182,6 +182,9 @@ GEM
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
+    omniauth-rails_csrf_protection (0.1.2)
+      actionpack (>= 4.2)
+      omniauth (>= 1.3.1)
     orm_adapter (0.5.0)
     parallel (1.18.0)
     parallel_tests (2.29.2)
@@ -382,6 +385,7 @@ DEPENDENCIES
   oj
   oj_mimic_json
   omniauth-discord
+  omniauth-rails_csrf_protection (~> 0.1)
   parallel_tests
   pg (= 0.21)
   puma (= 3.7)

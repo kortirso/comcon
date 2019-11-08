@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - login through discord
 - save user in session for discord auth
 
+### Fixed
+- security vulnerability
+
 ## [0.6.7] - 2019-11-08
 ### Fixed
 - bug with character updating and lefting guild

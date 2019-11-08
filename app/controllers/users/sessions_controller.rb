@@ -4,9 +4,14 @@ module Users
 
     skip_before_action :set_current_user
     skip_before_action :save_current_path
+    before_action :save_omniauth_login_locale, only: :new
     before_action :forget_user, only: :destroy
 
     private
+
+    def save_omniauth_login_locale
+      session[:omniauth_login_locale] = I18n.locale
+    end
 
     def forget_user
       Current.user = nil
