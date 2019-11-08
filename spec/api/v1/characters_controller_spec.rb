@@ -346,4 +346,95 @@ RSpec.describe 'Characters API' do
       get '/api/v1/characters/search.json', headers: headers
     end
   end
+
+  describe 'GET#upload_recipes' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'with valid user token in params' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted character' do
+        before { post '/api/v1/characters/unknown/upload_recipes.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed character' do
+        let!(:character) { create :character, user: user }
+
+        context 'for unexisted profession' do
+          before { post "/api/v1/characters/#{character.id}/upload_recipes.json", params: { access_token: access_token, profession_id: 'unexisted' } }
+
+          it 'returns status 400' do
+            expect(response.status).to eq 400
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+          end
+        end
+
+        context 'for existed profession' do
+          let!(:profession) { create :profession }
+
+          context 'for unexisted character profession' do
+            let(:request) { post "/api/v1/characters/#{character.id}/upload_recipes.json", params: { access_token: access_token, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны' } }
+
+            it 'calls CharacterRecipesUpload' do
+              expect(CharacterRecipesUpload).to receive(:call).and_call_original
+
+              request
+            end
+
+            context 'in answer' do
+              before { request }
+
+              it 'returns status 409' do
+                expect(response.status).to eq 409
+              end
+
+              it 'and returns result message' do
+                expect(JSON.parse(response.body)).to eq('result' => 'Recipes are not uploaded')
+              end
+            end
+          end
+
+          context 'for existed character profession' do
+            let!(:character_profession) { create :character_profession, character: character, profession: profession }
+            let(:request) { post "/api/v1/characters/#{character.id}/upload_recipes.json", params: { access_token: access_token, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны' } }
+
+            it 'calls CharacterRecipesUpload' do
+              expect(CharacterRecipesUpload).to receive(:call).and_call_original
+
+              request
+            end
+
+            context 'in answer' do
+              before { request }
+
+              it 'returns status 200' do
+                expect(response.status).to eq 200
+              end
+
+              it 'and returns result message' do
+                expect(JSON.parse(response.body)).to eq('result' => 'Recipes are uploaded')
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      post '/api/v1/characters/unknown/upload_recipes.json', headers: headers
+    end
+  end
 end

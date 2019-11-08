@@ -5,12 +5,13 @@ module Api
       include Concerns::DungeonCacher
       include Concerns::ProfessionCacher
 
-      before_action :find_character, only: %i[show update]
+      before_action :find_character, only: %i[show update upload_recipes]
       before_action :get_races_from_cache, only: %i[default_values]
       before_action :get_worlds_from_cache, only: %i[default_values]
       before_action :get_dungeons_from_cache, only: %i[default_values]
       before_action :get_professions_from_cache, only: %i[default_values]
       before_action :search_characters, only: %i[search]
+      before_action :find_profession, only: %i[upload_recipes]
 
       resource_description do
         short 'Character resources'
@@ -74,6 +75,16 @@ module Api
         }, status: 200
       end
 
+      api :POST, '/v1/characters/:id/upload_recipes.json', 'Upload recipes for character'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 400, desc: 'Object is not found'
+      def upload_recipes
+        result = CharacterRecipesUpload.call(character_id: @character.id, profession_id: @profession.id, value: params[:value])
+        return render json: { result: 'Recipes are uploaded' }, status: 200 unless result.nil?
+        render json: { result: 'Recipes are not uploaded' }, status: 409
+      end
+
       private
 
       def find_character
@@ -125,6 +136,11 @@ module Api
           with[:race_id] = fraction.races.pluck(:id) unless fraction.nil?
         end
         with
+      end
+
+      def find_profession
+        @profession = Profession.recipeable.find_by(id: params[:profession_id])
+        render_error('Object is not found') if @profession.nil?
       end
 
       def create_additional_structures_for_character(character)

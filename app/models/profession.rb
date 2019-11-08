@@ -4,6 +4,8 @@ class Profession < ApplicationRecord
   has_many :characters, through: :character_professions
   has_many :recipes, dependent: :destroy
 
+  scope :recipeable, -> { where recipeable: true }
+
   def self.cache_key(professions)
     {
       serializer: 'professions',

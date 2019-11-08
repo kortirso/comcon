@@ -1,3 +1,4 @@
+= javascript_pack_tag 'recipe_uploader'
 .container
   - if @character_professions.size.zero?
     p= t('character_recipes.no_data')
@@ -7,6 +8,8 @@
         - @character_professions.each do |character_profession|
           .character_profession
             h2= character_profession.profession.name[I18n.locale.to_s]
+            .uploader
+              = react_component('RecipeUploader', character_id: @character.id, profession_id: character_profession.profession_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
             .recipes
               - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
               - character_profession.profession.recipes.order(skill: :desc).each do |recipe|
