@@ -42,6 +42,7 @@ en:
   session:
     hello: Welcome back!
     title: Sign In to your personal account
+    login_through: Login through
   worlds:
     add: Add realm
     name: Name

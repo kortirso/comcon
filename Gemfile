@@ -75,6 +75,9 @@ gem 'whenever', require: false
 # Discord bot
 gem 'discord_bot', '0.2.0'
 
+# discord omniauth
+gem 'omniauth-discord'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'

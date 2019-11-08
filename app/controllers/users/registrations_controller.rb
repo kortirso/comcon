@@ -1,7 +1,7 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
-    skip_before_action :save_current_path
     skip_before_action :set_current_user
+    skip_before_action :save_current_path
 
     protected
 

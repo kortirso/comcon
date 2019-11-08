@@ -1,11 +1,13 @@
 class ApplicationController < ActionController::Base
+  include CookiesHelper
+
   protect_from_forgery with: :exception
   prepend_view_path Rails.root.join('frontend')
 
+  before_action :set_current_user
   before_action :save_current_path
   before_action :set_locale
   before_action :authenticate_user!
-  before_action :set_current_user
   skip_before_action :authenticate_user!, only: %i[catch_route_error]
   skip_before_action :set_current_user, only: %i[catch_route_error]
 
@@ -24,12 +26,12 @@ class ApplicationController < ActionController::Base
     true
   end
 
-  def save_current_path
-    session[:current_path] = request.url
+  def set_current_user
+    Current.user = current_person_in_cookies
   end
 
-  def set_current_user
-    Current.user = current_user
+  def save_current_path
+    session[:current_path] = request.url
   end
 
   def my_current_user

@@ -1,9 +1,12 @@
 # Represents users in the system
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable, :validatable
+  include Personable
+
+  devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 
   has_many :characters, dependent: :destroy
   has_many :guilds, -> { distinct }, through: :characters
+  has_many :identities, dependent: :destroy
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
 

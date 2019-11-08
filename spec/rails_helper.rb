@@ -25,6 +25,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include OmniauthMacros, type: :controller
   config.extend ControllerMacros, type: :controller
 
   include Warden::Test::Helpers

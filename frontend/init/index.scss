@@ -168,6 +168,18 @@ body {
       width: 100%;
     }
   }
+
+  .icon_social {
+    display: inline-block;
+    background: url(../images/icons.png);
+    width: 32px;
+    height: 32px;
+
+    &.discord {
+      background-position: 0 0;
+      background-size: 32px 32px;
+    }
+  }
 }
 
 * {
