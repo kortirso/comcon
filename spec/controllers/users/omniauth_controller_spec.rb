@@ -4,7 +4,7 @@ RSpec.describe Users::OmniauthController, type: :controller do
       before { get 'localized', params: { locale: 'en', provider: 'discord' } }
 
       it 'redirects to user_discord_omniauth_authorize path' do
-        expect(response).to redirect_to user_discord_omniauth_authorize_en_path
+        expect(response).to redirect_to user_discord_omniauth_authorize_path
       end
     end
 
