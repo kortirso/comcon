@@ -1,8 +1,8 @@
 module Users
   class OmniauthController < ApplicationController
+    skip_before_action :set_current_user
     skip_before_action :save_current_path
     skip_before_action :authenticate_user!
-    skip_before_action :set_current_user
 
     def localized
       session[:omniauth_login_locale] = I18n.locale

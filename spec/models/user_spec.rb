@@ -92,5 +92,44 @@ RSpec.describe User, type: :model do
         expect(result[0].id).to eq static1.id
       end
     end
+
+    context '.remember' do
+      let!(:user) { create :user }
+
+      it 'updates remember_digest param from nil' do
+        expect { user.remember }.to change(user, :remember_digest).from(nil)
+      end
+    end
+
+    context '.forget' do
+      let!(:user) { create :user }
+      before { user.remember }
+
+      it 'updates remember_digest param to nil' do
+        expect { user.forget }.to change(user, :remember_digest).to(nil)
+      end
+    end
+
+    context '.authenticated?' do
+      let!(:user) { create :user, remember_digest: nil }
+
+      it 'returns false for nil remember_digest' do
+        expect(user.authenticated?('')).to eq false
+      end
+
+      it 'returns false for wrong digest/token' do
+        token = SecureRandom.urlsafe_base64
+        user.update_attribute(:remember_digest, User.digest(token))
+
+        expect(user.authenticated?(token + '1')).to eq false
+      end
+
+      it 'returns true for correct digest' do
+        token = SecureRandom.urlsafe_base64
+        user.update_attribute(:remember_digest, User.digest(token))
+
+        expect(user.authenticated?(token)).to eq true
+      end
+    end
   end
 end

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - omniauth support
 - login through discord
+- save user in session for discord auth
 
 ## [0.6.7] - 2019-11-08
 ### Fixed

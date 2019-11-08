@@ -1,8 +1,10 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    include CookiesHelper
+
+    skip_before_action :set_current_user
     skip_before_action :save_current_path
     skip_before_action :authenticate_user!
-    skip_before_action :set_current_user
     before_action :provides_callback
 
     def discord; end
@@ -14,6 +16,7 @@ module Users
       return redirect_to root_path, flash: { error: 'Access Error' } if request.env['omniauth.auth'].nil?
       user = Oauth.find_user(request.env['omniauth.auth'])
       if user
+        remember user
         sign_in user
         redirect_to root_path, event: :authentication
       else

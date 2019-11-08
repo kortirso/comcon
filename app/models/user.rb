@@ -1,5 +1,7 @@
 # Represents users in the system
 class User < ApplicationRecord
+  include Personable
+
   devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 
   has_many :characters, dependent: :destroy
