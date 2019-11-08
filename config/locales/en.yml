@@ -74,14 +74,6 @@ en:
   events:
     add: Add event
     no_characters: For viewing events you need to attach new character to your account
-  event_new:
-    name: Name
-    name_title: Event's name
-    creator: Creator
-    dungeon: Dungeon
-    access_type: Access type
-    start_time: Start time (GTM +0)
-    hours_before_close: Hours before close
   characters:
     add: Add character
     name: Name
@@ -98,6 +90,10 @@ en:
     add: Add
   character_recipes:
     no_data: Your character does not have professions with recipes
+    label: Learned recipes for character %{character_name}
+    page_description: On this page, you can manually specify which recipes your character knows.
+    addon: "But there is also a wonderful addon "
+    addon_from: " from Ardash, which allows you to copy this information to the clipboard in the game and only specify it here. Install the addon, in the game use commands like '/ps Cooking', '/ps Enchanting', '/ps Alchemy', then place the received information in the blocks below for your profession and click Upload."
   craft:
     title: Crafters search
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help!

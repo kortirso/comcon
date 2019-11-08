@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - characters recipes uploader
+- Addon from Ardash for getting list of addons
 - event calendar filter to see only subscribed events
 
 ### Modified

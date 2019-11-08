@@ -1,10 +1,10 @@
 {
   "en": {
-    "massLabel": "ruRU;Хорошее зелье маны;Большее зелье Чародейской защиты",
+    "massLabel": "enGB;recipe's name 1;recipe'2 name 2",
     "upload": "Upload"
   },
   "ru": {
-    "massLabel": "ruRU;Хорошее зелье маны;Большее зелье Чародейской защиты",
+    "massLabel": "ruRU;название рецепта 1;название рецепта 2",
     "upload": "Загрузить"
   }
 }
