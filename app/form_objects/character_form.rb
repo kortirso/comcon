@@ -10,7 +10,7 @@ class CharacterForm
   attribute :character_class, CharacterClass
   attribute :user, User
   attribute :world, World
-  attribute :guild, Guild, default: nil
+  attribute :guild, Guild
 
   validates :name, :level, :race, :character_class, :user, :world, presence: true
   validates :name, length: { in: 2..20 }

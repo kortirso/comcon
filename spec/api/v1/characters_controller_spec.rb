@@ -143,12 +143,12 @@ RSpec.describe 'Characters API' do
       context 'for existed character' do
         let!(:race) { create :race, :human }
         let!(:guild) { create :guild, fraction: race.fraction }
-        let!(:character) { create :character, user: user, guild: guild, race: race }
+        let!(:character) { create :character, user: user, guild: guild, race: race, world: guild.world }
         let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
         let!(:role) { create :role }
 
         context 'for invalid params' do
-          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '', level: -1, race_id: character.race_id, character_class_id: character.character_class_id, world_id: character.world_id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
+          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '', level: -1, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
 
           it 'does not update character' do
             request
@@ -171,7 +171,7 @@ RSpec.describe 'Characters API' do
         end
 
         context 'for valid params' do
-          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '123', level: 1, race_id: character.race_id, character_class_id: character.character_class_id, world_id: character.world_id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
+          let(:request) { patch "/api/v1/characters/#{character.id}.json", params: { access_token: access_token, character: { name: '123', level: 1, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
 
           it 'calls CreateCharacterRoles' do
             expect(CreateCharacterRoles).to receive(:call).and_call_original

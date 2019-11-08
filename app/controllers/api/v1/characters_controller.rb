@@ -135,9 +135,10 @@ module Api
 
       def character_params
         h = params.require(:character).permit(:name, :level).to_h
-        h[:race] = Race.find_by(id: params[:character][:race_id])
-        h[:character_class] = CharacterClass.find_by(id: params[:character][:character_class_id])
-        h[:world] = World.find_by(id: params[:character][:world_id])
+        h[:race] = @character.nil? ? Race.find_by(id: params[:character][:race_id]) : @character.race
+        h[:character_class] = @character.nil? ? CharacterClass.find_by(id: params[:character][:character_class_id]) : @character.character_class
+        h[:world] = @character.nil? ? World.find_by(id: params[:character][:world_id]) : @character.world
+        h[:guild] = @character.nil? ? nil : @character&.guild
         h[:user] = Current.user
         h
       end
