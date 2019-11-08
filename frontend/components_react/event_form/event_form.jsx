@@ -41,6 +41,10 @@ export default class EventForm extends React.Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
+    this._getDefaultValues()
+  }
+
+  componentDidMount() {
     const _this = this
     $(".datepicker-here").datepicker({
       minDate: new Date(),
@@ -48,7 +52,9 @@ export default class EventForm extends React.Component {
         _this.setState({startTime: Number(date) / 1000})
       }
     })
-    this._getDefaultValues()
+
+    const currentDate = new Date()
+    $(".datepicker-here").data('datepicker').selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()))
   }
 
   _getDefaultValues() {
@@ -68,11 +74,7 @@ export default class EventForm extends React.Component {
   }
 
   _getEvent() {
-    if (this.state.eventId === undefined) {
-      const currentDate = new Date()
-      $(".datepicker-here").data('datepicker').selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()))
-      return false
-    }
+    if (this.state.eventId === undefined) return false
     $.ajax({
       method: 'GET',
       url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
