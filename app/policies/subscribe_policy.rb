@@ -7,6 +7,7 @@ class SubscribePolicy < ApplicationPolicy
   end
 
   def update?
+    return true if status == :no_status_change
     # true if raid owner
     return true if record.event.owner.user == user && %w[approved signed].include?(status)
     # false if event is closed

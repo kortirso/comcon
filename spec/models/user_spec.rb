@@ -1,6 +1,7 @@
 RSpec.describe User, type: :model do
   it { should have_many(:characters).dependent(:destroy) }
   it { should have_many(:guilds).through(:characters) }
+  it { should have_many(:subscribes).through(:characters) }
   it { should have_many(:identities).dependent(:destroy) }
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }

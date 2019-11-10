@@ -77,7 +77,7 @@ export default class EventForm extends React.Component {
     if (this.state.eventId === undefined) return false
     $.ajax({
       method: 'GET',
-      url: `/api/v1/events/${this.state.eventId}.json?access_token=${this.props.access_token}`,
+      url: `/api/v1/events/${this.state.eventId}/edit.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const event = data.event
         let dates = event.date.split('.').map((time) => {

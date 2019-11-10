@@ -6,19 +6,35 @@ class SubscribeForm
   attribute :id, Integer
   attribute :event, Event
   attribute :character, Character
-  attribute :status, String, default: 'signed'
+  attribute :status, Integer, default: 2
+  attribute :comment, String, default: nil
 
   validates :event, :character, :status, presence: true
-  validates :status, inclusion: { in: %w[unknown signed rejected approved] }
+  validates :status, inclusion: 0..3
+  validates :comment, length: { maximum: 100 }, allow_nil: true
 
-  attr_reader :subscribe, :event
+  attr_reader :subscribe
 
   def persist?
+    self.status = status_to_integer(status)
     return false unless valid?
     @subscribe = id ? Subscribe.find_by(id: id) : Subscribe.new
     return false if @subscribe.nil?
     @subscribe.attributes = attributes.except(:id)
     @subscribe.save
     true
+  end
+
+  private
+
+  def status_to_integer(status)
+    return status if status.is_a?(Integer)
+    case status
+      when 'approved' then 3
+      when 'signed' then 2
+      when 'unknown' then 1
+      when 'rejected' then 0
+      else 1
+    end
   end
 end

@@ -1,4 +1,4 @@
-class EventSerializer < ActiveModel::Serializer
+class EventEditSerializer < ActiveModel::Serializer
   attributes :id, :name, :date, :time, :slug, :fraction_id, :description, :dungeon_id, :owner_id, :event_type, :eventable_type
 
   def date

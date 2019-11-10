@@ -13,6 +13,21 @@
     }
   }
 
+  .user_signers {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    p, select, button {
+      margin: 0 1rem 0 0;
+    }
+
+    select {
+      width: 200px;
+    }
+  }
+
   .line_up {
     .line_name{
       margin: 1rem 0;
@@ -20,96 +35,88 @@
       font-weight: 600;
     }
 
-    .signed, .rejected, .unknown {
-      .user_signers {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-bottom: 1rem;
+    table {
+      tbody {
+        tr {
+          td {
+            button {
+              margin: 0;
+            }
 
-        p, select, button {
-          margin: 0 1rem 0 0;
-        }
+            &.role_name {
+              text-align: center;
+              font-weight: 600;
+            }
 
-        select {
-          width: 200px;
-        }
-      }
+            .buttons {
+              display: flex;
+              flex-direction: row;
 
-      table {
-        tbody {
-          tr {
-            &:nth-of-type(1) {
-              td {
-                &.character_name {
-                  border: none;
-                }
+              button {
+                margin-right: 5px;
               }
             }
-          }
-        }
-      }
-    }
 
-    .signed, .rejected, .approved, .unknown {
-      margin-bottom: 2.5rem;
+            &.comment_box {
+              width: 159px;
 
-      table {
-        tbody {
-          tr {
-            td {
-              button {
+              p {
+                font-size: 0.75rem;
+                opacity: 0.5;
                 margin: 0;
-              }
+                max-width: 159px;
+                height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
 
-              &.role_name {
-                text-align: center;
-                font-weight: 600;
-              }
-
-              .buttons {
-                display: flex;
-                flex-direction: row;
-
-                button {
-                  margin-right: 5px;
+                &.user_comment {
+                  &:hover {
+                    cursor: pointer;
+                  }
                 }
               }
 
-              .character_name {
+              textarea {
+                width: 150px;
+                height: 46px;
+                font-size: 0.75rem;
+                resize: none;
+              }
+            }
+
+            .character_name {
+              display: flex;
+              flex-direction: row;
+
+              .role_icons {
                 display: flex;
                 flex-direction: row;
+                margin-left: 1rem;
+                margin-top: 2px;
 
-                .role_icons {
-                  display: flex;
-                  flex-direction: row;
-                  margin-left: 1rem;
-                  margin-top: 2px;
+                .role_icon {
+                  width: 26px;
+                  height: 26px;
+                  margin-right: 0.25rem;
 
-                  .role_icon {
-                    width: 26px;
-                    height: 26px;
-                    margin-right: 0.25rem;
+                  &.Tank {
+                    background: url(../../images/tank.png);
+                    background-size: cover;
+                  }
 
-                    &.Tank {
-                      background: url(../../images/tank.png);
-                      background-size: cover;
-                    }
+                  &.Healer {
+                    background: url(../../images/healer.png);
+                    background-size: cover;
+                  }
 
-                    &.Healer {
-                      background: url(../../images/healer.png);
-                      background-size: cover;
-                    }
+                  &.Melee {
+                    background: url(../../images/melee.png);
+                    background-size: cover;
+                  }
 
-                    &.Melee {
-                      background: url(../../images/melee.png);
-                      background-size: cover;
-                    }
-
-                    &.Ranged {
-                      background: url(../../images/melee.png);
-                      background-size: cover;
-                    }
+                  &.Ranged {
+                    background: url(../../images/melee.png);
+                    background-size: cover;
                   }
                 }
               }

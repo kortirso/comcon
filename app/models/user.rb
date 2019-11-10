@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :characters, dependent: :destroy
   has_many :guilds, -> { distinct }, through: :characters
+  has_many :subscribes, through: :characters
   has_many :identities, dependent: :destroy
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
@@ -38,7 +39,29 @@ class User < ApplicationRecord
     GuildInvite.where(character_id: character_ids, status: 0, from_guild: true)
   end
 
+  def available_characters_for_event(event:)
+    case event.eventable_type
+      when 'World' then available_characters_for_world_event(eventable_id: event.eventable_id, fraction_id: event.fraction_id)
+      when 'Guild' then available_characters_for_guild_event(eventable_id: event.eventable_id)
+      when 'Static' then available_characters_for_static_event(eventable_id: event.eventable_id)
+    end
+  end
+
   def is_admin?
     role == 'admin'
+  end
+
+  private
+
+  def available_characters_for_world_event(eventable_id:, fraction_id:)
+    characters.joins(:race).where(world_id: eventable_id).where(races: { fraction_id: fraction_id })
+  end
+
+  def available_characters_for_guild_event(eventable_id:)
+    characters.where(guild_id: eventable_id)
+  end
+
+  def available_characters_for_static_event(eventable_id:)
+    characters.joins(:static_members).where(static_members: { static_id: eventable_id })
   end
 end

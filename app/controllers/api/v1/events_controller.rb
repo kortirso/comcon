@@ -1,10 +1,16 @@
 module Api
   module V1
     class EventsController < Api::V1::BaseController
-      include Concerns::EventPresentable
       include Concerns::WorldCacher
       include Concerns::FractionCacher
       include Concerns::DungeonCacher
+
+      before_action :find_start_of_month, only: %i[index]
+      before_action :find_events, only: %i[index]
+      before_action :find_event, only: %i[show edit update destroy subscribers user_characters]
+      before_action :get_worlds_from_cache, only: %i[filter_values]
+      before_action :get_fractions_from_cache, only: %i[filter_values]
+      before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
 
       resource_description do
         short 'Event information resources'
@@ -25,18 +31,11 @@ module Api
         end
       end
 
-      before_action :find_start_of_month, only: %i[index]
-      before_action :find_events, only: %i[index]
-      before_action :find_event, only: %i[show update destroy subscribers]
-      before_action :get_worlds_from_cache, only: %i[filter_values]
-      before_action :get_fractions_from_cache, only: %i[filter_values]
-      before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
-
       api :GET, '/v1/events.json', 'Show events'
       error code: 401, desc: 'Unauthorized'
       def index
         render json: {
-          events: ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventSerializer).as_json[:events]
+          events: ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventEditSerializer).as_json[:events]
         }, status: 200
       end
 
@@ -44,7 +43,7 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def show
-        render json: @event, status: 200
+        render json: { event: EventShowSerializer.new(@event) }, status: 200
       end
 
       api :POST, '/v1/events.json', 'Create event'
@@ -56,10 +55,17 @@ module Api
         if event_form.persist?
           CreateSubscribe.call(event: event_form.event, character: event_form.event.owner, status: 'signed')
           CreateEventNotificationJob.perform_now(event_id: event_form.event.id)
-          render json: event_form.event, status: 201
+          render json: { event: EventEditSerializer.new(event_form.event) }, status: 201
         else
           render json: { errors: event_form.errors.full_messages }, status: 409
         end
+      end
+
+      api :GET, '/v1/events/:id/edit.json', 'Show event info for editing'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def edit
+        render json: { event: EventEditSerializer.new(@event) }, status: 200
       end
 
       api :PATCH, '/v1/events/:id.json', 'Update event'
@@ -68,10 +74,10 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def update
-        authorize! @event
+        authorize! @event, to: :edit?
         event_form = EventForm.new(@event.attributes.merge(event_params))
         if event_form.persist?
-          render json: event_form.event, status: 200
+          render json: { event: EventEditSerializer.new(event_form.event) }, status: 200
         else
           render json: { errors: event_form.errors.full_messages }, status: 409
         end
@@ -81,7 +87,7 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def destroy
-        authorize! @event
+        authorize! @event, to: :edit?
         @event.destroy
         render json: { result: 'Event is destroyed' }, status: 200
       end
@@ -90,8 +96,16 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def subscribers
-        authorize! @event
-        render_event_characters(@event)
+        authorize! @event, to: :show?
+        render json: @event.subscribes.status_order.includes(character: %i[character_class guild main_roles]), status: 200
+      end
+
+      api :GET, '/v1/events/:id/user_characters.json', 'Show user characters who can subscribe for event'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def user_characters
+        authorize! @event, to: :show?
+        render json: { user_characters: Current.user.available_characters_for_event(event: @event).pluck(:id, :name) }, status: 200
       end
 
       api :GET, '/v1/events/filter_values.json', 'Values for events filter'

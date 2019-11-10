@@ -40,13 +40,13 @@ RSpec.describe 'Subscribes API' do
         context 'in answer' do
           before { request }
 
-          it 'returns status 200' do
-            expect(response.status).to eq 200
+          it 'returns status 201' do
+            expect(response.status).to eq 201
           end
 
-          %w[event_info user_characters characters].each do |attr|
-            it "and contains race #{attr}" do
-              expect(response.body).to have_json_path(attr)
+          %w[id status comment character].each do |attr|
+            it "and contains subscribe #{attr}" do
+              expect(response.body).to have_json_path("subscribe/#{attr}")
             end
           end
         end
@@ -106,25 +106,52 @@ RSpec.describe 'Subscribes API' do
       end
 
       context 'for valid params' do
-        let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'rejected' }, access_token: access_token } }
+        context 'for comment' do
+          let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { comment: 'rejected' }, access_token: access_token } }
 
-        it 'updates subscribe' do
-          request
-          subscribe.reload
+          it 'updates subscribe' do
+            request
+            subscribe.reload
 
-          expect(subscribe.status).to eq 'rejected'
-        end
-
-        context 'in answer' do
-          before { request }
-
-          it 'returns status 200' do
-            expect(response.status).to eq 200
+            expect(subscribe.comment).to eq 'rejected'
           end
 
-          %w[event_info user_characters characters].each do |attr|
-            it "and contains race #{attr}" do
-              expect(response.body).to have_json_path(attr)
+          context 'in answer' do
+            before { request }
+
+            it 'returns status 200' do
+              expect(response.status).to eq 200
+            end
+
+            %w[id status comment character].each do |attr|
+              it "and contains subscribe #{attr}" do
+                expect(response.body).to have_json_path("subscribe/#{attr}")
+              end
+            end
+          end
+        end
+
+        context 'for status' do
+          let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'rejected' }, access_token: access_token } }
+
+          it 'updates subscribe' do
+            request
+            subscribe.reload
+
+            expect(subscribe.status).to eq 'rejected'
+          end
+
+          context 'in answer' do
+            before { request }
+
+            it 'returns status 200' do
+              expect(response.status).to eq 200
+            end
+
+            %w[id status comment character].each do |attr|
+              it "and contains subscribe #{attr}" do
+                expect(response.body).to have_json_path("subscribe/#{attr}")
+              end
             end
           end
         end

@@ -1,3 +1,3 @@
 = javascript_pack_tag 'line_up'
 .container
-  = react_component('LineUp', event_id: @event.id, event_is_open: @event.is_open?, is_owner: @event.owner&.user == Current.user, guild_role: @event.guild_role_of_user(Current.user.id), current_user_id: Current.user.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+  = react_component('LineUp', event_id: @event.id, event_is_open: @event.is_open?, is_owner: @event.owner.user_id == Current.user.id, guild_role: @event.guild_role_of_user(Current.user.id), current_user_id: Current.user.id, user_subscribed: Subscribe.where(event_id: @event.id, character_id: Current.user.characters.pluck(:id)).exists?, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
