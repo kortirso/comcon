@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   authorize :user, through: :my_current_user
 
   rescue_from ActionPolicy::Unauthorized, with: :invalid_request
+  rescue_from ActionView::MissingTemplate, with: :invalid_request
 
   def catch_route_error
     render_error('Route is not exist')
