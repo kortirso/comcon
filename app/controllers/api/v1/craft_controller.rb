@@ -4,13 +4,11 @@ module Api
       include Concerns::WorldCacher
       include Concerns::FractionCacher
       include Concerns::GuildCacher
-      include Concerns::RecipeCacher
       include Concerns::ProfessionCacher
 
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_guilds_from_cache, only: %i[filter_values]
-      before_action :get_recipes_from_cache, only: %i[filter_values]
       before_action :get_professions_from_cache, only: %i[filter_values]
       before_action :find_recipe, only: %i[search]
       before_action :find_characters, only: %i[search]
@@ -20,7 +18,6 @@ module Api
           worlds: @worlds_json,
           fractions: @fractions_json,
           guilds: @guilds_json,
-          recipes: @recipes_json,
           professions: @professions_json
         }, status: 200
       end

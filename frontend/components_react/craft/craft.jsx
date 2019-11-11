@@ -9,27 +9,32 @@ let strings = new LocalizedStrings(I18nData)
 export default class Craft extends React.Component {
   constructor() {
     super()
+    this.typingTimeout = 0
     this.state = {
       professions: [],
-      recipes: [],
-      currentRecipes: [],
       worlds: [],
       fractions: [],
       guilds: [],
       currentGuilds: [],
       profession: '0',
-      recipe: '0',
       world: '0',
       guild: '0',
       fraction: '0',
       crafters: [],
-      searched: false
+      searched: false,
+      query: '',
+      searchedRecipes: [],
+      recipe: '0'
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
     this._getFilterValues()
+  }
+
+  componentWillUnmount() {
+    if (this.typingTimeout) clearTimeout(this.typingTimeout)
   }
 
   _getFilterValues() {
@@ -40,16 +45,17 @@ export default class Craft extends React.Component {
         const professions = data.professions.filter((profession) => {
           return profession.recipeable
         })
-        this.setState({worlds: data.worlds, fractions: data.fractions, guilds: data.guilds, currentGuilds: data.guilds, recipes: data.recipes, currentRecipes: data.recipes, recipe: data.recipes[0].id, professions: professions})
+        this.setState({worlds: data.worlds, fractions: data.fractions, guilds: data.guilds, currentGuilds: data.guilds, professions: professions})
       }
     })
   }
 
   _findCrafters() {
-    let params = [`recipe_id=${this.state.recipe}`]
-    if (this.state.world !== '0') params.push(`world_id=${this.state.world}`)
-    if (this.state.fraction !== '0') params.push(`fraction_id=${this.state.fraction}`)
-    if (this.state.guild !== '0') params.push(`guild_id=${this.state.guild}`)
+    const state = this.state
+    let params = [`recipe_id=${state.recipe}`]
+    if (state.world !== '0') params.push(`world_id=${state.world}`)
+    if (state.fraction !== '0') params.push(`fraction_id=${state.fraction}`)
+    if (state.guild !== '0') params.push(`guild_id=${state.guild}`)
     const url = `/api/v1/craft/search.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
@@ -60,18 +66,30 @@ export default class Craft extends React.Component {
     })
   }
 
+  _searchRecipes() {
+    let url = `/api/v1/recipes/search.json?access_token=${this.props.access_token}&query=${this.state.query}`
+    if (this.state.profession !== '0') url += `&profession_id=${this.state.profession}`
+    $.ajax({
+      method: 'GET',
+      url: url,
+      success: (data) => {
+        this.setState({searchedRecipes: data.recipes})
+      }
+    })
+  }
+
   _renderFilters() {
     return (
       <div className="filters">
-        <div className="filter-block">
-          {this._renderProfessionFilter()}
-          {this._renderRecipeFilter()}
-        </div>
         <div className="filter-block">
           {this._renderWorldFilter()}
           {this._renderFractionFilter()}
           {this._renderGuildFilter()}
           <button className="btn btn-primary btn-sm with_left_margin" onClick={this._findCrafters.bind(this)}>{strings.search}</button>
+        </div>
+        <div className="filter-block">
+          {this._renderProfessionFilter()}
+          {this._renderRecipeFilter()}
         </div>
       </div>
     )
@@ -99,17 +117,36 @@ export default class Craft extends React.Component {
     return (
       <div className="filter recipe">
         <p>{strings.filterRecipe}</p>
-        <select className="form-control form-control-sm" onChange={(event) => this.setState({recipe: event.target.value})} value={this.state.recipe}>
-          {this._renderRecipesList()}
-        </select>
+        <div className="search_recipe_block">
+          <input placeholder={strings.recipesSearch} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
+          <div className="search_recipe_results">
+            {this._renderSearchRecipeResults()}
+          </div>
+        </div>
       </div>
     )
   }
 
-  _renderRecipesList() {
-    return this.state.currentRecipes.map((recipe) => {
-      return <option value={recipe.id} key={recipe.id}>{recipe.name[this.props.locale]}</option>
+  _onChangeQuery(event) {
+    if (this.typingTimeout) clearTimeout(this.typingTimeout)
+    const queryValue = event.target.value
+    if (queryValue.length < 3) return this.setState({query: queryValue})
+    else this.setState({query: queryValue}, () => {
+      this.typingTimeout = setTimeout(() => {
+        this._searchRecipes()
+      }, 1000)
     })
+  }
+
+  _renderSearchRecipeResults() {
+    if (this.state.searchedRecipes.length === 0) return false
+    return this.state.searchedRecipes.map((recipe) => {
+      return <p className="value" onClick={this._onSelectRecipe.bind(this, recipe)} key={recipe.id}>{recipe.name[this.props.locale]}</p>
+    })
+  }
+
+  _onSelectRecipe(recipe) {
+    this.setState({query: recipe.name[this.props.locale], searchedRecipes: [], recipe: recipe.id})
   }
 
   _renderWorldFilter() {
@@ -206,15 +243,7 @@ export default class Craft extends React.Component {
   }
 
   _onChangeProfession(event) {
-    const recipes = this._defineCurrentRecipes(parseInt(event.target.value))
-    this.setState({profession: event.target.value, currentRecipes: recipes, recipe: recipes[0].id})
-  }
-
-  _defineCurrentRecipes(professionId) {
-    if (professionId === 0) return this.state.recipes
-    return this.state.recipes.filter((recipe) => {
-      return recipe.profession_id === professionId
-    })
+    this.setState({profession: event.target.value, query: '', recipe: '0'})
   }
 
   _onChangeWorld(event) {

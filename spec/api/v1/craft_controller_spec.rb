@@ -12,7 +12,7 @@ RSpec.describe 'Craft API' do
         expect(response.status).to eq 200
       end
 
-      %w[worlds fractions guilds recipes professions].each do |attr|
+      %w[worlds fractions guilds professions].each do |attr|
         it "and contains #{attr}" do
           expect(response.body).to have_json_path(attr)
         end

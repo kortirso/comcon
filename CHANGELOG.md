@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - api endpoint recipes#search
+- search recipes for crafters
 
 ## [0.7.3] - 2019-11-11
 ### Fixed

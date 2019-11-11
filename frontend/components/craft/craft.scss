@@ -22,6 +22,36 @@
         select {
           font-size: 0.9rem;
         }
+
+        &.recipe {
+          .search_recipe_block {
+            position: relative;
+            width: 300px;
+
+            #query {
+              width: 100%;
+            }
+
+            .search_recipe_results {
+              position: absolute;
+              left: 0;
+              width: 100%;
+
+              .value {
+                width: 100%;
+                background: #fff;
+                border: 1px solid #eee;
+                border-top: none;
+                padding: 2px;
+
+                &:hover {
+                  cursor: pointer;
+                  background: #e7e7e7;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
