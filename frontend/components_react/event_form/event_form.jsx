@@ -85,7 +85,7 @@ export default class EventForm extends React.Component {
         })
         const currentDate = new Date()
         const timeZoneOffset = currentDate.getTimezoneOffset() / 60
-        const startTime = new Date(dates[2], dates[1], dates[0], event.time.hours - timeZoneOffset, event.time.minutes)
+        const startTime = new Date(dates[2], dates[1] - 1, dates[0], event.time.hours - timeZoneOffset, event.time.minutes)
         $(".datepicker-here").data('datepicker').selectDate(startTime)
         const currentStatics = this.state.statics.filter((staticItem) => {
           return staticItem.characters.includes(event.owner_id)
@@ -100,7 +100,7 @@ export default class EventForm extends React.Component {
             staticId = currentStatics[0].id
           }
         }
-        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: startTime, staticId: staticId, currentStatics: currentStatics})
+        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics})
       }
     })
   }

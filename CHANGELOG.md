@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - remove guild invites from guilds page
+- bug with time selector for event editing
 
 ## [0.7.1] - 2019-11-08
 ### Added
