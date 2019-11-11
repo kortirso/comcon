@@ -9,6 +9,7 @@ class RebuildStatusFieldForSubscribes < ActiveRecord::Migration[5.2]
           when 'unknown' then 1
           when 'signed' then 2
           when 'approved' then 3
+          else 1
         end
 
       subscribe.update(status_new: new_value)
