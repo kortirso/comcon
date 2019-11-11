@@ -93,7 +93,7 @@ en:
     label: Learned recipes for character %{character_name}
     page_description: On this page, you can manually specify which recipes your character knows.
     addon: "But there is also a wonderful addon "
-    addon_from: " from Ardash, which allows you to copy this information to the clipboard in the game and only specify it here. Install the addon, in the game use commands like '/ps Cooking', '/ps Enchanting', '/ps Alchemy', then place the received information in the blocks below for your profession and click Upload."
+    addon_from: " from Ardash, which allows you to copy this information to the clipboard in the game and only specify it here. Install the addon, in the game use commands like '/ps Cooking', '/ps Enchanting', '/ps Alchemy', '/ps Leatherworking', '/ps Engineering', '/ps Tailoring', '/ps Blacksmithing', then place the received information in the blocks below for your profession and click Upload."
   craft:
     title: Crafters search
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help!
