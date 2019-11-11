@@ -2,14 +2,27 @@
 
 .event {
   .event_details {
+    margin-bottom: 2rem;
+
+    .event_header {
+      margin-bottom: 2rem;
+
+      .event_name {
+        text-align: center;
+        font-size: 2.25rem;
+      }
+
+      p {
+        &.event_location {
+          font-size: 1.5rem;
+          text-align: center;
+        }
+      }
+    }
+
     p {
       margin-bottom: 0.25rem;
-      font-size: 0.9rem;
-
-      &.event_name, &.event_location {
-        font-size: 1.25rem;
-        font-weight: 600;
-      }
+      font-size: 0.8rem;
     }
   }
 
@@ -29,23 +42,18 @@
   }
 
   .line_up {
-    .line_name{
-      margin: 1rem 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
     table {
       tbody {
         tr {
+          &.empty_line {
+            td {
+              padding: 2px 0;
+            }
+          }
+
           td {
             button {
               margin: 0;
-            }
-
-            &.role_name {
-              text-align: center;
-              font-weight: 600;
             }
 
             .buttons {
@@ -87,37 +95,35 @@
             .character_name {
               display: flex;
               flex-direction: row;
+            }
 
-              .role_icons {
-                display: flex;
-                flex-direction: row;
-                margin-left: 1rem;
-                margin-top: 2px;
+            .role_icons {
+              display: flex;
+              flex-direction: row;
 
-                .role_icon {
-                  width: 26px;
-                  height: 26px;
-                  margin-right: 0.25rem;
+              .role_icon {
+                width: 26px;
+                height: 26px;
+                margin-right: 0.25rem;
 
-                  &.Tank {
-                    background: url(../../images/tank.png);
-                    background-size: cover;
-                  }
+                &.Tank {
+                  background: url(../../images/tank.png);
+                  background-size: cover;
+                }
 
-                  &.Healer {
-                    background: url(../../images/healer.png);
-                    background-size: cover;
-                  }
+                &.Healer {
+                  background: url(../../images/healer.png);
+                  background-size: cover;
+                }
 
-                  &.Melee {
-                    background: url(../../images/melee.png);
-                    background-size: cover;
-                  }
+                &.Melee {
+                  background: url(../../images/melee.png);
+                  background-size: cover;
+                }
 
-                  &.Ranged {
-                    background: url(../../images/melee.png);
-                    background-size: cover;
-                  }
+                &.Ranged {
+                  background: url(../../images/melee.png);
+                  background-size: cover;
                 }
               }
             }

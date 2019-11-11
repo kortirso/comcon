@@ -7,8 +7,8 @@ const $ = require("jquery")
 let strings = new LocalizedStrings(I18nData)
 
 export default class Craft extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       professions: [],
       recipes: [],
@@ -30,9 +30,6 @@ export default class Craft extends React.Component {
   componentWillMount() {
     strings.setLanguage(this.props.locale)
     this._getFilterValues()
-  }
-
-  componentDidMount() {
   }
 
   _getFilterValues() {

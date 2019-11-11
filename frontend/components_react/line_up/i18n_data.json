@@ -17,7 +17,8 @@
     "unknown": "Unknown",
     "rejected": "Rejected",
     "signCharacter": "Sign character",
-    "textarea": "Comment (Enter for save)"
+    "textarea": "Comment (Enter for save)",
+    "role": "Role"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -37,6 +38,7 @@
     "unknown": "Под вопросом",
     "rejected": "Не приду",
     "signCharacter": "Подписать персонажа",
-    "textarea": "Комментарий (Enter для сохранения)"
+    "textarea": "Комментарий (Enter для сохранения)",
+    "role": "Роль"
   }
 }

@@ -191,7 +191,10 @@ export default class LineUp extends React.Component {
       return (
         <tr className={subscribe.character.character_class_name.en} key={subscribe.id}>
           <td>
-            <div className="character_name">{subscribe.character.name}{this._renderRoleIcons(subscribe.character, status)}</div>
+            <div className="character_name">{subscribe.character.name}</div>
+          </td>
+          <td>
+            {this._renderRoleIcons(subscribe.character, status)}
           </td>
           <td>{subscribe.character.level}</td>
           <td>{subscribe.character.guild_name}</td>
@@ -206,6 +209,14 @@ export default class LineUp extends React.Component {
         </tr>
       )
     })
+  }
+
+  _renderEmptyLine() {
+    return (
+      <tr className='empty_line'>
+        <td colSpan={7}></td>
+      </tr>
+    )
   }
 
   _sortCharacterFunction(a, b) {
@@ -268,36 +279,24 @@ export default class LineUp extends React.Component {
     const eventInfo = this.state.eventInfo
     return (
       <div className="event">
-        <div className="double_line">
-          {eventInfo !== null &&
-            <div className="event_details form-group">
+        {eventInfo !== null &&
+          <div className="event_details form-group">
+            <div className="event_header">
               <h2 className="event_name">{eventInfo.name}</h2>
-              <p>{eventInfo.description}</p>
-              {eventInfo.dungeon_name !== null &&
-                <p className="event_location">{strings.eventLocation} - {eventInfo.dungeon_name[this.props.locale]}</p>
-              }
-              <p className="event_location">{strings.startTime} - {eventInfo.date} {this._renderLocalTime(eventInfo.time)}</p>
-              <p>{this._renderAccess(eventInfo)}</p>
-              <p>{strings.owner} - {eventInfo.owner_name}</p>
+              <p className="event_location">{eventInfo.date} {this._renderLocalTime(eventInfo.time)}</p>
             </div>
-          }
-          {false &&
-            <div className="event_details form-group">
-              <h3>Left comment for your characters</h3>
-              <textarea className="form-control form-control-sm" value={this.state.commentValue} onChange={(event) => this.setState({commentValue: event.target.value})} />
-              <div className="buttons with_top_margin">
-                <button className="btn btn-light btn-sm with_right_margin" onClick={this.onCancelComment.bind(this)}>Cancel</button>
-                <button className="btn btn-primary btn-sm" onClick={this.onSaveComment.bind(this)}>Save</button>
-              </div>
-            </div>
-          }
-        </div>
+            <p>{this._renderAccess(eventInfo)}</p>
+            <p>{strings.owner} - {eventInfo.owner_name}</p>
+            <p>{eventInfo.description}</p>
+          </div>
+        }
         {this._renderSignBlock()}
         <div className="line_up">
           <table className="table table-sm">
             <thead>
               <tr>
                 <th>{strings.name}</th>
+                <th>{strings.role}</th>
                 <th>{strings.level}</th>
                 <th>{strings.guild}</th>
                 <th>{strings.status}</th>
@@ -307,8 +306,11 @@ export default class LineUp extends React.Component {
             </thead>
             <tbody>
               {this._renderSubscribes('approved')}
+              {this._renderEmptyLine()}
               {this._renderSubscribes('signed')}
+              {this._renderEmptyLine()}
               {this._renderSubscribes('unknown')}
+              {this._renderEmptyLine()}
               {this._renderSubscribes('rejected')}
             </tbody>
           </table>
