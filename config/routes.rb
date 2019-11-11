@@ -26,7 +26,9 @@ Rails.application.routes.draw do
       end
       resources :subscribes, only: %i[create update]
       resources :professions, only: %i[index]
-      resources :recipes, only: %i[index show create update]
+      resources :recipes, only: %i[index show create update] do
+        get :search, on: :collection
+      end
       resources :guild_roles, only: %i[create update destroy]
       resources :craft, only: %i[] do
         get :filter_values, on: :collection

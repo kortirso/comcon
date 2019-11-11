@@ -206,4 +206,52 @@ RSpec.describe 'Recipes API' do
       patch '/api/v1/recipes/999.json', params: { recipe: { name: '' } }, headers: headers
     end
   end
+
+  describe 'GET#search' do
+    let!(:recipe) { create :recipe, name: { 'en' => 'Something', 'ru' => 'Что-то' } }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+
+    context 'with valid user token in params' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'without params' do
+        let(:request) { get '/api/v1/recipes/search.json', params: { access_token: access_token, query: 'Somet' } }
+
+        it 'calls search' do
+          expect(Recipe).to receive(:search).with('*Somet*', with: {}).and_call_original
+
+          request
+        end
+
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
+        end
+      end
+
+      context 'with profession' do
+        let(:request) { get '/api/v1/recipes/search.json', params: { access_token: access_token, query: 'Somet', profession_id: recipe.profession_id } }
+
+        it 'calls search' do
+          expect(Recipe).to receive(:search).with('*Somet*', with: { profession_id: recipe.profession_id }).and_call_original
+
+          request
+        end
+
+        it 'and returns status 200' do
+          request
+
+          expect(response.status).to eq 200
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/recipes/search.json', headers: headers
+    end
+  end
 end

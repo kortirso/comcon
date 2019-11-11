@@ -3,9 +3,10 @@ module Api
     class RecipesController < Api::V1::BaseController
       include Concerns::RecipeCacher
 
-      before_action :is_admin?
+      before_action :is_admin?, except: %i[search]
       before_action :get_recipes_from_cache, only: %i[index]
       before_action :find_recipe, only: %i[show update]
+      before_action :search_recipes, only: %i[search]
 
       resource_description do
         short 'Recipe resources'
@@ -50,11 +51,28 @@ module Api
         end
       end
 
+      api :GET, '/v1/recipes/search.json', 'Search recipes by name with params'
+      error code: 401, desc: 'Unauthorized'
+      def search
+        render json: {
+          recipes: ActiveModelSerializers::SerializableResource.new(Recipe.where(id: @recipe_ids), each_serializer: RecipeSerializer).as_json[:recipes]
+        }, status: 200
+      end
+
       private
 
       def find_recipe
         @recipe = Recipe.find_by(id: params[:id])
         render_error('Object is not found') if @recipe.nil?
+      end
+
+      def search_recipes
+        @recipe_ids = Recipe.search("*#{params[:query]}*", with: define_additional_search_params).map!(&:id)
+      end
+
+      def define_additional_search_params(with = {})
+        with[:profession_id] = params[:profession_id].to_i if params[:profession_id].present?
+        with
       end
 
       def recipe_params

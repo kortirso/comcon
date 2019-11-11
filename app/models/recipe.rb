@@ -11,4 +11,12 @@ class Recipe < ApplicationRecord
       stat_record: recipes.maximum(:updated_at)
     }
   end
+
+  def name_en
+    name['en']
+  end
+
+  def name_ru
+    name['ru']
+  end
 end
