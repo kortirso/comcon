@@ -14,6 +14,7 @@ nav.navbar
         = link_to t('navigation.craft'), craft_index_path, class: 'with_right_margin'
     .right
       - if user_signed_in?
+        = link_to t('navigation.settings'), settings_path
         = link_to t('navigation.logout'), destroy_user_session_path, method: :delete
       - else
         = link_to t('navigation.login'), new_user_session_path

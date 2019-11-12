@@ -1,0 +1,5 @@
+= javascript_pack_tag 'user_settings'
+.container.settings
+  = render 'components/settings_menu/settings_menu'
+  .settings_content
+    = react_component('UserSettings', user_id: Current.user.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

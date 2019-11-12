@@ -8,8 +8,11 @@ class User < ApplicationRecord
   has_many :guilds, -> { distinct }, through: :characters
   has_many :subscribes, through: :characters
   has_many :identities, dependent: :destroy
+  has_one :time_offset, dependent: :destroy
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
+
+  after_commit :create_time_offset, on: :create
 
   # has characters of user any role in guild?
   def any_role?(guild_id, *allowed_roles)
@@ -52,6 +55,12 @@ class User < ApplicationRecord
   end
 
   private
+
+  def create_time_offset
+    return unless time_offset.nil?
+    time_offset_form = TimeOffsetForm.new(user: self, value: nil)
+    time_offset_form.persist?
+  end
 
   def available_characters_for_world_event(eventable_id:, fraction_id:)
     characters.joins(:race).where(world_id: eventable_id).where(races: { fraction_id: fraction_id })
