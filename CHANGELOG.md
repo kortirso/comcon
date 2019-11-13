@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - settings page
 - TimeOffset model for user preferences about rendered time
+- selecting prefered time for users
+- render all times for user time zone
 
 ## [0.7.4] - 2019-11-12
 ### Added

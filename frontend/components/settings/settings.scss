@@ -32,14 +32,36 @@
   }
 
   .settings_content {
+    position: relative;
     width: 70%;
 
     h2 {
       font-size: 1.75rem;
     }
 
-    h3 {
-      font-size: 1.1rem;
+    .settings_block {
+      margin-top: 1rem;
+
+      h3 {
+        font-size: 1.1rem;
+      }
+    }
+
+    .user_settings {
+      padding: 0.5rem;
+
+      .time_offset {
+        width: 200px;
+      }
+    }
+
+    .save_block {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 0.5rem;
+      background: #e9e9e9;
     }
   }
 }

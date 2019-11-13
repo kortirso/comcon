@@ -15,7 +15,7 @@
     "raid": "Raid",
     "custom": "Custom",
     "description": "Description",
-    "startTime": "Start time (local)",
+    "startTime": "Start time",
     "hoursBeforeClose": "Hours before close",
     "statics": "Statics"
   },
@@ -35,7 +35,7 @@
     "raid": "Рейд",
     "custom": "Другое",
     "description": "Описание",
-    "startTime": "Время начала (локальное)",
+    "startTime": "Время начала",
     "hoursBeforeClose": "Часов до закрытия",
     "statics": "Статики"
   }

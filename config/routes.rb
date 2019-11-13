@@ -46,6 +46,9 @@ Rails.application.routes.draw do
         post :approve, on: :member
         post :decline, on: :member
       end
+      resources :user_settings, only: %i[index] do
+        patch :update_settings, on: :collection
+      end
     end
   end
 
