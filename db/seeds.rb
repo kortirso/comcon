@@ -244,5 +244,8 @@ profession_form = ProfessionForm.new(name: { 'en' => 'Cooking', 'ru' => 'Кул�
 profession_form.persist?
 _cooking = profession_form.profession
 
-notification_form = NotificationForm.new(name: { 'en' => 'Guild event creation', 'ru' => 'Создание гильдейского события' }, event: 'guild_event_creation')
+notification_form = NotificationForm.new(name: { 'en' => 'Guild event creation', 'ru' => 'Создание гильдейского события' }, event: 'guild_event_creation', status: 0)
+notification_form.persist?
+
+notification_form = NotificationForm.new(name: { 'en' => 'Event will start soon', 'ru' => 'Скоро начнется событие' }, event: 'event_start_soon', status: 1)
 notification_form.persist?

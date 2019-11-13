@@ -9,7 +9,7 @@ class DeliveriesController < ApplicationController
   def destroy
     authorize! @delivery.deliveriable, with: DeliveryPolicy
     @delivery.destroy
-    redirect_to management_guild_path(@delivery.deliveriable.slug)
+    redirect_to @delivery.deliveriable_type == 'Guild' ? management_guild_path(@delivery.deliveriable.slug) : notifications_settings_path
   end
 
   private

@@ -5,8 +5,10 @@ class NotificationForm
 
   attribute :name, Hash
   attribute :event, String
+  attribute :status, Integer, default: 0
 
-  validates :name, :event, presence: true
+  validates :status, :name, :event, presence: true
+  validates :status, inclusion: 0..2
   validate :name_as_hash
 
   attr_reader :notification

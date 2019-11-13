@@ -1,6 +1,7 @@
 # Represents users in the system
 class User < ApplicationRecord
   include Personable
+  include Deliveriable
 
   devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 
@@ -13,6 +14,10 @@ class User < ApplicationRecord
   validates :role, presence: true, inclusion: { in: %w[user admin] }
 
   after_commit :create_time_offset, on: :create
+
+  def self.with_discord_identity
+    includes(:identities).where('identities.provider = ?', 'discord').references(:identities)
+  end
 
   # has characters of user any role in guild?
   def any_role?(guild_id, *allowed_roles)

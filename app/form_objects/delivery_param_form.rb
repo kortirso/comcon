@@ -33,6 +33,7 @@ class DeliveryParamForm
     return if delivery.nil?
     case delivery.delivery_type
       when 'discord_webhook' then check_discord_webhook_params
+      when 'discord_message' then check_discord_message_params
       else true
     end
   end
@@ -41,5 +42,11 @@ class DeliveryParamForm
     return errors[:params] << 'Discord webhook params is not hash' unless params.is_a?(Hash)
     errors[:params] << 'Discord webhook params ID is invalid' if !params['id'].present? || !params['id'].is_a?(Integer)
     errors[:params] << 'Discord webhook params token is invalid' if !params['token'].present? || !params['token'].is_a?(String)
+  end
+
+  def check_discord_message_params
+    return errors[:params] << 'Discord message params is not hash' unless params.is_a?(Hash)
+    return if params.key?('channel_id')
+    errors[:params] << 'Discord message params Channel ID is invalid'
   end
 end

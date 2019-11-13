@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - settings page for external services
 - settings page for notifications
+- create notifications for users
+- send notifications for users
+
+### Fixed
+- datetimepicker at event calendar
 
 ## [0.7.5] - 2019-11-13
 ### Added

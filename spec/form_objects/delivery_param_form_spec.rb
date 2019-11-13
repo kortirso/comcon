@@ -12,38 +12,10 @@ RSpec.describe DeliveryParamForm, type: :service do
       end
     end
 
-    context 'for empty discord webhook param' do
-      let!(:delivery) { create :delivery }
-      let(:service) { DeliveryParamForm.new(delivery: delivery, params: {}) }
-
-      it 'does not create new delivery param' do
-        expect { service.persist? }.to_not change(DeliveryParam, :count)
-      end
-
-      it 'and returns false' do
-        expect(service.persist?).to eq false
-      end
-    end
-
-    context 'for invalie discord webhook param' do
-      let!(:delivery) { create :delivery }
-      let(:service) { DeliveryParamForm.new(delivery: delivery, params: { 'id' => '', token: 123 }) }
-
-      it 'does not create new delivery param' do
-        expect { service.persist? }.to_not change(DeliveryParam, :count)
-      end
-
-      it 'and returns false' do
-        expect(service.persist?).to eq false
-      end
-    end
-
-    context 'for valid data' do
-      let!(:delivery) { create :delivery }
-      let(:service) { DeliveryParamForm.new(delivery: delivery, params: { 'id' => 123, 'token' => '123' }) }
-
-      context 'for existed delivery param' do
-        let!(:delivery_param) { create :delivery_param, delivery: delivery }
+    context 'for discord webhook' do
+      context 'for empty discord webhook param' do
+        let!(:delivery) { create :delivery }
+        let(:service) { DeliveryParamForm.new(delivery: delivery, params: {}) }
 
         it 'does not create new delivery param' do
           expect { service.persist? }.to_not change(DeliveryParam, :count)
@@ -54,13 +26,98 @@ RSpec.describe DeliveryParamForm, type: :service do
         end
       end
 
-      context 'for unexisted delivery param' do
-        it 'creates new delivery param' do
-          expect { service.persist? }.to change { DeliveryParam.count }.by(1)
+      context 'for invalid discord webhook param' do
+        let!(:delivery) { create :delivery }
+        let(:service) { DeliveryParamForm.new(delivery: delivery, params: { 'id' => '', token: 123 }) }
+
+        it 'does not create new delivery param' do
+          expect { service.persist? }.to_not change(DeliveryParam, :count)
         end
 
-        it 'and returns true' do
-          expect(service.persist?).to eq true
+        it 'and returns false' do
+          expect(service.persist?).to eq false
+        end
+      end
+
+      context 'for valid data' do
+        let!(:delivery) { create :delivery }
+        let(:service) { DeliveryParamForm.new(delivery: delivery, params: { 'id' => 123, 'token' => '123' }) }
+
+        context 'for existed delivery param' do
+          let!(:delivery_param) { create :delivery_param, delivery: delivery }
+
+          it 'does not create new delivery param' do
+            expect { service.persist? }.to_not change(DeliveryParam, :count)
+          end
+
+          it 'and returns false' do
+            expect(service.persist?).to eq false
+          end
+        end
+
+        context 'for unexisted delivery param' do
+          it 'creates new delivery param' do
+            expect { service.persist? }.to change { DeliveryParam.count }.by(1)
+          end
+
+          it 'and returns true' do
+            expect(service.persist?).to eq true
+          end
+        end
+      end
+    end
+
+    context 'for discord message' do
+      context 'for empty discord message param' do
+        let!(:delivery) { create :delivery, delivery_type: 2 }
+        let(:service) { DeliveryParamForm.new(delivery: delivery, params: {}) }
+
+        it 'does not create new delivery param' do
+          expect { service.persist? }.to_not change(DeliveryParam, :count)
+        end
+
+        it 'and returns false' do
+          expect(service.persist?).to eq false
+        end
+      end
+
+      context 'for invalid discord message param' do
+        let!(:delivery) { create :delivery, delivery_type: 2 }
+        let(:service) { DeliveryParamForm.new(delivery: delivery, params: { 'id' => '', token: 123 }) }
+
+        it 'does not create new delivery param' do
+          expect { service.persist? }.to_not change(DeliveryParam, :count)
+        end
+
+        it 'and returns false' do
+          expect(service.persist?).to eq false
+        end
+      end
+
+      context 'for valid data' do
+        let!(:delivery) { create :delivery, delivery_type: 2 }
+        let(:service) { DeliveryParamForm.new(delivery: delivery, params: { 'channel_id' => '123' }) }
+
+        context 'for existed delivery param' do
+          let!(:delivery_param) { create :delivery_param, delivery: delivery }
+
+          it 'does not create new delivery param' do
+            expect { service.persist? }.to_not change(DeliveryParam, :count)
+          end
+
+          it 'and returns false' do
+            expect(service.persist?).to eq false
+          end
+        end
+
+        context 'for unexisted delivery param' do
+          it 'creates new delivery param' do
+            expect { service.persist? }.to change { DeliveryParam.count }.by(1)
+          end
+
+          it 'and returns true' do
+            expect(service.persist?).to eq true
+          end
         end
       end
     end

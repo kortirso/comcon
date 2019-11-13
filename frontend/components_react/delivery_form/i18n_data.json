@@ -3,12 +3,18 @@
     "notification": "Notification type",
     "deliveryType": "Delivery type",
     "webhookId": "Webhook ID",
-    "webhookToken": "Webhook token"
+    "webhookToken": "Webhook token",
+    "channelId": "Channel ID",
+    "create": "Create",
+    "update": "Update"
   },
   "ru": {
     "notification": "Тип уведомления",
     "deliveryType": "Тип доставки",
     "webhookId": "Webhook ID",
-    "webhookToken": "Webhook token"
+    "webhookToken": "Webhook token",
+    "channelId": "Channel ID",
+    "create": "Создать",
+    "update": "Обновить"
   }
 }
