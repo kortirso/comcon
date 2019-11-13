@@ -14,7 +14,7 @@ RSpec.describe 'Notifications API' do
         expect(response.status).to eq 200
       end
 
-      %w[id name event].each do |attr|
+      %w[id name event status].each do |attr|
         it "and contains notification #{attr}" do
           expect(response.body).to have_json_path("notifications/0/#{attr}")
         end

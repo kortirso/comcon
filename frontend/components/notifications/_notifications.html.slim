@@ -1,0 +1,20 @@
+.container.settings
+  = render 'components/settings_menu/settings_menu'
+  .settings_content
+    h3= t('user_notifications.title')
+    p= t('user_notifications.p_1')
+    = link_to t('notifications.add'), new_delivery_path(deliveriable_id: Current.user.id, deliveriable_type: 'User'), class: 'btn btn-primary btn-sm with_bottom_margin'
+    - Current.user.notifications.each do |notification|
+      .notification
+        table.table.table-striped.table-sm
+          tbody
+            - notification.deliveries.where(deliveriable_id: Current.user.id, deliveriable_type: 'User').each do |delivery|
+              tr
+                td= notification.name[I18n.locale.to_s]
+                td= delivery.delivery_type
+                td.delivery_param
+                  - if delivery.delivery_param.present?
+                    - delivery.delivery_param.params.each do |key, value|
+                      span= "#{key}: #{value}"
+                td
+                  = link_to t('buttons.delete'), delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

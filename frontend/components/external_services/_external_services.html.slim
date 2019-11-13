@@ -1,0 +1,10 @@
+.container.settings
+  = render 'components/settings_menu/settings_menu'
+  .settings_content.external_bindings
+    h3= t('external_services.bindings_title')
+    p= t('external_services.bindings_1')
+    p= t('external_services.bindings_2')
+    - if Current.user.identities.where(provider: 'discord').empty?
+      = link_to image_tag(asset_pack_path('media/images/discord.png')), user_discord_omniauth_authorize_path, method: :post, title: 'Discord', class: 'binding'
+    - else
+      p= t('external_services.bindings_existed')

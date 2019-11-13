@@ -46,15 +46,15 @@ export default class EventForm extends React.Component {
 
   componentDidMount() {
     const _this = this
-    let currentDate = new Date()
-    let currentLocalTime = this.props.time_offset_value === null ? currentDate : (new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours() + this.props.time_offset_value + currentDate.getTimezoneOffset() / 60, currentDate.getMinutes()))
     $(".datepicker-here").datepicker({
-      minDate: currentLocalTime,
-      onSelect: function() {
-        _this.setState({startTime: Number(currentLocalTime) / 1000})
+      onSelect: function(formattedDate, date) {
+        const updatedCurrentLocalTime = _this.props.time_offset_value === null ? date : (new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() - _this.props.time_offset_value - date.getTimezoneOffset() / 60, date.getMinutes()))
+        _this.setState({startTime: Number(updatedCurrentLocalTime) / 1000})
       }
     })
 
+    const currentDate = new Date()
+    const currentLocalTime = this.props.time_offset_value === null ? currentDate : (new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours() + this.props.time_offset_value + currentDate.getTimezoneOffset() / 60, currentDate.getMinutes()))
     $(".datepicker-here").data('datepicker').selectDate(currentLocalTime)
   }
 

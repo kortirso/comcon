@@ -5,7 +5,7 @@ import "components/page/page";
 import "components/navigation/navigation";
 import "components/footer/footer";
 
-import "components/welcome/welcome";
+import "components/external_services/external_services";
 import "components/users/users";
 import "components/sessions/sessions";
 import "components/character_new/character_new";

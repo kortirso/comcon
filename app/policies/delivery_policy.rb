@@ -1,7 +1,8 @@
 # Delivery policies
 class DeliveryPolicy < ApplicationPolicy
   def new?
-    user.any_role?(record.id, 'gm', 'rl')
+    return user.any_role?(record.id, 'gm', 'rl') if record.is_a?(Guild)
+    true
   end
 
   def create?

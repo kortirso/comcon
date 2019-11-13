@@ -134,7 +134,7 @@ export default class EventCalendar extends React.Component {
         if (hours < 0) {
           hours += 24
           days = '-1'
-        } else if (hours > 24) {
+        } else if (hours > 23) {
           hours -= 24
           days = '+1'
         }
@@ -154,7 +154,7 @@ export default class EventCalendar extends React.Component {
         if (hours < 0) {
           hours += 24
           days = '-1'
-        } else if (hours > 24) {
+        } else if (hours > 23) {
           hours -= 24
           days = '+1'
         }
@@ -177,7 +177,7 @@ export default class EventCalendar extends React.Component {
 
   _renderOtherDays(value) {
     if (value === '0') return false
-    else return ` (${value})`
+    else return `(${value})`
   }
 
   _onSelectCurrentDay(value) {
@@ -395,7 +395,7 @@ export default class EventCalendar extends React.Component {
         if (hours < 0) {
           hours += 24
           days = '-1'
-        } else if (hours > 24) {
+        } else if (hours > 23) {
           hours -= 24
           days = '+1'
         }
@@ -435,7 +435,7 @@ export default class EventCalendar extends React.Component {
       if (hours < 0) {
         hours += 24
         days = '-1'
-      } else if (hours > 24) {
+      } else if (hours > 23) {
         hours -= 24
         days = '+1'
       }

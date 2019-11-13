@@ -16,6 +16,7 @@ class Event < ApplicationRecord
 
   has_many :signed_subscribes, -> { where status: %w[approved signed] }, class_name: 'Subscribe'
   has_many :signed_characters, through: :signed_subscribes, source: :character
+  has_many :signed_users, -> { distinct }, through: :signed_characters, source: :user
 
   scope :for_statics, -> { where eventable_type: 'Static' }
 
