@@ -35,11 +35,15 @@ en:
   settings:
     personal: Personal settings
     external_services: External Services
+    notifications: Notifications
   external_services:
     bindings_title: Linking external services
     bindings_1: Link your social network and IT community accounts to your account.
     bindings_2: After that, you can enter the service in one click.
     bindings_existed: Discord's account linked to your account
+  user_notifications:
+    title: Notifications
+    p_1: On this page you can configure which notifications and in what way you want to receive
   registration:
     title: Create your profile
     email: Email

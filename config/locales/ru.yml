@@ -36,11 +36,15 @@ ru:
   settings:
     personal: Личные настройки
     external_services: Внешние сервисы
+    notifications: Уведомления
   external_services:
     bindings_title: Привязка внешних сервисов
     bindings_1: Привяжите учетные записи своих социальных сетей и ИТ-сообществ к аккаунту.
     bindings_2: После этого вы сможете входить на сервис в один клик.
     bindings_existed: К вашему аккаунту привязана учетная запись Discord
+  user_notifications:
+    title: Уведомления
+    p_1: На этой странице вы можете настроить, какие уведомления и каким способом вы хотите получать
   registration:
     title: Создайте профиль
     email: Email

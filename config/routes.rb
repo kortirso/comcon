@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     resources :guild_invites, only: %i[new]
     resources :settings, only: %i[index] do
       get :external_services, on: :collection
+      get :notifications, on: :collection
     end
 
     root to: 'welcome#index'

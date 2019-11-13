@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - settings page for external services
+- settings page for notifications
 
 ## [0.7.5] - 2019-11-13
 ### Added

@@ -34,4 +34,22 @@ RSpec.describe SettingsController, type: :controller do
       get :external_services, params: { locale: 'en' }
     end
   end
+
+  describe 'GET#notifications' do
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      it 'renders notifications template' do
+        get :notifications, params: { locale: 'ru' }
+
+        expect(response).to render_template :notifications
+      end
+    end
+
+    def do_request
+      get :notifications, params: { locale: 'en' }
+    end
+  end
 end
