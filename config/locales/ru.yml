@@ -35,7 +35,8 @@ ru:
     logout: Выход
   settings:
     personal: Личные настройки
-  welcome:
+    external_services: Внешние сервисы
+  external_services:
     bindings_title: Привязка внешних сервисов
     bindings_1: Привяжите учетные записи своих социальных сетей и ИТ-сообществ к аккаунту.
     bindings_2: После этого вы сможете входить на сервис в один клик.

@@ -34,7 +34,8 @@ en:
     logout: Logout
   settings:
     personal: Personal settings
-  welcome:
+    external_services: External Services
+  external_services:
     bindings_title: Linking external services
     bindings_1: Link your social network and IT community accounts to your account.
     bindings_2: After that, you can enter the service in one click.

@@ -34,6 +34,7 @@
   .settings_content {
     position: relative;
     width: 70%;
+    padding: 0.5rem;
 
     h2 {
       font-size: 1.75rem;
@@ -48,8 +49,6 @@
     }
 
     .user_settings {
-      padding: 0.5rem;
-
       .time_offset {
         width: 200px;
       }

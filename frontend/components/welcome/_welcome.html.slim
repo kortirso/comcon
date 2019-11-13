@@ -1,10 +1,1 @@
 .container.welcome
-  - if user_signed_in?
-    .external_bindings
-      p.title= t('welcome.bindings_title')
-      p= t('welcome.bindings_1')
-      p= t('welcome.bindings_2')
-      - if Current.user.identities.where(provider: 'discord').empty?
-        = link_to image_tag(asset_pack_path('media/images/discord.png')), user_discord_omniauth_authorize_path, method: :post, title: 'Discord', class: 'binding'
-      - else
-        p= t('welcome.bindings_existed')
