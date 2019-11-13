@@ -7,8 +7,8 @@ const $ = require("jquery")
 let strings = new LocalizedStrings(I18nData)
 
 export default class EventCalendar extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     const date = new Date()
     this.state = {
       events: [],
@@ -16,7 +16,7 @@ export default class EventCalendar extends React.Component {
       daysAmount: (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate(),
       currentYear: date.getFullYear(),
       currentMonth: date.getMonth() + 1,
-      timeZoneOffsetMinutes: date.getTimezoneOffset(),
+      timeZoneOffsetMinutes: props.time_offset_value === null ? date.getTimezoneOffset() : - props.time_offset_value * 60,
       worlds: [],
       guilds: [],
       fractions: [],
@@ -473,7 +473,6 @@ export default class EventCalendar extends React.Component {
             <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
             <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
           </div>
-          <p>{strings.timeZone}</p>
         </div>
         <div className="calendar-block">
           <div className="calendar">

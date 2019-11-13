@@ -46,15 +46,16 @@ export default class EventForm extends React.Component {
 
   componentDidMount() {
     const _this = this
+    let currentDate = new Date()
+    let currentLocalTime = this.props.time_offset_value === null ? currentDate : (new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours() + this.props.time_offset_value + currentDate.getTimezoneOffset() / 60, currentDate.getMinutes()))
     $(".datepicker-here").datepicker({
-      minDate: new Date(),
-      onSelect: function(formattedDate, date) {
-        _this.setState({startTime: Number(date) / 1000})
+      minDate: currentLocalTime,
+      onSelect: function() {
+        _this.setState({startTime: Number(currentLocalTime) / 1000})
       }
     })
 
-    const currentDate = new Date()
-    $(".datepicker-here").data('datepicker').selectDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()))
+    $(".datepicker-here").data('datepicker').selectDate(currentLocalTime)
   }
 
   _getDefaultValues() {
@@ -84,7 +85,7 @@ export default class EventForm extends React.Component {
           return parseInt(time)
         })
         const currentDate = new Date()
-        const timeZoneOffset = currentDate.getTimezoneOffset() / 60
+        const timeZoneOffset = (this.props.time_offset_value === null ? (currentDate.getTimezoneOffset() / 60) : - this.props.time_offset_value)
         const startTime = new Date(dates[2], dates[1] - 1, dates[0], event.time.hours - timeZoneOffset, event.time.minutes)
         $(".datepicker-here").data('datepicker').selectDate(startTime)
         const currentStatics = this.state.statics.filter((staticItem) => {

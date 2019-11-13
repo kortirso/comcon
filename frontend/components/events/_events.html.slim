@@ -3,7 +3,7 @@
     .container
       = link_to t('events.add'), new_event_path, class: 'btn btn-primary btn-sm with_bottom_margin'
     = javascript_pack_tag 'event_calendar'
-    = react_component('EventCalendar', user_character_ids: @user_character_ids, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('EventCalendar', user_character_ids: @user_character_ids, time_offset_value: Current.user.time_offset.value, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
 - else
   .container
     p= t('events.no_characters')

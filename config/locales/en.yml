@@ -30,7 +30,10 @@ en:
     craft: Search craft
     login: Login
     sign_up: Sign Up
+    settings: Settings
     logout: Logout
+  settings:
+    personal: Personal settings
   welcome:
     bindings_title: Linking external services
     bindings_1: Link your social network and IT community accounts to your account.

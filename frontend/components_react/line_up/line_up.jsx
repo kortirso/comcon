@@ -114,7 +114,7 @@ export default class LineUp extends React.Component {
   _renderLocalTime(time) {
     const date = new Date()
     let days = '0'
-    let hours = time.hours - date.getTimezoneOffset() / 60
+    let hours = time.hours - (this.props.time_offset_value === null ? (date.getTimezoneOffset() / 60) : - this.props.time_offset_value)
     if (hours < 0) {
       hours += 24
       days = '-1'

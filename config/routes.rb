@@ -46,6 +46,9 @@ Rails.application.routes.draw do
         post :approve, on: :member
         post :decline, on: :member
       end
+      resources :user_settings, only: %i[index] do
+        patch :update_settings, on: :collection
+      end
     end
   end
 
@@ -75,6 +78,7 @@ Rails.application.routes.draw do
     end
     resources :deliveries, only: %i[new destroy]
     resources :guild_invites, only: %i[new]
+    resources :settings, only: %i[index]
 
     root to: 'welcome#index'
   end
