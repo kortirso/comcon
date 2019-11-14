@@ -90,6 +90,7 @@ en:
     name: Name
     world: Realm
     race: Race
+    role: Role
     character_class: Character class
     level: Level
     guild: Guild

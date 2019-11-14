@@ -96,37 +96,6 @@
               display: flex;
               flex-direction: row;
             }
-
-            .role_icons {
-              display: flex;
-              flex-direction: row;
-
-              .role_icon {
-                width: 26px;
-                height: 26px;
-                margin-right: 0.25rem;
-
-                &.Tank {
-                  background: url(../../images/tank.png);
-                  background-size: cover;
-                }
-
-                &.Healer {
-                  background: url(../../images/healer.png);
-                  background-size: cover;
-                }
-
-                &.Melee {
-                  background: url(../../images/melee.png);
-                  background-size: cover;
-                }
-
-                &.Ranged {
-                  background: url(../../images/melee.png);
-                  background-size: cover;
-                }
-              }
-            }
           }
         }
       }

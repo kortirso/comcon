@@ -6,15 +6,15 @@
     thead
       tr
         th= t('characters.name')
-        th= t('characters.race')
+        th= t('characters.role')
         th= t('characters.level')
         th= t('characters.guild')
     tbody
-      - @static.characters.includes(:race, :guild, :character_class).each do |character|
-        tr class="#{character.character_class.name['en']}"
-          td= character.name
-          td= character.race.name[I18n.locale.to_s]
-          td= character.level
+      - @static_characters.each do |character|
+        tr class="#{character[:character_class_name]['en']}"
+          td= character[:name]
           td
-            - unless character.guild_id.nil?
-              = character.guild.name
+            .role_icons
+              .role_icon class="#{character[:main_role_name]['en']}"
+          td= character[:level]
+          td= character[:guild_name]

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Modified
 - tests for user notifications
+- sort static members by role, class_name, level and name
 
 ## [0.7.6] - 2019-11-13
 ### Added

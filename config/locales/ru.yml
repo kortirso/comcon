@@ -102,6 +102,7 @@ ru:
     name: Имя
     world: Мир
     race: Раса
+    role: Роль
     character_class: Класс
     level: Уровень
     guild: Гильдия
