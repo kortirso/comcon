@@ -71,7 +71,7 @@ export default class UserSettings extends React.Component {
     return (
       <div>
         <div className="user_settings">
-          <h2>{strings.personal}</h2>
+          <h3>{strings.personal}</h3>
           {this.state.alert !== '' &&
             <Alert type="success" value={this.state.alert} />
           }
