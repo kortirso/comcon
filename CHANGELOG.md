@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - change password for users
 - error alerts for delivery form
+- success alert for user settings
 
 ### Modified
 - tests for user notifications

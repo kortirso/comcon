@@ -4,6 +4,8 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
+import Alert from '../alert/alert'
+
 let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
@@ -15,7 +17,8 @@ export default class UserSettings extends React.Component {
   constructor() {
     super()
     this.state = {
-      timeOffset: { id: null, value: '' }
+      timeOffset: { id: null, value: '' },
+      alert: ''
     }
   }
 
@@ -42,9 +45,10 @@ export default class UserSettings extends React.Component {
       url: `/api/v1/user_settings/update_settings.json?access_token=${this.props.access_token}`,
       data: { user_settings: { time_offset: this.state.timeOffset } },
       success: (data) => {
+        this.setState({alert: strings.success})
       },
       error: () => {
-        console.log('Error')
+        this.setState({alert: ''})
       }
     })
   }
@@ -68,6 +72,9 @@ export default class UserSettings extends React.Component {
       <div>
         <div className="user_settings">
           <h2>{strings.personal}</h2>
+          {this.state.alert !== '' &&
+            <Alert type="success" value={this.state.alert} />
+          }
           <div className="settings_block">
             <h3>{strings.timeZone}</h3>
             <select className="form-control form-control-sm time_offset" id="event_character_id" onChange={this._onChangeTimeOffset.bind(this)} value={this.state.timeOffset.value}>
