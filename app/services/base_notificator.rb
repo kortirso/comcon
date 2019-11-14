@@ -34,4 +34,8 @@ class BaseNotificator
     end
     "#{start_time.strftime('%-d.%-m.%Y')} #{start_time_hours}:#{start_time.strftime('%M')}#{days if days != 0}"
   end
+
+  def define_content(event:)
+    event.name
+  end
 end

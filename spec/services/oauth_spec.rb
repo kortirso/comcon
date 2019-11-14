@@ -80,4 +80,39 @@ RSpec.describe Oauth, type: :service do
       end
     end
   end
+
+  describe '.auth_binding' do
+    let!(:user) { create :user }
+    let!(:oauth) { create :oauth, :with_credentials }
+    let(:request) { Oauth.auth_binding(auth: oauth, user: user) }
+
+    context 'for existed identity' do
+      let!(:identity) { create :identity, user: user, uid: '1234567890' }
+
+      it 'does not create new Identity' do
+        expect { request }.to_not change(Identity, :count)
+      end
+
+      it 'and returns nil' do
+        expect(request.nil?).to eq true
+      end
+    end
+
+    context 'for unexisted identity' do
+      it 'and calls CreateIdentity' do
+        expect(CreateIdentity).to receive(:call).and_call_original
+
+        request
+      end
+
+      it 'and new Identity has params from oauth and belongs to existed user' do
+        request
+        identity = Identity.last
+
+        expect(identity.uid).to eq oauth.uid
+        expect(identity.provider).to eq oauth.provider
+        expect(identity.user).to eq user
+      end
+    end
+  end
 end
