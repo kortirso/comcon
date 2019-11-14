@@ -4,6 +4,8 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
+import ErrorView from '../error_view/error_view'
+
 let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
@@ -20,7 +22,8 @@ export default class DeliveryForm extends React.Component {
       deliveryType: 2,
       deliveryParamId: '',
       deliveryParamToken: '',
-      deliveryParamChannelId: ''
+      deliveryParamChannelId: '',
+      errors: []
     }
   }
 
@@ -45,16 +48,18 @@ export default class DeliveryForm extends React.Component {
   _onCreate() {
     const state = this.state
     const params = this._defineParams()
+    let url = `/api/v1/deliveries.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'POST',
-      url: `/api/v1/deliveries.json?access_token=${this.props.access_token}`,
+      url: url,
       data: { delivery: { deliveriable_id: this.props.deliveriable_id, deliveriable_type: this.props.deliveriable_type, notification_id: state.notificationId, delivery_type: state.deliveryType }, delivery_param: { params: params } },
       success: (data) => {
         if (data.delivery.deliveriable !== null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data.delivery.deliveriable.slug}/management`)
         else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/settings/notifications`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -119,6 +124,9 @@ export default class DeliveryForm extends React.Component {
   render() {
     return (
       <div className="delivery_form">
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
         <div className="double_line">
           <div className="double_line">
             <div className="form-group">

@@ -28,11 +28,11 @@ class DeliveryForm
   def deliveriable_exists?
     return unless deliveriable_type.present?
     return if deliveriable_type.constantize.where(id: deliveriable_id).exists?
-    errors[:deliveriable] << 'is not exist'
+    errors[:deliveriable] << I18n.t('activemodel.errors.models.delivery_form.attributes.deliveriable.is_not_exist')
   end
 
   def exists?
     return unless Delivery.where(deliveriable_id: deliveriable_id, deliveriable_type: deliveriable_type, notification: notification, delivery_type: delivery_type).exists?
-    errors[:delivery] << 'with such params already exists'
+    errors[:delivery] << I18n.t('activemodel.errors.models.delivery_form.attributes.delivery.already_exist')
   end
 end

@@ -1,6 +1,9 @@
 ru:
   activemodel:
     attributes:
+      delivery_form:
+        delivery: Форма уведомления
+        deliveriable: Объект для доставки
       event_form:
         name: Название события
         start_time: Время начала
@@ -8,6 +11,12 @@ ru:
         hours_before_close: Часы до закрытия
     errors:
       models:
+        delivery_form:
+          attributes:
+            delivery:
+              already_exist: уже создана
+            deliveriable:
+              is_not_exist: не существует
         event_form:
           attributes:
             name:

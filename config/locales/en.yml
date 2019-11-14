@@ -1,12 +1,21 @@
 en:
   activemodel:
     attributes:
+      delivery_form:
+        delivery: Delivery form
+        deliveriable: Delivery object
       event_form:
         name: Event name
         start_time: Start time
         eventable: Event owner
     errors:
       models:
+        delivery_form:
+          attributes:
+            delivery:
+              already_exist: already exists
+            deliveriable:
+              is_not_exist: is not exists
         event_form:
           attributes:
             name:
