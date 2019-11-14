@@ -19,6 +19,8 @@ en:
               is_not_exist: is not exist
             hours_before_close:
               inclusion: must be in the list from 0 to 24
+  custom_errors:
+    passwords_different: Passwords are different
   navigation:
     worlds: Realms
     users: Users
@@ -34,6 +36,7 @@ en:
     logout: Logout
   settings:
     personal: Personal settings
+    password: Password
     external_services: External Services
     notifications: Notifications
   external_services:

@@ -20,6 +20,19 @@ ru:
               is_not_exist: не существует
             hours_before_close:
               inclusion: должны быть в диапазоне от 0 до 24
+  activerecord:
+    attributes:
+      user:
+        password: Пароль
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              blank: не может быть пустым
+              too_short: слишком короткий (минимум 10 символов)
+  custom_errors:
+    passwords_different: Пароли не совпадают
   navigation:
     worlds: Миры
     users: Пользователи
@@ -35,6 +48,7 @@ ru:
     logout: Выход
   settings:
     personal: Личные настройки
+    password: Пароль
     external_services: Внешние сервисы
     notifications: Уведомления
   external_services:

@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       end
       resources :user_settings, only: %i[index] do
         patch :update_settings, on: :collection
+        patch :update_password, on: :collection
       end
     end
   end
@@ -79,6 +80,7 @@ Rails.application.routes.draw do
     resources :deliveries, only: %i[new destroy]
     resources :guild_invites, only: %i[new]
     resources :settings, only: %i[index] do
+      get :password, on: :collection
       get :external_services, on: :collection
       get :notifications, on: :collection
     end

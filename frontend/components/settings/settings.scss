@@ -55,6 +55,21 @@
       }
     }
 
+    .user_password {
+      .form-group {
+        margin-top: 1rem;
+
+        p {
+          font-size: 0.9rem;
+          margin-bottom: 0.5rem;
+        }
+
+        input {
+          max-width: 400px;
+        }
+      }
+    }
+
     .save_block {
       position: absolute;
       bottom: 0;

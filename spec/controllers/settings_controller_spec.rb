@@ -17,6 +17,24 @@ RSpec.describe SettingsController, type: :controller do
     end
   end
 
+  describe 'GET#password' do
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      it 'renders password template' do
+        get :password, params: { locale: 'ru' }
+
+        expect(response).to render_template :password
+      end
+    end
+
+    def do_request
+      get :password, params: { locale: 'en' }
+    end
+  end
+
   describe 'GET#external_services' do
     it_behaves_like 'User Auth'
 

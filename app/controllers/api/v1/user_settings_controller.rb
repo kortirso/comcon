@@ -21,10 +21,26 @@ module Api
         render json: { result: 'User settings are updated' }, status: 200
       end
 
+      api :PATCH, '/v1/user_settings/update_password.json', 'Update user password'
+      error code: 401, desc: 'Unauthorized'
+      def update_password
+        result = UpdateUserPassword.call(user: Current.user, user_password_params: user_password_params)
+        if result.success?
+          sign_in Current.user
+          render json: { result: 'User password is updated' }, status: 200
+        else
+          render json: { errors: result.message }, status: 409
+        end
+      end
+
       private
 
       def user_settings_params
         params.require(:user_settings).permit(time_offset: {})
+      end
+
+      def user_password_params
+        params.require(:user_settings).permit(:password, :password_confirmation)
       end
     end
   end

@@ -1,0 +1,18 @@
+{
+  "en": {
+    "title": "Change password",
+    "save": "Save",
+    "password": "Password",
+    "passwordConfirmation": "Password confirmation",
+    "minimum": "Password must be at least 10 characters",
+    "success": "You successfully changed password"
+  },
+  "ru": {
+    "title": "Смена пароля",
+    "save": "Сохранить",
+    "password": "Пароль",
+    "passwordConfirmation": "Подтверждение пароля",
+    "minimum": "Пароль должен содержать, как минимум, 10 символов",
+    "success": "Вы успешно сменили пароль"
+  }
+}
