@@ -194,7 +194,9 @@ export default class LineUp extends React.Component {
             <div className="character_name">{subscribe.character.name}</div>
           </td>
           <td>
-            {this._renderRoleIcons(subscribe.character, status)}
+            <div className="role_icons">
+              <div className={`role_icon ${subscribe.character.main_role_name.en}`}></div>
+            </div>
           </td>
           <td>{subscribe.character.level}</td>
           <td>{subscribe.character.guild_name}</td>
@@ -246,10 +248,6 @@ export default class LineUp extends React.Component {
       }
       else return <p title={subscribe.comment}>{subscribe.comment}</p>
     }
-  }
-
-  _renderRoleIcons(character, status) {
-    return <div className="role_icons"><div className={`role_icon ${character.main_role_name.en}`}></div></div>
   }
 
   _checkAdminButton(character, status) {

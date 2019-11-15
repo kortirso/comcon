@@ -27,7 +27,7 @@ module Api
       error code: 400, desc: 'Object is not found'
       def characters
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(@guild_characters, each_serializer: GuildCharacterSerializer).as_json[:characters]
+          characters: @guild_characters
         }, status: 200
       end
 
@@ -85,7 +85,7 @@ module Api
       end
 
       def find_guild_characters
-        @guild_characters = @guild.characters.includes(:race, :character_class, :guild_role).order(level: :desc, character_class_id: :desc)
+        @guild_characters = ActiveModelSerializers::SerializableResource.new(@guild.characters.includes(:race, :character_class, :guild, :main_roles, :guild_role), each_serializer: GuildCharacterSerializer).as_json[:characters].sort_by { |character| [- character[:level], character[:character_class_name]['en'], Role::ROLE_VALUES[character[:main_role_name]['en']], character[:name]] }
       end
 
       def search_guilds

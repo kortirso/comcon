@@ -49,13 +49,14 @@ RSpec.describe 'Guilds API' do
       context 'for existed guild' do
         let!(:guild) { create :guild }
         let!(:character) { create :character, guild: guild }
+        let!(:character_role) { create :character_role, character: character, main: true }
         before { get "/api/v1/guilds/#{guild.slug}/characters.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
           expect(response.status).to eq 200
         end
 
-        %w[id name level character_class race guild_role].each do |attr|
+        %w[id name level character_class_name race_name guild_role main_role_name].each do |attr|
           it "and contains character #{attr}" do
             expect(response.body).to have_json_path("characters/0/#{attr}")
           end

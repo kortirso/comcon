@@ -4,12 +4,15 @@
       tbody {
         td {
           &.management_buttons {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-
             select, button {
-              width: 48%;
+              display: inline-block;
+              padding: 2px 5px;
+            }
+
+            select {
+              width: 30%;
+              height: 29px;
+              margin-right: 5px;
             }
           }
         }

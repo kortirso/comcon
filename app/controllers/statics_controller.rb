@@ -52,6 +52,6 @@ class StaticsController < ApplicationController
   end
 
   def find_static_characters
-    @static_characters = ActiveModelSerializers::SerializableResource.new(@static.characters.includes(:character_class, :guild, :main_roles), each_serializer: CharacterSubscriptionSerializer).as_json[:characters].sort_by { |character| [ROLE_VALUES[character[:main_role_name]['en']], character[:character_class_name]['en'], - character[:level], character[:name]] }
+    @static_characters = ActiveModelSerializers::SerializableResource.new(@static.characters.includes(:character_class, :guild, :main_roles), each_serializer: CharacterSubscriptionSerializer).as_json[:characters].sort_by { |character| [Role::ROLE_VALUES[character[:main_role_name]['en']], character[:character_class_name]['en'], - character[:level], character[:name]] }
   end
 end

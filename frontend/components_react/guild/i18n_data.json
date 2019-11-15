@@ -1,6 +1,7 @@
 {
   "en": {
     "name": "Name",
+    "role": "Role",
     "race": "Race",
     "level": "Level",
     "guildRole": "Guild role",
@@ -14,6 +15,7 @@
   },
   "ru": {
     "name": "Имя персонажа",
+    "role": "Роль",
     "race": "Раса",
     "level": "Уровень",
     "guildRole": "Роль в гильдии",

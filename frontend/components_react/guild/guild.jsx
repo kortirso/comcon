@@ -107,9 +107,14 @@ export default class Guild extends React.Component {
   _renderCharacters() {
     return this.state.characters.map((character) => {
       return (
-        <tr className={character.character_class.en} key={character.id}>
+        <tr className={character.character_class_name.en} key={character.id}>
           <td>{character.name}</td>
-          <td>{character.race[this.props.locale]}</td>
+          <td>
+            <div className="role_icons">
+              <div className={`role_icon ${character.main_role_name.en}`}></div>
+            </div>
+          </td>
+          <td>{character.race_name[this.props.locale]}</td>
           <td>{character.level}</td>
           <td>{character.guild_role !== null ? strings[character.guild_role.name] : ''}</td>
           {this._renderManageButtons(character)}
@@ -151,6 +156,7 @@ export default class Guild extends React.Component {
           <thead>
             <tr>
               <th>{strings.name}</th>
+              <th>{strings.role}</th>
               <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.guildRole}</th>
