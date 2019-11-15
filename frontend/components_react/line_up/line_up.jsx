@@ -261,9 +261,9 @@ export default class LineUp extends React.Component {
   }
 
   _renderAdminButton(subscribe, status) {
-    const buttonText = status === 'approved' ? '-' : '+'
+    const buttonText = status === 'approved' ? 'minus' : 'plus'
     const nextStatus = status === 'approved' ? 'signed' : 'approved'
-    return <button className="btn btn-light btn-sm" onClick={this.onUpdateSubscribe.bind(this, subscribe, { status: nextStatus })}>{buttonText}</button>
+    return <button className={`btn-${buttonText}`} onClick={this.onUpdateSubscribe.bind(this, subscribe, { status: nextStatus })}></button>
   }
 
   _renderUserButton(subscribe, status) {

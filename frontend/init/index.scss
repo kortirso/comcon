@@ -191,22 +191,26 @@ body {
       margin-right: 0.25rem;
 
       &.Tank {
-        background: url(../images/tank.png);
+        background: url(../images/role_icons.png);
+        background-position: 0 0;
         background-size: cover;
       }
 
       &.Healer {
-        background: url(../images/healer.png);
+        background: url(../images/role_icons.png);
+        background-position: 26px 0;
         background-size: cover;
       }
 
       &.Melee {
-        background: url(../images/melee.png);
+        background: url(../images/role_icons.png);
+        background-position: 52px 0;
         background-size: cover;
       }
 
       &.Ranged {
-        background: url(../images/melee.png);
+        background: url(../images/role_icons.png);
+        background-position: 78px 0;
         background-size: cover;
       }
     }
