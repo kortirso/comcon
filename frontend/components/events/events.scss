@@ -124,8 +124,8 @@
 
         .day_date {
           position: absolute;
-          top: 0;
-          right: 0;
+          top: 4px;
+          right: 4px;
           font-size: 0.9rem;
         }
 
@@ -147,11 +147,9 @@
             height: 20px;
             overflow: hidden;
             text-overflow: ellipsis;
-          }
-
-          .name, .time {
             margin: 0;
             font-size: 0.7rem;
+            padding: 0 2px;
           }
 
           &:hover {
@@ -173,10 +171,18 @@
 
       &.previous {
         border: 1px solid transparent;
+      }
+
+      &.finished {
+        border: 1px solid transparent;
 
         .day_content {
-          background: #F4F4F4;
+          background: #f4f4f4;
         }
+      }
+
+      &.selected {
+        border: 1px solid rgba(205, 43, 0, 0.5);
       }
     }
   }
