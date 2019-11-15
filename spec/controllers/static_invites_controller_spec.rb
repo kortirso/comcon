@@ -54,6 +54,10 @@ RSpec.describe StaticInvitesController, type: :controller do
             expect { request }.to change { StaticMember.count }.by(1)
           end
 
+          it 'and deletes static invite' do
+            expect { request }.to change { StaticInvite.count }.by(-1)
+          end
+
           it 'and redirects to statics path' do
             request
 

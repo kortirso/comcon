@@ -2,5 +2,5 @@
 class ApproveStaticInvite
   include Interactor::Organizer
 
-  organize CreateStaticMember, UpdateStaticInvite
+  organize CreateStaticMember, DeleteStaticInvite
 end

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - days rendering at event calendar
 - rendering of guild members
 - error alerts for static form
+- delete static invite after approving
 
 ### Fixed
 - bug with delivery creation for guilds
