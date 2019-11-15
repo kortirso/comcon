@@ -101,9 +101,9 @@ RSpec.describe 'StaticInvites API' do
               expect(response.status).to eq 201
             end
 
-            %w[id name level character_class race guild world].each do |attr|
-              it "and contains character #{attr}" do
-                expect(response.body).to have_json_path("character/#{attr}")
+            %w[id static_id character].each do |attr|
+              it "and contains member #{attr}" do
+                expect(response.body).to have_json_path("member/#{attr}")
               end
             end
           end

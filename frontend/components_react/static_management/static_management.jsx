@@ -75,11 +75,11 @@ export default class StaticManagement extends React.Component {
         const searchedCharacters = [... this.state.searchedCharacters]
         const searchedCharacterIndex = searchedCharacters.indexOf(character)
         searchedCharacters.splice(searchedCharacterIndex, 1)
-        if (data.character !== undefined) {
+        if (data.member !== undefined) {
           let members = this.state.members
-          members.push(data.character)
+          members.push(data.member)
           let memberIds = this.state.memberIds
-          memberIds.push(data.character.id)
+          memberIds.push(data.member.id)
           this.setState({members: members, memberIds: memberIds, searchedCharacters: searchedCharacters})
         } else if (data.invite !== undefined) {
           let invites = this.state.invites

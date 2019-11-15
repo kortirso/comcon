@@ -4,6 +4,8 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
+import ErrorView from '../error_view/error_view'
+
 let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
@@ -22,6 +24,7 @@ export default class StaticForm extends React.Component {
       currentGuildId: props.guild_id !== null && props.static_id === undefined ? props.guild_id : '0',
       description: '',
       staticId: props.static_id,
+      errors: []
     }
   }
 
@@ -35,7 +38,7 @@ export default class StaticForm extends React.Component {
       method: 'GET',
       url: `/api/v1/statics/form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({userCharacters: data.characters, userGuilds: data.guilds}, () => {
+        this.setState({userCharacters: data.characters, currentCharacterId: data.characters[0].id, userGuilds: data.guilds}, () => {
           this._getStatic()
         })
       }
@@ -58,32 +61,36 @@ export default class StaticForm extends React.Component {
     const state = this.state
     const staticableType = state.currentCharacterId === '0' ? 'Guild' : 'Character'
     const staticableId = state.currentCharacterId === '0' ? state.currentGuildId : state.currentCharacterId
+    let url = `/api/v1/statics.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'POST',
-      url: `/api/v1/statics.json?access_token=${this.props.access_token}`,
+      url: url,
       data: { static: { name: state.name, staticable_type: staticableType, staticable_id: staticableId, description: state.description } },
       success: (data) => {
         if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
         else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/management`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
 
   _onUpdate() {
     const state = this.state
+    let url = `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'PATCH',
-      url: `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`,
+      url: url,
       data: { static: { name: state.name, description: state.description } },
       success: (data) => {
         if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
         else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/management`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -113,6 +120,9 @@ export default class StaticForm extends React.Component {
   render() {
     return (
       <div className="static_form">
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
         <div className="double_line">
           <div className="form-group">
             <label htmlFor="static_name">{strings.name}</label>
@@ -122,14 +132,18 @@ export default class StaticForm extends React.Component {
             <div className="form-group">
               <label htmlFor="event_character_id">{strings.characterOwner}</label>
               <select className="form-control form-control-sm" id="event_character_id" onChange={this._onCharacterChange.bind(this)} value={this.state.currentCharacterId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
-                <option value='0' key='0'></option>
+                {this.state.currentGuildId !== '0' &&
+                  <option value='0' key='0'></option>
+                }
                 {this._renderUserCharacters()}
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="event_guild_id">{strings.guildOwner}</label>
               <select className="form-control form-control-sm" id="event_guild_id" onChange={this._onGuildChange.bind(this)} value={this.state.currentGuildId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
-                <option value='0' key='0'></option>
+                {this.state.currentCharacterId !== '0' &&
+                  <option value='0' key='0'></option>
+                }
                 {this._renderUserGuilds()}
               </select>
             </div>

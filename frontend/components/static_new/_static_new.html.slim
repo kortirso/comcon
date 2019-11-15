@@ -1,3 +1,6 @@
-= javascript_pack_tag 'static_form'
 .container
-  = react_component('StaticForm', guild_id: params[:guild_id], locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+  - if Current.user.characters.size.positive?
+    = javascript_pack_tag 'static_form'
+    = react_component('StaticForm', guild_id: params[:guild_id], locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+  - else
+    p= t('statics.no_characters')

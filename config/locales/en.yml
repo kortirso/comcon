@@ -140,6 +140,8 @@ en:
     name: Name
     invites: Invites
     invited_character: Invited character
+    no_characters: For viewing statics you need to attach new character to your account
+    of_characters: Statics of your characters
   static:
     label: Static roster
   guild:

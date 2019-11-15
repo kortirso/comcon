@@ -54,7 +54,7 @@ module Api
         result = CreateStaticMember.call(static: @static, character: @character)
         if result.success?
           render json: {
-            character: CharacterCrafterSerializer.new(@character)
+            member: StaticMemberSerializer.new(result.static_member)
           }, status: 201
         else
           render json: { errors: result.message }, status: 409
