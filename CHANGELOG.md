@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - bug with delivery creation for guilds
 - bug with invite guild co-members to static
+- bug with not current month in event calendar
 
 ## [0.7.8] - 2019-11-14
 ### Added

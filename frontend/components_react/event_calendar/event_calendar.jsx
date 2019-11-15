@@ -18,6 +18,7 @@ export default class EventCalendar extends React.Component {
       currentMonth: date.getMonth() + 1,
       currentDay: date.getDate(),
       timeZoneOffsetMinutes: props.time_offset_value === null ? date.getTimezoneOffset() : - props.time_offset_value * 60,
+      monthChanges: 0,
       worlds: [],
       guilds: [],
       fractions: [],
@@ -126,7 +127,7 @@ export default class EventCalendar extends React.Component {
 
   _defineDayClass(value) {
     let result = ["day"]
-    if (value < this.state.currentDay) result.push('finished')
+    if (this.state.monthChanges < 0 || this.state.monthChanges === 0 && value < this.state.currentDay) result.push('finished')
     if (this.state.currentDayId !== null && parseInt(this.state.currentDayId.split(".")[0]) === value) result.push('selected')
     return result.join(" ")
   }
@@ -369,6 +370,7 @@ export default class EventCalendar extends React.Component {
     let previous = (new Date(previousYear, previousMonth, 1)).getDay() - 1
     if (previous < 0) previous += 7
     this.setState({
+      monthChanges: this.state.monthChanges + value,
       previousDaysAmount: previous,
       daysAmount: (new Date(currentYear, currentMonth, 0)).getDate(),
       currentYear: currentYear,
