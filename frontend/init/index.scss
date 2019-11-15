@@ -198,19 +198,19 @@ body {
 
       &.Healer {
         background: url(../images/role_icons.png);
-        background-position: 26px 0;
+        background-position: -26px 0;
         background-size: cover;
       }
 
       &.Melee {
         background: url(../images/role_icons.png);
-        background-position: 52px 0;
+        background-position: -52px 0;
         background-size: cover;
       }
 
       &.Ranged {
         background: url(../images/role_icons.png);
-        background-position: 78px 0;
+        background-position: -78px 0;
         background-size: cover;
       }
     }
