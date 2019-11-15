@@ -141,7 +141,7 @@ export default class DeliveryForm extends React.Component {
                 {this.props.deliveriable_type === 'Guild' &&
                   <option value={0} key={0}>Discord webhook</option>
                 }
-                <option value={1} key={1}>Discord message</option>
+                <option value={2} key={2}>Discord message</option>
               </select>
             </div>
           </div>

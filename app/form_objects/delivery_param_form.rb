@@ -9,12 +9,12 @@ class DeliveryParamForm
 
   validates :params, :delivery, presence: true
   validate :params_for_delivery_type
+  validate :exists?
 
   attr_reader :delivery_param
 
   def persist?
     return false unless valid?
-    return false if exists?
     @delivery_param = id ? DeliveryParam.find_by(id: id) : DeliveryParam.new
     return false if @delivery_param.nil?
     @delivery_param.attributes = attributes.except(:id)
@@ -26,7 +26,8 @@ class DeliveryParamForm
 
   def exists?
     delivery_params = id.nil? ? DeliveryParam.all : DeliveryParam.where.not(id: id)
-    delivery_params.find_by(delivery: delivery).present?
+    return unless delivery_params.where(delivery: delivery).exists?
+    errors[:delivery_param] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.delivery_param.already_exist')
   end
 
   def params_for_delivery_type
@@ -39,14 +40,15 @@ class DeliveryParamForm
   end
 
   def check_discord_webhook_params
-    return errors[:params] << 'Discord webhook params is not hash' unless params.is_a?(Hash)
-    errors[:params] << 'Discord webhook params ID is invalid' if !params['id'].present? || !params['id'].is_a?(Integer)
-    errors[:params] << 'Discord webhook params token is invalid' if !params['token'].present? || !params['token'].is_a?(String)
+    return errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.is_not_hash') unless params.is_a?(Hash)
+    errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.webhook_id_invalid') if !params['id'].present? || !params['id'].is_a?(Integer)
+    errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.webhook_token_invalid') if !params['token'].present? || !params['token'].is_a?(String)
   end
 
   def check_discord_message_params
-    return errors[:params] << 'Discord message params is not hash' unless params.is_a?(Hash)
-    return if params.key?('channel_id')
-    errors[:params] << 'Discord message params Channel ID is invalid'
+    return errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.is_not_hash') unless params.is_a?(Hash)
+    return errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.channel_id_not_exist') unless params.key?('channel_id')
+    return if delivery.nil?
+    errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.channel_id_is_empty') if delivery.deliveriable_type == 'Guild' && params['channel_id'].empty?
   end
 end

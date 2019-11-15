@@ -1,6 +1,9 @@
 en:
   activemodel:
     attributes:
+      delivery_param_form:
+        delivery_param: Delivery param
+        params: Params
       delivery_form:
         delivery: Delivery form
         deliveriable: Delivery object
@@ -8,8 +11,19 @@ en:
         name: Event name
         start_time: Start time
         eventable: Event owner
+        hours_before_close: Hours before close
     errors:
       models:
+        delivery_param_form:
+          attributes:
+            delivery_param:
+              already_exist: already exists
+            params:
+              is_not_hash: must be a hash
+              webhook_id_invalid: ID for Discord Webhook is not valid
+              webhook_token_invalid: token for Discord Webhook is not valid
+              channel_id_not_exist: for Channel ID is not valid
+              channel_id_is_empty: for Channel ID can't be blank
         delivery_form:
           attributes:
             delivery:

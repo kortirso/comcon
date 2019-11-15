@@ -4,6 +4,6 @@ module Deliveriable
 
   included do
     has_many :deliveries, as: :deliveriable, dependent: :destroy
-    has_many :notifications, through: :deliveries
+    has_many :notifications, -> { distinct }, through: :deliveries
   end
 end

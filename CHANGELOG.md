@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - days rendering at event calendar
 - rendering of guild members
 
+### Fixed
+- bug with delivery creation for guilds
+
 ## [0.7.8] - 2019-11-14
 ### Added
 - beautiful icons

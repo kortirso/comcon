@@ -1,6 +1,9 @@
 ru:
   activemodel:
     attributes:
+      delivery_param_form:
+        delivery_param: Параметры доставки
+        params: Параметры
       delivery_form:
         delivery: Форма уведомления
         deliveriable: Объект для доставки
@@ -11,6 +14,16 @@ ru:
         hours_before_close: Часы до закрытия
     errors:
       models:
+        delivery_param_form:
+          attributes:
+            delivery_param:
+              already_exist: уже созданы
+            params:
+              is_not_hash: должны быть представлены хэшем
+              webhook_id_invalid: ID для Discord Webhook не корректны
+              webhook_token_invalid: токена для Discord Webhook не корректны
+              channel_id_not_exist: для Channel ID не корректны
+              channel_id_is_empty: для Channel ID не могут быть пустыми
         delivery_form:
           attributes:
             delivery:
