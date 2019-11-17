@@ -17,6 +17,36 @@ RSpec.describe CharactersController, type: :controller do
     end
   end
 
+  describe 'GET#show' do
+    it_behaves_like 'User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted character' do
+        it 'renders error template' do
+          get :show, params: { locale: 'en', id: 'unknown' }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed character' do
+        let!(:character) { create :character }
+
+        it 'renders show template' do
+          get :show, params: { locale: 'en', id: character.slug }
+
+          expect(response).to render_template :show
+        end
+      end
+    end
+
+    def do_request
+      get :show, params: { locale: 'en', id: 'unknown' }
+    end
+  end
+
   describe 'GET#new' do
     it_behaves_like 'User Auth'
 

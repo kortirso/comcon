@@ -12,7 +12,7 @@
     tbody
       - @static_characters.each do |character|
         tr class="#{character[:character_class_name]['en']}"
-          td= character[:name]
+          td= link_to character[:name], character_path(character[:slug]), class: 'character_link'
           td
             .role_icons
               .role_icon class="#{character[:main_role_name]['en']}"

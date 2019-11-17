@@ -9,7 +9,7 @@
       = t('character_recipes.addon')
       = link_to 'ProfScanner', '/files/ProfScanner.zip', download: '/files/ProfScanner.zip'
       = t('character_recipes.addon_from')
-    = form_with url: update_recipes_character_path(@character), local: true do |f|
+    = form_with url: update_recipes_character_path(@character.id), local: true do |f|
       .character_professions
         - @character_professions.each do |character_profession|
           .character_profession

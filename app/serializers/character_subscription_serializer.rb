@@ -1,5 +1,5 @@
 class CharacterSubscriptionSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :name, :level, :character_class_name, :guild_name, :main_role_name
+  attributes :id, :user_id, :name, :level, :character_class_name, :guild_name, :main_role_name, :slug
 
   def character_class_name
     object.character_class.name

@@ -1,9 +1,12 @@
 class CharactersController < ApplicationController
   before_action :find_characters, only: %i[index]
+  before_action :find_character_by_slug, only: %i[show]
   before_action :find_character, only: %i[edit destroy recipes update_recipes]
-  before_action :find_character_professions, only: %i[recipes]
+  before_action :find_character_professions, only: %i[show recipes]
 
   def index; end
+
+  def show; end
 
   def new; end
 
@@ -25,6 +28,11 @@ class CharactersController < ApplicationController
 
   def find_characters
     @characters = Character.where(user: Current.user).order(level: :desc).includes(:character_class, :world, :guild, race: :fraction)
+  end
+
+  def find_character_by_slug
+    @character = Character.find_by(slug: params[:id])
+    render_error('Object is not found') if @character.nil?
   end
 
   def find_character

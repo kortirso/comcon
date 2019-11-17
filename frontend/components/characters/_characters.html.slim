@@ -24,6 +24,6 @@
               = link_to t('characters.find_guild'), new_guild_invite_path(character_id: character.id), class: 'find_guild'
           td= character.world.full_name
           td
-            = link_to t('buttons.recipes'), recipes_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
-            = link_to t('buttons.edit'), edit_character_path(character), class: 'btn btn-primary btn-sm with_right_margin'
-            = link_to t('buttons.delete'), character, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+            = link_to t('buttons.recipes'), recipes_character_path(character.id), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to t('buttons.edit'), edit_character_path(character.id), class: 'btn btn-primary btn-sm with_right_margin'
+            = link_to t('buttons.delete'), character_path(character.id), method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

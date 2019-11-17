@@ -108,7 +108,7 @@ export default class Guild extends React.Component {
     return this.state.characters.map((character) => {
       return (
         <tr className={character.character_class_name.en} key={character.id}>
-          <td>{character.name}</td>
+          <td className='character_link' onClick={this._goToCharacter.bind(this, character.slug)}>{character.name}</td>
           <td>
             <div className="role_icons">
               <div className={`role_icon ${character.main_role_name.en}`}></div>
@@ -121,6 +121,10 @@ export default class Guild extends React.Component {
         </tr>
       )
     })
+  }
+
+  _goToCharacter(characterSlug) {
+    window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/characters/${characterSlug}`
   }
 
   _renderManageButtons(character) {

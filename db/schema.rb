@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_17_155125) do
+ActiveRecord::Schema.define(version: 2019_11_17_204452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -58,10 +58,12 @@ ActiveRecord::Schema.define(version: 2019_11_17_155125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "guild_id"
+    t.string "slug"
     t.index ["character_class_id"], name: "index_characters_on_character_class_id"
     t.index ["guild_id"], name: "index_characters_on_guild_id"
     t.index ["name"], name: "index_characters_on_name"
     t.index ["race_id"], name: "index_characters_on_race_id"
+    t.index ["slug"], name: "index_characters_on_slug"
     t.index ["user_id"], name: "index_characters_on_user_id"
     t.index ["world_id"], name: "index_characters_on_world_id"
   end

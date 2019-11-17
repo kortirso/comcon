@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - creating of private/public statics
 - render list of public statics at statics page
+- character page with recipes
 
 ### Modified
 - allow to RL and CL of guild approve characters in guild statics

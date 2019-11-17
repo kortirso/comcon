@@ -1,5 +1,5 @@
 class CharacterCrafterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :level, :character_class, :race, :guild, :world
+  attributes :id, :name, :level, :character_class, :race, :guild, :world, :slug
 
   def character_class
     object.character_class.name

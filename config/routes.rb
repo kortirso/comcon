@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   localized do
     devise_for :users, skip: :omniauth_callbacks, path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
 
-    resources :characters, except: %i[show create update] do
+    resources :characters, except: %i[create update] do
       get :recipes, on: :member
       post :update_recipes, on: :member
     end

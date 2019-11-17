@@ -1,6 +1,11 @@
+require 'babosa'
+
 # Represent game characters
 class Character < ApplicationRecord
   include Staticable
+  extend FriendlyId
+
+  friendly_id :slug_candidates, use: :slugged
 
   belongs_to :user
   belongs_to :race
@@ -39,5 +44,20 @@ class Character < ApplicationRecord
 
   def full_name
     "#{name} - #{world.full_name}"
+  end
+
+  def normalize_friendly_id(text)
+    text.to_slug.transliterate(:russian).normalize.to_s
+  end
+
+  private
+
+  def slug_candidates
+    [
+      :name,
+      %i[name race_id],
+      %i[name race_id world_id],
+      %i[name race_id world_id id]
+    ]
   end
 end

@@ -214,6 +214,7 @@ export default class Craft extends React.Component {
               <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.guild}</th>
+              <th>{strings.world}</th>
             </tr>
           </thead>
           <tbody>
@@ -233,13 +234,18 @@ export default class Craft extends React.Component {
     return this.state.crafters.map((character) => {
       return (
         <tr className={character.character_class.en} key={character.id}>
-          <td>{character.name}</td>
+          <td className='character_link' onClick={this._goToCharacter.bind(this, character.slug)}>{character.name}</td>
           <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
           <td>{character.guild}</td>
+          <td>{character.world}</td>
         </tr>
       )
     })
+  }
+
+  _goToCharacter(characterSlug) {
+    window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/characters/${characterSlug}`
   }
 
   _onChangeProfession(event) {

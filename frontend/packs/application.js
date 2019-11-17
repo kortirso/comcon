@@ -23,6 +23,8 @@ import "components/guild_invite_new/guild_invite_new";
 import "components/settings/settings";
 import "components/static_new/static_new";
 import "components/statics/statics";
+import "components/static/static";
+import "components/character/character";
 
 import Rails from "rails-ujs";
 

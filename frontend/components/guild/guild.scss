@@ -15,6 +15,13 @@
               margin-right: 5px;
             }
           }
+
+          &.character_link {
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
+          }
         }
       }
     }

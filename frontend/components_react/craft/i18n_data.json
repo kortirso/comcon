@@ -13,7 +13,8 @@
     "guild": "Guild",
     "noData": "No crafters data yet",
     "searchTrue": "Search was made",
-    "recipesSearch": "Search recipe by name (minimum 3 symbols)"
+    "recipesSearch": "Search recipe by name (minimum 3 symbols)",
+    "world": "Realm"
   },
   "ru": {
     "none": "все",
@@ -29,6 +30,7 @@
     "guild": "Гильдия",
     "noData": "Пока никаких данных о крафтерах",
     "searchTrue": "Поиск был осуществлен",
-    "recipesSearch": "Поиск рецепта по названию (минимум 3 символа)"
+    "recipesSearch": "Поиск рецепта по названию (минимум 3 символа)",
+    "world": "Игровой Мир"
   }
 }
