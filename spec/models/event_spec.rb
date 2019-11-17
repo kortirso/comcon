@@ -149,6 +149,68 @@ RSpec.describe Event, type: :model do
           end
         end
       end
+
+      context 'for static event' do
+        context 'if owner is character' do
+          let!(:static) { create :static, :character }
+          let!(:event) { create :event, eventable: static }
+
+          it 'returns nil' do
+            result = event.guild_role_of_user(user.id)
+
+            expect(result).to eq nil
+          end
+        end
+
+        context 'if owner is guild' do
+          let!(:guild) { create :guild }
+          let!(:static) { create :static, staticable: guild }
+          let!(:event) { create :event, eventable: static }
+
+          context 'without characters' do
+            it 'returns nil' do
+              result = event.guild_role_of_user(user.id)
+
+              expect(result).to eq nil
+            end
+          end
+
+          context 'without leaders characters of user' do
+            let!(:character) { create :character, guild: guild, world: guild.world }
+            let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'rl' }
+
+            it 'returns nil' do
+              result = event.guild_role_of_user(user.id)
+
+              expect(result).to eq nil
+            end
+          end
+
+          context 'with leaders characters of user' do
+            let!(:character) { create :character, guild: guild, user: user }
+
+            context 'with rl' do
+              let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'rl' }
+
+              it 'returns result' do
+                result = event.guild_role_of_user(user.id)
+
+                expect(result).to eq ['rl', nil]
+              end
+            end
+
+            context 'with cl' do
+              let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'cl' }
+
+              it 'returns result' do
+                result = event.guild_role_of_user(user.id)
+
+                expect(result).to eq ['cl', [character.character_class.name['en']]]
+              end
+            end
+          end
+        end
+      end
     end
   end
 end

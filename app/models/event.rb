@@ -45,9 +45,11 @@ class Event < ApplicationRecord
   end
 
   def guild_role_of_user(user_id)
-    return nil if eventable_type != 'Guild'
+    return nil if eventable_type != 'Guild' && eventable_type != 'Static'
+    return nil if eventable_type == 'Static' && eventable.staticable_type != 'Guild'
+    guild = eventable_type == 'Static' ? eventable.staticable : eventable
     # leaders from guild of this user
-    leaders = eventable.characters_with_leader_role.select { |character| character.user_id == user_id }
+    leaders = guild.characters_with_leader_role.select { |character| character.user_id == user_id }
     return nil if leaders.empty?
     return ['rl', nil] if leaders.any? { |character| character.guild_role.name == 'rl' }
     class_leading = leaders.select { |character| character.guild_role.name == 'cl' }
