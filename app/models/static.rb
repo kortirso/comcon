@@ -14,6 +14,9 @@ class Static < ApplicationRecord
   has_many :static_invites, dependent: :destroy
   has_many :invited_characters, through: :static_invites, source: :static
 
+  scope :privy, -> { where privy: true }
+  scope :not_privy, -> { where privy: false }
+
   friendly_id :slug_candidates, use: :slugged
 
   def normalize_friendly_id(text)

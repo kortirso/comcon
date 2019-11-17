@@ -8,6 +8,7 @@ class StaticForm
   attribute :staticable_id, Integer
   attribute :staticable_type, String
   attribute :description, String, default: ''
+  attribute :privy, Boolean, default: true
   attribute :fraction, Fraction
   attribute :world, World
 

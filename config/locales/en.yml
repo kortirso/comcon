@@ -142,6 +142,9 @@ en:
     invited_character: Invited character
     no_characters: For viewing statics you need to attach new character to your account
     of_characters: Statics of your characters
+    privy: Visibility
+    private: Private
+    public: Public
   static:
     label: Static roster
   guild:

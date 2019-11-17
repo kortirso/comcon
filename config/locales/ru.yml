@@ -153,6 +153,9 @@ ru:
     invited_character: Приглашенный персонаж
     no_characters: Для просмотра статиков привяжите персонажа к учетной записи
     of_characters: Статики ваших персонажей
+    privy: Видимость
+    private: Частный
+    public: Общедоступный
   static:
     label: Состав статика
   guild:

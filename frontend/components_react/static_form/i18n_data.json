@@ -6,7 +6,9 @@
     "guildOwner": "Owner-guild",
     "description": "Description",
     "create": "Create",
-    "update": "Update"
+    "update": "Update",
+    "privy": "Private static?",
+    "options": "Options"
   },
   "ru": {
     "name": "Название",
@@ -15,6 +17,8 @@
     "guildOwner": "Владелец-гильдия",
     "description": "Описание",
     "create": "Создать",
-    "update": "Обновить"
+    "update": "Обновить",
+    "privy": "Закрытый статик?",
+    "options": "Опции"
   }
 }

@@ -81,11 +81,11 @@ module Api
       end
 
       def static_params
-        params.require(:static).permit(:name, :description, :staticable_id, :staticable_type)
+        params.require(:static).permit(:name, :description, :staticable_id, :staticable_type, :privy)
       end
 
       def update_static_params
-        params.require(:static).permit(:name, :description)
+        params.require(:static).permit(:name, :description, :privy)
       end
     end
   end

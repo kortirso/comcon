@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_13_150209) do
+ActiveRecord::Schema.define(version: 2019_11_17_155125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 2019_11_13_150209) do
     t.text "description", default: "", null: false
     t.integer "fraction_id"
     t.integer "world_id"
+    t.boolean "privy", default: true, null: false
     t.index ["fraction_id"], name: "index_statics_on_fraction_id"
     t.index ["slug"], name: "index_statics_on_slug"
     t.index ["staticable_id", "staticable_type", "name"], name: "index_statics_on_staticable_id_and_staticable_type_and_name", unique: true
