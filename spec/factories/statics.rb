@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :static do
     sequence(:name) { |i| "Name#{i}" }
+    privy { false }
     association :fraction
     association :world
 
@@ -10,6 +11,10 @@ FactoryBot.define do
 
     trait :character do
       association :staticable, factory: :character
+    end
+
+    trait :privy do
+      privy { true }
     end
   end
 end

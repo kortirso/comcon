@@ -34,7 +34,7 @@ Rails.application.routes.draw do
         get :filter_values, on: :collection
         get :search, on: :collection
       end
-      resources :statics, only: %i[show create update] do
+      resources :statics, only: %i[index show create update] do
         get :form_values, on: :collection
         get :members, on: :member
       end

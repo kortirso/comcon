@@ -23,26 +23,30 @@
                   td
                     = link_to t('buttons.accept'), approve_static_invite_path(invite.id), class: 'btn btn-primary btn-sm with_right_margin'
                     = link_to t('buttons.decline'), decline_static_invite_path(invite.id), class: 'btn btn-primary btn-sm'
-      h3= t('statics.of_characters')
-      = link_to t('statics.add'), new_static_path, class: 'btn btn-primary btn-sm with_bottom_margin'
-      table.table.table-striped.table-sm
-        thead
-          tr
-            th= t('statics.name')
-            th= t('statics.description')
-            th= t('statics.owner')
-            th= t('statics.privy')
-            th
-        tbody
-          - @user_statics.includes(staticable: :world).each do |static|
+      .own_statics
+        h3= t('statics.of_characters')
+        = link_to t('statics.add'), new_static_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+        table.table.table-striped.table-sm
+          thead
             tr
-              td= link_to static.name, static
-              td= static.description
-              td= static.staticable.full_name
-              td= static.privy? ? t('statics.private') : t('statics.public')
-              td
-                - if Current.user.any_static_role?(static)
-                  = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
-                  = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+              th= t('statics.name')
+              th= t('statics.description')
+              th= t('statics.owner')
+              th= t('statics.privy')
+              th
+          tbody
+            - @user_statics.includes(staticable: :world).each do |static|
+              tr
+                td= link_to static.name, static
+                td= static.description
+                td= static.staticable.full_name
+                td= static.privy? ? t('statics.private') : t('statics.public')
+                td
+                  - if Current.user.any_static_role?(static)
+                    = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
+                    = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+      h3= t('statics.all')
+      = javascript_pack_tag 'statics_list'
+      = react_component('StaticsList', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
     - else
       p= t('statics.no_characters')

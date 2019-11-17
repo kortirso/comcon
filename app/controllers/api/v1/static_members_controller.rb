@@ -9,7 +9,7 @@ module Api
       end
 
       def destroy
-        authorize! @static_member.static, to: :management?
+        authorize! @static_member.static, to: :edit?
         @static_member.destroy
         render json: { result: 'Static member is destroyed' }, status: 200
       end

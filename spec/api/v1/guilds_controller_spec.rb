@@ -8,15 +8,34 @@ RSpec.describe 'Guilds API' do
     context 'with valid user token in params' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
-      before { get '/api/v1/guilds.json', params: { access_token: access_token } }
 
-      it 'returns status 200' do
-        expect(response.status).to eq 200
+      context 'without additional params' do
+        before { get '/api/v1/guilds.json', params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name full_name fraction world slug].each do |attr|
+          it "and contains guild #{attr}" do
+            expect(response.body).to have_json_path("guilds/0/#{attr}")
+          end
+        end
       end
 
-      %w[id name full_name fraction world slug].each do |attr|
-        it "and contains guild #{attr}" do
-          expect(response.body).to have_json_path("guilds/0/#{attr}")
+      context 'with fraction param' do
+        before { get '/api/v1/guilds.json', params: { access_token: access_token, fraction_id: guild.fraction_id } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+      end
+
+      context 'with world param' do
+        before { get '/api/v1/guilds.json', params: { access_token: access_token, world_id: guild.world_id } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
         end
       end
     end

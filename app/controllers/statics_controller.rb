@@ -1,11 +1,4 @@
 class StaticsController < ApplicationController
-  ROLE_VALUES = {
-    'Tank' => 0,
-    'Healer' => 1,
-    'Melee' => 2,
-    'Ranged' => 3
-  }.freeze
-
   before_action :find_user_statics, only: %i[index]
   before_action :find_guild, only: %i[new]
   before_action :find_static_by_slug, only: %i[show edit destroy management]
@@ -13,7 +6,9 @@ class StaticsController < ApplicationController
 
   def index; end
 
-  def show; end
+  def show
+    authorize! @static
+  end
 
   def new
     authorize! @guild, with: StaticPolicy if @guild.present?
@@ -24,13 +19,13 @@ class StaticsController < ApplicationController
   end
 
   def destroy
-    authorize! @static
+    authorize! @static, to: :edit?
     @static.destroy
     redirect_to @static.staticable_type == 'Guild' ? management_guild_path(@static.staticable.slug) : statics_path
   end
 
   def management
-    authorize! @static
+    authorize! @static, to: :edit?
   end
 
   private

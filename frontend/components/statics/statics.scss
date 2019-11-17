@@ -1,0 +1,36 @@
+#statics {
+  .invites, .own_statics, .statics {
+    margin-bottom: 2rem;
+  }
+
+  .statics {
+    .filters {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+
+      .filter {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        white-space: nowrap;
+        margin-right: 1rem;
+
+        p {
+          margin: 0 4px 0 0;
+        }
+
+        select {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .static_link {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

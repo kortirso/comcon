@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - creating of private/public statics
+- render list of public statics at statics page
 
 ## [0.8.1] - 2019-11-17
 ### Fixed

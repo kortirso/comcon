@@ -1,9 +1,23 @@
 module Api
   module V1
     class StaticsController < Api::V1::BaseController
+      before_action :find_statics, only: %i[index]
       before_action :find_guild, only: %i[create]
       before_action :find_static, only: %i[show update members]
       before_action :find_user_guilds, only: %i[form_values]
+
+      resource_description do
+        short 'Static resources'
+        formats ['json']
+      end
+
+      api :GET, '/v1/statics.json', 'Get list of public statics'
+      error code: 401, desc: 'Unauthorized'
+      def index
+        render json: {
+          statics: ActiveModelSerializers::SerializableResource.new(@statics, each_serializer: StaticSerializer).as_json[:statics]
+        }, status: 200
+      end
 
       api :GET, '/v1/statics/:id.json', 'Show static info'
       param :id, String, required: true
@@ -17,7 +31,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def create
-        authorize! @guild, with: StaticPolicy if @guild.present?
+        authorize! @guild, to: :new?, with: StaticPolicy if @guild.present?
         static_form = StaticForm.new(static_params)
         if static_form.persist?
           static = static_form.static
@@ -33,7 +47,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def update
-        authorize! @static
+        authorize! @static, to: :edit?
         static_form = StaticForm.new(@static.attributes.merge(update_static_params))
         if static_form.persist?
           render json: static_form.static, status: 200
@@ -55,7 +69,7 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def members
-        authorize! @static
+        authorize! @static, to: :edit?
         render json: {
           members: ActiveModelSerializers::SerializableResource.new(@static.static_members, each_serializer: StaticMemberSerializer).as_json[:static_members],
           invites: ActiveModelSerializers::SerializableResource.new(@static.static_invites, each_serializer: StaticInviteSerializer).as_json[:static_invites]
@@ -63,6 +77,12 @@ module Api
       end
 
       private
+
+      def find_statics
+        @statics = Static.not_privy.order(name: :asc).includes(:fraction, staticable: :world)
+        @statics = @statics.where(world_id: params[:world_id]) if params[:world_id].present?
+        @statics = @statics.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
+      end
 
       def find_guild
         return unless params[:static][:staticable_type] == 'Guild'

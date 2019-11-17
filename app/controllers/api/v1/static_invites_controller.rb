@@ -15,7 +15,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def create
-        authorize! @static, to: :management?
+        authorize! @static, to: :edit?
         if @static.for_guild? && @character.guild_id == @static.staticable_id
           create_static_member
         else
@@ -24,7 +24,7 @@ module Api
       end
 
       def destroy
-        authorize! @static_invite.static, to: :management?
+        authorize! @static_invite.static, to: :edit?
         @static_invite.destroy
         render json: { result: 'Static invite is destroyed' }, status: 200
       end

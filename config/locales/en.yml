@@ -145,6 +145,7 @@ en:
     privy: Visibility
     private: Private
     public: Public
+    all: All public statics
   static:
     label: Static roster
   guild:

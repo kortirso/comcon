@@ -22,6 +22,7 @@ import "components/guild_management/guild_management";
 import "components/guild_invite_new/guild_invite_new";
 import "components/settings/settings";
 import "components/static_new/static_new";
+import "components/statics/statics";
 
 import Rails from "rails-ujs";
 
