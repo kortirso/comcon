@@ -207,7 +207,9 @@ export default class EventForm extends React.Component {
   }
 
   _onChangeEventableType(event) {
-    this.setState({eventableType: event.target.value})
+    this.setState({eventableType: event.target.value}, () => {
+      if (this.state.eventableType === 'Static') this.setState({staticId: this.state.currentStatics[0].id})
+    })
   }
 
   render() {
