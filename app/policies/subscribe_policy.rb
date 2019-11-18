@@ -14,8 +14,6 @@ class SubscribePolicy < ApplicationPolicy
     return false unless record.event.is_open?
     # true if own character
     return true if record.character.user == user && %w[signed unknown rejected].include?(status)
-    # false if not guild event
-    return false if record.event.eventable_type != 'Guild'
     # false if not approving status
     return false unless %w[approved signed].include?(status)
     # false if no guild role
