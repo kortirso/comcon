@@ -1,7 +1,7 @@
 # Static policies
 class StaticPolicy < ApplicationPolicy
   def show?
-    user.any_static_role?(record) || !record.privy?
+    user.any_static_role?(record) || !record.privy? || user.any_character_in_static?(record)
   end
 
   def new?

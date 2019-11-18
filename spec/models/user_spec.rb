@@ -2,6 +2,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:characters).dependent(:destroy) }
   it { should have_many(:guilds).through(:characters) }
   it { should have_many(:subscribes).through(:characters) }
+  it { should have_many(:static_members).through(:characters) }
   it { should have_many(:identities).dependent(:destroy) }
   it { should have_one(:time_offset).dependent(:destroy) }
   it { should validate_presence_of :email }
@@ -78,6 +79,25 @@ RSpec.describe User, type: :model do
         result = user3.any_role?(guild.id, 'gm')
 
         expect(result).to eq true
+      end
+    end
+
+    context '.any_character_in_static?' do
+      let!(:character) { create :character }
+      let!(:static1) { create :static, :guild, world: character.world, fraction: character.race.fraction }
+      let!(:static2) { create :static, :guild, world: character.world, fraction: character.race.fraction }
+      let!(:static_member) { create :static_member, static: static1, character: character }
+
+      it 'returns true if user has character in static' do
+        result = character.user.any_character_in_static?(static1)
+
+        expect(result).to eq true
+      end
+
+      it 'returns false if user has no character in static' do
+        result = character.user.any_character_in_static?(static2)
+
+        expect(result).to eq false
       end
     end
 

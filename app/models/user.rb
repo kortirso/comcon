@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :characters, dependent: :destroy
   has_many :guilds, -> { distinct }, through: :characters
   has_many :subscribes, through: :characters
+  has_many :static_members, through: :characters
   has_many :identities, dependent: :destroy
   has_one :time_offset, dependent: :destroy
 
@@ -28,6 +29,11 @@ class User < ApplicationRecord
   def any_static_role?(static)
     return true if static.staticable_type == 'Guild' && any_role?(static.staticable_id, 'gm', 'rl')
     return true if static.staticable_type == 'Character' && characters.pluck(:id).include?(static.staticable_id)
+    false
+  end
+
+  def any_character_in_static?(static)
+    return true if static_members.pluck(:static_id).include?(static.id)
     false
   end
 
