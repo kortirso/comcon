@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :characters, dependent: :destroy
   has_many :guilds, -> { distinct }, through: :characters
   has_many :subscribes, through: :characters
+  has_many :worlds, through: :characters
   has_many :static_members, through: :characters
   has_many :identities, dependent: :destroy
   has_one :time_offset, dependent: :destroy

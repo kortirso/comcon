@@ -255,7 +255,7 @@ export default class LineUp extends React.Component {
     else if (this.props.is_owner) return true
     else if (this.props.guild_role === null) return false
     else if (this.props.guild_role[0] === 'rl') return true
-    else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1] === character.character_class_name.en
+    else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1].includes(character.character_class_name.en)
   }
 
   _renderAdminButton(subscribe, status) {
