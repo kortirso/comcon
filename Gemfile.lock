@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/kortirso/omniauth-discord
-  revision: 84bed4e554f94d6016679d67a7e007db62a401ef
+  revision: 51b416698b4c0f1c126a52ced1f37fb032fc63ba
   specs:
     omniauth-discord (1.0.0)
       omniauth
