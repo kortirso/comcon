@@ -1,6 +1,6 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   if Rails.env.production?
-    provider :discord, ENV['DISCORD_CLIENT_ID'], ENV['DISCORD_CLIENT_SECRET'], scope: 'email identify', redirect_uri: 'https://guild-hall.org/users/auth/discord/callback'
+    provider :discord, ENV['DISCORD_CLIENT_ID'], ENV['DISCORD_CLIENT_SECRET'], scope: 'email identify', redirect_uri: 'http://localhost:5000/users/auth/discord/callback'
   else
     provider :discord, ENV['DISCORD_CLIENT_ID'], ENV['DISCORD_CLIENT_SECRET'], scope: 'email identify'
   end
