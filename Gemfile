@@ -76,7 +76,7 @@ gem 'whenever', require: false
 gem 'discord_bot', '0.2.0'
 
 # discord omniauth
-gem 'omniauth-discord'
+gem 'omniauth-discord', git: 'https://github.com/kortirso/omniauth-discord'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
 group :development, :test do

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/kortirso/omniauth-discord
+  revision: 84bed4e554f94d6016679d67a7e007db62a401ef
+  specs:
+    omniauth-discord (1.0.0)
+      omniauth
+      omniauth-oauth2
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -176,9 +184,6 @@ GEM
     omniauth (1.9.0)
       hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
-    omniauth-discord (1.0.0)
-      omniauth
-      omniauth-oauth2
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
@@ -384,7 +389,7 @@ DEPENDENCIES
   mysql2 (~> 0.3)
   oj
   oj_mimic_json
-  omniauth-discord
+  omniauth-discord!
   omniauth-rails_csrf_protection (~> 0.1)
   parallel_tests
   pg (= 0.21)

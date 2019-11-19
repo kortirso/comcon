@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+- new dns name - https://guild-hall.org
+
 ### Fixed
 - bug with approving to static event of guild by Class Leader
 - bug with updating subscribe by Class Leader
+- bug with auth with discord
 
 ## [0.8.3] - 2019-11-18
 ### Fixed
