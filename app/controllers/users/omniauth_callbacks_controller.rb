@@ -2,7 +2,7 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     include CookiesHelper
 
-    skip_before_action :verify_authenticity_token, only: %i[passthru]
+    skip_before_action :verify_authenticity_token
     skip_before_action :set_external_services_tag
     skip_before_action :set_current_user, unless: :external_services_tag_is_true?
     skip_before_action :save_current_path
