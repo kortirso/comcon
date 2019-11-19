@@ -1,5 +1,9 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :discord, ENV['DISCORD_CLIENT_ID'], ENV['DISCORD_CLIENT_SECRET'], scope: 'email identify'
+  if Rails.env.production?
+    provider :discord, ENV['DISCORD_CLIENT_ID'], ENV['DISCORD_CLIENT_SECRET'], scope: 'email identify', callback_url: 'https://guild-hall.org/users/auth/discord/callback'
+  else
+    provider :discord, ENV['DISCORD_CLIENT_ID'], ENV['DISCORD_CLIENT_SECRET'], scope: 'email identify'
+  end
 end
 
 token_verifier = OmniAuth.config.before_request_phase
