@@ -1,4 +1,5 @@
 class CharactersController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: %i[update_recipes]
   before_action :find_characters, only: %i[index]
   before_action :find_character_by_slug, only: %i[show]
   before_action :find_character, only: %i[edit destroy recipes update_recipes]

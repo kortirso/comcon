@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   prepend_view_path Rails.root.join('frontend')
 
+  skip_before_action :verify_authenticity_token, only: %i[create update destroy]
   before_action :set_external_services_tag
   before_action :set_current_user
   before_action :save_current_path
