@@ -2,6 +2,7 @@ RSpec.describe 'Characters API' do
   describe 'GET#show' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -49,6 +50,7 @@ RSpec.describe 'Characters API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -123,6 +125,7 @@ RSpec.describe 'Characters API' do
   describe 'PATCH#update' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -229,6 +232,7 @@ RSpec.describe 'Characters API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -256,6 +260,7 @@ RSpec.describe 'Characters API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -350,6 +355,7 @@ RSpec.describe 'Characters API' do
   describe 'GET#upload_recipes' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }

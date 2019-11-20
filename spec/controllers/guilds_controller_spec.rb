@@ -1,6 +1,7 @@
 RSpec.describe GuildsController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -21,6 +22,7 @@ RSpec.describe GuildsController, type: :controller do
     let!(:guild) { create :guild }
 
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -51,6 +53,7 @@ RSpec.describe GuildsController, type: :controller do
     let!(:guild) { create :guild }
 
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user

@@ -8,9 +8,7 @@ end
 
 token_verifier = OmniAuth.config.before_request_phase
 OmniAuth.config.before_request_phase = proc do |env|
-  begin
-    token_verifier&.call(env)
-  rescue ActionController::InvalidAuthenticityToken => e
-    OmniAuth::FailureEndpoint.new(env).redirect_to_failure
-  end
+  token_verifier&.call(env)
+rescue ActionController::InvalidAuthenticityToken => _e
+  OmniAuth::FailureEndpoint.new(env).redirect_to_failure
 end

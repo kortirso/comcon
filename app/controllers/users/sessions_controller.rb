@@ -4,6 +4,7 @@ module Users
 
     skip_before_action :set_current_user
     skip_before_action :save_current_path
+    skip_before_action :email_confirmed?
     before_action :save_omniauth_login_locale, only: :new
     before_action :forget_user, only: :destroy
 

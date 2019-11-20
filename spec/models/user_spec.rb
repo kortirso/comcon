@@ -39,6 +39,20 @@ RSpec.describe User, type: :model do
   end
 
   describe 'methods' do
+    describe '.confirmed?' do
+      it 'returns false for user with unconfirmed email' do
+        user = create :user, :unconfirmed
+
+        expect(user.confirmed?).to eq false
+      end
+
+      it 'returns true for user with confirmed email' do
+        user = create :user
+
+        expect(user.confirmed?).to eq true
+      end
+    end
+
     context '.is_admin?' do
       it 'returns false for user' do
         user = create :user

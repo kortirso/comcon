@@ -158,3 +158,14 @@ en:
     create_invite: Guild invite management
   guilds: 
     name: Guild name
+  mailer:
+    user:
+      confirmation_email:
+        subject: Please confirm your email for Guild-Hall.org
+        welcome_error: Please check your email to confirm account
+        application_error: Your email is not confirmed
+        h1: Hello!
+        p1: Someone set this email for login to Guild Hall
+        click: 'Click this link '
+        confirmation_page: Confirmation page
+        buy: Have a good day

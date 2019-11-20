@@ -3,6 +3,7 @@ RSpec.describe DeliveriesController, type: :controller do
     let!(:guild) { create :guild }
 
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -57,6 +58,7 @@ RSpec.describe DeliveriesController, type: :controller do
     let!(:delivery) { create :delivery, deliveriable: guild }
 
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user

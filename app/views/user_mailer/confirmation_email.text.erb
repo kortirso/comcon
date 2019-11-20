@@ -1,0 +1,7 @@
+<%= t('mailer.user.confirmation_email.h1') %>
+
+<%= t('mailer.user.confirmation_email.p1') %>
+
+<%= t('mailer.user.confirmation_email.click') %> <%= "#{ENV['ROOT_URL']}/confirmations?email=#{EmailHelper.formatted_email(@user.email)}&token=#{@user.confirmation_token}" %>
+
+<%= t('mailer.user.confirmation_email.buy') %>

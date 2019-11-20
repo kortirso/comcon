@@ -4,6 +4,7 @@ RSpec.describe 'Statics API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -48,6 +49,7 @@ RSpec.describe 'Statics API' do
   describe 'GET#show' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -107,6 +109,7 @@ RSpec.describe 'Statics API' do
   describe 'POST#create' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -214,6 +217,7 @@ RSpec.describe 'Statics API' do
   describe 'PATCH#update' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -295,6 +299,7 @@ RSpec.describe 'Statics API' do
   describe 'GET#form_values' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -320,6 +325,7 @@ RSpec.describe 'Statics API' do
   describe 'GET#members' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }

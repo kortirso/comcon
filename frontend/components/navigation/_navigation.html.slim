@@ -2,7 +2,7 @@ nav.navbar
   .container
     .links
       = link_to 'Guild-Hall', root_path, class: 'navbar-brand'
-      - if user_signed_in?
+      - if user_signed_in? && Current.user.confirmed?
         - if Current.user&.is_admin?
           = link_to t('navigation.worlds'), worlds_path, class: 'with_right_margin for_admins'
           = link_to t('navigation.users'), users_path, class: 'with_right_margin for_admins'
@@ -14,7 +14,8 @@ nav.navbar
         = link_to t('navigation.craft'), craft_index_path, class: 'with_right_margin'
     .right
       - if user_signed_in?
-        = link_to t('navigation.settings'), settings_path
+        - if Current.user.confirmed?
+          = link_to t('navigation.settings'), settings_path
         = link_to t('navigation.logout'), destroy_user_session_path, method: :delete
       - else
         = link_to t('navigation.login'), new_user_session_path

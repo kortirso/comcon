@@ -6,6 +6,7 @@ RSpec.describe 'GuildRoles API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user, :admin }
@@ -62,6 +63,7 @@ RSpec.describe 'GuildRoles API' do
   describe 'PATCH#update' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user, :admin }
@@ -142,6 +144,7 @@ RSpec.describe 'GuildRoles API' do
   describe 'DELETE#destroy' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user, :admin }

@@ -5,6 +5,7 @@ RSpec.describe 'Character classes API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }

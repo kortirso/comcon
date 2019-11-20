@@ -8,6 +8,7 @@ module Api
       skip_before_action :save_current_path
       skip_before_action :authenticate_user!
       skip_before_action :set_current_user
+      skip_before_action :email_confirmed?
       before_action :authenticate
 
       private
@@ -40,7 +41,7 @@ module Api
       def user_auth(access_token)
         check_token(access_token)
         find_user
-        # check_confirmation
+        check_confirmation
         Current.user = @user
       end
 
@@ -56,7 +57,7 @@ module Api
       end
 
       def check_confirmation
-        raise AuthFailure, 'Unconfirmed email' unless @user.confirmed?
+        raise AuthFailure, 'Your email is not confirmed' unless @user.confirmed?
       end
     end
   end

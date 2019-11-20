@@ -1,6 +1,7 @@
 RSpec.describe CharactersController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -19,6 +20,7 @@ RSpec.describe CharactersController, type: :controller do
 
   describe 'GET#show' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -49,6 +51,7 @@ RSpec.describe CharactersController, type: :controller do
 
   describe 'GET#new' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -67,6 +70,7 @@ RSpec.describe CharactersController, type: :controller do
 
   describe 'GET#edit' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -97,6 +101,7 @@ RSpec.describe CharactersController, type: :controller do
 
   describe 'DELETE#destroy' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -138,6 +143,7 @@ RSpec.describe CharactersController, type: :controller do
 
   describe 'GET#recipes' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -168,6 +174,7 @@ RSpec.describe CharactersController, type: :controller do
 
   describe 'POST#recipes' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
