@@ -79,6 +79,9 @@ gem 'discord_bot', '0.2.0'
 gem 'omniauth-discord', git: 'https://github.com/kortirso/omniauth-discord'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
+# Mailer styles
+gem 'premailer-rails'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'
@@ -89,6 +92,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', '~> 1.3', require: false
   gem 'capistrano-rvm', require: false
+  gem 'letter_opener'
   gem 'listen', '~> 3.1.5'
   gem 'rb-readline'
   gem 'spring'
