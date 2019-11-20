@@ -18,9 +18,7 @@ module Users
 
     def provides_callback
       I18n.locale = session[:omniauth_login_locale] || I18n.default_locale
-      Rails.logger.error request.env['omniauth.auth'].inspect
       return redirect_to root_path, flash: { error: 'Access Error' } if request.env['omniauth.auth'].nil?
-      Rails.logger.error external_services_tag_is_true?
       return attach_oauth_to_account if external_services_tag_is_true?
       check_oauth
     end
@@ -33,7 +31,6 @@ module Users
 
     def check_oauth
       user = Oauth.auth_login(auth: request.env['omniauth.auth'])
-      Rails.logger.error user.inspect
       if user
         remember user
         sign_in user

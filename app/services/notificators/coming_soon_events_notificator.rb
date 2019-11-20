@@ -29,7 +29,7 @@ module Notificators
       content = []
       content.push "Скоро начнется событие \"#{event.name}\" от #{event.owner.full_name}"
       content.push "место проведения - #{event.dungeon.name['ru']}" unless event.dungeon_id.nil?
-      content.push "время начала (по мск) - #{render_start_time(event: event)}, для ознакомления с событием посетите портал гильдии по адресу http://206.81.30.158:3001/ru/events/#{event.slug}"
+      content.push "время начала (по мск) - #{render_start_time(event: event)}, для ознакомления с событием посетите портал гильдии по адресу https://guild-hall.org/ru/events/#{event.slug}"
       content.join(', ')
     end
   end

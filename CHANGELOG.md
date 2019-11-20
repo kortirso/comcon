@@ -8,10 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - new dns name - https://guild-hall.org
 
+### Modified
+- url in notifications
+
 ### Fixed
 - bug with approving to static event of guild by Class Leader
 - bug with updating subscribe by Class Leader
 - bug with auth with discord
+- last fixes for discord oauth
 
 ## [0.8.3] - 2019-11-18
 ### Fixed
