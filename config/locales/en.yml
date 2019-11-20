@@ -91,6 +91,7 @@ en:
     email: Email
     role: Role
     identities: Identities
+    confirmed: Confirmed?
   world:
     name: Name
     name_title: Realm's name

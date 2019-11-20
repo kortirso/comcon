@@ -102,6 +102,7 @@ ru:
     email: Почта
     role: Роль
     identities: Соцсети
+    confirmed: Подтвержден?
   world:
     name: Название
     name_title: Название Мира

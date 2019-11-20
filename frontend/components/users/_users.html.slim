@@ -6,6 +6,7 @@
         th= t('users.email')
         th= t('users.role')
         th= t('users.identities')
+        th= t('users.confirmed')
         th
     tbody
       - @users.each do |user|
@@ -16,6 +17,7 @@
           td.identities
             - user.identities.each do |identity|
               p= "#{identity.provider}, #{identity.uid}, #{identity.email}"
+          td= user.confirmed?
           td
             = link_to t('buttons.edit'), edit_user_path(user), class: 'btn btn-primary btn-sm with_right_margin'
             = link_to t('buttons.delete'), user, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
