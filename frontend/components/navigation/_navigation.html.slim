@@ -1,7 +1,7 @@
 nav.navbar
   .container
     .links
-      = link_to 'ComCon', root_path, class: 'navbar-brand'
+      = link_to 'Guild-Hall', root_path, class: 'navbar-brand'
       - if user_signed_in?
         - if Current.user&.is_admin?
           = link_to t('navigation.worlds'), worlds_path, class: 'with_right_margin for_admins'
