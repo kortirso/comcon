@@ -2,6 +2,7 @@ RSpec.describe 'Craft API' do
   describe 'GET#filter_values' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -27,6 +28,7 @@ RSpec.describe 'Craft API' do
   describe 'GET#search' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }

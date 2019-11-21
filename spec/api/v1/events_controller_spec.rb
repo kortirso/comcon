@@ -2,6 +2,7 @@ RSpec.describe 'Events API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -31,6 +32,7 @@ RSpec.describe 'Events API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -73,6 +75,7 @@ RSpec.describe 'Events API' do
   describe 'POST#create' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -145,6 +148,7 @@ RSpec.describe 'Events API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -189,6 +193,7 @@ RSpec.describe 'Events API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -270,6 +275,7 @@ RSpec.describe 'Events API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -320,6 +326,7 @@ RSpec.describe 'Events API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -365,6 +372,7 @@ RSpec.describe 'Events API' do
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -408,6 +416,7 @@ RSpec.describe 'Events API' do
   describe 'GET#filter_values' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }
@@ -433,6 +442,7 @@ RSpec.describe 'Events API' do
   describe 'GET#event_form_values' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }

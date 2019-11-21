@@ -2,6 +2,7 @@ RSpec.describe 'UserSettings API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -27,6 +28,7 @@ RSpec.describe 'UserSettings API' do
   describe 'PATCH#update_settings' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }
@@ -60,6 +62,7 @@ RSpec.describe 'UserSettings API' do
   describe 'PATCH#update_password' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'with valid user token in params' do
       let!(:user) { create :user }

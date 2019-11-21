@@ -6,6 +6,7 @@ module Users
     skip_before_action :set_current_user, unless: :external_services_tag_is_true?
     skip_before_action :save_current_path
     skip_before_action :authenticate_user!
+    skip_before_action :email_confirmed?
     before_action :provides_callback
 
     def discord; end

@@ -1,0 +1,30 @@
+* {
+  font-weight: 300;
+  font-size: 18px;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.mailer {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mailer h1 {
+  font-size: 32px;
+  color: #c11525;
+  font-weight: 400;
+}
+
+.mailer h2 {
+  font-size: 24px;
+  color: #1779ba;
+  font-weight: 400;
+}
+
+.mailer p {
+  margin: 0 0 5px;
+}
+
+.mailer .head {
+  margin-bottom: 25px;
+}

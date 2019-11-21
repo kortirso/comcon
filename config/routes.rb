@@ -84,6 +84,7 @@ Rails.application.routes.draw do
       get :external_services, on: :collection
       get :notifications, on: :collection
     end
+    resources :email_confirmations, only: %i[index]
 
     root to: 'welcome#index'
   end

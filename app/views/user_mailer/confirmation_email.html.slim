@@ -1,0 +1,8 @@
+.mailer
+  .head
+    h1= t('mailer.user.confirmation_email.h1')
+    p= t('mailer.user.confirmation_email.p1')
+    p
+      span= t('mailer.user.confirmation_email.click')
+      span= link_to t('mailer.user.confirmation_email.confirmation_page'), "#{ENV['ROOT_URL']}/#{'ru/' if I18n.locale == :ru}email_confirmations?email=#{EmailHelper.formatted_email(@user.email)}&confirmation_token=#{@user.confirmation_token}"
+    p= t('mailer.user.confirmation_email.buy')

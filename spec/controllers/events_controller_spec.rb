@@ -1,6 +1,7 @@
 RSpec.describe EventsController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -21,6 +22,7 @@ RSpec.describe EventsController, type: :controller do
     let!(:event) { create :event }
 
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -51,6 +53,7 @@ RSpec.describe EventsController, type: :controller do
 
   describe 'GET#new' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -71,6 +74,7 @@ RSpec.describe EventsController, type: :controller do
     let!(:event) { create :event }
 
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user

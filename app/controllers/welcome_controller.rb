@@ -1,5 +1,6 @@
 class WelcomeController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index]
+  skip_before_action :email_confirmed?, only: %i[index]
 
   def index; end
 

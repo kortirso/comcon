@@ -1,6 +1,7 @@
 RSpec.describe SettingsController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -19,6 +20,7 @@ RSpec.describe SettingsController, type: :controller do
 
   describe 'GET#password' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -37,6 +39,7 @@ RSpec.describe SettingsController, type: :controller do
 
   describe 'GET#external_services' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user
@@ -55,6 +58,7 @@ RSpec.describe SettingsController, type: :controller do
 
   describe 'GET#notifications' do
     it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
 
     context 'for logged user' do
       sign_in_user

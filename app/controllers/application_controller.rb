@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :save_current_path
   before_action :set_locale
   before_action :authenticate_user!
+  before_action :email_confirmed?
   skip_before_action :authenticate_user!, only: %i[catch_route_error]
   skip_before_action :set_current_user, only: %i[catch_route_error]
 
@@ -47,6 +48,10 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale = params[:locale]
+  end
+
+  def email_confirmed?
+    render_error('Your email is not confirmed') unless current_user.confirmed?
   end
 
   def json_request?

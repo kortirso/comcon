@@ -7,6 +7,7 @@ class Oauth
     return false if email.nil?
     user = User.find_or_create_by(email: email) do |u|
       u.password = Devise.friendly_token[0, 20]
+      u.confirmed_at = DateTime.now
     end
     CreateIdentity.call(uid: auth.uid, provider: auth.provider, user: user, email: email)
     user

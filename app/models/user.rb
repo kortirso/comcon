@@ -15,7 +15,9 @@ class User < ApplicationRecord
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
 
+  before_save :set_confirmation_token, on: :create
   after_commit :create_time_offset, on: :create
+  after_commit :send_confirmation_token, on: :create
 
   def self.with_discord_identity
     includes(:identities).where('identities.provider = ?', 'discord').references(:identities)
@@ -66,12 +68,24 @@ class User < ApplicationRecord
     role == 'admin'
   end
 
+  def confirmed?
+    !confirmed_at.nil?
+  end
+
   private
+
+  def set_confirmation_token
+    self.confirmation_token = SecureRandom.urlsafe_base64.to_s if confirmation_token.nil? && confirmed_at.nil?
+  end
 
   def create_time_offset
     return unless time_offset.nil?
     time_offset_form = TimeOffsetForm.new(user: self, value: nil)
     time_offset_form.persist?
+  end
+
+  def send_confirmation_token
+    ConfirmUserEmailJob.perform_later(user_id: id) if confirmed_at.nil?
   end
 
   def available_characters_for_world_event(eventable_id:, fraction_id:)

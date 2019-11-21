@@ -2,6 +2,7 @@ RSpec.describe 'StaticMembers API' do
   describe 'DELETE#destroy' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
       let!(:user) { create :user }

@@ -1,1 +1,3 @@
 .container.welcome
+  - if user_signed_in? && !Current.user.confirmed?
+    p= t('mailer.user.confirmation_email.welcome_error')
