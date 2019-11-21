@@ -8,6 +8,16 @@ RSpec.describe EmailConfirmationsController, type: :controller do
       end
     end
 
+    context 'for user without confirmation token' do
+      let!(:user) { create :user }
+
+      it 'renders shared#error' do
+        get :index, params: { locale: 'ru', email: user.email, confirmation_token: '' }
+
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
     context 'for valid user' do
       let!(:user) { create :user, :unconfirmed }
 

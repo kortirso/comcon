@@ -3,6 +3,15 @@ describe ValidateUserEmail do
 
   describe '.call' do
     context 'for invalid token' do
+      let!(:confirmed_user) { create :user }
+      let(:interactor) { described_class.call(user: confirmed_user, confirmation_token: confirmed_user.confirmation_token) }
+
+      it 'fails' do
+        expect(interactor).to be_a_failure
+      end
+    end
+
+    context 'for invalid token' do
       let(:interactor) { described_class.call(user: user, confirmation_token: '') }
 
       it 'fails' do
