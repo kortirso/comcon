@@ -2,6 +2,7 @@ module Users
   class SessionsController < Devise::SessionsController
     include CookiesHelper
 
+    skip_before_action :verify_authenticity_token
     skip_before_action :set_current_user
     skip_before_action :save_current_path
     skip_before_action :email_confirmed?
