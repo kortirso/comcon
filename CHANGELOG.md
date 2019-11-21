@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - sending confirmation email
 - confirmation page
 
+### Fixed
+- bug with static name at static edit form
+
 ## [0.8.4] - 2019-11-20
 ### Added
 - new dns name - https://guild-hall.org

@@ -98,7 +98,7 @@ export default class EventForm extends React.Component {
             staticId = ''
             eventableType = 'World'
           } else {
-            staticId = currentStatics[0].id
+            staticId = event.eventable_id
           }
         }
         this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics})
