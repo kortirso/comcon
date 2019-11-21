@@ -85,7 +85,7 @@ class User < ApplicationRecord
   end
 
   def send_confirmation_token
-    ConfirmUserEmailJob.perform_later(user_id: id) if confirmed_at.nil?
+    ConfirmUserEmailJob.perform_now(user_id: id) if confirmed_at.nil?
   end
 
   def available_characters_for_world_event(eventable_id:, fraction_id:)
