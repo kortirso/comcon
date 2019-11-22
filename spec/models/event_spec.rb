@@ -3,13 +3,14 @@ RSpec.describe Event, type: :model do
   it { should belong_to(:dungeon).optional }
   it { should belong_to :eventable }
   it { should belong_to :fraction }
+  it { should belong_to :world_fraction }
   it { should have_many(:subscribes).dependent(:destroy) }
   it { should have_many(:characters).through(:subscribes) }
   it { should have_many(:signed_subscribes).class_name('Subscribe') }
   it { should have_many(:signed_characters).through(:signed_subscribes).source(:character) }
 
   it 'factory should be valid' do
-    event = build :event
+    event = create :event
 
     expect(event).to be_valid
   end

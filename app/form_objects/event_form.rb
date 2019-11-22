@@ -14,8 +14,9 @@ class EventForm
   attribute :eventable_type, String
   attribute :start_time, DateTime
   attribute :hours_before_close, Integer, default: 0
+  attribute :world_fraction, WorldFraction
 
-  validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, :hours_before_close, presence: true
+  validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, :hours_before_close, :world_fraction, presence: true
   validates :event_type, inclusion: { in: %w[instance raid custom] }
   validates :eventable_type, inclusion: { in: %w[World Guild Static] }
   validates :hours_before_close, inclusion: 0..24
@@ -36,6 +37,8 @@ class EventForm
     self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
     self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if owner.present? && eventable_type != 'Static'
     self.fraction = owner.race.fraction if owner.present?
+    world_id = eventable_type == 'World' ? eventable_id : @eventable&.world_id
+    self.world_fraction = WorldFraction.find_by(world_id: world_id, fraction_id: fraction&.id)
     # validation
     return false unless valid?
     @event = id ? Event.find_by(id: id) : Event.new
@@ -49,7 +52,8 @@ class EventForm
 
   def eventable_exists?
     return if eventable_type.nil?
-    return if eventable_type.constantize.where(id: eventable_id).exists?
+    @eventable = eventable_type.constantize.where(id: eventable_id)
+    return if @eventable.exists?
     errors[:eventable] << I18n.t('activemodel.errors.models.event_form.attributes.eventable.is_not_exist')
   end
 

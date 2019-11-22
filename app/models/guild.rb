@@ -11,6 +11,7 @@ class Guild < ApplicationRecord
 
   belongs_to :world
   belongs_to :fraction
+  belongs_to :world_fraction
 
   has_many :characters, dependent: :nullify
 

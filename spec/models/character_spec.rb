@@ -4,6 +4,7 @@ RSpec.describe Character, type: :model do
   it { should belong_to :character_class }
   it { should belong_to :world }
   it { should belong_to(:guild).optional }
+  it { should belong_to :world_fraction }
   it { should have_many(:dungeon_accesses).dependent(:destroy) }
   it { should have_many(:dungeons).through(:dungeon_accesses) }
   it { should have_many(:owned_events).class_name('Event').with_foreign_key('owner_id').dependent(:destroy) }
@@ -27,7 +28,7 @@ RSpec.describe Character, type: :model do
   it { should have_one(:guild_role).dependent(:destroy) }
 
   it 'factory should be valid' do
-    character = build :character, :human_warrior
+    character = create :character, :human_warrior
 
     expect(character).to be_valid
   end

@@ -8,9 +8,12 @@ class WorldsController < ApplicationController
   def new; end
 
   def create
-    world_form = WorldForm.new(world_params)
-    return redirect_to worlds_path if world_form.persist?
-    render :new
+    result = CreateRealm.call(world_params: world_params)
+    if result.success?
+      redirect_to worlds_path
+    else
+      render :new
+    end
   end
 
   def edit; end

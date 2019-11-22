@@ -16,5 +16,9 @@ FactoryBot.define do
     trait :privy do
       privy { true }
     end
+
+    before(:create) do |static|
+      static.world_fraction = WorldFraction.find_or_create_by(world: static.world, fraction: static.fraction)
+    end
   end
 end

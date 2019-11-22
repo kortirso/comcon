@@ -39,6 +39,8 @@ RSpec.describe WorldsController, type: :controller do
     it_behaves_like 'Admin Auth'
 
     context 'for logged admin' do
+      let!(:fraction1) { create :fraction, :alliance }
+      let!(:fraction2) { create :fraction, :horde }
       sign_in_admin
 
       context 'for invalid params' do
@@ -60,6 +62,10 @@ RSpec.describe WorldsController, type: :controller do
 
         it 'creates new world' do
           expect { request }.to change { World.count }.by(1)
+        end
+
+        it 'and creates new world fractions' do
+          expect { request }.to change { WorldFraction.count }.by(2)
         end
 
         it 'and redirects to worlds path' do

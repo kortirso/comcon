@@ -10,6 +10,7 @@ class Event < ApplicationRecord
   belongs_to :dungeon, optional: true
   belongs_to :eventable, polymorphic: true
   belongs_to :fraction
+  belongs_to :world_fraction
 
   has_many :subscribes, dependent: :destroy
   has_many :characters, through: :subscribes

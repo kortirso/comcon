@@ -47,6 +47,7 @@ RSpec.describe 'Characters API' do
     let!(:combination) { create :combination, combinateable: race, character_class: character_class }
     let!(:world) { create :world }
     let!(:role) { create :role }
+    let!(:world_fraction) { create :world_fraction, world: world, fraction: race.fraction }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'

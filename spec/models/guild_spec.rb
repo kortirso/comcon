@@ -14,7 +14,7 @@ RSpec.describe Guild, type: :model do
   it { should have_many(:character_invitations).through(:guild_invites).source(:character) }
 
   it 'factory should be valid' do
-    guild = build :guild
+    guild = create :guild
 
     expect(guild).to be_valid
   end

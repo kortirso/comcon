@@ -11,8 +11,9 @@ class StaticForm
   attribute :privy, Boolean, default: true
   attribute :fraction, Fraction
   attribute :world, World
+  attribute :world_fraction, WorldFraction
 
-  validates :name, :staticable_id, :staticable_type, :fraction, :world, presence: true
+  validates :name, :staticable_id, :staticable_type, :fraction, :world, :world_fraction, presence: true
   validates :name, length: { in: 2..20 }
   validates :staticable_type, inclusion: { in: %w[Guild Character] }
 
@@ -23,6 +24,7 @@ class StaticForm
     # initial values
     self.fraction = staticable_type == 'Guild' ? @staticable.fraction : @staticable.race.fraction
     self.world = @staticable.world
+    self.world_fraction = WorldFraction.find_by(world: world, fraction: fraction)
     # continue validation
     return false unless valid?
     return false if exists?

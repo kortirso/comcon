@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_20_220009) do
+ActiveRecord::Schema.define(version: 2019_11_22_171139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -59,12 +59,14 @@ ActiveRecord::Schema.define(version: 2019_11_20_220009) do
     t.datetime "updated_at", null: false
     t.integer "guild_id"
     t.string "slug"
+    t.integer "world_fraction_id"
     t.index ["character_class_id"], name: "index_characters_on_character_class_id"
     t.index ["guild_id"], name: "index_characters_on_guild_id"
     t.index ["name"], name: "index_characters_on_name"
     t.index ["race_id"], name: "index_characters_on_race_id"
     t.index ["slug"], name: "index_characters_on_slug"
     t.index ["user_id"], name: "index_characters_on_user_id"
+    t.index ["world_fraction_id"], name: "index_characters_on_world_fraction_id"
     t.index ["world_id"], name: "index_characters_on_world_id"
   end
 
@@ -129,11 +131,13 @@ ActiveRecord::Schema.define(version: 2019_11_20_220009) do
     t.integer "fraction_id"
     t.integer "hours_before_close", default: 0, null: false
     t.text "description", default: "", null: false
+    t.integer "world_fraction_id"
     t.index ["dungeon_id"], name: "index_events_on_dungeon_id"
     t.index ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type"
     t.index ["fraction_id"], name: "index_events_on_fraction_id"
     t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["slug"], name: "index_events_on_slug", unique: true
+    t.index ["world_fraction_id"], name: "index_events_on_world_fraction_id"
   end
 
   create_table "fractions", force: :cascade do |t|
@@ -169,9 +173,11 @@ ActiveRecord::Schema.define(version: 2019_11_20_220009) do
     t.datetime "updated_at", null: false
     t.integer "fraction_id"
     t.string "slug"
+    t.integer "world_fraction_id"
     t.index ["fraction_id"], name: "index_guilds_on_fraction_id"
     t.index ["name"], name: "index_guilds_on_name"
     t.index ["slug"], name: "index_guilds_on_slug", unique: true
+    t.index ["world_fraction_id"], name: "index_guilds_on_world_fraction_id"
     t.index ["world_id"], name: "index_guilds_on_world_id"
   end
 
@@ -260,9 +266,11 @@ ActiveRecord::Schema.define(version: 2019_11_20_220009) do
     t.integer "fraction_id"
     t.integer "world_id"
     t.boolean "privy", default: true, null: false
+    t.integer "world_fraction_id"
     t.index ["fraction_id"], name: "index_statics_on_fraction_id"
     t.index ["slug"], name: "index_statics_on_slug"
     t.index ["staticable_id", "staticable_type", "name"], name: "index_statics_on_staticable_id_and_staticable_type_and_name", unique: true
+    t.index ["world_fraction_id"], name: "index_statics_on_world_fraction_id"
     t.index ["world_id"], name: "index_statics_on_world_id"
   end
 
@@ -294,6 +302,14 @@ ActiveRecord::Schema.define(version: 2019_11_20_220009) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "world_fractions", force: :cascade do |t|
+    t.integer "world_id"
+    t.integer "fraction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["world_id", "fraction_id"], name: "index_world_fractions_on_world_id_and_fraction_id"
   end
 
   create_table "worlds", force: :cascade do |t|

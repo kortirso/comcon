@@ -12,6 +12,7 @@ class Character < ApplicationRecord
   belongs_to :character_class
   belongs_to :world
   belongs_to :guild, optional: true
+  belongs_to :world_fraction
 
   has_many :dungeon_accesses, dependent: :destroy
   has_many :dungeons, through: :dungeon_accesses

@@ -7,6 +7,7 @@ class Static < ApplicationRecord
   belongs_to :staticable, polymorphic: true
   belongs_to :fraction
   belongs_to :world
+  belongs_to :world_fraction
 
   has_many :static_members, dependent: :destroy
   has_many :characters, through: :static_members

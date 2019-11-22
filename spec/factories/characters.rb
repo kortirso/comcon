@@ -15,5 +15,9 @@ FactoryBot.define do
     trait :orc do
       association :race, :orc
     end
+
+    before(:create) do |character|
+      character.world_fraction = WorldFraction.find_or_create_by!(world: character.world, fraction: character.race.fraction)
+    end
   end
 end

@@ -7,12 +7,14 @@ class GuildForm
   attribute :name, String
   attribute :world, World
   attribute :fraction, Fraction
+  attribute :world_fraction, WorldFraction
 
-  validates :name, :world, :fraction, presence: true
+  validates :name, :world, :fraction, :world_fraction, presence: true
 
   attr_reader :guild
 
   def persist?
+    self.world_fraction = WorldFraction.find_by(world: world, fraction: fraction)
     return false unless valid?
     return false if exists?
     @guild = id ? Guild.find_by(id: id) : Guild.new
