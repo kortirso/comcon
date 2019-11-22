@@ -12,6 +12,7 @@ export default class EventCalendar extends React.Component {
     const date = new Date()
     this.state = {
       events: [],
+      filteredEvents: [],
       previousDaysAmount: (new Date(date.getFullYear(), date.getMonth(), 1)).getDay() - 1,
       daysAmount: (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate(),
       currentYear: date.getFullYear(),
@@ -21,6 +22,7 @@ export default class EventCalendar extends React.Component {
       monthChanges: 0,
       worlds: [],
       guilds: [],
+      statics: [],
       fractions: [],
       dungeons: [],
       alliance: 0,
@@ -29,7 +31,9 @@ export default class EventCalendar extends React.Component {
       accessType: 'none',
       world: 'none',
       guild: 'none',
+      currentStatic: 'none',
       fraction: 'none',
+      dungeon: 'none',
       character: 'none',
       subscribe: 'none',
       currentEventId: null,
@@ -49,10 +53,6 @@ export default class EventCalendar extends React.Component {
   _getEvents() {
     const state = this.state
     let params = []
-    if (state.accessType !== 'none') params.push(`eventable_type=${state.accessType}`)
-    if (state.world !== 'none') params.push(`eventable_id=${state.world}`)
-    if (state.guild !== 'none') params.push(`eventable_id=${state.guild}`)
-    if (state.fraction !== 'none') params.push(`fraction_id=${state.fraction}`)
     if (state.character !== 'none') params.push(`character_id=${state.character}`)
     if (state.subscribe === 'all') params.push(`subscribed=true`)
     params.push(`month=${state.currentMonth}`)
@@ -62,9 +62,29 @@ export default class EventCalendar extends React.Component {
       method: 'GET',
       url: url,
       success: (data) => {
-        this.setState({events: data.events})
+        this.setState({events: data.events}, () => {
+          this._filterEvents()
+        })
       }
     })
+  }
+
+  _filterEvents() {
+    const state = this.state
+    let filters = {}
+    if (state.accessType !== 'none') filters['eventable_type'] = state.accessType
+    if (state.world !== 'none') filters['eventable_id'] = state.world
+    if (state.guild !== 'none') filters['eventable_id'] = state.guild
+    if (state.currentStatic !== 'none') filters['eventable_id'] = state.currentStatic
+    if (state.fraction !== 'none') filters['fraction_id'] = state.fraction
+    if (state.dungeon !== 'none') filters['dungeon_id'] = state.dungeon
+    const events = state.events.filter(function(event) {
+      for (var key in filters) {
+        if (event[key] === undefined || event[key] != filters[key]) return false
+      }
+      return true
+    })
+    this.setState({filteredEvents: events})
   }
 
   _getFilterValues() {
@@ -78,7 +98,7 @@ export default class EventCalendar extends React.Component {
           if (fraction.name.en === 'Horde') horde = fraction.id
           else alliance = fraction.id
         })
-        this.setState({worlds: data.worlds, fractions: data.fractions, alliance: alliance, horde: horde, guilds: data.guilds, characters: data.characters, dungeons: data.dungeons})
+        this.setState({worlds: data.worlds, fractions: data.fractions, alliance: alliance, horde: horde, guilds: data.guilds, characters: data.characters, dungeons: data.dungeons, statics: data.statics})
       }
     })
   }
@@ -133,7 +153,7 @@ export default class EventCalendar extends React.Component {
   }
 
   _renderEvents(day) {
-    const filtered = this.state.events.filter((event) => {
+    const filtered = this.state.filteredEvents.filter((event) => {
       return event.date == `${day}.${this.state.currentMonth}.${this.state.currentYear}`
     })
     if (filtered.length <= 4) {
@@ -193,7 +213,9 @@ export default class EventCalendar extends React.Component {
         {this._renderAccessTypeFilter()}
         {this._renderWorldFilter()}
         {this._renderGuildFilter()}
+        {this._renderStaticFilter()}
         {this._renderFractionFilter()}
+        {this._renderDungeonFilter()}
         {this._renderCharacterFilter()}
         {this._renderSubscribeFilter()}
       </div>
@@ -208,6 +230,7 @@ export default class EventCalendar extends React.Component {
           <option value='none'>{strings.none}</option>
           <option value='World'>{strings.onlyWorlds}</option>
           <option value='Guild'>{strings.onlyGuilds}</option>
+          <option value='Static'>{strings.onlyStatics}</option>
         </select>
       </div>
     )
@@ -255,6 +278,27 @@ export default class EventCalendar extends React.Component {
     })
   }
 
+  _renderStaticFilter() {
+    if (this.state.accessType !== 'Static') return false
+    else {
+      return (
+        <div className="filter static">
+          <p>{strings.filterStatic}</p>
+          <select className="form-control form-control-sm" onChange={this._onChangeStatic.bind(this)} value={this.state.currentStatic}>
+            <option value='none' key='0'>{strings.none}</option>
+            {this._renderStaticsList()}
+          </select>
+        </div>
+      )
+    }
+  }
+
+  _renderStaticsList() {
+    return this.state.statics.map((currentStatic) => {
+      return <option value={currentStatic[0]} key={currentStatic[0]}>{currentStatic[1]}</option>
+    })
+  }
+
   _renderFractionFilter() {
     if (this.state.guild !== 'none') return false
     else {
@@ -273,6 +317,24 @@ export default class EventCalendar extends React.Component {
   _renderFractionsList() {
     return this.state.fractions.map((fraction) => {
       return <option value={fraction.id} key={fraction.id}>{fraction.name[this.props.locale]}</option>
+    })
+  }
+
+  _renderDungeonFilter() {
+    return (
+      <div className="filter dungeon">
+        <p>{strings.filterDungeon}</p>
+        <select className="form-control form-control-sm" onChange={this._onChangeDungeon.bind(this)} value={this.state.dungeon}>
+          <option value='none' key='0'>{strings.none}</option>
+          {this._renderDungeonsList()}
+        </select>
+      </div>
+    )
+  }
+
+  _renderDungeonsList() {
+    return this.state.dungeons.map((dungeon) => {
+      return <option value={dungeon.id} key={dungeon.id}>{dungeon.name[this.props.locale]}</option>
     })
   }
 
@@ -308,31 +370,43 @@ export default class EventCalendar extends React.Component {
 
   _onChangeAccessType(event) {
     if (event.target.value === 'none') {
-      this.setState({accessType: 'none', world: 'none', guild: 'none', currentEventId: null}, () => {
-        this._getEvents()
+      this.setState({accessType: 'none', world: 'none', guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
+        this._filterEvents()
       })
     } else {
-      this.setState({accessType: event.target.value, world: 'none', guild: 'none', currentEventId: null}, () => {
-        this._getEvents()
+      this.setState({accessType: event.target.value, world: 'none', guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
+        this._filterEvents()
       })
     }
   }
 
   _onChangeWorld(event) {
     this.setState({world: event.target.value, currentEventId: null, currentDayId: null}, () => {
-      this._getEvents()
+      this._filterEvents()
     })
   }
 
   _onChangeGuild(event) {
     this.setState({guild: event.target.value, currentEventId: null, currentDayId: null}, () => {
-      this._getEvents()
+      this._filterEvents()
+    })
+  }
+
+  _onChangeStatic(event) {
+    this.setState({currentStatic: event.target.value, currentEventId: null, currentDayId: null}, () => {
+      this._filterEvents()
     })
   }
 
   _onChangeFraction(event) {
     this.setState({fraction: event.target.value, currentEventId: null, currentDayId: null}, () => {
-      this._getEvents()
+      this._filterEvents()
+    })
+  }
+
+  _onChangeDungeon(event) {
+    this.setState({dungeon: event.target.value, currentEventId: null, currentDayId: null}, () => {
+      this._filterEvents()
     })
   }
 
@@ -451,13 +525,7 @@ export default class EventCalendar extends React.Component {
   render() {
     return (
       <div className="events">
-        <div className="container">
-          {this._renderFilters()}
-          <div className="calendar_arrows">
-            <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
-            <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
-          </div>
-        </div>
+        {this._renderFilters()}
         <div className="calendar-block">
           <div className="calendar">
             {this._renderPreviousMonth('previous')}
@@ -465,6 +533,11 @@ export default class EventCalendar extends React.Component {
             {this._renderPreviousMonth('next')}
           </div>
           <div className="current-data">
+            <a class="btn btn-primary btn-sm with_bottom_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/new`}>{strings.addEvent}</a>
+            <div className="calendar_arrows">
+              <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
+              <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
+            </div>
             <div className="current-day">
               <p>{strings.selectedDay}</p>
               {this._renderCurrentDay()}

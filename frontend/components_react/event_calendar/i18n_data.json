@@ -4,9 +4,12 @@
     "filterAccess": "Access type",
     "onlyWorlds": "World events",
     "onlyGuilds": "Guild events",
+    "onlyStatics": "Static events",
     "filterWorld": "Realm",
     "filterGuild": "Guild",
+    "filterStatic": "Static",
     "filterFraction": "Fraction",
+    "filterDungeon": "Dungeon",
     "filterCharacter": "Character",
     "filterSubscribe": "Subscription",
     "previous": "Previous month",
@@ -25,16 +28,20 @@
     "noDayEvents": "No events at this day",
     "otherEvents": "And other events",
     "sure": "Are sure?",
-    "withSubscription": "Subscribed"
+    "withSubscription": "Subscribed",
+    "addEvent": "Add event"
   },
   "ru": {
     "none": "все",
     "filterAccess": "Доступ",
     "onlyWorlds": "События в Мире",
     "onlyGuilds": "События в Гильдии",
+    "onlyStatics": "События в Статике",
     "filterWorld": "Мир",
     "filterGuild": "Гильдия",
+    "filterStatic": "Статик",
     "filterFraction": "Фракция",
+    "filterDungeon": "Подземелье",
     "filterCharacter": "Персонаж",
     "filterSubscribe": "Участие",
     "previous": "Предыдущий месяц",
@@ -53,6 +60,7 @@
     "noDayEvents": "В данный день нет никаких событий",
     "otherEvents": "И другие события",
     "sure": "Вы уверены?",
-    "withSubscription": "Подписавшиеся"
+    "withSubscription": "Подписавшиеся",
+    "addEvent": "Добавить событие"
   }
 }

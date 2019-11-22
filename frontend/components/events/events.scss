@@ -8,6 +8,7 @@
   .filters {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     margin-bottom: 1rem;
     font-size: 0.9rem;
 
@@ -28,18 +29,15 @@
     }
   }
 
-  .calendar_arrows {
-    margin-bottom: 1rem;
-  }
-
   .calendar-block {
     display: flex;
-    max-width: 1600px;
+    max-width: 1500px;
     margin: 0 auto;
 
     .current-data {
-      width: 400px;
-      padding-left: 50px;
+      width: 350px;
+      padding-left: 25px;
+      font-size: 0.9rem;
 
       p {
         margin-bottom: 0.25rem;
@@ -66,7 +64,7 @@
 
             .name, .time {
               margin: 0;
-              font-size: 0.9rem;
+              
             }
 
             &:hover {
@@ -86,7 +84,7 @@
             margin-bottom: 0.25rem;
 
             &.name {
-              font-size: 1.5rem;
+              font-size: 1.25rem;
             }
           }
 

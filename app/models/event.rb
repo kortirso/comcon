@@ -25,16 +25,9 @@ class Event < ApplicationRecord
 
   def self.available_for_user(user)
     # values based on user characters
-    guild_static_ids = []
-    user.characters.where.not(guild_id: nil).includes(guild: :statics).each do |character|
-      next unless user.any_role?(character.guild_id, 'gm', 'rl', 'cl')
-      guild_static_ids << character.guild.statics.pluck(:id)
-    end
-    guild_static_ids = guild_static_ids.flatten.uniq
+    static_ids = (user.guild_static_ids_as_guild_leader + user.static_members.pluck(:static_id)).uniq
     # find available events
-    events = for_world_fraction(user.world_fractions.pluck(:id)).or(for_guild(user.guilds.pluck(:id))).or(for_static(user.static_members.pluck(:static_id)))
-    events = events.or(for_static(guild_static_ids)) if guild_static_ids.size.positive?
-    events
+    for_world_fraction(user.world_fractions.pluck(:id)).or(for_guild(user.guilds.pluck(:id))).or(for_static(static_ids))
   end
 
   # event available for character if event

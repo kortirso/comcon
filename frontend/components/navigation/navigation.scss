@@ -1,6 +1,8 @@
 @import '../../init/variables.scss';
 
 nav.navbar {
+  padding: 0;
+
   .links {
     .for_admins {
       background: $horde;

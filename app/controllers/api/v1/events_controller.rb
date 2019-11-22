@@ -35,7 +35,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         render json: {
-          events: ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventEditSerializer).as_json[:events]
+          events: ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventIndexSerializer).as_json[:events]
         }, status: 200
       end
 
@@ -115,7 +115,8 @@ module Api
           worlds: @worlds_json,
           fractions: @fractions_json,
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds],
+          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildBaseSerializer).as_json[:guilds],
+          statics: Current.user.statics.pluck(:id, :name),
           dungeons: @dungeons_json
         }, status: 200
       end
@@ -141,6 +142,7 @@ module Api
         @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
         @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
         @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
+        @events = @events.where(dungeon_id: params[:dungeon_id]) if params[:dungeon_id].present?
         if params[:subscribed] == 'true'
           @events = @events.where_user_subscribed(Current.user)
         end

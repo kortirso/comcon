@@ -107,7 +107,6 @@ en:
     accept: Accept
     decline: Decline
   events:
-    add: Add event
     no_characters: For viewing events you need to attach new character to your account
   characters:
     add: Add character

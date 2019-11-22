@@ -42,9 +42,16 @@ class User < ApplicationRecord
   end
 
   def statics
-    character_ids = Character.where(user_id: id).pluck(:id)
-    static_ids = StaticMember.where(character_id: character_ids).pluck(:static_id)
+    static_ids = (static_members.pluck(:static_id) + guild_static_ids_as_guild_leader).uniq
     Static.where(id: static_ids)
+  end
+
+  def guild_static_ids_as_guild_leader(guild_static_ids = [])
+    characters.where.not(guild_id: nil).includes(guild: :statics).each do |character|
+      next unless any_role?(character.guild_id, 'gm', 'rl', 'cl')
+      guild_static_ids << character.guild.statics.pluck(:id)
+    end
+    guild_static_ids.flatten.uniq
   end
 
   def static_invites
