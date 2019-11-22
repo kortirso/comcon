@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - model WorldFraction for combination of worlds and fractions
 
+### Modify
+- requests to DB to find available events
+
 ## [0.8.5] - 2019-11-21
 ### Added
 - mail settings with SendGrid

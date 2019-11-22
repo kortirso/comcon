@@ -8,6 +8,7 @@ RSpec.describe Event, type: :model do
   it { should have_many(:characters).through(:subscribes) }
   it { should have_many(:signed_subscribes).class_name('Subscribe') }
   it { should have_many(:signed_characters).through(:signed_subscribes).source(:character) }
+  it { should have_many(:signed_users).through(:signed_characters).source(:user) }
 
   it 'factory should be valid' do
     event = create :event
@@ -19,13 +20,16 @@ RSpec.describe Event, type: :model do
     context 'availability' do
       let!(:user) { create :user }
       let!(:character1) { create :character, user: user }
+      let!(:guild) { create :guild, world: character1.world, fraction: character1.race.fraction }
       let!(:character2) { create :character, :orc, world: character1.world }
-      let!(:character3) { create :character, world: character1.world, race: character1.race, user: user }
+      let!(:character3) { create :character, world: character1.world, race: character1.race, user: user, guild: guild }
       let!(:world_event1) { create :event, eventable: character1.world, fraction: character1.race.fraction }
       let!(:world_event2) { create :event, eventable: character1.world, fraction: character2.race.fraction }
-      let!(:guild) { create :guild, world: character1.world, fraction: character1.race.fraction }
       let!(:guild_event) { create :event, eventable: guild, fraction: character1.race.fraction }
-      before { character3.update(guild: guild) }
+      let!(:static) { create :static, staticable: guild }
+      let!(:static_member) { create :static_member, static: static, character: character1 }
+      let!(:static_event) { create :event, eventable: static, fraction: character3.race.fraction }
+      let!(:guild_role) { create :guild_role, guild: guild, character: character3, name: 'rl' }
 
       context '.available_for_user' do
         context 'without guild' do
@@ -35,6 +39,7 @@ RSpec.describe Event, type: :model do
             expect(result.include?(world_event1)).to eq true
             expect(result.include?(world_event2)).to eq false
             expect(result.include?(guild_event)).to eq true
+            expect(result.include?(static_event)).to eq true
           end
         end
       end
@@ -65,6 +70,69 @@ RSpec.describe Event, type: :model do
             expect(result.include?(world_event1)).to eq true
             expect(result.include?(world_event2)).to eq false
             expect(result.include?(guild_event)).to eq true
+          end
+        end
+      end
+
+      context '.where_user_subscribed' do
+        context 'without signing' do
+          it 'returns []' do
+            result = Event.where_user_subscribed(user)
+
+            expect(result.size).to eq 0
+          end
+        end
+
+        context 'with unknown signing' do
+          let!(:subscribe) { create :subscribe, event: guild_event, character: character3, status: 1 }
+
+          it 'returns []' do
+            result = Event.where_user_subscribed(user)
+
+            expect(result.size).to eq 0
+          end
+        end
+
+        context 'with signed' do
+          let!(:subscribe) { create :subscribe, event: guild_event, character: character3, status: 2 }
+
+          it 'returns events where user characters at least signed' do
+            result = Event.where_user_subscribed(user)
+
+            expect(result.size).to eq 1
+            expect(result.include?(guild_event)).to eq true
+          end
+        end
+      end
+
+      context 'available_for_user' do
+        context 'for available world event' do
+          it 'returns true' do
+            expect(world_event1.available_for_user?(user)).to eq true
+          end
+        end
+
+        context 'for available guild event' do
+          it 'returns true' do
+            expect(guild_event.available_for_user?(user)).to eq true
+          end
+        end
+
+        context 'for available static (as static member) event' do
+          it 'returns true' do
+            expect(static_event.available_for_user?(user)).to eq true
+          end
+        end
+
+        context 'for available static (as guild leader) event' do
+          it 'returns true' do
+            expect(static_event.available_for_user?(user)).to eq true
+          end
+        end
+
+        context 'for not available world event' do
+          it 'returns false' do
+            expect(world_event2.available_for_user?(user)).to eq false
           end
         end
       end

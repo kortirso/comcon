@@ -2,7 +2,9 @@ RSpec.describe User, type: :model do
   it { should have_many(:characters).dependent(:destroy) }
   it { should have_many(:guilds).through(:characters) }
   it { should have_many(:subscribes).through(:characters) }
+  it { should have_many(:worlds).through(:characters) }
   it { should have_many(:static_members).through(:characters) }
+  it { should have_many(:world_fractions).through(:characters) }
   it { should have_many(:identities).dependent(:destroy) }
   it { should have_one(:time_offset).dependent(:destroy) }
   it { should validate_presence_of :email }

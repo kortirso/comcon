@@ -19,14 +19,22 @@ class Event < ApplicationRecord
   has_many :signed_characters, through: :signed_subscribes, source: :character
   has_many :signed_users, -> { distinct }, through: :signed_characters, source: :user
 
-  scope :for_world, ->(world_id, fraction_id) { where eventable_type: 'World', eventable_id: world_id, fraction_id: fraction_id }
+  scope :for_world_fraction, ->(world_fraction_id) { where eventable_type: 'World', world_fraction_id: world_fraction_id }
   scope :for_guild, ->(guild_id) { where eventable_type: 'Guild', eventable_id: guild_id }
-  scope :for_statics, ->(static_ids) { where eventable_type: 'Static', eventable_id: static_ids }
+  scope :for_static, ->(static_ids) { where eventable_type: 'Static', eventable_id: static_ids }
 
   def self.available_for_user(user)
-    user.characters.map do |character|
-      available_for_character(character)
-    end.flatten.uniq
+    # values based on user characters
+    guild_static_ids = []
+    user.characters.where.not(guild_id: nil).includes(guild: :statics).each do |character|
+      next unless user.any_role?(character.guild_id, 'gm', 'rl', 'cl')
+      guild_static_ids << character.guild.statics.pluck(:id)
+    end
+    guild_static_ids = guild_static_ids.flatten.uniq
+    # find available events
+    events = for_world_fraction(user.world_fractions.pluck(:id)).or(for_guild(user.guilds.pluck(:id))).or(for_static(user.static_members.pluck(:static_id)))
+    events = events.or(for_static(guild_static_ids)) if guild_static_ids.size.positive?
+    events
   end
 
   # event available for character if event
@@ -35,12 +43,8 @@ class Event < ApplicationRecord
   # is static event for static of character with membership
   # is static event of guild where character is gm, rl or cl
   def self.available_for_character(character)
-    static_ids = character.in_statics.pluck(:id)
-    events = for_world(character.world_id, character.race.fraction_id).or(for_guild(character.guild_id)).or(for_statics(static_ids))
-    if character.user.any_role?(character.guild_id, 'gm', 'rl', 'cl')
-      guild_static_ids = character.guild.statics.pluck(:id)
-      events = events.or(for_statics(guild_static_ids))
-    end
+    events = for_world_fraction(character.world_fraction_id).or(for_guild(character.guild_id)).or(for_static(character.in_statics.pluck(:id)))
+    events = events.or(for_static(character.guild.statics.pluck(:id))) if character.user.any_role?(character.guild_id, 'gm', 'rl', 'cl')
     events
   end
 
@@ -50,7 +54,7 @@ class Event < ApplicationRecord
   end
 
   def available_for_user?(user)
-    return true if eventable_type == 'World' && user.characters.includes(:race).any? { |character| eventable_id == character.world_id && fraction_id == character.race.fraction_id }
+    return true if eventable_type == 'World' && user.world_fractions.pluck(:id).include?(world_fraction_id)
     return true if eventable_type == 'Guild' && user.guilds.pluck(:id).include?(eventable_id)
     return true if eventable_type == 'Static' && user.static_members.pluck(:static_id).include?(eventable_id)
     return true if eventable_type == 'Static' && eventable.staticable_type == 'Guild' && user.any_role?(eventable.staticable_id, 'gm', 'rl', 'cl')
