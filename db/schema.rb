@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_22_171139) do
+ActiveRecord::Schema.define(version: 2019_11_23_144309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -226,6 +226,8 @@ ActiveRecord::Schema.define(version: 2019_11_22_171139) do
     t.jsonb "links", default: {"en"=>"", "ru"=>""}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "effect_name", default: {"en"=>"", "ru"=>""}
+    t.jsonb "effect_links", default: {"en"=>"", "ru"=>""}
     t.index ["name"], name: "index_recipes_on_name", using: :gin
     t.index ["profession_id"], name: "index_recipes_on_profession_id"
   end

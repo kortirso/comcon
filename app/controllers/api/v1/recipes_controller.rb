@@ -76,7 +76,7 @@ module Api
       end
 
       def recipe_params
-        h = params.require(:recipe).permit(:skill, name: {}, links: {}).to_h
+        h = params.require(:recipe).permit(:skill, name: {}, links: {}, effect_name: {}, effect_links: {}).to_h
         h[:profession] = params[:recipe][:profession_id].present? ? Profession.find_by(id: params[:recipe][:profession_id]) : @recipe&.profession
         h
       end

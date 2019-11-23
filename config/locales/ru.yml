@@ -1,6 +1,13 @@
 ru:
   activemodel:
     attributes:
+      recipe_form:
+        profession: Профессия
+        name: Название
+        links: Ссылка
+        effect_name: Название эффекта
+        effect_links: Ссылки на эффект
+        recipe: Рецепт
       delivery_param_form:
         delivery_param: Параметры доставки
         params: Параметры
@@ -14,6 +21,25 @@ ru:
         hours_before_close: Часы до закрытия
     errors:
       models:
+        recipe_form:
+          attributes:
+            profession:
+              blank: не может быть пустой
+              is_not_recipeable: не может иметь рецептов
+            name:
+              is_not_hash: должны быть представлены хэшем
+              en_is_empty: на английском не может быть пустым
+              ru_is_empty: на русском не может быть пустым
+            links:
+              is_not_hash: должны быть представлены хэшем
+              en_is_empty: на английском не могут быть пустыми
+              ru_is_empty: на русском не могут быть пустыми
+            effect_name:
+              is_not_hash: должны быть представлены хэшем
+            effect_links:
+              is_not_hash: должны быть представлены хэшем
+            recipe:
+              already_exist: уже создан
         delivery_param_form:
           attributes:
             delivery_param:

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - model WorldFraction for combination of worlds and fractions
+- effect name and effect links for recipes
 
 ### Modify
 - requests to DB to find available events

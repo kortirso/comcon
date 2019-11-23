@@ -4,6 +4,8 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
+import ErrorView from '../error_view/error_view'
+
 let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
@@ -17,9 +19,12 @@ export default class RecipeForm extends React.Component {
     this.state = {
       name: { en: '', ru: '' },
       links: { en: '', ru: '' },
+      effectName: { en: '', ru: '' },
+      effectLinks: { en: '', ru: '' },
       skill: 300,
       professions: [],
-      profession: 0
+      profession: 0,
+      errors: []
     }
   }
 
@@ -50,37 +55,41 @@ export default class RecipeForm extends React.Component {
       url: `/api/v1/recipes/${this.props.recipe_id}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const recipe = data.recipe
-        this.setState({name: recipe.name, links: recipe.links, skill: recipe.skill, profession: recipe.profession_id})
+        this.setState({name: recipe.name, links: recipe.links, effectName: recipe.effect_name, effectLinks: recipe.effect_links, skill: recipe.skill, profession: recipe.profession_id})
       }
     })
   }
 
   _onCreate() {
     const state = this.state
+    let url = `/api/v1/recipes.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'POST',
-      url: `/api/v1/recipes.json?access_token=${this.props.access_token}`,
-      data: { recipe: { name: state.name, links: state.links, skill: state.skill, profession_id: state.profession } },
+      url: url,
+      data: { recipe: { name: state.name, links: state.links, effect_name: state.effectName, effect_links: state.effectLinks, skill: state.skill, profession_id: state.profession } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
 
   _onUpdate() {
     const state = this.state
+    let url = `/api/v1/recipes/${this.props.recipe_id}.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'PATCH',
-      url: `/api/v1/recipes/${this.props.recipe_id}.json?access_token=${this.props.access_token}`,
-      data: { recipe: { name: state.name, links: state.links, skill: state.skill, profession_id: state.profession } },
+      url: url,
+      data: { recipe: { name: state.name, links: state.links, effect_name: state.effectName, effect_links: state.effectLinks, skill: state.skill, profession_id: state.profession } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -91,29 +100,69 @@ export default class RecipeForm extends React.Component {
     })
   }
 
+  _renderSubmitButton() {
+    if (this.state.recipeId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
+    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
+  }
+
+  _renderFormLabel() {
+    if (this.state.recipeId === undefined) return <h2>{strings.createLabel}</h2>
+    return <h2>{strings.updateLabel}</h2>
+  }
+
   render() {
     return (
       <div className="recipe_form">
+        {this._renderFormLabel()}
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
         <div className="double_line">
-          <div className="form-group">
-            <label htmlFor="recipe_name_en">{strings.nameEn}</label>
-            <input required="required" placeholder={strings.nameLabelEn} className="form-control form-control-sm" type="text" id="recipe_name_en" value={this.state.name.en} onChange={(event) => this.setState({name: { en: event.target.value, ru: this.state.name.ru }})} />
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="recipe_name_en">{strings.nameEn}</label>
+              <input required="required" placeholder={strings.nameLabelEn} className="form-control form-control-sm" type="text" id="recipe_name_en" value={this.state.name.en} onChange={(event) => this.setState({name: { en: event.target.value, ru: this.state.name.ru }})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="recipe_name_ru">{strings.nameRu}</label>
+              <input required="required" placeholder={strings.nameLabelRu} className="form-control form-control-sm" type="text" id="recipe_name_ru" value={this.state.name.ru} onChange={(event) => this.setState({name: { en: this.state.name.en, ru: event.target.value }})} />
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="recipe_name_ru">{strings.nameRu}</label>
-            <input required="required" placeholder={strings.nameLabelRu} className="form-control form-control-sm" type="text" id="recipe_name_ru" value={this.state.name.ru} onChange={(event) => this.setState({name: { en: this.state.name.en, ru: event.target.value }})} />
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="recipe_links_en">{strings.linkEn}</label>
+              <input required="required" placeholder={strings.linkLabelEn} className="form-control form-control-sm" type="text" id="recipe_links_en" value={this.state.links.en} onChange={(event) => this.setState({links: { en: event.target.value, ru: this.state.links.ru }})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="recipe_links_ru">{strings.linkRu}</label>
+              <input required="required" placeholder={strings.linkLabelRu} className="form-control form-control-sm" type="text" id="recipe_links_ru" value={this.state.links.ru} onChange={(event) => this.setState({links: { en: this.state.links.en, ru: event.target.value }})} />
+            </div>
           </div>
         </div>
+
         <div className="double_line">
-          <div className="form-group">
-            <label htmlFor="recipe_links_en">{strings.linkEn}</label>
-            <input required="required" placeholder={strings.linkLabelEn} className="form-control form-control-sm" type="text" id="recipe_links_en" value={this.state.links.en} onChange={(event) => this.setState({links: { en: event.target.value, ru: this.state.links.ru }})} />
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="recipe_effect_name_en">{strings.effectNameEn}</label>
+              <input required="required" placeholder={strings.effectNameLabelEn} className="form-control form-control-sm" type="text" id="recipe_effect_name_en" value={this.state.effectName.en} onChange={(event) => this.setState({effectName: { en: event.target.value, ru: this.state.effectName.ru }})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="recipe_effect_name_ru">{strings.effectNameRu}</label>
+              <input required="required" placeholder={strings.effectNameLabelRu} className="form-control form-control-sm" type="text" id="recipe_effect_name_ru" value={this.state.effectName.ru} onChange={(event) => this.setState({effectName: { en: this.state.effectName.en, ru: event.target.value }})} />
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="recipe_links_ru">{strings.linkRu}</label>
-            <input required="required" placeholder={strings.linkLabelRu} className="form-control form-control-sm" type="text" id="recipe_links_ru" value={this.state.links.ru} onChange={(event) => this.setState({links: { en: this.state.links.en, ru: event.target.value }})} />
+          <div className="double_line">
+            <div className="form-group">
+              <label htmlFor="recipe_effect_links_en">{strings.effectLinkEn}</label>
+              <input required="required" placeholder={strings.effectLinkLabelEn} className="form-control form-control-sm" type="text" id="recipe_effect_links_en" value={this.state.effectLinks.en} onChange={(event) => this.setState({effectLinks: { en: event.target.value, ru: this.state.effectLinks.ru }})} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="recipe_effect_links_ru">{strings.effectLinkRu}</label>
+              <input required="required" placeholder={strings.effectLinkLabelRu} className="form-control form-control-sm" type="text" id="recipe_effect_links_ru" value={this.state.effectLinks.ru} onChange={(event) => this.setState({effectLinks: { en: this.state.effectLinks.en, ru: event.target.value }})} />
+            </div>
           </div>
         </div>
+        
         <div className="double_line">
           <div className="double_line">
             <div className="form-group">
@@ -129,12 +178,7 @@ export default class RecipeForm extends React.Component {
             </div>
           </div>
         </div>
-        {this.state.recipeId === undefined &&
-          <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
-        }
-        {this.state.recipeId !== undefined &&
-          <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
-        }
+        {this._renderSubmitButton()}
       </div>
     )
   }

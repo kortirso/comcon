@@ -91,6 +91,12 @@ body {
         }
       }
     }
+
+    input[type="text"] {
+      &::placeholder {
+        color: #ccc;
+      }
+    }
   }
 
   .table {

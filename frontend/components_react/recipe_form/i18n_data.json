@@ -8,11 +8,21 @@
     "linkRu": "Link for recipe RU",
     "linkLabelEn": "Link for recipe EN",
     "linkLabelRu": "Link for recipe RU",
+    "effectNameEn": "Effect Name EN",
+    "effectNameRu": "Effect Name RU",
+    "effectNameLabelEn": "Effect Name EN",
+    "effectNameLabelRu": "Effect Name RU",
+    "effectLinkEn": "Effect Link for recipe EN",
+    "effectLinkRu": "Effect Link for recipe RU",
+    "effectLinkLabelEn": "Effect Link for recipe EN",
+    "effectLinkLabelRu": "Effect Link for recipe RU",
     "profession": "Profession",
     "skill": "Skill",
     "skillLabel": "Skill",
     "create": "Create",
-    "update": "Update"
+    "update": "Update",
+    "createLabel": "Create new recipe",
+    "updateLabel": "Update recipe"
   },
   "ru": {
     "nameEn": "Название EN",
@@ -23,10 +33,20 @@
     "linkRu": "Ссылка RU",
     "linkLabelEn": "Ссылка на рецепт EN",
     "linkLabelRu": "Ссылка на рецепт RU",
+    "effectNameEn": "Название эффекта EN",
+    "effectNameRu": "Название эффекта RU",
+    "effectNameLabelEn": "Название эффекта рецепта EN",
+    "effectNameLabelRu": "Название эффекта рецепта RU",
+    "effectLinkEn": "Ссылка на эффект EN",
+    "effectLinkRu": "Ссылка на эффект RU",
+    "effectLinkLabelEn": "Ссылка на эффект рецепта EN",
+    "effectLinkLabelRu": "Ссылка на эффект рецепта RU",
     "profession": "Профессия",
     "skill": "Уровень навыка",
     "skillLabel": "Уровень навыка",
     "create": "Создать",
-    "update": "Обновить"
+    "update": "Обновить",
+    "createLabel": "Добавить новый рецепт",
+    "updateLabel": "Обновить рецепт"
   }
 }
