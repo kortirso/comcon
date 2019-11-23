@@ -12,10 +12,10 @@
     "owner": "Owner of event is",
     "eventLocation": "Event location",
     "startTime": "Event start time",
-    "approved": "Approved",
+    "approved": "Accepted",
     "signed": "Signed",
-    "unknown": "Unknown",
-    "rejected": "Rejected",
+    "unknown": "Tentative",
+    "rejected": "Out",
     "signCharacter": "Sign character",
     "textarea": "Comment (Enter for save)",
     "role": "Role"
