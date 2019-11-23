@@ -115,7 +115,7 @@ module Api
           worlds: @worlds_json,
           fractions: @fractions_json,
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:fraction, :world), each_serializer: GuildBaseSerializer).as_json[:guilds],
+          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:world), each_serializer: GuildBaseSerializer).as_json[:guilds],
           statics: Current.user.statics.pluck(:id, :name),
           dungeons: @dungeons_json
         }, status: 200
@@ -160,7 +160,7 @@ module Api
       end
 
       def user_statics
-        Current.user.statics.includes(:characters).map do |static|
+        Current.user.statics.map do |static|
           {
             'id' => static.id,
             'name' => static.name,

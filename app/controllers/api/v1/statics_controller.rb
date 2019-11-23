@@ -97,7 +97,7 @@ module Api
 
       def find_user_guilds
         guild_ids = Current.user.characters.includes(:guild_role).where('guild_roles.name = ? OR guild_roles.name = ?', 'gm', 'rl').references(:guild_role).pluck(:guild_id)
-        @guilds = Guild.where(id: guild_ids).includes(:fraction, :world)
+        @guilds = Guild.where(id: guild_ids).includes(:world)
       end
 
       def static_params

@@ -27,7 +27,7 @@
       .notification
         table.table.table-striped.table-sm
           tbody
-            - notification.deliveries.where(deliveriable_id: @guild.id, deliveriable_type: 'Guild').each do |delivery|
+            - notification.deliveries.includes(:delivery_param).where(deliveriable_id: @guild.id, deliveriable_type: 'Guild').each do |delivery|
               tr
                 td= notification.name[I18n.locale.to_s]
                 td= delivery.delivery_type

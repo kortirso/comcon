@@ -99,7 +99,7 @@ module Api
       end
 
       def race_dependencies
-        Race.order(id: :desc).includes(:character_classes).inject({}) do |races, race|
+        Race.order(id: :desc).inject({}) do |races, race|
           races.merge(
             race.id.to_s => {
               'name' => race.name,
