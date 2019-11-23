@@ -24,7 +24,7 @@ module Api
 
       def search
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(@characters.includes(:race, :character_class, guild: %i[fraction world]), each_serializer: CharacterCrafterSerializer).as_json[:characters]
+          characters: ActiveModelSerializers::SerializableResource.new(@characters.includes(:race, :character_class, guild: :world), each_serializer: CharacterCrafterSerializer).as_json[:characters]
         }, status: 200
       end
 

@@ -21,6 +21,7 @@ export default class Craft extends React.Component {
       guild: '0',
       fraction: '0',
       crafters: [],
+      currentCrafters: [],
       searched: false,
       query: '',
       searchedRecipes: [],
@@ -53,17 +54,31 @@ export default class Craft extends React.Component {
   _findCrafters() {
     const state = this.state
     let params = [`recipe_id=${state.recipe}`]
-    if (state.world !== '0') params.push(`world_id=${state.world}`)
-    if (state.fraction !== '0') params.push(`fraction_id=${state.fraction}`)
-    if (state.guild !== '0') params.push(`guild_id=${state.guild}`)
     const url = `/api/v1/craft/search.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
       url: url,
       success: (data) => {
-        this.setState({crafters: data.characters, searched: true})
+        this.setState({crafters: data.characters, searched: true}, () => {
+          this._filterCrafters()
+        })
       }
     })
+  }
+
+  _filterCrafters() {
+    const state = this.state
+    let filters = {}
+    if (state.world !== '0') filters['world_id'] = state.world
+    if (state.guild !== '0') filters['guild_id'] = state.guild
+    if (state.fraction !== '0') filters['fraction_id'] = state.fraction
+    const crafters = state.crafters.filter(function(event) {
+      for (var key in filters) {
+        if (event[key] === undefined || event[key] != filters[key]) return false
+      }
+      return true
+    })
+    this.setState({currentCrafters: crafters})
   }
 
   _searchRecipes() {
@@ -85,7 +100,6 @@ export default class Craft extends React.Component {
           {this._renderWorldFilter()}
           {this._renderFractionFilter()}
           {this._renderGuildFilter()}
-          <button className="btn btn-primary btn-sm with_left_margin" onClick={this._findCrafters.bind(this)}>{strings.search}</button>
         </div>
         <div className="filter-block">
           {this._renderProfessionFilter()}
@@ -146,7 +160,9 @@ export default class Craft extends React.Component {
   }
 
   _onSelectRecipe(recipe) {
-    this.setState({query: recipe.name[this.props.locale], searchedRecipes: [], recipe: recipe.id})
+    this.setState({query: recipe.name[this.props.locale], searchedRecipes: [], recipe: recipe.id}, () => {
+      this._findCrafters()
+    })
   }
 
   _renderWorldFilter() {
@@ -204,14 +220,13 @@ export default class Craft extends React.Component {
   }
 
   _renderCharactersList() {
-    if (this.state.crafters.length === 0) return <div>{this._renderSearchStatus()}<p>{strings.noData}</p></div>
+    if (this.state.currentCrafters.length === 0) return <div>{this._renderSearchStatus()}<p>{strings.noData}</p></div>
     return (
       <div className="characters">
         <table className="table table-sm">
           <thead>
             <tr>
               <th>{strings.name}</th>
-              <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.guild}</th>
               <th>{strings.world}</th>
@@ -231,14 +246,13 @@ export default class Craft extends React.Component {
   }
 
   _renderCharacters() {
-    return this.state.crafters.map((character) => {
+    return this.state.currentCrafters.map((character) => {
       return (
-        <tr className={character.character_class.en} key={character.id}>
+        <tr className={character.character_class_name.en} key={character.id}>
           <td className='character_link' onClick={this._goToCharacter.bind(this, character.slug)}>{character.name}</td>
-          <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
-          <td>{character.guild}</td>
-          <td>{character.world}</td>
+          <td>{character.guild_name}</td>
+          <td>{character.world_name}</td>
         </tr>
       )
     })
@@ -249,7 +263,7 @@ export default class Craft extends React.Component {
   }
 
   _onChangeProfession(event) {
-    this.setState({profession: event.target.value, query: '', recipe: '0'})
+    this.setState({profession: event.target.value, query: '', recipe: '0', crafters: [], currentCrafters: [], searched: false})
   }
 
   _onChangeWorld(event) {
@@ -285,7 +299,9 @@ export default class Craft extends React.Component {
       else if (this.state.fraction === '0' && this.state.world !== '0') return guild.world.id === parseInt(this.state.world)
       else return true
     })
-    this.setState({currentGuilds: currentGuilds})
+    this.setState({currentGuilds: currentGuilds}, () => {
+      this._filterCrafters()
+    })
   }
 
   render() {

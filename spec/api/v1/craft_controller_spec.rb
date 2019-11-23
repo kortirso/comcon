@@ -43,7 +43,7 @@ RSpec.describe 'Craft API' do
         expect(response.status).to eq 200
       end
 
-      %w[id name level character_class race guild].each do |attr|
+      %w[id name level character_class_name guild_name world_name slug world_id fraction_id guild_id].each do |attr|
         it "and contains event #{attr}" do
           expect(response.body).to have_json_path("characters/0/#{attr}")
         end

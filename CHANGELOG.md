@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modify
 - requests to DB to find available events
 - rebuild event calendar for faster filtering
+- crafters search will start after recipe select
+
+### Fix
+- N+1 problems
 
 ## [0.8.5] - 2019-11-21
 ### Added
