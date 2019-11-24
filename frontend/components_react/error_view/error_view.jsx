@@ -10,8 +10,12 @@ export default class ErrorView extends React.Component {
 
   render() {
     return (
-      <div className="alert alert-danger" role="alert">
-        {this._renderErrors()}
+      <div className="row">
+        <div className="col-md-6">
+          <div className="alert alert-danger" role="alert">
+            {this._renderErrors()}
+          </div>
+        </div>
       </div>
     )
   }

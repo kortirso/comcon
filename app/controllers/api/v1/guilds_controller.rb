@@ -19,7 +19,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         render json: {
-          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildSerializer).as_json[:guilds]
+          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds]
         }, status: 200
       end
 
@@ -36,7 +36,7 @@ module Api
       def create
         result = CreateNewGuild.call(guild_params: guild_params, owner_id: params[:guild][:owner_id], user: Current.user, name: 'gm')
         if result.success?
-          render json: { guild: GuildSerializer.new(result.guild) }, status: 201
+          render json: { guild: GuildShowSerializer.new(result.guild) }, status: 201
         else
           render json: { errors: result.message }, status: 409
         end
@@ -48,7 +48,7 @@ module Api
       def update
         guild_form = GuildForm.new(@guild.attributes.merge(guild_params.merge(world: @guild.world, fraction: @guild.fraction, world_fraction: @guild.world_fraction)))
         if guild_form.persist?
-          render json: { guild: GuildSerializer.new(guild_form.guild) }, status: 200
+          render json: { guild: GuildShowSerializer.new(guild_form.guild) }, status: 200
         else
           render json: { errors: guild_form.errors.full_messages }, status: 409
         end
@@ -98,14 +98,14 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def search
         render json: {
-          guilds: ActiveModelSerializers::SerializableResource.new(Guild.where(id: @guild_ids).includes(:fraction, :world), each_serializer: GuildSerializer).as_json[:guilds]
+          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, root: 'guilds', each_serializer: GuildIndexSerializer).as_json[:guilds]
         }, status: 200
       end
 
       private
 
       def find_guilds
-        @guilds = Guild.order(name: :asc).includes(:fraction, :world)
+        @guilds = Guild.includes(:fraction, :world).order('worlds.name asc').order(name: :asc, id: :asc).references(:world)
         @guilds = @guilds.where(world_id: params[:world_id]) if params[:world_id].present?
         @guilds = @guilds.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
       end
@@ -135,7 +135,7 @@ module Api
       end
 
       def search_guilds
-        @guild_ids = Guild.search("*#{params[:query]}*", with: define_additional_search_params).map!(&:id)
+        @guilds = Guild.search "*#{params[:query]}*", with: define_additional_search_params
       end
 
       def define_additional_search_params(with = {})

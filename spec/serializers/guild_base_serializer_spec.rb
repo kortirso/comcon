@@ -1,4 +1,4 @@
-RSpec.describe GuildSerializer do
+RSpec.describe GuildBaseSerializer do
   let!(:guild) { create :guild }
   let(:serializer) { described_class.new(guild).to_json }
 

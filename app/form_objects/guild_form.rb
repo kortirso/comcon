@@ -11,6 +11,7 @@ class GuildForm
   attribute :world_fraction, WorldFraction
 
   validates :name, :world, :fraction, :world_fraction, presence: true
+  validates :name, length: { in: 2..30 }
   validate :exists?
 
   attr_reader :guild

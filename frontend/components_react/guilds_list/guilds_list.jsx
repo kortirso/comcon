@@ -134,8 +134,10 @@ export default class GuildsList extends React.Component {
       return (
         <tr className="guild_link" onClick={this._goToGuild.bind(this, guild.slug)} key={guild.id}>
           <td className={guild.fraction_name.en.toLowerCase()}>{guild.name}</td>
-          <td>{guild.full_name}</td>
-          <td>{guild.description}</td>
+          <td>{guild.world_name}</td>
+          <td>
+            <p>{guild.description}</p>
+          </td>
         </tr>
       )
     })

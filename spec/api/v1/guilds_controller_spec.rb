@@ -17,7 +17,7 @@ RSpec.describe 'Guilds API' do
           expect(response.status).to eq 200
         end
 
-        %w[id full_name name slug fraction_id fraction_name world_id description].each do |attr|
+        %w[id name description slug fraction_id fraction_name world_id world_name].each do |attr|
           it "and contains guild #{attr}" do
             expect(response.body).to have_json_path("guilds/0/#{attr}")
           end
@@ -144,7 +144,7 @@ RSpec.describe 'Guilds API' do
             expect(response.status).to eq 201
           end
 
-          %w[id full_name name slug fraction_id fraction_name world_id description].each do |attr|
+          %w[id name description slug].each do |attr|
             it "and contains guild #{attr}" do
               expect(response.body).to have_json_path("guild/#{attr}")
             end
@@ -223,7 +223,7 @@ RSpec.describe 'Guilds API' do
               expect(response.status).to eq 200
             end
 
-            %w[id full_name name slug fraction_id fraction_name world_id description].each do |attr|
+            %w[id name description slug].each do |attr|
               it "and contains guild #{attr}" do
                 expect(response.body).to have_json_path("guild/#{attr}")
               end

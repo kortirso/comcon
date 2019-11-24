@@ -105,16 +105,20 @@ export default class GuildForm extends React.Component {
   render() {
     return (
       <div className="static_form">
-        <h2>{this.state.guildId === undefined ? strings.newGuild : strings.updateGuild}</h2>
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <div className="double_line">
-          <div className="double_line">
+        <h2>{this.state.guildId === undefined ? strings.newGuild : strings.updateGuild}</h2>
+        <div className="row">
+          <div className="col-md-6 col-xl-4">
             <div className="form-group">
               <label htmlFor="guild_name">{strings.name}</label>
               <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="guild_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
             </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6 col-xl-4">
             {this.state.guildId === undefined &&
               <div className="form-group">
                 <label htmlFor="guild_owner_id">{strings.characterOwner}</label>
@@ -125,9 +129,13 @@ export default class GuildForm extends React.Component {
               </div>
             }
           </div>
-          <div className="form-group">
-            <label htmlFor="guild_description">{strings.description}</label>
-            <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="guild_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
+        </div>
+        <div className="row">
+          <div className="col-md-6 col-xl-4">
+            <div className="form-group">
+              <label htmlFor="guild_description">{strings.description}</label>
+              <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="guild_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
+            </div>
           </div>
         </div>
         {this._renderSubmitButton()}

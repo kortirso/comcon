@@ -22,9 +22,41 @@
     }
   }
 
-  .guild_link {
-    &:hover {
-      cursor: pointer;
+  table {
+    font-size: 0.9rem;
+
+    thead {
+      th {
+        tr {
+          &:nth-of-type(3) {
+            width: 50%;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        &.guild_link {
+          &:hover {
+            cursor: pointer;
+          }
+
+          td {
+            &:nth-of-type(3) {
+              width: 50%;
+
+              p {
+                margin: 0;
+                font-size: 0.8rem;
+                height: 18px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

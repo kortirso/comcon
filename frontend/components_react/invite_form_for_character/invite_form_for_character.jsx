@@ -44,7 +44,7 @@ export default class InviteFormForCharacter extends React.Component {
           return !guildInvite.from_guild
         })
         const guildInvites = data.guild_invites.filter((guildInvite) => {
-          return guildInvite.from_guild
+          return guildInvite.from_guild && guildInvite.status !== 'declined'
         })
         this.setState({userRequests: userRequests, guildInvites: guildInvites})
       }
@@ -131,7 +131,7 @@ export default class InviteFormForCharacter extends React.Component {
     return this.state.searchedGuilds.map((guild) => {
       return (
         <tr key={guild.id}>
-          <td>{guild.full_name}</td>
+          <td>{guild.name} - {guild.world_name}</td>
           <td>
             <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onSendRequest.bind(this, guild)} />
           </td>
@@ -163,7 +163,7 @@ export default class InviteFormForCharacter extends React.Component {
     return this.state.userRequests.map((request) => {
       return (
         <tr key={request.id}>
-          <td>{request.guild.full_name}</td>
+          <td>{request.guild.name} - {request.guild.world_name}</td>
           <td>{request.status}</td>
           <td>
             <input type="submit" name="commit" value={strings.deleteRequest} className="btn btn-primary btn-sm" onClick={this._onDeleteRequest.bind(this, request)} />
@@ -196,7 +196,7 @@ export default class InviteFormForCharacter extends React.Component {
     return this.state.guildInvites.map((invite) => {
       return (
         <tr key={invite.id}>
-          <td>{invite.guild.full_name}</td>
+          <td>{invite.guild.name} - {invite.guild.world_name}</td>
           <td>{invite.status}</td>
           <td>
             <input type="submit" name="commit" value={strings.approveInvite} className="btn btn-primary btn-sm with_right_margin" onClick={this._onSubmitInvite.bind(this, invite, 'approve')} />

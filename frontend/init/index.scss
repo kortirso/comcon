@@ -73,6 +73,12 @@ body {
   }
 
   .form-group {
+    input[type="text"], textarea {
+      &::placeholder {
+        color: #ccc;
+      }
+    }
+
     .time_selector {
       display: flex;
       flex-direction: row;
@@ -89,12 +95,6 @@ body {
         &:nth-last-of-type(1) {
           margin-right: 0;
         }
-      }
-    }
-
-    input[type="text"] {
-      &::placeholder {
-        color: #ccc;
       }
     }
   }
@@ -157,8 +157,6 @@ body {
   }
 
   .alert {
-    width: 75%;
-    margin: 0 auto 1rem;
     padding: 0.5rem 1rem;
 
     p {

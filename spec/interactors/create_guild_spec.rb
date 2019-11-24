@@ -17,7 +17,7 @@ describe CreateGuild do
     end
 
     context 'for valid params' do
-      let(:interactor) { described_class.call(guild_params: { name: '1', description: '2' }, character: character) }
+      let(:interactor) { described_class.call(guild_params: { name: '123', description: '2' }, character: character) }
 
       it 'succeeds' do
         expect(interactor).to be_a_success
@@ -34,7 +34,7 @@ describe CreateGuild do
   end
 
   describe '.rollback' do
-    subject(:interactor) { described_class.new(guild_params: { name: '1', description: '2' }, character: character) }
+    subject(:interactor) { described_class.new(guild_params: { name: '123', description: '2' }, character: character) }
 
     it 'removes the created guild' do
       interactor.call

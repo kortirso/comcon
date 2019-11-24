@@ -41,7 +41,7 @@ export default class InviteFormForGuild extends React.Component {
       url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
       success: (data) => {
         const userRequests = data.guild_invites.filter((guildInvite) => {
-          return !guildInvite.from_guild
+          return !guildInvite.from_guild && guildInvite.status !== 'declined'
         })
         const guildInvites = data.guild_invites.filter((guildInvite) => {
           return guildInvite.from_guild
@@ -57,7 +57,7 @@ export default class InviteFormForGuild extends React.Component {
       url: `/api/v1/characters/search.json?access_token=${this.props.access_token}&query=${this.state.query}&world_id=${this.props.world_id}&fraction_id=${this.props.fraction_id}`,
       success: (data) => {
         const characters = data.characters.filter((character) => {
-          return character.guild === null
+          return character.guild_id === null
         })
         this.setState({searchedCharacters: characters})
       }
@@ -117,7 +117,6 @@ export default class InviteFormForGuild extends React.Component {
           <thead>
             <tr>
               <th>{strings.name}</th>
-              <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th></th>
             </tr>
@@ -133,9 +132,8 @@ export default class InviteFormForGuild extends React.Component {
   _renderSearchResults() {
     return this.state.searchedCharacters.map((character) => {
       return (
-        <tr className={character.character_class.en} key={character.id}>
+        <tr className={character.character_class_name.en} key={character.id}>
           <td>{character.name}</td>
-          <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
           <td>
             <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onSendInvite.bind(this, character)} />
@@ -152,7 +150,6 @@ export default class InviteFormForGuild extends React.Component {
           <thead>
             <tr>
               <th>{strings.name}</th>
-              <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.status}</th>
               <th></th>
@@ -169,9 +166,8 @@ export default class InviteFormForGuild extends React.Component {
   _renderGuildInvitesResults() {
     return this.state.guildInvites.map((invite) => {
       return (
-        <tr className={invite.character.character_class.en} key={invite.id}>
+        <tr className={invite.character.character_class_name.en} key={invite.id}>
           <td>{invite.character.name}</td>
-          <td>{invite.character.race[this.props.locale]}</td>
           <td>{invite.character.level}</td>
           <td>{invite.status}</td>
           <td>
@@ -189,7 +185,6 @@ export default class InviteFormForGuild extends React.Component {
           <thead>
             <tr>
               <th>{strings.name}</th>
-              <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.status}</th>
               <th></th>
@@ -206,9 +201,8 @@ export default class InviteFormForGuild extends React.Component {
   _renderUserRequestsResult() {
     return this.state.userRequests.map((request) => {
       return (
-        <tr className={request.character.character_class.en} key={request.id}>
+        <tr className={request.character.character_class_name.en} key={request.id}>
           <td>{request.character.name}</td>
-          <td>{request.character.race[this.props.locale]}</td>
           <td>{request.character.level}</td>
           <td>{request.status}</td>
           <td>
