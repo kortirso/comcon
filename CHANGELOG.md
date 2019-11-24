@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - guilds page
 - characters page
+- event calendar page
 
 ## [0.8.6] - 2019-11-23
 ### Added
