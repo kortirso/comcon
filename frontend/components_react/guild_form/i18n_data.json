@@ -1,0 +1,22 @@
+{
+  "en": {
+    "name": "Name",
+    "nameLabel": "Guild name",
+    "characterOwner": "Owner-character",
+    "description": "Description",
+    "create": "Create",
+    "update": "Update",
+    "newGuild": "Create new guild",
+    "updateGuild": "Update guild"
+  },
+  "ru": {
+    "name": "Название",
+    "nameLabel": "Название гильдии",
+    "characterOwner": "Владелец-персонаж",
+    "description": "Описание",
+    "create": "Создать",
+    "update": "Обновить",
+    "newGuild": "Создать новую гильдию",
+    "updateGuild": "Обновить гильдию"
+  }
+}

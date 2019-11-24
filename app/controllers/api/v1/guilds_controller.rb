@@ -2,11 +2,13 @@ module Api
   module V1
     class GuildsController < Api::V1::BaseController
       before_action :find_guilds, only: %i[index]
-      before_action :find_guild, only: %i[characters kick_character leave_character]
+      before_action :find_guild_by_slug, only: %i[characters kick_character leave_character]
+      before_action :find_guild, only: %i[show update]
       before_action :find_guild_character, only: %i[kick_character]
       before_action :find_user_character_in_guild, only: %i[leave_character]
       before_action :find_guild_characters, only: %i[characters]
       before_action :search_guilds, only: %i[search]
+      before_action :find_user_characters_for_guild, only: %i[form_values]
 
       resource_description do
         short 'Guild resources'
@@ -21,6 +23,37 @@ module Api
         }, status: 200
       end
 
+      api :GET, '/v1/guilds/:id.json', 'Show guild info'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def show
+        render json: { guild: GuildShowSerializer.new(@guild) }, status: 200
+      end
+
+      api :POST, '/v1/guilds.json', 'Create guild'
+      error code: 401, desc: 'Unauthorized'
+      error code: 409, desc: 'Conflict'
+      def create
+        result = CreateNewGuild.call(guild_params: guild_params, owner_id: params[:guild][:owner_id], user: Current.user, name: 'gm')
+        if result.success?
+          render json: { guild: GuildSerializer.new(result.guild) }, status: 201
+        else
+          render json: { errors: result.message }, status: 409
+        end
+      end
+
+      api :PATCH, '/v1/guilds/:id.json', 'Update guild'
+      error code: 401, desc: 'Unauthorized'
+      error code: 409, desc: 'Conflict'
+      def update
+        guild_form = GuildForm.new(@guild.attributes.merge(guild_params.merge(world: @guild.world, fraction: @guild.fraction, world_fraction: @guild.world_fraction)))
+        if guild_form.persist?
+          render json: { guild: GuildSerializer.new(guild_form.guild) }, status: 200
+        else
+          render json: { errors: guild_form.errors.full_messages }, status: 409
+        end
+      end
+
       api :GET, '/v1/guilds/:id/characters.json', 'Get list of guilds'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
@@ -28,6 +61,14 @@ module Api
       def characters
         render json: {
           characters: @guild_characters
+        }, status: 200
+      end
+
+      api :GET, '/v1/guilds/form_values.json', 'Get form_values for guild form'
+      error code: 401, desc: 'Unauthorized'
+      def form_values
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@user_characters, each_serializer: CharacterIndexSerializer).as_json[:characters]
         }, status: 200
       end
 
@@ -69,8 +110,13 @@ module Api
         @guilds = @guilds.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
       end
 
-      def find_guild
+      def find_guild_by_slug
         @guild = Guild.find_by(slug: params[:id])
+        render_error('Object is not found') if @guild.nil?
+      end
+
+      def find_guild
+        @guild = Guild.find_by(id: params[:id])
         render_error('Object is not found') if @guild.nil?
       end
 
@@ -96,6 +142,14 @@ module Api
         with[:world_id] = params[:world_id].to_i if params[:world_id].present?
         with[:fraction_id] = params[:fraction_id].to_i if params[:fraction_id].present?
         with
+      end
+
+      def find_user_characters_for_guild
+        @user_characters = Current.user.characters.where(guild_id: nil)
+      end
+
+      def guild_params
+        params.require(:guild).permit(:name, :description)
       end
     end
   end

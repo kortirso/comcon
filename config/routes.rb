@@ -4,11 +4,12 @@ Rails.application.routes.draw do
       resources :races, only: %i[index]
       resources :character_classes, only: %i[index]
       resources :worlds, only: %i[index]
-      resources :guilds, only: %i[index] do
+      resources :guilds, only: %i[index show create update] do
         get :characters, on: :member
         post :kick_character, on: :member
         post :leave_character, on: :member
         get :search, on: :collection
+        get :form_values, on: :collection
       end
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]
@@ -66,7 +67,7 @@ Rails.application.routes.draw do
     resources :worlds, except: %i[show]
     resources :users, except: %i[show new create]
     resources :recipes, only: %i[index new edit destroy]
-    resources :guilds, only: %i[index show] do
+    resources :guilds, only: %i[index show new edit] do
       get :management, on: :member
     end
     resources :craft, only: %i[index]

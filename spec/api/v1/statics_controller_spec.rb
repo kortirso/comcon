@@ -102,7 +102,7 @@ RSpec.describe 'Statics API' do
     end
 
     def do_request(headers = {})
-      get '/api/v1/statics/unexisted.json', params: { static: { name: '1' } }, headers: headers
+      get '/api/v1/statics/unexisted.json', headers: headers
     end
   end
 

@@ -54,7 +54,7 @@ RSpec.describe GuildForm, type: :service do
 
       context 'for existed guild' do
         context 'for invalid data' do
-          let(:service) { GuildForm.new(id: guild1.id, name: '', world: guild1.world, fraction: guild1.fraction) }
+          let(:service) { GuildForm.new(id: guild1.id, name: '', world: guild1.world, fraction: guild1.fraction, world_fraction: guild1.world_fraction) }
 
           it 'does not update guild' do
             service.persist?
@@ -65,7 +65,7 @@ RSpec.describe GuildForm, type: :service do
         end
 
         context 'for existed data' do
-          let(:service) { GuildForm.new(id: guild1.id, name: guild2.name, world: guild1.world, fraction: guild1.fraction) }
+          let(:service) { GuildForm.new(id: guild1.id, name: guild2.name, world: guild1.world, fraction: guild1.fraction, world_fraction: guild1.world_fraction) }
 
           it 'does not update guild' do
             service.persist?
@@ -76,7 +76,7 @@ RSpec.describe GuildForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { GuildForm.new(id: guild1.id, name: 'Хроми', world: guild1.world, fraction: guild1.fraction) }
+          let(:service) { GuildForm.new(id: guild1.id, name: 'Хроми', world: guild1.world, fraction: guild1.fraction, world_fraction: guild1.world_fraction) }
 
           it 'does not update guild' do
             service.persist?

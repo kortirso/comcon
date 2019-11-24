@@ -1,6 +1,6 @@
 .container
   #invitations
-    h3= t('management.invitations')
+    = link_to t('management.edit_guild'), edit_guild_path(@guild.slug), class: 'btn btn-primary btn-sm with_right_margin with_bottom_margin'
     = link_to t('management.create_invite'), new_guild_invite_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
   #statics
     h3= t('statics.title')

@@ -1,6 +1,9 @@
 ru:
   activemodel:
     attributes:
+      guild_form:
+        name: Название
+        guild: Гильдия
       recipe_form:
         profession: Профессия
         name: Название
@@ -21,6 +24,12 @@ ru:
         hours_before_close: Часы до закрытия
     errors:
       models:
+        guild_form:
+          attributes:
+            name:
+              blank: не может быть пустым
+            guild:
+              already_exist: уже создана в этом Мире с таким названием
         recipe_form:
           attributes:
             profession:
@@ -81,6 +90,7 @@ ru:
               too_short: слишком короткий (минимум 10 символов)
   custom_errors:
     passwords_different: Пароли не совпадают
+    character_in_guild: Персонаж не может быть ГМом новой гильдии
   navigation:
     worlds: Миры
     users: Пользователи
@@ -191,10 +201,10 @@ ru:
     title: Уведомления
     add: Создать уведомление
   management:
-    invitations: Приглашения в гильдию
+    edit_guild: Редактировать гильдию
     create_invite: Управление приглашениями в гильдию
   guilds: 
-    name: Название гильдии
+    no_characters: Для создания гильдии привяжите персонажа к учетной записи
   mailer:
     user:
       confirmation_email:

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - description for guilds
+- guild creation form for creating/updating
 
 ### Modified
 - guilds page

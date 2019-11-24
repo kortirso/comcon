@@ -1,6 +1,16 @@
 en:
   activemodel:
     attributes:
+      guild_form:
+        name: Name
+        guild: Guild
+      recipe_form:
+        profession: Profession
+        name: Name
+        links: Link
+        effect_name: Effect name
+        effect_links: Effect link
+        recipe: Recipe
       delivery_param_form:
         delivery_param: Delivery param
         params: Params
@@ -14,6 +24,31 @@ en:
         hours_before_close: Hours before close
     errors:
       models:
+        guild_form:
+          attributes:
+            name:
+              blank: can't be blank
+            guild:
+              already_exist: already exists in this world with this name
+        recipe_form:
+          attributes:
+            profession:
+              blank: can't be blank
+              is_not_recipeable: не может иметь рецептов
+            name:
+              is_not_hash: must be a hash
+              en_is_empty: can't be blank on english
+              ru_is_empty: can't be blank on russian
+            links:
+              is_not_hash: must be a hash
+              en_is_empty: can't be blank on english
+              ru_is_empty: can't be blank on russian
+            effect_name:
+              is_not_hash: must be a hash
+            effect_links:
+              is_not_hash: must be a hash
+            recipe:
+              already_exist: already exists
         delivery_param_form:
           attributes:
             delivery_param:
@@ -44,6 +79,7 @@ en:
               inclusion: must be in the list from 0 to 24
   custom_errors:
     passwords_different: Passwords are different
+    character_in_guild: Character can't be GM of the new guild
   navigation:
     worlds: Realms
     users: Users
@@ -154,10 +190,10 @@ en:
     title: Notifications
     add: Add notification
   management:
-    invitations: Invites to guild
+    edit_guild: Edit guild
     create_invite: Guild invite management
   guilds: 
-    name: Guild name
+    no_characters: For creating guild you need to attach new character to your account
   mailer:
     user:
       confirmation_email:

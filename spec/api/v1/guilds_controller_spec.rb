@@ -17,7 +17,7 @@ RSpec.describe 'Guilds API' do
           expect(response.status).to eq 200
         end
 
-        %w[id name full_name fraction world slug].each do |attr|
+        %w[id full_name name slug fraction_id fraction_name world_id description].each do |attr|
           it "and contains guild #{attr}" do
             expect(response.body).to have_json_path("guilds/0/#{attr}")
           end
@@ -43,6 +43,224 @@ RSpec.describe 'Guilds API' do
 
     def do_request(headers = {})
       get '/api/v1/guilds.json', headers: headers
+    end
+  end
+
+  describe 'GET#show' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted guild' do
+        before { get '/api/v1/guilds/unexisted.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed guild' do
+        let!(:guild) { create :guild }
+        before { get "/api/v1/guilds/#{guild.id}.json", params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name description slug].each do |attr|
+          it "and contains guild #{attr}" do
+            expect(response.body).to have_json_path("guild/#{attr}")
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/guilds/unexisted.json', headers: headers
+    end
+  end
+
+  describe 'POST#create' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let!(:character) { create :character, user: user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for invalid params' do
+        let(:request) { post '/api/v1/guilds.json', params: { access_token: access_token, guild: { name: '', description: '123', owner_id: 0 } } }
+
+        it 'calls CreateNewGuild' do
+          expect(CreateNewGuild).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and does not create new guild' do
+          expect { request }.to_not change(Guild, :count)
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 409' do
+            expect(response.status).to eq 409
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)['errors']).to_not eq nil
+          end
+        end
+      end
+
+      context 'for valid params' do
+        let(:request) { post '/api/v1/guilds.json', params: { access_token: access_token, guild: { name: '123', description: '123', owner_id: character.id } } }
+
+        it 'calls CreateNewGuild' do
+          expect(CreateNewGuild).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and creates new guild' do
+          expect { request }.to change { Guild.count }.by(1)
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 201' do
+            expect(response.status).to eq 201
+          end
+
+          %w[id full_name name slug fraction_id fraction_name world_id description].each do |attr|
+            it "and contains guild #{attr}" do
+              expect(response.body).to have_json_path("guild/#{attr}")
+            end
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      post '/api/v1/guilds.json', params: { guild: { name: '1', description: '2' } }, headers: headers
+    end
+  end
+
+  describe 'PATCH#update' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let!(:guild) { create :guild }
+      let!(:character) { create :character, guild: guild, user: user }
+      let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted guild' do
+        before { patch '/api/v1/guilds/unexisted.json', params: { access_token: access_token, guild: { name: '123', description: '123' } } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed static' do
+        context 'for invalid params' do
+          let(:request) { patch "/api/v1/guilds/#{guild.id}.json", params: { access_token: access_token, guild: { name: '', description: '123' } } }
+
+          it 'does not update guild' do
+            request
+            guild.reload
+
+            expect(guild.name).to_not eq ''
+          end
+
+          context 'in answer' do
+            before { request }
+
+            it 'returns status 409' do
+              expect(response.status).to eq 409
+            end
+
+            it 'and returns error message' do
+              expect(JSON.parse(response.body)['errors']).to_not eq nil
+            end
+          end
+        end
+
+        context 'for valid params' do
+          let(:request) { patch "/api/v1/guilds/#{guild.id}.json", params: { access_token: access_token, guild: { name: '321', description: '123' } } }
+
+          it 'updates guild' do
+            request
+            guild.reload
+
+            expect(guild.name).to eq '321'
+          end
+
+          context 'in answer' do
+            before { request }
+
+            it 'returns status 200' do
+              expect(response.status).to eq 200
+            end
+
+            %w[id full_name name slug fraction_id fraction_name world_id description].each do |attr|
+              it "and contains guild #{attr}" do
+                expect(response.body).to have_json_path("guild/#{attr}")
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      patch '/api/v1/guilds/unexisted.json', params: { guild: { name: '1' } }, headers: headers
+    end
+  end
+
+  describe 'GET#form_values' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+      before { get '/api/v1/guilds/form_values.json', params: { access_token: access_token } }
+
+      it 'returns status 200' do
+        expect(response.status).to eq 200
+      end
+
+      %w[characters].each do |attr|
+        it "and contains #{attr}" do
+          expect(response.body).to have_json_path(attr)
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/guilds/form_values.json', headers: headers
     end
   end
 

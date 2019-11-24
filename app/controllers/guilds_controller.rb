@@ -1,11 +1,17 @@
 class GuildsController < ApplicationController
   before_action :find_guild_invites_for_user, only: %i[index]
-  before_action :find_guild, only: %i[show management]
+  before_action :find_guild_by_slug, only: %i[show edit management]
   before_action :find_user_characters, only: %i[show]
 
   def index; end
 
   def show; end
+
+  def new; end
+
+  def edit
+    authorize! @guild
+  end
 
   def management
     authorize! @guild
@@ -17,7 +23,7 @@ class GuildsController < ApplicationController
     @guild_invites = Current.user.guild_invites
   end
 
-  def find_guild
+  def find_guild_by_slug
     @guild = Guild.find_by(slug: params[:id])
     render_error('Object is not found') if @guild.nil?
   end
