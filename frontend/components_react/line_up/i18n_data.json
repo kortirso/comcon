@@ -15,7 +15,7 @@
     "approved": "Accepted",
     "signed": "Signed",
     "unknown": "Tentative",
-    "rejected": "Out",
+    "rejected": "Declined",
     "signCharacter": "Sign character",
     "textarea": "Comment (Enter for save)",
     "role": "Role"
