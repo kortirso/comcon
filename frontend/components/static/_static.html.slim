@@ -2,6 +2,7 @@
   - if Current.user.any_static_role?(@static)
     = link_to t('guild.management'), management_static_path(@static.slug), class: 'btn btn-sm btn-primary with_bottom_margin'
   h2= t('static.label')
+  p= @static.description
   table.table.table-sm
     thead
       tr
