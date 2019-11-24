@@ -1,22 +1,58 @@
 @import '../../init/variables.scss';
 
 nav.navbar {
-  padding: 0;
+  padding: 0 2rem;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
 
-  .links {
-    .for_admins {
-      background: $horde;
-      color: $white;
-      padding: 0 0.25rem;
+  .navbar-toggler {
+    border: none;
+    padding: 0;
+
+    &:focus {
+      outline: none;
     }
   }
 
-  .right {
-    a {
-      margin-right: 1rem;
+  .collapse {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
-      &:nth-last-of-type(1) {
-        margin-right: 0;
+    .links {
+      .for_admins {
+        background: $horde;
+        color: $white;
+        padding: 0 0.25rem;
+      }
+    }
+
+    .right {
+      a {
+        margin-right: 1rem;
+
+        &:nth-last-of-type(1) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    &:not(.show) {
+      display: none;
+    }
+
+    &.show {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .collapse {
+      &.show {
+        display: block;
       }
     }
   }
