@@ -39,7 +39,7 @@ export default class StaticForm extends React.Component {
       method: 'GET',
       url: `/api/v1/statics/form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({userCharacters: data.characters, currentCharacterId: data.characters[0].id, userGuilds: data.guilds}, () => {
+        this.setState({userCharacters: data.characters, currentCharacterId: this.state.currentGuildId === '0' ? data.characters[0].id : '0', userGuilds: data.guilds}, () => {
           this._getStatic()
         })
       }
@@ -53,7 +53,7 @@ export default class StaticForm extends React.Component {
       url: `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const object = data['static']
-        this.setState({name: object.name, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id : '0', privy: object.privy})
+        this.setState({name: object.name, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id.toString() : '0', privy: object.privy})
       }
     })
   }
@@ -104,7 +104,7 @@ export default class StaticForm extends React.Component {
 
   _renderUserGuilds() {
     return this.state.userGuilds.map((guild) => {
-      return <option value={guild.id} key={guild.id}>{guild.full_name}</option>
+      return <option value={guild.id} key={guild.id}>{guild.name}</option>
     })
   }
 
@@ -118,30 +118,38 @@ export default class StaticForm extends React.Component {
     else this.setState({currentGuildId: event.target.value, currentCharacterId: '0'})
   }
 
+  _renderSubmitButton() {
+    if (this.state.staticId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
+    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
+  }
+
   render() {
     return (
       <div className="static_form">
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <div className="double_line">
-          <div className="form-group">
+        <h2>{this.state.staticId === undefined ? strings.newStatic : strings.updateStatic}</h2>
+        <div className="row">
+          <div className="col-sm-6">
             <label htmlFor="static_name">{strings.name}</label>
             <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="static_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
           </div>
-          <div className="double_line">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
-              <label htmlFor="event_character_id">{strings.characterOwner}</label>
-              <select className="form-control form-control-sm" id="event_character_id" onChange={this._onCharacterChange.bind(this)} value={this.state.currentCharacterId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
+              <label htmlFor="static_character_id">{strings.characterOwner}</label>
+              <select className="form-control form-control-sm" id="static_character_id" onChange={this._onCharacterChange.bind(this)} value={this.state.currentCharacterId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
                 {this.state.currentGuildId !== '0' &&
                   <option value='0' key='0'></option>
                 }
                 {this._renderUserCharacters()}
               </select>
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
-              <label htmlFor="event_guild_id">{strings.guildOwner}</label>
-              <select className="form-control form-control-sm" id="event_guild_id" onChange={this._onGuildChange.bind(this)} value={this.state.currentGuildId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
+              <label htmlFor="static_guild_id">{strings.guildOwner}</label>
+              <select className="form-control form-control-sm" id="static_guild_id" onChange={this._onGuildChange.bind(this)} value={this.state.currentGuildId} disabled={this.state.staticId !== undefined || this.props.guild_id !== null}>
                 {this.state.currentCharacterId !== '0' &&
                   <option value='0' key='0'></option>
                 }
@@ -150,27 +158,26 @@ export default class StaticForm extends React.Component {
             </div>
           </div>
         </div>
-        <div className="double_line">
-          <div className="form-group">
-            <label htmlFor="static_description">{strings.description}</label>
-            <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="static_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
+        <div className="row">
+          <div className="col-sm-6">
+            <div className="form-group">
+              <label htmlFor="static_description">{strings.description}</label>
+              <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="static_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
+            </div>
           </div>
-          <div className="form-group">
-            <div className="options">
-              <p>{strings.options}</p>
-              <div className="form-group form-check">
-                <input className="form-check-input" type="checkbox" checked={this.state.privy} onChange={() => this.setState({privy: !this.state.privy})} id="static_privy" />
-                <label htmlFor="static_privy">{strings.privy}</label>
+          <div className="col-sm-6">
+            <div className="form-group">
+              <div className="options">
+                <p>{strings.options}</p>
+                <div className="form-group form-check">
+                  <input className="form-check-input" type="checkbox" checked={this.state.privy} onChange={() => this.setState({privy: !this.state.privy})} id="static_privy" />
+                  <label htmlFor="static_privy">{strings.privy}</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        {this.state.staticId === undefined &&
-          <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
-        }
-        {this.state.staticId !== undefined &&
-          <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
-        }
+        {this._renderSubmitButton()}
       </div>
     )
   }

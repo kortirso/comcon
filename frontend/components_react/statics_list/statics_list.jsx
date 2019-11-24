@@ -18,6 +18,7 @@ export default class StaticsList extends React.Component {
       fractions: [],
       worlds: [],
       statics: [],
+      filteredStatics: [],
       fraction: '0',
       world: '0'
     }
@@ -55,17 +56,30 @@ export default class StaticsList extends React.Component {
   }
 
   _getStatics() {
-    let params = []
-    if (this.state.fraction !== '0') params.push(`fraction_id=${this.state.fraction}`)
-    if (this.state.world !== '0') params.push(`world_id=${this.state.world}`)
-    const url = `/api/v1/statics.json?access_token=${this.props.access_token}&` + params.join('&')
+    const url = `/api/v1/statics.json?access_token=${this.props.access_token}`
     $.ajax({
       method: 'GET',
       url: url,
       success: (data) => {
-        this.setState({statics: data.statics})
+        this.setState({statics: data.statics}, () => {
+          this._filterStatics()
+        })
       }
     })
+  }
+
+  _filterStatics() {
+    const state = this.state
+    let filters = {}
+    if (state.fraction !== '0') filters['fraction_id'] = parseInt(state.fraction)
+    if (state.world !== '0') filters['world_id'] = parseInt(state.world)
+    const statics = state.statics.filter(function(object) {
+      for (var key in filters) {
+        if (object[key] === undefined || object[key] != filters[key]) return false
+      }
+      return true
+    })
+    this.setState({filteredStatics: statics})
   }
 
   _renderFilters() {
@@ -114,7 +128,7 @@ export default class StaticsList extends React.Component {
   }
 
   _renderStatics() {
-    return this.state.statics.map((object) => {
+    return this.state.filteredStatics.map((object) => {
       return (
         <tr className="static_link" onClick={this._goToStatic.bind(this, object.slug)} key={object.id}>
           <td className={object.fraction_name.en.toLowerCase()}>{object.name}</td>
@@ -127,13 +141,13 @@ export default class StaticsList extends React.Component {
 
   _onChangeWorld(event) {
     this.setState({world: event.target.value}, () => {
-      this._getStatics()
+      this._filterStatics()
     })
   }
 
   _onChangeFraction(event) {
     this.setState({fraction: event.target.value}, () => {
-      this._getStatics()
+      this._filterStatics()
     })
   }
 
