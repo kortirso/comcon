@@ -5,18 +5,19 @@ class GuildForm
 
   attribute :id, Integer
   attribute :name, String
+  attribute :description, String, default: ''
   attribute :world, World
   attribute :fraction, Fraction
   attribute :world_fraction, WorldFraction
 
-  validates :name, :world, :fraction, :world_fraction, presence: true
+  validates :name, :description, :world, :fraction, :world_fraction, presence: true
+  validate :exists?
 
   attr_reader :guild
 
   def persist?
     self.world_fraction = WorldFraction.find_by(world: world, fraction: fraction)
     return false unless valid?
-    return false if exists?
     @guild = id ? Guild.find_by(id: id) : Guild.new
     return false if @guild.nil?
     @guild.attributes = attributes.except(:id)
@@ -28,6 +29,7 @@ class GuildForm
 
   def exists?
     guilds = id.nil? ? Guild.all : Guild.where.not(id: id)
-    guilds.find_by(name: name, world: world).present?
+    return unless guilds.where(name: name, world: world).exists?
+    errors[:guild] << 'is already exists in this world with this name'
   end
 end

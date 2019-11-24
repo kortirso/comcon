@@ -533,7 +533,7 @@ export default class EventCalendar extends React.Component {
             {this._renderPreviousMonth('next')}
           </div>
           <div className="current-data">
-            <a class="btn btn-primary btn-sm with_bottom_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/new`}>{strings.addEvent}</a>
+            <a className="btn btn-primary btn-sm with_bottom_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/new`}>{strings.addEvent}</a>
             <div className="calendar_arrows">
               <button className="btn btn-primary btn-sm with_right_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
               <button className="btn btn-primary btn-sm" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>

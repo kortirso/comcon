@@ -1,5 +1,7 @@
 class GuildSerializer < ActiveModel::Serializer
-  attributes :id, :full_name, :name, :slug
-  belongs_to :fraction, serializer: FractionSerializer
-  belongs_to :world, serializer: WorldSerializer
+  attributes :id, :full_name, :name, :slug, :fraction_id, :fraction_name, :world_id
+
+  def fraction_name
+    object.fraction.name
+  end
 end

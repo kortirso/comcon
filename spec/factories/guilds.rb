@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :guild do
     sequence(:name) { |i| "Name#{i}" }
+    description { '' }
     association :world
     association :fraction
 

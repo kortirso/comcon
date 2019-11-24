@@ -1,18 +1,22 @@
 {
   "en": {
     "none": "none",
-    "id": "ID",
     "name": "Name",
     "world": "Realm",
+    "description": "Description",
     "filterWorld": "Filter by realm",
-    "filterFraction": "Filter by fraction"
+    "filterFraction": "Filter by fraction",
+    "guilds": "Guilds",
+    "addGuild": "Add Guild"
   },
   "ru": {
     "none": "все",
-    "id": "ID",
     "name": "Название",
     "world": "Игровой Мир",
+    "description": "Описание",
     "filterWorld": "Фильтр по мирам",
-    "filterFraction": "Фильтр по фракциям"
+    "filterFraction": "Фильтр по фракциям",
+    "guilds": "Гильдии",
+    "addGuild": "Добавить гильдию"
   }
 }
