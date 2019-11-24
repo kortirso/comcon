@@ -30,6 +30,8 @@ en:
         start_time: Start time
         eventable: Event owner
         hours_before_close: Hours before close
+        world_fraction: World and Fraction combination
+        eventable_id: Event ownership
     errors:
       models:
         character_form:
@@ -105,6 +107,10 @@ en:
               is_not_exist: is not exist
             hours_before_close:
               inclusion: must be in the list from 0 to 24
+            world_fraction:
+              blank: can't be blank
+            eventable_id:
+              blank: is not exist
   custom_errors:
     passwords_different: Passwords are different
     character_in_guild: Character can't be GM of the new guild

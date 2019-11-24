@@ -30,6 +30,8 @@ ru:
         start_time: Время начала
         eventable: Владелец события
         hours_before_close: Часы до закрытия
+        world_fraction: Сочетание Игрового Мира и фракции
+        eventable_id: Объект владения
     errors:
       models:
         character_form:
@@ -105,6 +107,10 @@ ru:
               is_not_exist: не существует
             hours_before_close:
               inclusion: должны быть в диапазоне от 0 до 24
+            world_fraction:
+              blank: не может быть пустым
+            eventable_id:
+              blank: не существует
   activerecord:
     attributes:
       user:

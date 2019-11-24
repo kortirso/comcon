@@ -28,22 +28,18 @@ class EventForm
 
   def persist?
     # initial values
-    self.event_type =
-      if !event_type.present? && dungeon.present?
-        (dungeon.raid? ? 'raid' : 'instance')
-      else
-        'custom'
-      end
+    self.event_type = define_event_type
     self.name = dungeon.name[I18n.locale.to_s] if !name.present? && dungeon.present?
-    self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if owner.present? && eventable_type != 'Static'
-    self.fraction = owner.race.fraction if owner.present?
-    world_id = eventable_type == 'World' ? eventable_id : @eventable&.world_id
-    self.world_fraction = WorldFraction.find_by(world_id: world_id, fraction_id: fraction&.id)
+    if owner.present?
+      self.fraction = owner.race&.fraction
+      self.world_fraction = owner.world_fraction
+      self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if eventable_type != 'Static'
+    end
     # validation
     return false unless valid?
     @event = id ? Event.find_by(id: id) : Event.new
     return false if @event.nil?
-    @event.attributes = attributes.except(:id, :locale)
+    @event.attributes = attributes.except(:id)
     @event.save
     true
   end
@@ -52,8 +48,7 @@ class EventForm
 
   def eventable_exists?
     return if eventable_type.nil?
-    @eventable = eventable_type.constantize.where(id: eventable_id)
-    return if @eventable.exists?
+    return if eventable_type.constantize.where(id: eventable_id).exists?
     errors[:eventable] << I18n.t('activemodel.errors.models.event_form.attributes.eventable.is_not_exist')
   end
 
@@ -61,5 +56,10 @@ class EventForm
     return if start_time.nil?
     return if DateTime.now < start_time - hours_before_close.hours
     errors[:start_time] << I18n.t('activemodel.errors.models.event_form.attributes.start_time.in_the_past')
+  end
+
+  def define_event_type
+    return (dungeon.raid? ? 'raid' : 'instance') if !event_type.present? && dungeon.present?
+    'custom'
   end
 end

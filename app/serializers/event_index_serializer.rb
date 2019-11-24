@@ -1,5 +1,5 @@
 class EventIndexSerializer < ActiveModel::Serializer
-  attributes :id, :name, :date, :time, :slug, :fraction_id, :description, :dungeon_id, :event_type, :eventable_type, :eventable_id
+  attributes :id, :name, :date, :time, :slug, :fraction_id, :description, :dungeon_id, :event_type, :eventable_type, :eventable_id, :owner_id
 
   def date
     object.start_time.strftime('%-d.%-m.%Y')

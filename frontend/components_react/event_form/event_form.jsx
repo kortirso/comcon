@@ -163,8 +163,8 @@ export default class EventForm extends React.Component {
   }
 
   _renderSubmitButton() {
-    if (this.state.eventId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
-    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
+    if (this.state.eventId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm with_top_margin" onClick={this._onCreate.bind(this)} />
+    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm with_top_margin" onClick={this._onUpdate.bind(this)} />
   }
 
   _onChangeEventType(event) {
@@ -209,21 +209,25 @@ export default class EventForm extends React.Component {
   _onChangeEventableType(event) {
     this.setState({eventableType: event.target.value}, () => {
       if (this.state.eventableType === 'Static') this.setState({staticId: this.state.currentStatics[0].id})
+      else this.setState({staticId: ''})
     })
   }
 
   render() {
     return (
-      <div className="character_form">
+      <div className="event_form">
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <div className="double_line">
-          <div className="double_line">
+        <h2>{this.state.eventId === undefined ? strings.newEvent : strings.updateEvent}</h2>
+        <div className="row">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_name">{strings.name}</label>
               <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="event_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_owner_id">{strings.creator}</label>
               <select className="form-control form-control-sm" id="event_owner_id" onChange={this._onChangeCreator.bind(this)} value={this.state.creatorId} disabled={this.state.eventId !== undefined}>
@@ -231,19 +235,21 @@ export default class EventForm extends React.Component {
               </select>
             </div>
           </div>
-          <div className="double_line">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_start_time">{strings.startTime}</label>
               <input type="text" className="datepicker-here form-control form-control-sm" id="event_start_time" data-language={this.props.locale} data-date-format="dd.mm.yyyy" data-timepicker="true" />
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_hours_before_close">{strings.hoursBeforeClose}</label>
               <input placeholder={strings.hoursBeforeClose} className="form-control form-control-sm" type="text" onChange={(event) => this.setState({hoursBeforeClose: event.target.value})} value={this.state.hoursBeforeClose} id="event_hours_before_close" />
             </div>
           </div>
         </div>
-        <div className="double_line">
-          <div className="double_line">
+        <div className="row">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_eventable_type">{strings.eventableType}</label>
               <select className="form-control form-control-sm" id="event_eventable_type" onChange={this._onChangeEventableType.bind(this)} value={this.state.eventableType} disabled={this.state.eventId !== undefined}>
@@ -254,6 +260,8 @@ export default class EventForm extends React.Component {
                 }
               </select>
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_static_id">{strings.statics}</label>
               <select className="form-control form-control-sm" id="event_static_id" onChange={(event) => this.setState({staticId: event.target.value})} value={this.state.staticId} disabled={this.state.eventableType !== 'Static' || this.state.eventId !== undefined}>
@@ -264,7 +272,7 @@ export default class EventForm extends React.Component {
               </select>
             </div>
           </div>
-          <div className="double_line">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_type">{strings.eventType}</label>
               <select className="form-control form-control-sm" id="event_type" onChange={this._onChangeEventType.bind(this)} value={this.state.eventType}>
@@ -273,6 +281,8 @@ export default class EventForm extends React.Component {
                 <option value='custom' key='custom'>{strings.custom}</option>
               </select>
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_dungeon_id">{strings.eventTarget}</label>
               <select className="form-control form-control-sm" id="event_dungeon_id" onChange={(event) => this.setState({dungeonId: event.target.value})} value={this.state.dungeonId}>
@@ -281,8 +291,8 @@ export default class EventForm extends React.Component {
             </div>
           </div>
         </div>
-        <div className="double_line">
-          <div className="form-group">
+        <div className="row">
+          <div className="col-sm-6">
             <label htmlFor="event_description">{strings.description}</label>
             <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="event_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
           </div>
