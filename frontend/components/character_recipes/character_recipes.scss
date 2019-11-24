@@ -1,16 +1,6 @@
 .character_professions {
-  display: flex;
-  flex-direction: row;
-
   .character_profession {
-    width: 32%;
-    padding-right: 1rem;
     margin-bottom: 2rem;
-    margin-right: 2%;
-
-    &:nth-last-of-type(1) {
-      margin-right: 0;
-    }
 
     .recipes {
       .recipe {

@@ -4,6 +4,8 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
+import ErrorView from '../error_view/error_view'
+
 let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
@@ -34,7 +36,8 @@ export default class CharacterForm extends React.Component {
       characterId: props.character_id,
       professions: [],
       currentProfessions: {},
-      secondaryProfessionIds: []
+      secondaryProfessionIds: [],
+      errors: []
     }
   }
 
@@ -123,15 +126,17 @@ export default class CharacterForm extends React.Component {
     const state = this.state
     let currentSecondaryRoles = state.currentSecondaryRoles
     currentSecondaryRoles[state.currentMainRole] = '1'
+    let url = `/api/v1/characters.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'POST',
-      url: `/api/v1/characters.json?access_token=${this.props.access_token}`,
+      url: url,
       data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons, professions: state.currentProfessions } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -140,15 +145,17 @@ export default class CharacterForm extends React.Component {
     const state = this.state
     let currentSecondaryRoles = state.currentSecondaryRoles
     currentSecondaryRoles[state.currentMainRole] = '1'
+    let url = `/api/v1/characters/${state.characterId}.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'PATCH',
-      url: `/api/v1/characters/${state.characterId}.json?access_token=${this.props.access_token}`,
+      url: url,
       data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons, professions: state.currentProfessions } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
       error: (data) => {
-        console.log(data.responseJSON.errors)
+        this.setState({errors: data.responseJSON.errors})
       }
     })
   }
@@ -315,24 +322,32 @@ export default class CharacterForm extends React.Component {
   render() {
     return (
       <div className="character_form">
-        <div className="double_line">
-          <div className="double_line">
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
+        <h2>{this.state.characterId === undefined ? strings.newCharacter : strings.updateCharacter}</h2>
+        <div className="row">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="character_name">{strings.name}</label>
               <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="character_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="character_level">{strings.level}</label>
               <input required="required" placeholder={strings.level} className="form-control form-control-sm" type="number" id="character_level" value={this.state.level} onChange={(event) => this.setState({level: event.target.value})} />
             </div>
           </div>
-          <div className="double_line">
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="character_race_id">{strings.race}</label>
               <select className="form-control form-control-sm" id="character_race_id" onChange={this._onChangeRace.bind(this)} value={this.state.currentRace === null ? '0' : this.state.currentRace} disabled={this.state.characterId !== undefined}>
                 {this._renderRaces()}
               </select>
             </div>
+          </div>
+          <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="character_character_class_id">{strings.characterClass}</label>
               <select className="form-control form-control-sm" id="character_character_class_id" onChange={this._onChangeClass.bind(this)} value={this.state.currentCharacterClass === null ? '0' : this.state.currentCharacterClass} disabled={this.state.characterId !== undefined}>
@@ -341,50 +356,56 @@ export default class CharacterForm extends React.Component {
             </div>
           </div>
         </div>
-        <div className="double_line">
-          <div className="form-group">
-            <label htmlFor="world_id">{strings.world}</label>
-            <select className="form-control form-control-sm" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld} disabled={this.state.characterId !== undefined}>
-              <option value="0"></option>
-              {this._renderWorlds()}
-            </select>
+        <div className="row">
+          <div className="col-sm-4 col-xl-3">
+            <div className="form-group">
+              <label htmlFor="world_id">{strings.world}</label>
+              <select className="form-control form-control-sm" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld} disabled={this.state.characterId !== undefined}>
+                <option value="0"></option>
+                {this._renderWorlds()}
+              </select>
+            </div>
           </div>
-          <div className="form-group roles">
-            <div className="main_role">
+          <div className="col-sm-4 col-xl-3">
+            <div className="form-group">
               <label htmlFor="character_main_role_id">{strings.mainRole}</label>
               <select className="form-control form-control-sm" id="character_main_role_id" onChange={this._onChangeMainRole.bind(this)} value={this.state.currentMainRole === null ? '0' : this.state.currentMainRole}>
                 {this._renderClassRoles()}
               </select>
             </div>
-            {this.state.secondaryRoles.length > 0 &&
+          </div>
+          {this.state.secondaryRoles.length > 0 &&
+            <div className="col-sm-4 col-xl-3">
               <div className="secondary_roles">
                 <p>{strings.otherRoles}</p>
                 {this._renderSecondaryRoles()}
               </div>
-            }
-          </div>
+            </div>
+          }
         </div>
         {this.state.professions.length > 0 &&
-          <div className="double_line">
-            <div className="form-group">
-              <p>{strings.professions}</p>
-              <div className="professions">
-                {this._renderProfessions()}
+          <div className="row">
+            <div className="col-md-12 col-xl-6">
+              <div className="form-group">
+                <h4>{strings.professions}</h4>
+                <div className="professions">
+                  {this._renderProfessions()}
+                </div>
               </div>
             </div>
           </div>
         }
         {this.state.dungeons.length > 0 &&
-          <div className="double_line">
+          <div className="row">
             {this.state.questDungeons.length > 0 &&
-              <div className="block">
-                <p>{strings.quests}</p>
+              <div className="col-md-6 block">
+                <h4>{strings.quests}</h4>
                 {this._renderQuestDungeons()}
               </div>
             }
             {this.state.keyDungeons.length > 0 &&
-              <div className="block">
-                <p>{strings.keys}</p>
+              <div className="col-md-6 block">
+                <h4>{strings.keys}</h4>
                 {this._renderKeyDungeons()}
               </div>
             }

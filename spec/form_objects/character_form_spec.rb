@@ -34,22 +34,7 @@ RSpec.describe CharacterForm, type: :service do
 
         it 'does not create new character' do
           expect { service.persist? }.to_not change(Character, :count)
-          expect(service.errors.full_messages[0]).to eq 'Character class is not valid for race'
-        end
-
-        it 'and returns false' do
-          expect(service.persist?).to eq false
-        end
-      end
-
-      context 'for invalid guild world' do
-        let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }
-        let!(:guild) { create :guild }
-        let(:service) { CharacterForm.new(name: 'Хроми', world: character.world, level: 60, user: character.user, race: character.race, character_class: character.character_class, guild: guild) }
-
-        it 'does not create new character' do
-          expect { service.persist? }.to_not change(Character, :count)
-          expect(service.errors.full_messages[0]).to eq 'Guild is not from selected world'
+          expect(service.errors.full_messages[0].is_a?(String)).to eq true
         end
 
         it 'and returns false' do
@@ -65,7 +50,7 @@ RSpec.describe CharacterForm, type: :service do
 
         it 'does not create new character' do
           expect { service.persist? }.to_not change(Character, :count)
-          expect(service.errors.full_messages[0]).to eq 'Race is not available for this fraction'
+          expect(service.errors.full_messages[0].is_a?(String)).to eq true
         end
 
         it 'and returns false' do
@@ -102,7 +87,7 @@ RSpec.describe CharacterForm, type: :service do
 
       context 'for existed character' do
         context 'for invalid data' do
-          let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: '')) }
+          let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: '', world_fraction: character1.world_fraction)) }
 
           it 'does not update character' do
             service.persist?
@@ -113,7 +98,7 @@ RSpec.describe CharacterForm, type: :service do
         end
 
         context 'for existed data' do
-          let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: character2.name)) }
+          let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: character2.name, world_fraction: character1.world_fraction)) }
 
           it 'does not update character' do
             service.persist?
@@ -124,7 +109,7 @@ RSpec.describe CharacterForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: 'Убивамс')) }
+          let(:service) { CharacterForm.new(character1.attributes.merge(world: character1.world, user: character1.user, race: character1.race, character_class: character1.character_class, name: 'Убивамс', world_fraction: character1.world_fraction)) }
 
           it 'updates character' do
             service.persist?

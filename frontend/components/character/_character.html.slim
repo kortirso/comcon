@@ -2,14 +2,15 @@
   h2= @character.name
   p= "#{@character.race.name[I18n.locale.to_s]}"
   .character_recipes
-    h3 Изученные рецепты
-    .professions
+    h3= t('character_recipes.recipes')
+    .row.professions
       - @character_professions.each do |character_profession|
-        .character_profession
-          h4= character_profession.profession.name[I18n.locale.to_s]
-          .recipes
-            - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
-            - character_profession.profession.recipes.where(id: existed_recipe_ids).order(skill: :desc).each do |recipe|
-              .recipe
-                span= link_to recipe.name[I18n.locale.to_s], recipe.links[I18n.locale.to_s]
-                span= recipe.skill
+        .col-md-6.col-lg-4
+          .character_profession
+            h4= character_profession.profession.name[I18n.locale.to_s]
+            .recipes
+              - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
+              - character_profession.profession.recipes.where(id: existed_recipe_ids).order(skill: :desc).each do |recipe|
+                .recipe
+                  span= link_to recipe.name[I18n.locale.to_s], recipe.links[I18n.locale.to_s]
+                  span= recipe.skill

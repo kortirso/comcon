@@ -3,17 +3,7 @@
     margin-top: 2rem;
 
     .professions {
-      display: flex;
-      flex-direction: row;
-
       .character_profession {
-        width: 32%;
-        margin-right: 2%;
-
-        &:nth-last-of-type(1) {
-          margin-right: 0;
-        }
-
         .recipes {
           .recipe {
             display: flex;

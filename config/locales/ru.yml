@@ -1,6 +1,14 @@
 ru:
   activemodel:
     attributes:
+      character_form:
+        character: Персонаж
+        character_class: Класс персонажа
+        race: Раса
+        name: Имя
+        world: Игровой Мир
+        world_fraction: Сочетание Игрового Мира и фракции
+        level: Уровень
       guild_form:
         name: Название
         guild: Гильдия
@@ -24,6 +32,24 @@ ru:
         hours_before_close: Часы до закрытия
     errors:
       models:
+        character_form:
+          attributes:
+            character:
+              already_exist: с таким именем уже существует в указанном Мире
+            character_class:
+              is_not_valid: не соответствует выбранной расе
+            race:
+              is_not_valid: не соответствует выбранной фракции
+            name:
+              blank: не может быть пустым
+              too_long: слишком длинное (максимум 20 символов)
+              too_short: слишком короткое (минимум 2 символа)
+            world:
+              blank: не может быть пустым
+            world_fraction:
+              blank: не может быть пустым
+            level:
+              inclusion: должны быть в диапазоне от 1 до 60
         guild_form:
           attributes:
             name:
@@ -158,6 +184,7 @@ ru:
   events:
     no_characters: Для просмотра событий привяжите персонажа к учетной записи
   characters:
+    label: Персонажи
     add: Добавить персонажа
     name: Имя
     world: Мир
@@ -178,6 +205,7 @@ ru:
     page_description: На этой странице вы можете вручную указать, какие рецепты известны вашему персонажу.
     addon: "Но также есть замечательный аддон "
     addon_from: " от Ardash'а, который позволяет в игре скопировать в буфер обмена эту информацию и только указать её здесь. Установите аддон, в игре используйте команды вида '/ps Cooking', '/ps Enchanting', '/ps Alchemy', '/ps Leatherworking', '/ps Engineering', '/ps Tailoring', '/ps Blacksmithing', затем разместите полученную информацию в блоках ниже для вашей профессии и нажмите Загрузить."
+    recipes: Изученные рецепты
   craft:
     title: Поиск крафтеров
     description: Ищите, кто бы скрафтил Меч Азерота вашему крутому паладину? Эта форма поиска явно поможет! Поиск начнется после выбора рецепта.

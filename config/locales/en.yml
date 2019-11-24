@@ -1,6 +1,14 @@
 en:
   activemodel:
     attributes:
+      character_form:
+        character: Character
+        character_class: Character class
+        race: Race
+        name: Name
+        world: Realm
+        world_fraction: World and Fraction combination
+        level: Level
       guild_form:
         name: Name
         guild: Guild
@@ -24,6 +32,24 @@ en:
         hours_before_close: Hours before close
     errors:
       models:
+        character_form:
+          attributes:
+            character:
+              already_exist: already exists with this name in selected Realm
+            character_class:
+              is_not_valid: is not valid for selected race
+            race:
+              is_not_valid: is not available for this fraction
+            name:
+              blank: can't be blank
+              too_long: is too long (maximum is 20 characters)
+              too_short: is too short (minimum is 2 characters)
+            world:
+              blank: can't be blank
+            world_fraction:
+              blank: can't be blank
+            level:
+              inclusion: must be in the list from 1 to 60
         guild_form:
           attributes:
             name:
@@ -147,6 +173,7 @@ en:
   events:
     no_characters: For viewing events you need to attach new character to your account
   characters:
+    label: Characters
     add: Add character
     name: Name
     world: Realm
@@ -167,6 +194,7 @@ en:
     page_description: On this page, you can manually specify which recipes your character knows.
     addon: "But there is also a wonderful addon "
     addon_from: " from Ardash, which allows you to copy this information to the clipboard in the game and only specify it here. Install the addon, in the game use commands like '/ps Cooking', '/ps Enchanting', '/ps Alchemy', '/ps Leatherworking', '/ps Engineering', '/ps Tailoring', '/ps Blacksmithing', then place the received information in the blocks below for your profession and click Upload."
+    recipes: Learned recipes
   craft:
     title: Crafters search
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help! Search will start after recipe select.

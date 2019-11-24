@@ -1,25 +1,15 @@
 class CharacterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :level, :character_class, :race, :guild, :subscribe_for_event, :main_role, :user_id
+  attributes :id, :name, :level, :character_class_name, :race_name, :guild_name, :user_id
 
-  def character_class
+  def character_class_name
     object.character_class.name
   end
 
-  def race
+  def race_name
     object.race.name
   end
 
-  def guild
+  def guild_name
     object.guild&.name
-  end
-
-  def subscribe_for_event
-    subscribe = object.subscribes.find_by(event_id: @instance_options[:event_id])
-    return nil if subscribe.nil?
-    SubscribeSerializer.new(subscribe)
-  end
-
-  def main_role
-    object.main_roles&.first&.name
   end
 end

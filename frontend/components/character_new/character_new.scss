@@ -31,29 +31,19 @@
         }
       }
     }
+  }
 
-    &.roles {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+  .secondary_roles {
+    p {
+      margin-bottom: 0.2rem;
+    }
 
-      .main_role, .secondary_roles {
-        width: 48%;
-      }
+    .form-check {
+      margin-bottom: 0.2rem;
+      width: 100%;
 
-      .secondary_roles {
-        p {
-          margin-bottom: 0.2rem;
-        }
-
-        .form-check {
-          margin-bottom: 0.2rem;
-          width: 100%;
-
-          label {
-            margin: 0;
-          }
-        }
+      label {
+        margin: 0;
       }
     }
   }

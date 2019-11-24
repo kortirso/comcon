@@ -87,7 +87,7 @@ RSpec.describe CharactersController, type: :controller do
         let!(:character) { create :character, :human_warrior, user: @current_user }
 
         it 'renders edit template' do
-          get :edit, params: { locale: 'en', id: character.id }
+          get :edit, params: { locale: 'en', id: character.slug }
 
           expect(response).to render_template :edit
         end
@@ -160,7 +160,7 @@ RSpec.describe CharactersController, type: :controller do
         let!(:character) { create :character, :human_warrior, user: @current_user }
 
         it 'renders recipes template' do
-          get :recipes, params: { locale: 'en', id: character.id }
+          get :recipes, params: { locale: 'en', id: character.slug }
 
           expect(response).to render_template :recipes
         end

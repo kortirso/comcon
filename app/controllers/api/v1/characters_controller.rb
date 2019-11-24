@@ -23,7 +23,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def show
         render json: {
-          character: CharacterEditSerializer.new(@character)
+          character: CharacterShowSerializer.new(@character)
         }, status: 200
       end
 
@@ -71,7 +71,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def search
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(Character.where(id: @character_ids).includes(:race, :character_class, guild: :world), each_serializer: CharacterCrafterSerializer).as_json[:characters]
+          characters: ActiveModelSerializers::SerializableResource.new(@characters, root: 'characters', each_serializer: CharacterCrafterSerializer).as_json[:characters]
         }, status: 200
       end
 
@@ -123,7 +123,7 @@ module Api
       end
 
       def search_characters
-        @character_ids = Character.search("*#{params[:query]}*", with: define_additional_search_params).map!(&:id)
+        @characters = Character.search "*#{params[:query]}*", with: define_additional_search_params
       end
 
       def define_additional_search_params(with = {})
@@ -154,6 +154,7 @@ module Api
         h[:race] = @character.nil? ? Race.find_by(id: params[:character][:race_id]) : @character.race
         h[:character_class] = @character.nil? ? CharacterClass.find_by(id: params[:character][:character_class_id]) : @character.character_class
         h[:world] = @character.nil? ? World.find_by(id: params[:character][:world_id]) : @character.world
+        h[:world_fraction] = @character.world_fraction unless @character.nil?
         h[:guild] = @character.nil? ? nil : @character&.guild
         h[:user] = Current.user
         h
