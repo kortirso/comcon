@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - reset password process
+- amount of approved characters for event
 
 ### Modified
 - responsive navigation

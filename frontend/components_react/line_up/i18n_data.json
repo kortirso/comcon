@@ -18,7 +18,8 @@
     "rejected": "Declined",
     "signCharacter": "Sign character",
     "textarea": "Comment (Enter for save)",
-    "role": "Role"
+    "role": "Role",
+    "approvedCharacters": "Amount of approved characters for events"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -39,6 +40,7 @@
     "rejected": "Не приду",
     "signCharacter": "Подписать персонажа",
     "textarea": "Комментарий (Enter для сохранения)",
-    "role": "Роль"
+    "role": "Роль",
+    "approvedCharacters": "Количество персонажей, которые приняты в рейд"
   }
 }

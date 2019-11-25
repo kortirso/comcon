@@ -273,6 +273,12 @@ export default class LineUp extends React.Component {
     return <div className="user_buttons">{buttons}</div>
   }
 
+  _calcApproved() {
+    return this.state.subscribes.filter((subscribe) => {
+      return subscribe.status === 'approved'
+    }).length
+  }
+
   render() {
     const eventInfo = this.state.eventInfo
     return (
@@ -286,6 +292,7 @@ export default class LineUp extends React.Component {
             <p>{this._renderAccess(eventInfo)}</p>
             <p>{strings.owner} - {eventInfo.owner_name}</p>
             <p>{eventInfo.description}</p>
+            <p>{strings.approvedCharacters} - {this._calcApproved()}</p>
           </div>
         }
         {this._renderSignBlock()}
