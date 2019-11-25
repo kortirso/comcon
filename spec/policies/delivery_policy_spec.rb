@@ -44,6 +44,14 @@ describe DeliveryPolicy do
       end
     end
 
+    context 'for user' do
+      let(:policy) { described_class.new(character1, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
     def policy_access
       policy.new?
     end

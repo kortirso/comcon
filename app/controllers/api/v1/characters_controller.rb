@@ -1,6 +1,7 @@
 module Api
   module V1
     class CharactersController < Api::V1::BaseController
+      include Concerns::RaceCacher
       include Concerns::WorldCacher
       include Concerns::DungeonCacher
       include Concerns::ProfessionCacher
@@ -90,36 +91,6 @@ module Api
       def find_character
         @character = Current.user.characters.find_by(id: params[:id])
         render_error('Object is not found') if @character.nil?
-      end
-
-      def get_races_from_cache
-        @races_json = Rails.cache.fetch('race_dependencies') do
-          race_dependencies
-        end
-      end
-
-      def race_dependencies
-        Race.order(id: :desc).inject({}) do |races, race|
-          races.merge(
-            race.id.to_s => {
-              'name' => race.name,
-              'character_classes' => race.character_classes.includes(:combinateables).order(id: :desc).inject({}) do |classes, char_class|
-                classes.merge(
-                  char_class.id.to_s => {
-                    'name' => char_class.name,
-                    'roles' => char_class.combinateables.inject({}) do |roles, role|
-                      roles.merge(
-                        role.id.to_s => {
-                          'name' => role.name
-                        }
-                      )
-                    end
-                  }
-                )
-              end
-            }
-          )
-        end
       end
 
       def search_characters

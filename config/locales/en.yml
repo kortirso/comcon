@@ -257,6 +257,7 @@ en:
         confirmation_page: Confirmation page
         buy: Have a good day
       reset_password_email:
+        subject: Reset password token for your account
         h1: Hello!
         p1: Someone set this email for change password to Guild-Hall
         p2: If it wasn’t you, please ignore this message

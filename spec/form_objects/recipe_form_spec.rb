@@ -38,6 +38,19 @@ RSpec.describe RecipeForm, type: :service do
           expect(service.persist?).to eq true
         end
       end
+
+      context 'for invalid profession' do
+        let!(:profession) { create :profession, recipeable: false }
+        let(:service) { RecipeForm.new(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
+
+        it 'does not create new recipe' do
+          expect { service.persist? }.to_not change(Recipe, :count)
+        end
+
+        it 'and returns false' do
+          expect(service.persist?).to eq false
+        end
+      end
     end
 
     context 'for updating' do

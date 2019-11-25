@@ -169,5 +169,41 @@ RSpec.describe User, type: :model do
         expect(user.authenticated?(token)).to eq true
       end
     end
+
+    context '.available_characters_for_event' do
+      let!(:user) { create :user }
+      let!(:character1) { create :character, user: user }
+      let!(:character2) { create :character, user: user }
+      let!(:character3) { create :character, user: user }
+      let!(:guild) { create :guild, world: character2.world, fraction: character2.race.fraction, world_fraction: character2.world_fraction }
+      let!(:world_event) { create :event, eventable: character1.world, fraction: character1.race.fraction, world_fraction: character1.world_fraction }
+      let!(:guild_event) { create :event, eventable: guild, fraction: character2.race.fraction, world_fraction: character2.world_fraction }
+      let!(:static) { create :static, staticable: character3 }
+      let!(:static_member) { create :static_member, character: character3, static: static }
+      let!(:static_event) { create :event, eventable: static, fraction: character3.race.fraction, world_fraction: character3.world_fraction }
+
+      it 'returns characters for world event' do
+        result = user.available_characters_for_event(event: world_event)
+
+        expect(result.size).to eq 1
+        expect(result[0]).to eq character1
+      end
+
+      it 'returns characters for guild event' do
+        character2.update(guild_id: guild.id)
+
+        result = user.available_characters_for_event(event: guild_event)
+
+        expect(result.size).to eq 1
+        expect(result[0]).to eq character2
+      end
+
+      it 'returns characters for static event' do
+        result = user.available_characters_for_event(event: static_event)
+
+        expect(result.size).to eq 1
+        expect(result[0]).to eq character3
+      end
+    end
   end
 end

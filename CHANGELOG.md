@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Modified
 - responsive navigation
+- tests
 
 ## [0.8.7] - 2019-11-24
 ### Added

@@ -11,4 +11,12 @@ class Role < ApplicationRecord
 
   has_many :character_roles, dependent: :destroy
   has_many :characters, through: :character_roles
+
+  def to_hash
+    {
+      id.to_s => {
+        'name' => name
+      }
+    }
+  end
 end
