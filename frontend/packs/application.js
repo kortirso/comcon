@@ -4,6 +4,7 @@ import "images";
 import "components/page/page";
 import "components/navigation/navigation";
 import "components/footer/footer";
+import "components/flashes/flashes";
 
 import "components/external_services/external_services";
 import "components/users/users";

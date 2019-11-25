@@ -65,7 +65,12 @@ Rails.application.routes.draw do
     end
     resources :events, only: %i[index show new edit]
     resources :worlds, except: %i[show]
-    resources :users, except: %i[show new create]
+    resources :users, except: %i[show new create] do
+      get :restore_password, on: :collection, as: :restore_password
+      post :reset_password, on: :collection
+      get :new_password, on: :collection, as: :new_password
+      patch :change_password, on: :collection
+    end
     resources :recipes, only: %i[index new edit destroy]
     resources :guilds, only: %i[index show new edit] do
       get :management, on: :member

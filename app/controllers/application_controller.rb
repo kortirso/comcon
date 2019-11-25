@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :email_confirmed?
   skip_before_action :authenticate_user!, only: %i[catch_route_error]
   skip_before_action :set_current_user, only: %i[catch_route_error]
+  skip_before_action :email_confirmed?, only: %i[catch_route_error]
 
   authorize :user, through: :my_current_user
 
@@ -71,7 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_html_error(message = 'Error')
-    @message = message
+    flash.now[:danger] = message
     render template: 'shared/error', status: 404
   end
 end

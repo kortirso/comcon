@@ -66,9 +66,9 @@ class User < ApplicationRecord
 
   def available_characters_for_event(event:)
     case event.eventable_type
-      when 'World' then available_characters_for_world_event(eventable_id: event.eventable_id, fraction_id: event.fraction_id)
-      when 'Guild' then available_characters_for_guild_event(eventable_id: event.eventable_id)
-      when 'Static' then available_characters_for_static_event(eventable_id: event.eventable_id)
+      when 'World' then characters.where(world_fraction_id: event.world_fraction_id)
+      when 'Guild' then characters.where(guild_id: event.eventable_id)
+      when 'Static' then characters.joins(:static_members).where(static_members: { static_id: event.eventable_id })
     end
   end
 
@@ -94,17 +94,5 @@ class User < ApplicationRecord
 
   def send_confirmation_token
     ConfirmUserEmailJob.perform_now(user_id: id) if confirmed_at.nil?
-  end
-
-  def available_characters_for_world_event(eventable_id:, fraction_id:)
-    characters.joins(:race).where(world_id: eventable_id).where(races: { fraction_id: fraction_id })
-  end
-
-  def available_characters_for_guild_event(eventable_id:)
-    characters.where(guild_id: eventable_id)
-  end
-
-  def available_characters_for_static_event(eventable_id:)
-    characters.joins(:static_members).where(static_members: { static_id: eventable_id })
   end
 end
