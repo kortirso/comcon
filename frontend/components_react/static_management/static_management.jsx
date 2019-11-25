@@ -143,7 +143,6 @@ export default class StaticManagement extends React.Component {
           <thead>
             <tr>
               <th>{strings.name}</th>
-              <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.guild}</th>
               <th></th>
@@ -160,11 +159,10 @@ export default class StaticManagement extends React.Component {
   _renderInvitesResults() {
     return this.state.invites.map((invite) => {
       return (
-        <tr className={invite.character.character_class.en} key={invite.id}>
+        <tr className={invite.character.character_class_name.en} key={invite.id}>
           <td>{invite.character.name}</td>
-          <td>{invite.character.race[this.props.locale]}</td>
           <td>{invite.character.level}</td>
-          <td>{invite.character.guild}</td>
+          <td>{invite.character.guild_name}</td>
           <td>
             {invite.status === 'declined' &&
               <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
@@ -182,7 +180,6 @@ export default class StaticManagement extends React.Component {
           <thead>
             <tr>
               <th>{strings.name}</th>
-              <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.guild}</th>
               <th></th>
@@ -199,11 +196,10 @@ export default class StaticManagement extends React.Component {
   _renderSearchResults() {
     return this.state.searchedCharacters.map((character) => {
       return (
-        <tr className={character.character_class.en} key={character.id}>
+        <tr className={character.character_class_name.en} key={character.id}>
           <td>{character.name}</td>
-          <td>{character.race[this.props.locale]}</td>
           <td>{character.level}</td>
-          <td>{character.guild}</td>
+          <td>{character.guild_name}</td>
           <td>
             <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onInviteCharacter.bind(this, character)} />
           </td>
@@ -215,11 +211,10 @@ export default class StaticManagement extends React.Component {
   _renderStaticMembers() {
     return this.state.members.map((member) => {
       return (
-        <tr className={member.character.character_class.en} key={member.id}>
+        <tr className={member.character.character_class_name.en} key={member.id}>
           <td>{member.character.name}</td>
-          <td>{member.character.race[this.props.locale]}</td>
           <td>{member.character.level}</td>
-          <td>{member.character.guild}</td>
+          <td>{member.character.guild_name}</td>
           <td>
             <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteStaticMember.bind(this, member)}>{strings.deleteInvite}</button>
           </td>
@@ -237,7 +232,6 @@ export default class StaticManagement extends React.Component {
             <thead>
               <tr>
                 <th>{strings.name}</th>
-                <th>{strings.race}</th>
                 <th>{strings.level}</th>
                 <th>{strings.guild}</th>
                 <th></th>

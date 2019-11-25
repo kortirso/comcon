@@ -2,7 +2,6 @@
   "en": {
     "alreadyMembers": "Static members",
     "name": "Name",
-    "race": "Race",
     "level": "Level",
     "guild": "Guild",
     "invites": "Invites",
@@ -17,7 +16,6 @@
   "ru": {
     "alreadyMembers": "Состав статика",
     "name": "Имя",
-    "race": "Раса",
     "level": "Уровень",
     "guild": "Гильдия",
     "invites": "Приглашения",
