@@ -114,6 +114,21 @@ en:
   custom_errors:
     passwords_different: Passwords are different
     character_in_guild: Character can't be GM of the new guild
+    object_not_found: Object is not found
+    reset_password:
+      sent_email: We sent email with link for reset password page
+      created_new_password: You created new password, now you can login
+      user_not_exists: User is not found
+      hour_limit: You need wait 1 hour to reset password again
+      token_invalid: Token is incorrect
+      different_passwords: Passwords are mismatched
+      forgot: Forgot password?
+      restore_password:
+        title: Restore password
+        submit: Restore
+      new_password:
+        title: Choose password
+        submit: Save
   navigation:
     worlds: Realms
     users: Users
@@ -241,3 +256,9 @@ en:
         click: 'Click this link '
         confirmation_page: Confirmation page
         buy: Have a good day
+      reset_password_email:
+        h1: Hello!
+        p1: Someone set this email for change password to Guild-Hall
+        p2: If it wasn’t you, please ignore this message
+        click: 'Click this link '
+        reset: Reset password

@@ -125,6 +125,21 @@ ru:
   custom_errors:
     passwords_different: Пароли не совпадают
     character_in_guild: Персонаж не может быть ГМом новой гильдии
+    object_not_found: Объект не найден
+    reset_password:
+      sent_email: Мы отправили электронное письмо со ссылкой для сброса пароля
+      created_new_password: Вы установили новый пароль, теперь можете входить
+      user_not_exists: Пользователь не найден
+      hour_limit: Вам необходимо подождать 1 час до следующей возможности сбросить пароль
+      token_invalid: Идентификатор не верный
+      different_passwords: Пароли не совпадают
+      forgot: Забыли пароль?
+      restore_password:
+        title: Сброс пароля
+        submit: Сбросить
+      new_password:
+        title: Выберите пароль
+        submit: Сохранить
   navigation:
     worlds: Миры
     users: Пользователи
@@ -255,3 +270,9 @@ ru:
         click: 'Для подтверждения пройдите по ссылке '
         confirmation_page: Страница подтверждения
         buy: Удачного дня
+      reset_password_email:
+        h1: Привет!
+        p1: Кто-то указал этот почтовый адрес, чтобы сбросить пароль для Guild-Hall
+        p2: Если это были не вы, то игнорируйте это сообщение
+        click: 'Для сброса пароля пройдите по ссылке '
+        reset: Страница сброса пароля

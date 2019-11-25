@@ -1,0 +1,22 @@
+body {
+  .flash-messages {
+    position: fixed;
+    top: 1rem;
+    right: 2rem;
+    z-index: 1;
+
+    .alert {
+      button {
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &.alert-notice {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+      }
+    }
+  }
+}

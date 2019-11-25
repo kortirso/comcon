@@ -146,4 +146,150 @@ RSpec.describe UsersController, type: :controller do
       delete :destroy, params: { locale: 'en', id: user.id }
     end
   end
+
+  describe 'GET #restore_password' do
+    it 'renders restore_password template' do
+      get :restore_password, params: { locale: 'ru' }
+
+      expect(response).to render_template :restore_password
+    end
+  end
+
+  describe 'POST #reset_password' do
+    let!(:user) { create :user }
+
+    context 'for unexisted user' do
+      let(:request) { post :reset_password, params: { locale: 'ru', email: '1' } }
+
+      it 'does not call Generating reset token' do
+        expect(GenerateResetToken).to_not receive(:call)
+
+        request
+      end
+
+      it 'and renders error template' do
+        request
+
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for too many requests' do
+      let(:request) { post :reset_password, params: { locale: 'ru', email: user.email } }
+      before { user.update(reset_password_token_sent_at: DateTime.now) }
+
+      it 'does not call Generating reset token' do
+        expect(GenerateResetToken).to_not receive(:call)
+
+        request
+      end
+
+      it 'and renders error template' do
+        request
+
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for existed user' do
+      let(:request) { post :reset_password, params: { locale: 'ru', email: user.email } }
+
+      it 'calls Generating reset token' do
+        expect(GenerateResetToken).to receive(:call)
+
+        request
+      end
+
+      it 'and redirects to root path' do
+        request
+
+        expect(response).to redirect_to root_ru_path
+      end
+    end
+  end
+
+  describe 'GET #new_password' do
+    let!(:user) { create :user }
+
+    context 'for unexisted user' do
+      it 'render error' do
+        get :new_password, params: { locale: 'ru' }
+
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for existed user without token' do
+      it 'render error' do
+        get :new_password, params: { locale: 'ru', email: 'something@gmail.com' }
+
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for existed user with incorrect token' do
+      it 'render error' do
+        get :new_password, params: { locale: 'ru', email: user.email, reset_password_token: '123456' }
+
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for existed user with correct email and token' do
+      let!(:user) { create :user, reset_password_token: SecureRandom.urlsafe_base64.to_s }
+
+      it 'render #new_password' do
+        get :new_password, params: { locale: 'ru', email: user.email, reset_password_token: user.reset_password_token }
+
+        expect(response).to render_template :new_password
+      end
+    end
+  end
+
+  describe 'PATCH #change_password' do
+    context 'for unexisted user' do
+      let!(:user) { create :user }
+      before { patch :change_password, params: { locale: 'ru', email: 'test@gmail.com', user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: '123456' } }
+
+      it 'does not change password' do
+        user.reload
+
+        expect(user.valid_password?('123456qwer')).to eq false
+      end
+
+      it 'and render error' do
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for existed user with incorrect params' do
+      let!(:user) { create :user, reset_password_token: SecureRandom.urlsafe_base64.to_s }
+      before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: '123456' } }
+
+      it 'does not change password' do
+        user.reload
+
+        expect(user.valid_password?('123456qwer')).to eq false
+      end
+
+      it 'and render error' do
+        expect(response).to render_template 'shared/error'
+      end
+    end
+
+    context 'for existed user with correct params' do
+      let!(:user) { create :user, reset_password_token: SecureRandom.urlsafe_base64.to_s }
+      before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: user.reset_password_token } }
+
+      it 'change password' do
+        user.reload
+
+        expect(user.valid_password?('123456qwer')).to eq true
+      end
+
+      it 'and redirects to root path' do
+        expect(response).to redirect_to root_ru_path
+      end
+    end
+  end
 end

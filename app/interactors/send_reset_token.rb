@@ -3,6 +3,6 @@ class SendResetToken
   include Interactor
 
   def call
-    ResetPasswordEmailJob.perform_later(context.user.id)
+    ResetPasswordEmailJob.perform_later(user_id: context.user.id)
   end
 end
