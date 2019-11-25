@@ -241,6 +241,9 @@ ru:
     create_invite: Управление приглашениями в гильдию
   guilds: 
     no_characters: Для создания гильдии привяжите персонажа к учетной записи
+  restore_password:
+    title: Сброс пароля
+    submit: Выслать email с кодом подтверждения
   mailer:
     user:
       confirmation_email:
