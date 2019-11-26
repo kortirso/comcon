@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - event calendar
 - direct link to event subscribes
+- change weeks for event calendar
 
 ## [0.8.8] - 2019-11-25
 ### Added

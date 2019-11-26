@@ -57,9 +57,10 @@ export default class EventCalendar extends React.Component {
     let params = []
     if (state.character !== 'none') params.push(`character_id=${state.character}`)
     if (state.subscribe === 'all') params.push(`subscribed=true`)
-    params.push(`month=${state.currentMonth + 1}`)
-    params.push(`year=${state.currentYear}`)
-    params.push(`day=${state.currentDate}`)
+    const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.weekChanges * 7, 0, 0, 0)
+    params.push(`month=${selectedDate.getMonth() + 1}`)
+    params.push(`year=${selectedDate.getFullYear()}`)
+    params.push(`day=${selectedDate.getDate()}`)
     params.push(`days=28`)
     const url = `/api/v1/events.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
@@ -124,7 +125,7 @@ export default class EventCalendar extends React.Component {
     const state = this.state
     let days = []
     for (let i = 0; i < 28; i++) {
-      const dateForDay = new Date(state.currentYear, state.currentMonth, state.currentDate + i, 0, 0, 0)
+      const dateForDay = new Date(state.currentYear, state.currentMonth, state.currentDate + i + state.weekChanges * 7, 0, 0, 0)
       days.push(
         <div className={this._defineDayClass(i + 1)} key={i}>
           <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i)}>
@@ -145,14 +146,14 @@ export default class EventCalendar extends React.Component {
     const filtered = this.state.filteredEvents.filter((event) => {
       return event.date == `${dateForDay.getDate()}.${dateForDay.getMonth() + 1}.${dateForDay.getFullYear()}`
     })
-    if (filtered.length <= 4) {
+    if (filtered.length <= 5) {
       return filtered.map((event) => {
-        return this._renderEventString(event)
+        return this._renderEventString(event, true)
       })
     } else {
       let result = []
-      filtered.slice(0, 4).map((event) => {
-        result.push(this._renderEventString(event))
+      filtered.slice(0, 5).map((event) => {
+        result.push(this._renderEventString(event, true))
       })
       result.push(
         <a className='others' key={0}>
@@ -165,12 +166,12 @@ export default class EventCalendar extends React.Component {
 
   _defineDayClass(value) {
     let result = ["day"]
-    if (value < 7 + this.state.currentDay) result.push('finished')
+    if (value < 7 + this.state.currentDay - this.state.weekChanges * 7) result.push('finished')
     if (this.state.currentDayId === value - 1) result.push('selected')
     return result.join(" ")
   }
 
-  _renderEventString(event) {
+  _renderEventString(event, withClick) {
     let days = '0'
     let hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
     if (hours < 0) {
@@ -183,7 +184,7 @@ export default class EventCalendar extends React.Component {
     const minutes = event.time.minutes
     const eventTime = (hours < 10 ? `0${hours}` : `${hours}`) + ':' + (minutes < 10 ? `0${minutes}` : `${minutes}`) + this._renderOtherDays(days)
     return (
-      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={this._onSelectEvent.bind(this, event.slug)}>
+      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={this._onSelectEvent.bind(this, event, withClick)}>
         <p className="name">{eventTime} - {event.name}</p>
       </a>
     )
@@ -414,7 +415,10 @@ export default class EventCalendar extends React.Component {
     })
   }
 
-  _onChangeMonth(value) {
+  _onChangeWeek(value) {
+    this.setState({weekChanges: this.state.weekChanges + value}, () => {
+      this._getEvents()
+    })
   }
 
   _renderCurrentDay() {
@@ -427,7 +431,7 @@ export default class EventCalendar extends React.Component {
         return event.date === currentDayString
       })
       const events = filtered.map((event) => {
-        return this._renderEventString(event)
+        return this._renderEventString(event, false)
       })
       return (
         <div className="current-day-data">
@@ -486,9 +490,13 @@ export default class EventCalendar extends React.Component {
     }
   }
 
-  _onSelectEvent(eventSlug, e) {
-    e.stopPropagation()
-    window.location.href = `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events/${eventSlug}`
+  _onSelectEvent(event, withClick, e) {
+    if (withClick) {
+      e.stopPropagation()
+      window.location.href = `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events/${event.slug}`
+    } else {
+      this.setState({currentEventId: event.id})
+    }
   }
 
   render() {
@@ -496,15 +504,15 @@ export default class EventCalendar extends React.Component {
       <div className="events">
         {this._renderFilters()}
         <div className="calendar-block">
-          <div className="calendar">
-            {this._renderDays()}
+          <div className="full-calendar">
+            <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, -1)}>{strings.previous}</button>
+            <div className="calendar">
+              {this._renderDays()}
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, 1)}>{strings.next}</button>
           </div>
           <div className="current-data">
             <a className="btn btn-primary btn-sm with_bottom_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/new`}>{strings.addEvent}</a>
-            <div className="calendar_arrows">
-              <button className="btn btn-primary btn-sm with_right_margin with_bottom_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
-              <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
-            </div>
             <div className="current-day">
               <p>{strings.selectedDay}</p>
               {this._renderCurrentDay()}
