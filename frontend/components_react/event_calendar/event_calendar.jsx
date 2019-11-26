@@ -425,7 +425,7 @@ export default class EventCalendar extends React.Component {
     const state = this.state
     if (this.state.currentDayId === null) return <p>{strings.noDay}</p>
     else {
-      const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.currentDayId, 0, 0, 0)
+      const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.currentDayId + state.weekChanges * 7, 0, 0, 0)
       const currentDayString = `${selectedDate.getDate()}.${selectedDate.getMonth() + 1}.${selectedDate.getFullYear()}`
       const filtered = this.state.events.filter((event) => {
         return event.date === currentDayString
