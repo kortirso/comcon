@@ -183,7 +183,7 @@ export default class EventCalendar extends React.Component {
     const minutes = event.time.minutes
     const eventTime = (hours < 10 ? `0${hours}` : `${hours}`) + ':' + (minutes < 10 ? `0${minutes}` : `${minutes}`) + this._renderOtherDays(days)
     return (
-      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
+      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={this._onSelectEvent.bind(this, event.slug)}>
         <p className="name">{eventTime} - {event.name}</p>
       </a>
     )
@@ -484,6 +484,11 @@ export default class EventCalendar extends React.Component {
         </div>
       )
     }
+  }
+
+  _onSelectEvent(eventSlug, e) {
+    e.stopPropagation()
+    window.location.href = `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events/${eventSlug}`
   }
 
   render() {
