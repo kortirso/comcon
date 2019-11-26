@@ -19,7 +19,8 @@
     "signCharacter": "Sign character",
     "textarea": "Comment (Enter for save)",
     "role": "Role",
-    "approvedCharacters": "Amount of approved characters for events"
+    "approvedCharacters": "Amount of approved characters for events",
+    "copy": "Copy raid line up"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -41,6 +42,7 @@
     "signCharacter": "Подписать персонажа",
     "textarea": "Комментарий (Enter для сохранения)",
     "role": "Роль",
-    "approvedCharacters": "Количество персонажей, которые приняты в рейд"
+    "approvedCharacters": "Количество персонажей, которые приняты в рейд",
+    "copy": "Скопировать состав"
   }
 }

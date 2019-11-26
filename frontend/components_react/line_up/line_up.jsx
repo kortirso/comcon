@@ -282,7 +282,7 @@ export default class LineUp extends React.Component {
         <p>{strings.approvedCharacters} - {approvedSubscribes.length}</p>
         {(this.props.is_owner || this.props.guild_role !== null) &&
           <div className="copy_raid">
-            <button className="btn btn-primary btn-sm" onClick={this._copyRaid.bind(this)}>Скопировать состав</button>
+            <button className="btn btn-primary btn-sm" onClick={this._copyRaid.bind(this)}>{strings.copy}</button>
             <textarea type="text" id="copyRaid" defaultValue={this._renderSubscribeCharacters(approvedSubscribes)} />
           </div>
         }
@@ -316,7 +316,6 @@ export default class LineUp extends React.Component {
             <p>{this._renderAccess(eventInfo)}</p>
             <p>{strings.owner} - {eventInfo.owner_name}</p>
             <p>{eventInfo.description}</p>
-            
             {this._renderRLBlock()}
           </div>
         }
