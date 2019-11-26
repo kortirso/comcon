@@ -9,17 +9,19 @@ let strings = new LocalizedStrings(I18nData)
 export default class EventCalendar extends React.Component {
   constructor(props) {
     super(props)
-    const date = new Date()
+    let date = new Date()
+    const currentDay = date.getUTCDay() === 0 ? 7 : date.getUTCDay()
+    date.setDate(date.getDate() - 7 - (currentDay - 1))
     this.state = {
       events: [],
       filteredEvents: [],
-      previousDaysAmount: (new Date(date.getFullYear(), date.getMonth(), 1)).getDay() - 1,
-      daysAmount: (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate(),
+      zeroDate: date,
       currentYear: date.getFullYear(),
-      currentMonth: date.getMonth() + 1,
-      currentDay: date.getDate(),
+      currentMonth: date.getMonth(),
+      currentDate: date.getDate(),
+      currentDay: currentDay,
       timeZoneOffsetMinutes: props.time_offset_value === null ? date.getTimezoneOffset() : - props.time_offset_value * 60,
-      monthChanges: 0,
+      weekChanges: 0,
       worlds: [],
       guilds: [],
       statics: [],
@@ -55,8 +57,11 @@ export default class EventCalendar extends React.Component {
     let params = []
     if (state.character !== 'none') params.push(`character_id=${state.character}`)
     if (state.subscribe === 'all') params.push(`subscribed=true`)
-    params.push(`month=${state.currentMonth}`)
-    params.push(`year=${state.currentYear}`)
+    const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.weekChanges * 7, 0, 0, 0)
+    params.push(`month=${selectedDate.getMonth() + 1}`)
+    params.push(`year=${selectedDate.getFullYear()}`)
+    params.push(`day=${selectedDate.getDate()}`)
+    params.push(`days=28`)
     const url = `/api/v1/events.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
@@ -116,28 +121,16 @@ export default class EventCalendar extends React.Component {
     })
   }
 
-  _renderPreviousMonth(value) {
+  _renderDays() {
+    const state = this.state
     let days = []
-    let amount = this.state.previousDaysAmount
-    if (value === 'next') amount = 7 - (this.state.previousDaysAmount + this.state.daysAmount) % 7
-    for (let i = 0; i < amount; i++) {
-      days.push(
-        <div className="day previous" key={i}>
-          <div className="day_content"></div>
-        </div>
-      )
-    }
-    return days
-  }
-
-  _renderMonthDays() {
-    let days = []
-    for (let i = 0; i < this.state.daysAmount; i++) {
+    for (let i = 0; i < 28; i++) {
+      const dateForDay = new Date(state.currentYear, state.currentMonth, state.currentDate + i + state.weekChanges * 7, 0, 0, 0)
       days.push(
         <div className={this._defineDayClass(i + 1)} key={i}>
-          <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i + 1)}>
-            <div className="day_date">{i + 1}.{this.state.currentMonth}</div>
-            {this._renderEvents(i + 1)}
+          <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i)}>
+            <div className="day_date">{dateForDay.getDate()}.{dateForDay.getMonth() + 1}</div>
+            {this._renderEvents(dateForDay)}
           </div>
         </div>
       )
@@ -145,25 +138,22 @@ export default class EventCalendar extends React.Component {
     return days
   }
 
-  _defineDayClass(value) {
-    let result = ["day"]
-    if (this.state.monthChanges < 0 || this.state.monthChanges === 0 && value < this.state.currentDay) result.push('finished')
-    if (this.state.currentDayId !== null && parseInt(this.state.currentDayId.split(".")[0]) === value) result.push('selected')
-    return result.join(" ")
+  _onSelectCurrentDay(value) {
+    this.setState({currentDayId: value})
   }
 
-  _renderEvents(day) {
+  _renderEvents(dateForDay) {
     const filtered = this.state.filteredEvents.filter((event) => {
-      return event.date == `${day}.${this.state.currentMonth}.${this.state.currentYear}`
+      return event.date == `${dateForDay.getDate()}.${dateForDay.getMonth() + 1}.${dateForDay.getFullYear()}`
     })
-    if (filtered.length <= 4) {
+    if (filtered.length <= 5) {
       return filtered.map((event) => {
-        return this._renderEventString(event)
+        return this._renderEventString(event, true)
       })
     } else {
       let result = []
-      filtered.slice(0, 4).map((event) => {
-        result.push(this._renderEventString(event))
+      filtered.slice(0, 5).map((event) => {
+        result.push(this._renderEventString(event, true))
       })
       result.push(
         <a className='others' key={0}>
@@ -174,7 +164,14 @@ export default class EventCalendar extends React.Component {
     }
   }
 
-  _renderEventString(event) {
+  _defineDayClass(value) {
+    let result = ["day"]
+    if (value < 7 + this.state.currentDay - this.state.weekChanges * 7) result.push('finished')
+    if (this.state.currentDayId === value - 1) result.push('selected')
+    return result.join(" ")
+  }
+
+  _renderEventString(event, withClick) {
     let days = '0'
     let hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
     if (hours < 0) {
@@ -187,7 +184,7 @@ export default class EventCalendar extends React.Component {
     const minutes = event.time.minutes
     const eventTime = (hours < 10 ? `0${hours}` : `${hours}`) + ':' + (minutes < 10 ? `0${minutes}` : `${minutes}`) + this._renderOtherDays(days)
     return (
-      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={() => this.setState({currentEventId: event.id})}>
+      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={this._onSelectEvent.bind(this, event, withClick)}>
         <p className="name">{eventTime} - {event.name}</p>
       </a>
     )
@@ -196,10 +193,6 @@ export default class EventCalendar extends React.Component {
   _renderOtherDays(value) {
     if (value === '0') return ''
     else return `(${value})`
-  }
-
-  _onSelectCurrentDay(value) {
-    this.setState({currentDayId: `${value}.${this.state.currentMonth}.${this.state.currentYear}`})
   }
 
   _eventFractionClass(fractionId) {
@@ -422,52 +415,27 @@ export default class EventCalendar extends React.Component {
     })
   }
 
-  _onChangeMonth(value) {
-    let currentYear = this.state.currentYear
-    let previousYear = this.state.currentYear
-    let currentMonth = this.state.currentMonth
-    let previousMonth = this.state.currentMonth - 1
-    if (value === -1 && currentMonth === 1) {
-      currentYear -= 1
-      previousYear -= 1
-      currentMonth = 12
-      previousMonth = 11
-    } else if (value === 1 && currentMonth === 12) {
-      currentYear += 1
-      currentMonth = 1
-      previousMonth = 12
-    } else {
-      currentMonth += value
-      previousMonth += value
-    }
-
-    let previous = (new Date(previousYear, previousMonth, 1)).getDay() - 1
-    if (previous < 0) previous += 7
-    this.setState({
-      monthChanges: this.state.monthChanges + value,
-      previousDaysAmount: previous,
-      daysAmount: (new Date(currentYear, currentMonth, 0)).getDate(),
-      currentYear: currentYear,
-      currentMonth: currentMonth,
-      currentEventId: null,
-      currentDayId: null
-    }, () => {
+  _onChangeWeek(value) {
+    this.setState({weekChanges: this.state.weekChanges + value}, () => {
       this._getEvents()
     })
   }
 
   _renderCurrentDay() {
+    const state = this.state
     if (this.state.currentDayId === null) return <p>{strings.noDay}</p>
     else {
+      const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.currentDayId, 0, 0, 0)
+      const currentDayString = `${selectedDate.getDate()}.${selectedDate.getMonth() + 1}.${selectedDate.getFullYear()}`
       const filtered = this.state.events.filter((event) => {
-        return event.date == this.state.currentDayId
+        return event.date === currentDayString
       })
       const events = filtered.map((event) => {
-        return this._renderEventString(event)
+        return this._renderEventString(event, false)
       })
       return (
         <div className="current-day-data">
-          <p className="current-date">{this.state.currentDayId}</p>
+          <p className="current-date">{currentDayString}</p>
           {this._renderDayEvents(events)}
         </div>
       )
@@ -522,22 +490,29 @@ export default class EventCalendar extends React.Component {
     }
   }
 
+  _onSelectEvent(event, withClick, e) {
+    if (withClick) {
+      e.stopPropagation()
+      window.location.href = `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events/${event.slug}`
+    } else {
+      this.setState({currentEventId: event.id})
+    }
+  }
+
   render() {
     return (
       <div className="events">
         {this._renderFilters()}
         <div className="calendar-block">
-          <div className="calendar">
-            {this._renderPreviousMonth('previous')}
-            {this._renderMonthDays()}
-            {this._renderPreviousMonth('next')}
+          <div className="full-calendar">
+            <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, -1)}>{strings.previous}</button>
+            <div className="calendar">
+              {this._renderDays()}
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, 1)}>{strings.next}</button>
           </div>
           <div className="current-data">
             <a className="btn btn-primary btn-sm with_bottom_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/new`}>{strings.addEvent}</a>
-            <div className="calendar_arrows">
-              <button className="btn btn-primary btn-sm with_right_margin with_bottom_margin" onClick={this._onChangeMonth.bind(this, -1)}>{strings.previous}</button>
-              <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this._onChangeMonth.bind(this, 1)}>{strings.next}</button>
-            </div>
             <div className="current-day">
               <p>{strings.selectedDay}</p>
               {this._renderCurrentDay()}
