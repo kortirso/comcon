@@ -273,10 +273,34 @@ export default class LineUp extends React.Component {
     return <div className="user_buttons">{buttons}</div>
   }
 
-  _calcApproved() {
-    return this.state.subscribes.filter((subscribe) => {
+  _renderRLBlock() {
+    const approvedSubscribes = this.state.subscribes.filter((subscribe) => {
       return subscribe.status === 'approved'
-    }).length
+    })
+    return (
+      <div>
+        <p>{strings.approvedCharacters} - {approvedSubscribes.length}</p>
+        {(this.props.is_owner || this.props.guild_role !== null) &&
+          <div className="copy_raid">
+            <button className="btn btn-primary btn-sm" onClick={this._copyRaid.bind(this)}>Скопировать состав</button>
+            <textarea type="text" id="copyRaid" defaultValue={this._renderSubscribeCharacters(approvedSubscribes)} />
+          </div>
+        }
+      </div>
+    )
+  }
+
+  _renderSubscribeCharacters(subscribes) {
+    return subscribes.map((subscribe) => {
+      return subscribe.character.name
+    }).join("\n")
+  }
+
+  _copyRaid() {
+    const copiedBlock = document.getElementById("copyRaid")
+    copiedBlock.select()
+    copiedBlock.setSelectionRange(0, 99999)
+    document.execCommand("copy")
   }
 
   render() {
@@ -292,7 +316,8 @@ export default class LineUp extends React.Component {
             <p>{this._renderAccess(eventInfo)}</p>
             <p>{strings.owner} - {eventInfo.owner_name}</p>
             <p>{eventInfo.description}</p>
-            <p>{strings.approvedCharacters} - {this._calcApproved()}</p>
+            
+            {this._renderRLBlock()}
           </div>
         }
         {this._renderSignBlock()}

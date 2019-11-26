@@ -1,6 +1,17 @@
 @import '../../init/variables.scss';
 
 .event {
+  .copy_raid {
+    display: flex;
+    flex-direction: row;
+
+    textarea {
+      opacity: 0;
+      font-size: 10px;
+      margin-right: 0.5rem;
+    }
+  }
+
   .event_details {
     margin-bottom: 2rem;
 
