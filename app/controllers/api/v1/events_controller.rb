@@ -139,7 +139,7 @@ module Api
           @end_of_period = @start_of_period + params[:days].to_i.days
         else
           time_now = Time.now
-          day_of_week = time_now.wday == 0 ? 6 : (time_now.wday - 1)
+          day_of_week = time_now.wday.zero? ? 6 : (time_now.wday - 1)
           @start_of_period = DateTime.parse((time_now - day_of_week.days).to_date.to_s)
           @end_of_period = @start_of_period + 7.days
         end
