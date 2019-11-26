@@ -134,11 +134,19 @@ module Api
       private
 
       def find_start_of_month
-        @start_of_month = params[:year].present? && params[:month].present? ? DateTime.new(params[:year].to_i, params[:month].to_i, 1, 0, 0, 0) : DateTime.now.new_offset(0)
+        if params[:year].present? && params[:month].present? && params[:day].present? && params[:days].present?
+          @start_of_period = DateTime.new(params[:year].to_i, params[:month].to_i, params[:day].to_i, 0, 0, 0)
+          @end_of_period = @start_of_period + params[:days].to_i.days
+        else
+          time_now = Time.now
+          day_of_week = time_now.wday == 0 ? 6 : (time_now.wday - 1)
+          @start_of_period = DateTime.parse((time_now - day_of_week.days).to_date.to_s)
+          @end_of_period = @start_of_period + 7.days
+        end
       end
 
       def find_events
-        @events = Event.where('start_time >= ? AND start_time < ?', @start_of_month.beginning_of_month, @start_of_month.end_of_month).order(start_time: :asc)
+        @events = Event.where('start_time > ? AND start_time <= ?', @start_of_period, @end_of_period).order(start_time: :asc)
         @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
         @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
         @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
