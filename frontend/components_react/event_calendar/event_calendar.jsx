@@ -10,18 +10,21 @@ export default class EventCalendar extends React.Component {
   constructor(props) {
     super(props)
     let date = new Date()
-    const currentDay = date.getUTCDay() === 0 ? 7 : date.getUTCDay()
+    const currentDay = date.getDay() === 0 ? 7 : date.getDay()
+    console.log(currentDay)
     date.setDate(date.getDate() - 7 - (currentDay - 1))
+    console.log(date)
+    console.log(date.getDate())
     this.state = {
       events: [],
       filteredEvents: [],
-      zeroDate: date,
       currentYear: date.getFullYear(),
       currentMonth: date.getMonth(),
       currentDate: date.getDate(),
       currentDay: currentDay,
       timeZoneOffsetMinutes: props.time_offset_value === null ? date.getTimezoneOffset() : - props.time_offset_value * 60,
       weekChanges: 0,
+      currentDayId: null,
       worlds: [],
       guilds: [],
       statics: [],
@@ -38,8 +41,7 @@ export default class EventCalendar extends React.Component {
       dungeon: 'none',
       character: 'none',
       subscribe: 'none',
-      currentEventId: null,
-      currentDayId: null
+      currentEventId: null
     }
   }
 
@@ -126,6 +128,7 @@ export default class EventCalendar extends React.Component {
     let days = []
     for (let i = 0; i < 28; i++) {
       const dateForDay = new Date(state.currentYear, state.currentMonth, state.currentDate + i + state.weekChanges * 7, 0, 0, 0)
+      if (i === 0) console.log(dateForDay)
       days.push(
         <div className={this._defineDayClass(i + 1)} key={i}>
           <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i)}>
