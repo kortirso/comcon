@@ -2,6 +2,7 @@ require 'babosa'
 
 # Represents events
 class Event < ApplicationRecord
+  include Groupable
   extend FriendlyId
 
   friendly_id :slug_candidates, use: :slugged

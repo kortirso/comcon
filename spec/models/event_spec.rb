@@ -9,6 +9,7 @@ RSpec.describe Event, type: :model do
   it { should have_many(:signed_subscribes).class_name('Subscribe') }
   it { should have_many(:signed_characters).through(:signed_subscribes).source(:character) }
   it { should have_many(:signed_users).through(:signed_characters).source(:user) }
+  it { should have_one(:group_role).dependent(:destroy) }
 
   it 'factory should be valid' do
     event = create :event
