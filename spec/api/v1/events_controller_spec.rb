@@ -59,7 +59,7 @@ RSpec.describe 'Events API' do
           expect(response.status).to eq 200
         end
 
-        %w[id name description date time fraction_name dungeon_name owner_name eventable_type eventable_name].each do |attr|
+        %w[id name description date time fraction_name dungeon_name owner_name eventable_type eventable_name group_role].each do |attr|
           it "and contains event #{attr}" do
             expect(response.body).to have_json_path("event/#{attr}")
           end
@@ -122,6 +122,18 @@ RSpec.describe 'Events API' do
           request
         end
 
+        it 'and calls CreateSubscribe' do
+          expect(CreateSubscribe).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and calls CreateGroupRole' do
+          expect(CreateGroupRole).to receive(:call).and_call_original
+
+          request
+        end
+
         context 'in answer' do
           before { request }
 
@@ -175,7 +187,7 @@ RSpec.describe 'Events API' do
           expect(response.status).to eq 200
         end
 
-        %w[id name date time slug fraction_id description dungeon_id owner_id event_type eventable_type].each do |attr|
+        %w[id name date time slug fraction_id description dungeon_id owner_id event_type eventable_type group_role].each do |attr|
           it "and contains event #{attr}" do
             expect(response.body).to have_json_path("event/#{attr}")
           end
@@ -214,6 +226,7 @@ RSpec.describe 'Events API' do
 
       context 'for existed event' do
         let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction, owner: character }
+        let!(:group_role) { create :group_role, groupable: world_event }
 
         context 'for invalid params' do
           let(:request) { patch "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token, event: { name: '' } } }
@@ -241,7 +254,13 @@ RSpec.describe 'Events API' do
         context 'for valid params' do
           let(:request) { patch "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token, event: { name: 'NEW Cool', dungeon_id: world_event.dungeon_id, start_time: event.start_time.to_i } } }
 
-          it 'updates event' do
+          it 'and calls UpdateGroupRole' do
+            expect(UpdateGroupRole).to receive(:call).and_call_original
+
+            request
+          end
+
+          it 'and updates event' do
             request
             world_event.reload
 
@@ -427,7 +446,7 @@ RSpec.describe 'Events API' do
         expect(response.status).to eq 200
       end
 
-      %w[worlds fractions characters guilds].each do |attr|
+      %w[worlds fractions characters guilds statics dungeons].each do |attr|
         it "and contains #{attr}" do
           expect(response.body).to have_json_path(attr)
         end
@@ -453,7 +472,7 @@ RSpec.describe 'Events API' do
         expect(response.status).to eq 200
       end
 
-      %w[characters dungeons].each do |attr|
+      %w[characters dungeons statics group_roles].each do |attr|
         it "and contains #{attr}" do
           expect(response.body).to have_json_path(attr)
         end

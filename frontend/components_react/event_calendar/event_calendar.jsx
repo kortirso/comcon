@@ -11,10 +11,7 @@ export default class EventCalendar extends React.Component {
     super(props)
     let date = new Date()
     const currentDay = date.getDay() === 0 ? 7 : date.getDay()
-    console.log(currentDay)
     date.setDate(date.getDate() - 7 - (currentDay - 1))
-    console.log(date)
-    console.log(date.getDate())
     this.state = {
       events: [],
       filteredEvents: [],
@@ -128,7 +125,6 @@ export default class EventCalendar extends React.Component {
     let days = []
     for (let i = 0; i < 28; i++) {
       const dateForDay = new Date(state.currentYear, state.currentMonth, state.currentDate + i + state.weekChanges * 7, 0, 0, 0)
-      if (i === 0) console.log(dateForDay)
       days.push(
         <div className={this._defineDayClass(i + 1)} key={i}>
           <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i)}>

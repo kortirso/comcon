@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - model GroupRole
+- creating group roles for events that need in raid
 
 ## [0.9.0] - 2019-11-26
 ### Added

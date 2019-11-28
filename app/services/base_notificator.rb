@@ -11,7 +11,7 @@ class BaseNotificator
   def notify(event:, receiver_id:)
     deliveries = Delivery.where(deliveriable_id: receiver_id, deliveriable_type: deliveriable_type, notification_id: notification&.id)
     return if deliveries.empty?
-    deliveries.each { |delivery| perform_delivery(delivery: delivery, event: event) }
+    deliveries.includes(:delivery_param).each { |delivery| perform_delivery(delivery: delivery, event: event) }
   end
 
   def perform_delivery(delivery:, event:)

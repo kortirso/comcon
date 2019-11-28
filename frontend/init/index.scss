@@ -217,6 +217,41 @@ body {
       }
     }
   }
+
+  .raid_planner {
+    margin-top: 2rem;
+
+    .raid_role {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.5rem;
+
+      p {
+        margin: 0;
+        width: 75px;
+      }
+
+      input {
+        width: 40px;
+        margin-right: 10px;
+        font-size: 0.9rem;
+      }
+
+      .role_by_class {
+        span {
+          margin-right: 5px;
+          font-size: 0.9rem;
+        }
+
+        input {
+          text-align: center;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
 }
 
 * {
