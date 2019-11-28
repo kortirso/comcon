@@ -8,9 +8,11 @@ class SubscribeForm
   attribute :character, Character
   attribute :status, Integer, default: 2
   attribute :comment, String, default: nil
+  attribute :for_role, Integer, default: nil
 
   validates :event, :character, :status, presence: true
-  validates :status, inclusion: 0..3
+  validates :status, inclusion: 0..4
+  validates :for_role, inclusion: 0..2, allow_nil: true
   validates :comment, length: { maximum: 100 }, allow_nil: true
 
   attr_reader :subscribe
@@ -30,6 +32,7 @@ class SubscribeForm
   def status_to_integer(status)
     return status if status.is_a?(Integer)
     case status
+      when 'reserve' then 4
       when 'approved' then 3
       when 'signed' then 2
       when 'unknown' then 1
