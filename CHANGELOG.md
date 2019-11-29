@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - model GroupRole
 - creating group roles for events that need in raid
+- allow to approve in raid with not only main role
+- add "In reserve" status
 
 ## [0.9.0] - 2019-11-26
 ### Added

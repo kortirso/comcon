@@ -12,6 +12,26 @@
     }
   }
 
+  .approving_box {
+    position: fixed;
+    top: 30%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+
+    p {
+      margin: 0 0 0.5rem;
+    }
+
+    button {
+      display: block;
+      margin: 1rem auto 0;
+    }
+  }
+
   .event_details {
     margin-bottom: 2rem;
 

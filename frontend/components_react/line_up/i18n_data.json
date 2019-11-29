@@ -12,6 +12,7 @@
     "owner": "Owner of event is",
     "eventLocation": "Event location",
     "startTime": "Event start time",
+    "reserve": "In reserve",
     "approved": "Accepted",
     "signed": "Signed",
     "unknown": "Tentative",
@@ -20,7 +21,11 @@
     "textarea": "Comment (Enter for save)",
     "role": "Role",
     "approvedCharacters": "Amount of approved characters for events",
-    "copy": "Copy raid line up"
+    "copy": "Copy raid line up",
+    "form": "Approve character form",
+    "selectRole": "Select role",
+    "selectStatus": "Select status",
+    "apply": "Apply"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -35,6 +40,7 @@
     "owner": "Создатель события",
     "eventLocation": "Место проведения события",
     "startTime": "Время начала события",
+    "reserve": "В запасе",
     "approved": "Принят",
     "signed": "Приду",
     "unknown": "Под вопросом",
@@ -43,6 +49,10 @@
     "textarea": "Комментарий (Enter для сохранения)",
     "role": "Роль",
     "approvedCharacters": "Количество персонажей, которые приняты в рейд",
-    "copy": "Скопировать состав"
+    "copy": "Скопировать состав",
+    "form": "Форма утверждения персонажа",
+    "selectRole": "Выберите роль",
+    "selectStatus": "Выберите статус",
+    "apply": "Обновить"
   }
 }

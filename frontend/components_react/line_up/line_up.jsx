@@ -11,6 +11,12 @@ const roleValues = {
   Ranged: 0
 }
 
+const subscribeRoleValues = {
+  tank: 2,
+  healer: 1,
+  dd: 0
+}
+
 let strings = new LocalizedStrings(I18nData)
 
 $.ajaxSetup({
@@ -26,7 +32,11 @@ export default class LineUp extends React.Component {
       subscribes: [],
       userCharacters: [],
       editMode: null,
-      commentValue: ''
+      commentValue: '',
+      showApprovingBox: false,
+      approvingSubscribe: null,
+      approvingRole: '',
+      approvingStatus: ''
     }
   }
 
@@ -97,7 +107,7 @@ export default class LineUp extends React.Component {
         const subscribes = [... this.state.subscribes]
         const subscribeIndex = subscribes.indexOf(subscribe)
         subscribes[subscribeIndex] = data.subscribe
-        this.setState({subscribes: subscribes})
+        this.setState({subscribes: subscribes, showApprovingBox: false, approvingSubscribe: null, approvingRole: '', approvingStatus: ''})
       }
     })
   }
@@ -186,7 +196,7 @@ export default class LineUp extends React.Component {
     let subscribes = this.state.subscribes.filter((subscribe) => {
       return subscribe.status === status
     })
-    subscribes.sort((a, b) => this._sortCharacterFunction(a.character, b.character))
+    subscribes.sort((a, b) => this._sortCharacterFunction(a.character, b.character, a, b, status))
     return subscribes.map((subscribe) => {
       return (
         <tr className={subscribe.character.character_class_name.en} key={subscribe.id}>
@@ -195,7 +205,7 @@ export default class LineUp extends React.Component {
           </td>
           <td>
             <div className="role_icons">
-              <div className={`role_icon ${subscribe.character.main_role_name.en}`}></div>
+              {["approved", "reserve"].includes(status) && subscribe.for_role !== null ? this._renderSubscribedRole(subscribe.for_role) : this._renderRoles(subscribe.character.roles)}
             </div>
           </td>
           <td>{subscribe.character.level}</td>
@@ -204,12 +214,24 @@ export default class LineUp extends React.Component {
           <td className="comment_box">{this._renderComment(subscribe)}</td>
           <td>
             <div className="buttons">
-              {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe, status)}
+              {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe)}
               {this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe, status)}
             </div>
           </td>
         </tr>
       )
+    })
+  }
+
+  _renderSubscribedRole(role) {
+    if (role === 'tank') return <div className="role_icon Tank"></div>
+    else if (role === 'healer') return <div className="role_icon Healer"></div>
+    else return <div className="role_icon Melee"></div>
+  }
+
+  _renderRoles(roles) {
+    return roles.map((role, index) => {
+      return <div className={`role_icon ${role.en}`} key={index}></div>
     })
   }
 
@@ -221,9 +243,18 @@ export default class LineUp extends React.Component {
     )
   }
 
-  _sortCharacterFunction(a, b) {
-    if (roleValues[a.main_role_name.en] > roleValues[b.main_role_name.en]) return -1
-    else if (roleValues[a.main_role_name.en] < roleValues[b.main_role_name.en]) return 1
+  _sortCharacterFunction(a, b, subscribeA, subscribeB, status) {
+    let roleValueA
+    let roleValueB
+    if (["approved", "reserve"].includes(status)) {
+      roleValueA = subscribeRoleValues[subscribeA.for_role]
+      roleValueB = subscribeRoleValues[subscribeB.for_role]
+    } else {
+      roleValueA = roleValues[a.roles[0].en]
+      roleValueB = roleValues[b.roles[0].en]
+    }
+    if (roleValueA > roleValueB) return -1
+    else if (roleValueA < roleValueB) return 1
     else {
       if (a.character_class_name[this.props.locale] < b.character_class_name[this.props.locale]) return -1
       else if (a.character_class_name[this.props.locale] > b.character_class_name[this.props.locale]) return 1
@@ -251,17 +282,29 @@ export default class LineUp extends React.Component {
   }
 
   _checkAdminButton(character, status) {
-    if (status !== 'signed' && status !== 'approved') return false
-    else if (this.props.is_owner) return true
+    if (!["approved", "reserve", "signed"].includes(status)) return false
+    if (this.props.is_owner) return true
     else if (this.props.guild_role === null) return false
     else if (this.props.guild_role[0] === 'rl') return true
     else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1].includes(character.character_class_name.en)
   }
 
-  _renderAdminButton(subscribe, status) {
-    const buttonText = status === 'approved' ? 'minus' : 'plus'
-    const nextStatus = status === 'approved' ? 'signed' : 'approved'
-    return <button className={`btn-${buttonText}`} onClick={this.onUpdateSubscribe.bind(this, subscribe, { status: nextStatus })}></button>
+  _renderAdminButton(subscribe) {
+    return <button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe)}></button>
+  }
+
+  _showApprovingBox(subscribe) {
+    this.setState({showApprovingBox: true, approvingSubscribe: subscribe, approvingRole: subscribe.character.roles[0][this.props.locale], approvingStatus: 'approved'})
+  }
+
+  _onApproveSubscribe() {
+    this.onUpdateSubscribe(this.state.approvingSubscribe, { status: this.state.approvingStatus, for_role: this._modifyRole(this.state.approvingRole) })
+  }
+
+  _modifyRole(role) {
+    if (['Tank', 'Танк'].includes(role)) return 'tank'
+    else if (['Healer', 'Лекарь'].includes(role)) return 'healer'
+    else return 'dd'
   }
 
   _renderUserButton(subscribe, status) {
@@ -303,6 +346,12 @@ export default class LineUp extends React.Component {
     document.execCommand("copy")
   }
 
+  _renderAvailableRoles(roles) {
+    return roles.map((role, index) => {
+      return <option value={role[this.props.locale]} key={index}>{role[this.props.locale]}</option>
+    })
+  }
+
   render() {
     const eventInfo = this.state.eventInfo
     return (
@@ -320,6 +369,27 @@ export default class LineUp extends React.Component {
           </div>
         }
         {this._renderSignBlock()}
+        {this.state.showApprovingBox &&
+          <div className="approving_box">
+            <p className="approving_box_title">{strings.form}</p>
+            <p className="approving_box_character">{this.state.approvingSubscribe.character.name}</p>
+            <div className="form-group">
+              <label htmlFor="signed_role">{strings.selectRole}</label>
+              <select className="form-control form-control-sm" id="signed_role" onChange={(event) => this.setState({approvingRole: event.target.value})} value={this.state.approvingRole}>
+                {this._renderAvailableRoles(this.state.approvingSubscribe.character.roles)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="signed_status">{strings.selectStatus}</label>
+              <select className="form-control form-control-sm" id="signed_status" onChange={(event) => this.setState({approvingStatus: event.target.value})} value={this.state.approvingStatus}>
+                <option value="approved" key={0}>{strings.approved}</option>
+                <option value="reserve" key={1}>{strings.reserve}</option>
+                <option value="signed" key={2}>{strings.signed}</option>
+              </select>
+              <button className="btn btn-primary btn-sm" onClick={() => this._onApproveSubscribe()}>{strings.apply}</button>
+            </div>
+          </div>
+        }
         <div className="line_up">
           <table className="table table-sm">
             <thead>
@@ -335,6 +405,8 @@ export default class LineUp extends React.Component {
             </thead>
             <tbody>
               {this._renderSubscribes('approved')}
+              {this._renderEmptyLine()}
+              {this._renderSubscribes('reserve')}
               {this._renderEmptyLine()}
               {this._renderSubscribes('signed')}
               {this._renderEmptyLine()}

@@ -1,5 +1,5 @@
 class CharacterSubscriptionSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :name, :level, :character_class_name, :guild_name, :main_role_name, :slug
+  attributes :id, :user_id, :name, :level, :character_class_name, :guild_name, :roles, :slug
 
   def character_class_name
     object.character_class.name
@@ -9,8 +9,7 @@ class CharacterSubscriptionSerializer < ActiveModel::Serializer
     object.guild&.full_name
   end
 
-  def main_role_name
-    return nil if object.main_roles.empty?
-    object.main_roles[0].name
+  def roles
+    object.roles.order(main: :desc).pluck(:name)
   end
 end

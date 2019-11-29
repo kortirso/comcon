@@ -18,7 +18,8 @@ class SubscribeForm
   attr_reader :subscribe
 
   def persist?
-    self.status = status_to_integer(status)
+    self.status = status_to_integer
+    self.for_role = for_role_to_integer
     return false unless valid?
     @subscribe = id ? Subscribe.find_by(id: id) : Subscribe.new
     return false if @subscribe.nil?
@@ -29,7 +30,7 @@ class SubscribeForm
 
   private
 
-  def status_to_integer(status)
+  def status_to_integer
     return status if status.is_a?(Integer)
     case status
       when 'reserve' then 4
@@ -38,6 +39,16 @@ class SubscribeForm
       when 'unknown' then 1
       when 'rejected' then 0
       else 1
+    end
+  end
+
+  def for_role_to_integer
+    return for_role if for_role.is_a?(Integer)
+    case for_role
+      when 'dd' then 2
+      when 'healer' then 1
+      when 'tank' then 0
+      else 2
     end
   end
 end

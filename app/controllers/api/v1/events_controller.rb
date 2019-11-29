@@ -99,7 +99,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @event, to: :show?
-        render json: @event.subscribes.status_order.includes(character: %i[character_class guild main_roles]), status: 200
+        render json: @event.subscribes.status_order.includes(character: %i[character_class guild]), status: 200
       end
 
       api :GET, '/v1/events/:id/user_characters.json', 'Show user characters who can subscribe for event'
