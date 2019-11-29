@@ -45,9 +45,9 @@ class SubscribeForm
   def for_role_to_integer
     return for_role if for_role.is_a?(Integer)
     case for_role
-      when 'dd' then 2
-      when 'healer' then 1
-      when 'tank' then 0
+      when 'Dd' then 2
+      when 'Healer' then 1
+      when 'Tank' then 0
       else 2
     end
   end

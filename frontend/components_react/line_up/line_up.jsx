@@ -12,9 +12,15 @@ const roleValues = {
 }
 
 const subscribeRoleValues = {
-  tank: 2,
-  healer: 1,
-  dd: 0
+  Tank: 2,
+  Healer: 1,
+  Dd: 0
+}
+
+const statusValues = {
+  approved: 2,
+  reserve: 1,
+  signed: 0
 }
 
 let strings = new LocalizedStrings(I18nData)
@@ -36,7 +42,8 @@ export default class LineUp extends React.Component {
       showApprovingBox: false,
       approvingSubscribe: null,
       approvingRole: '',
-      approvingStatus: ''
+      approvingStatus: '',
+      alternativeRender: false
     }
   }
 
@@ -224,8 +231,7 @@ export default class LineUp extends React.Component {
   }
 
   _renderSubscribedRole(role) {
-    if (role === 'tank') return <div className="role_icon Tank"></div>
-    else if (role === 'healer') return <div className="role_icon Healer"></div>
+    if (role === 'Tank' || role === 'Healer') return <div className={`role_icon ${role}`}></div>
     else return <div className="role_icon Melee"></div>
   }
 
@@ -302,9 +308,9 @@ export default class LineUp extends React.Component {
   }
 
   _modifyRole(role) {
-    if (['Tank', 'Танк'].includes(role)) return 'tank'
-    else if (['Healer', 'Лекарь'].includes(role)) return 'healer'
-    else return 'dd'
+    if (['Tank', 'Танк'].includes(role)) return 'Tank'
+    else if (['Healer', 'Лекарь'].includes(role)) return 'Healer'
+    else return 'Dd'
   }
 
   _renderUserButton(subscribe, status) {
@@ -352,6 +358,44 @@ export default class LineUp extends React.Component {
     })
   }
 
+  _transformRole(role) {
+    if (role === 'Melee' || role === 'Ranged') return 'Dd'
+    else return role
+  }
+
+  _renderClassList(roleName, characterClassName) {
+    let subscribes = this.state.subscribes.filter((subscribe) => {
+      if (!["signed", "reserve", "approved"].includes(subscribe.status)) return false
+      else if (subscribe.character.character_class_name.en !== characterClassName) return false
+      else if (subscribe.for_role !== null && subscribe.for_role !== roleName) return false
+      else if (subscribe.for_role === null && this._transformRole(subscribe.character.roles[0].en) !== roleName) return false
+      else return true
+    })
+    subscribes.sort((a, b) => this._sortCharacterAlternative(a, b))
+    return subscribes.map((subscribe, index) => {
+      return (
+        <div className="subscribe" key={index}>
+          <span>{subscribe.character.name}</span>
+          <span>{strings[subscribe.status]}</span>
+          <span>{this._checkAdminButton(subscribe.character, subscribe.status) && this._renderAdminButton(subscribe)}</span>
+        </div>
+      )
+    })
+  }
+
+  _sortCharacterAlternative(a, b) {
+    if (statusValues[a.status] > statusValues[b.status]) return -1
+    else if (statusValues[a.status] < statusValues[b.status]) return 1
+    else {
+      if (a.character.level > b.character.level) return -1
+      else if (a.character.level < b.character.level) return 1
+      else {
+        if (a.character.name <= b.character.name) return -1
+        else return 1
+      }
+    }
+  }
+
   render() {
     const eventInfo = this.state.eventInfo
     return (
@@ -368,6 +412,10 @@ export default class LineUp extends React.Component {
             {this._renderRLBlock()}
           </div>
         }
+        <div className="form-group form-check">
+          <input className="form-check-input" type="checkbox" checked={this.state.alternativeRender} onChange={() => this.setState({alternativeRender: !this.state.alternativeRender})} id="alternative_checkbox" />
+          <label htmlFor="alternative_checkbox">Alternative renderer</label>
+        </div>
         {this._renderSignBlock()}
         {this.state.showApprovingBox &&
           <div className="approving_box">
@@ -390,6 +438,103 @@ export default class LineUp extends React.Component {
             </div>
           </div>
         }
+        {this.state.alternativeRender && eventInfo !== null &&
+          <div className="alternative_line_up">
+            <div className="main_roles">
+              <div className="role_type">
+                <h2>Tanks</h2>
+                <div className="classes">
+                  <div className="class_list">
+                    <h3 className="Warrior">4</h3>
+                    {this._renderClassList("Tank", "Warrior")}
+                  </div>
+                  <div className="class_list">
+                    <h3 className="Druid">4</h3>
+                    {this._renderClassList("Tank", "Druid")}
+                  </div>
+                  {eventInfo.fraction_name.en === 'Alliance' &&
+                    <div className="class_list">
+                      <h3 className="Paladin">4</h3>
+                      {this._renderClassList("Tank", "Paladin")}
+                    </div>
+                  }
+                </div>
+              </div>
+              <div className="role_type">
+                <h2>Healers</h2>
+                <div className="classes">
+                  {eventInfo.fraction_name.en === 'Horde' &&
+                    <div className="class_list">
+                      <h3 className="Shaman">4</h3>
+                      {this._renderClassList("Healer", "Shaman")}
+                    </div>
+                  }
+                  <div className="class_list">
+                    <h3 className="Druid">4</h3>
+                    {this._renderClassList("Healer", "Druid")}
+                  </div>
+                  {eventInfo.fraction_name.en === 'Alliance' &&
+                    <div className="class_list">
+                      <h3 className="Paladin">4</h3>
+                      {this._renderClassList("Healer", "Paladin")}
+                    </div>
+                  }
+                  <div className="class_list">
+                    <h3 className="Priest">4</h3>
+                    {this._renderClassList("Healer", "Priest")}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="dd">
+              <div className="role_type">
+                <h2>Damage Dealers</h2>
+                <div className="classes">
+                  <div className="class_list">
+                    <h3 className="Warrior">4</h3>
+                    {this._renderClassList("Dd", "Warrior")}
+                  </div>
+                  <div className="class_list">
+                    <h3 className="Druid">4</h3>
+                    {this._renderClassList("Dd", "Druid")}
+                  </div>
+                  {eventInfo.fraction_name.en === 'Alliance' &&
+                    <div className="class_list">
+                      <h3 className="Paladin">4</h3>
+                      {this._renderClassList("Dd", "Paladin")}
+                    </div>
+                  }
+                  <div className="class_list">
+                    <h3 className="Priest">4</h3>
+                    {this._renderClassList("Dd", "Priest")}
+                  </div>
+                  {eventInfo.fraction_name.en === 'Horde' &&
+                    <div className="class_list">
+                      <h3 className="Shaman">4</h3>
+                      {this._renderClassList("Dd", "Shaman")}
+                    </div>
+                  }
+                  <div className="class_list">
+                    <h3 className="Warlock">4</h3>
+                    {this._renderClassList("Dd", "Warlock")}
+                  </div>
+                  <div className="class_list">
+                    <h3 className="Mage">4</h3>
+                    {this._renderClassList("Dd", "Mage")}
+                  </div>
+                  <div className="class_list">
+                    <h3 className="Hunter">4</h3>
+                    {this._renderClassList("Dd", "Hunter")}
+                  </div>
+                  <div className="class_list">
+                    <h3 className="Rogue">4</h3>
+                    {this._renderClassList("Dd", "Rogue")}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
         <div className="line_up">
           <table className="table table-sm">
             <thead>
@@ -404,12 +549,12 @@ export default class LineUp extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this._renderSubscribes('approved')}
-              {this._renderEmptyLine()}
-              {this._renderSubscribes('reserve')}
-              {this._renderEmptyLine()}
-              {this._renderSubscribes('signed')}
-              {this._renderEmptyLine()}
+              {this.state.alternativeRender === false && this._renderSubscribes('approved')}
+              {this.state.alternativeRender === false && this._renderEmptyLine()}
+              {this.state.alternativeRender === false && this._renderSubscribes('reserve')}
+              {this.state.alternativeRender === false && this._renderEmptyLine()}
+              {this.state.alternativeRender === false && this._renderSubscribes('signed')}
+              {this.state.alternativeRender === false && this._renderEmptyLine()}
               {this._renderSubscribes('unknown')}
               {this._renderEmptyLine()}
               {this._renderSubscribes('rejected')}

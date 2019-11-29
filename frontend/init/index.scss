@@ -114,46 +114,40 @@ body {
     color: $horde;
   }
 
-  table {
-    tbody {
-      tr {
-        &.Druid {
-          background: $druid;
-        }
+  .Druid {
+    background: $druid;
+  }
 
-        &.Hunter {
-          background: $hunter;
-        }
+  .Hunter {
+    background: $hunter;
+  }
 
-        &.Mage {
-          background: $mage;
-        }
+  .Mage {
+    background: $mage;
+  }
 
-        &.Paladin {
-          background: $paladin;
-        }
+  .Paladin {
+    background: $paladin;
+  }
 
-        &.Priest {
-          background: $priest;
-        }
+  .Priest {
+    background: $priest;
+  }
 
-        &.Rogue {
-          background: $rogue;
-        }
+  .Rogue {
+    background: $rogue;
+  }
 
-        &.Shaman {
-          background: $shaman;
-        }
+  .Shaman {
+    background: $shaman;
+  }
 
-        &.Warlock {
-          background: $warlock;
-        }
+  .Warlock {
+    background: $warlock;
+  }
 
-        &.Warrior {
-          background: $warrior;
-        }
-      }
-    }
+  .Warrior {
+    background: $warrior;
   }
 
   .alert {

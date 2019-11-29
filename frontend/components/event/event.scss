@@ -1,6 +1,76 @@
 @import '../../init/variables.scss';
 
 .event {
+  .alternative_line_up {
+    .main_roles, .dd {
+      margin-bottom: 0.5rem;
+    }
+
+    .main_roles {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .role_type {
+        width: 48%;
+      }
+    }
+
+    .role_type {
+      display: flex;
+      flex-direction: column;
+
+      h2 {
+        text-align: center;
+        font-size: 1.25rem;
+      }
+
+      .classes {
+        display: flex;
+        flex-direction: row;
+
+        .class_list {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          border: 1px solid #eee;
+
+          h3 {
+            text-align: center;
+            font-size: 0.8rem;
+            margin-bottom: 0;
+            padding: 0.25rem;
+          }
+
+          .subscribe {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+
+            span {
+              font-size: 0.75rem;
+              line-height: 0.75rem;
+
+              &:nth-of-type(1) {
+                flex: 1;
+              }
+
+              &:nth-of-type(3) {
+                width: 25px;
+
+                .btn-plus {
+                  width: 20px;
+                  height: 20px;
+                }
+              } 
+            }
+          }
+        }
+      }
+    }
+  }
+
   .copy_raid {
     display: flex;
     flex-direction: row;
