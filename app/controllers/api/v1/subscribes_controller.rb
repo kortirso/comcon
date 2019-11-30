@@ -49,7 +49,7 @@ module Api
       end
 
       def update_subscribe_params
-        params.require(:subscribe).permit(:status, :comment)
+        params.require(:subscribe).permit(:status, :comment, :for_role)
       end
     end
   end

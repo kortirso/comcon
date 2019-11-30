@@ -1,5 +1,5 @@
 class EventShowSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :date, :time, :fraction_name, :dungeon_name, :owner_name, :eventable_type, :eventable_name
+  attributes :id, :name, :description, :date, :time, :fraction_name, :dungeon_name, :owner_name, :eventable_type, :eventable_name, :group_role
 
   def date
     object.start_time.strftime('%-d.%-m.%Y')
@@ -27,5 +27,11 @@ class EventShowSerializer < ActiveModel::Serializer
   def eventable_name
     return object.eventable.full_name if object.eventable_type == 'World' || object.eventable_type == 'Guild'
     object.eventable.name
+  end
+
+  def group_role
+    return nil if object.group_role.nil?
+    return nil unless object.group_role.defined?
+    object.group_role.value
   end
 end

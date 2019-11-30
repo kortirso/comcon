@@ -8,6 +8,7 @@ import 'air-datepicker/dist/js/datepicker.js'
 import 'air-datepicker/dist/js/i18n/datepicker.en.js'
 
 import ErrorView from '../error_view/error_view'
+import RaidPlanner from '../raid_planner/raid_planner'
 
 let strings = new LocalizedStrings(I18nData)
 
@@ -35,6 +36,7 @@ export default class EventForm extends React.Component {
       statics: [],
       currentStatics: [],
       staticId: '',
+      groupRoles: {},
       errors: []
     }
   }
@@ -67,7 +69,7 @@ export default class EventForm extends React.Component {
         const currentStatics = data.statics.filter((staticItem) => {
           return staticItem.characters.includes(data.characters[0].id)
         })
-        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id), statics: data.statics, currentStatics: currentStatics}, () => {
+        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id), statics: data.statics, currentStatics: currentStatics, groupRoles: data.group_roles}, () => {
           this._getEvent()
         })
       }
@@ -101,14 +103,14 @@ export default class EventForm extends React.Component {
             staticId = event.eventable_id
           }
         }
-        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics})
+        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics, groupRoles: event.group_role})
       }
     })
   }
 
   _onCreate() {
     const state = this.state
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description, group_roles: state.groupRoles } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -127,7 +129,7 @@ export default class EventForm extends React.Component {
 
   _onUpdate() {
     const state = this.state
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description, group_roles: state.groupRoles } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -213,6 +215,18 @@ export default class EventForm extends React.Component {
     })
   }
 
+  _onChangeAmount(key, value) {
+    let groupRoles = this.state.groupRoles
+    groupRoles[key]["amount"] = value
+    this.setState({groupRoles: groupRoles})
+  }
+
+  _onChangeClassAmount(role, key, value) {
+    let groupRoles = this.state.groupRoles
+    groupRoles[role]["by_class"][key] = value
+    this.setState({groupRoles: groupRoles})
+  }
+
   render() {
     return (
       <div className="event_form">
@@ -295,6 +309,11 @@ export default class EventForm extends React.Component {
           <div className="col-sm-6">
             <label htmlFor="event_description">{strings.description}</label>
             <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="event_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <RaidPlanner groupRoles={this.state.groupRoles} onChangeAmount={this._onChangeAmount.bind(this)} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
           </div>
         </div>
         {this._renderSubmitButton()}

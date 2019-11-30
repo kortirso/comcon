@@ -9,13 +9,13 @@ class SubscribePolicy < ApplicationPolicy
   def update?
     return true if status == :no_status_change
     # true if raid owner
-    return true if record.event.owner.user == user && %w[approved signed].include?(status)
+    return true if record.event.owner.user == user && %w[approved signed reserve].include?(status)
     # false if event is closed
     return false unless record.event.is_open?
     # true if own character
     return true if record.character.user == user && %w[signed unknown rejected].include?(status)
     # false if not approving status
-    return false unless %w[approved signed].include?(status)
+    return false unless %w[approved signed reserve].include?(status)
     # false if no guild role
     guild_role = record.event.guild_role_of_user(user.id)
     return false if guild_role.nil?

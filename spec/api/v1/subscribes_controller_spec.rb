@@ -10,6 +10,8 @@ RSpec.describe 'Subscribes API' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
+      let!(:role) { create :role, :tank }
+      let!(:character_role) { create :character_role, character: character, role: role }
 
       context 'for invalid params' do
         let(:request) { post '/api/v1/subscribes.json', params: { subscribe: { event_id: nil }, access_token: access_token } }
@@ -70,6 +72,8 @@ RSpec.describe 'Subscribes API' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
+      let!(:role) { create :role, :tank }
+      let!(:character_role) { create :character_role, character: character, role: role }
       let!(:subscribe) { create :subscribe, event: event, character: character, status: 'signed' }
 
       context 'for unexisted subscribe' do

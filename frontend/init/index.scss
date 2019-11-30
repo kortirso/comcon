@@ -114,46 +114,40 @@ body {
     color: $horde;
   }
 
-  table {
-    tbody {
-      tr {
-        &.Druid {
-          background: $druid;
-        }
+  .Druid {
+    background: $druid;
+  }
 
-        &.Hunter {
-          background: $hunter;
-        }
+  .Hunter {
+    background: $hunter;
+  }
 
-        &.Mage {
-          background: $mage;
-        }
+  .Mage {
+    background: $mage;
+  }
 
-        &.Paladin {
-          background: $paladin;
-        }
+  .Paladin {
+    background: $paladin;
+  }
 
-        &.Priest {
-          background: $priest;
-        }
+  .Priest {
+    background: $priest;
+  }
 
-        &.Rogue {
-          background: $rogue;
-        }
+  .Rogue {
+    background: $rogue;
+  }
 
-        &.Shaman {
-          background: $shaman;
-        }
+  .Shaman {
+    background: $shaman;
+  }
 
-        &.Warlock {
-          background: $warlock;
-        }
+  .Warlock {
+    background: $warlock;
+  }
 
-        &.Warrior {
-          background: $warrior;
-        }
-      }
-    }
+  .Warrior {
+    background: $warrior;
   }
 
   .alert {
@@ -214,6 +208,41 @@ body {
         background: url(../images/role_icons.png);
         background-position: -78px 0;
         background-size: cover;
+      }
+    }
+  }
+
+  .raid_planner {
+    margin-top: 2rem;
+
+    .raid_role {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.5rem;
+
+      p {
+        margin: 0;
+        width: 75px;
+      }
+
+      input {
+        width: 40px;
+        margin-right: 10px;
+        font-size: 0.9rem;
+      }
+
+      .role_by_class {
+        span {
+          margin-right: 5px;
+          font-size: 0.9rem;
+        }
+
+        input {
+          text-align: center;
+          margin-bottom: 5px;
+        }
       }
     }
   }

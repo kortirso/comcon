@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_24_214606) do
+ActiveRecord::Schema.define(version: 2019_11_28_214029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -145,6 +145,16 @@ ActiveRecord::Schema.define(version: 2019_11_24_214606) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_fractions_on_name", using: :gin
+  end
+
+  create_table "group_roles", force: :cascade do |t|
+    t.integer "groupable_id"
+    t.string "groupable_type"
+    t.jsonb "value", default: {"dd"=>{"amount"=>0, "by_class"=>{}}, "tanks"=>{"amount"=>0, "by_class"=>{}}, "healers"=>{"amount"=>0, "by_class"=>{}}}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["groupable_id", "groupable_type"], name: "index_group_roles_on_groupable_id_and_groupable_type"
+    t.index ["value"], name: "index_group_roles_on_value", using: :gin
   end
 
   create_table "guild_invites", force: :cascade do |t|
@@ -284,6 +294,7 @@ ActiveRecord::Schema.define(version: 2019_11_24_214606) do
     t.datetime "updated_at", null: false
     t.string "comment"
     t.integer "status", default: 2, null: false
+    t.integer "for_role"
     t.index ["event_id", "character_id"], name: "index_subscribes_on_event_id_and_character_id", unique: true
   end
 

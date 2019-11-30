@@ -54,6 +54,7 @@ module Api
         event_form = EventForm.new(event_params)
         if event_form.persist?
           CreateSubscribe.call(event: event_form.event, character: event_form.event.owner, status: 'signed')
+          CreateGroupRole.call(groupable: event_form.event, group_roles: group_role_params)
           CreateEventNotificationJob.perform_now(event_id: event_form.event.id)
           render json: { event: EventEditSerializer.new(event_form.event) }, status: 201
         else
@@ -77,6 +78,7 @@ module Api
         authorize! @event, to: :edit?
         event_form = EventForm.new(@event.attributes.merge(event_params))
         if event_form.persist?
+          UpdateGroupRole.call(group_role: @event.group_role, group_roles: group_role_params)
           render json: { event: EventEditSerializer.new(event_form.event) }, status: 200
         else
           render json: { errors: event_form.errors.full_messages }, status: 409
@@ -97,7 +99,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @event, to: :show?
-        render json: @event.subscribes.status_order.includes(character: %i[character_class guild main_roles]), status: 200
+        render json: @event.subscribes.status_order.includes(character: %i[character_class guild]), status: 200
       end
 
       api :GET, '/v1/events/:id/user_characters.json', 'Show user characters who can subscribe for event'
@@ -127,7 +129,8 @@ module Api
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
           dungeons: @dungeons_json,
-          statics: user_statics
+          statics: user_statics,
+          group_roles: GroupRole.default
         }, status: 200
       end
 
@@ -146,14 +149,12 @@ module Api
       end
 
       def find_events
-        @events = Event.where('start_time > ? AND start_time <= ?', @start_of_period, @end_of_period).order(start_time: :asc)
+        @events = Event.where('start_time > ? AND start_time <= ?', @start_of_period, @end_of_period).order(start_time: :asc).includes(:group_role)
         @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
         @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
         @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
         @events = @events.where(dungeon_id: params[:dungeon_id]) if params[:dungeon_id].present?
-        if params[:subscribed] == 'true'
-          @events = @events.where_user_subscribed(Current.user)
-        end
+        @events = @events.where_user_subscribed(Current.user) if params[:subscribed] == 'true'
         if params[:character_id].present?
           character = Current.user.characters.find_by(id: params[:character_id])
           @events = character.present? ? @events.available_for_character(character) : @events.available_for_user(Current.user)
@@ -183,6 +184,10 @@ module Api
         h[:owner] = @event.present? ? @event.owner : Current.user.characters.find_by(id: params[:event][:owner_id])
         h[:dungeon] = Dungeon.find_by(id: params[:event][:dungeon_id])
         h
+      end
+
+      def group_role_params
+        params.require(:event).permit(group_roles: {})
       end
     end
   end

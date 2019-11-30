@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Added
+- model GroupRole
+- creating group roles for events that need in raid
+- allow to approve in raid with not only main role
+- "In reserve" status
+- alternative renderer for event subscribers
+- everybody use same change subscribe method
+
 ## [0.9.0] - 2019-11-26
 ### Added
 - copy raid to clipboard for fast raid inviting
