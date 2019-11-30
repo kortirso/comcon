@@ -5,10 +5,6 @@ class CreateEventNotificationJob < ApplicationJob
   def perform(event_id:)
     event = Event.find_by(id: event_id)
     return if event.nil?
-    if event.eventable_type == 'Guild'
-      Notificators::Guilds::CreateEventNotificator.call(event_id: event_id)
-    elsif event.eventable_type == 'Static' && event.eventable.staticable_type == 'Guild'
-      Notificators::Guilds::CreateEventForGuildStaticNotificator.call(event_id: event_id)
-    end
+    Notifies::CreateEvent.new.call(event: event)
   end
 end

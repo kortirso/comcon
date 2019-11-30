@@ -13,9 +13,8 @@ RSpec.describe NotificationForm, type: :service do
     end
 
     context 'for valid data' do
-      let!(:notification) { create :notification }
-
       context 'for existed notification' do
+        let!(:notification) { create :notification }
         let(:service) { NotificationForm.new(name: { 'en' => notification.name['en'], 'ru' => notification.name['ru'] }, event: 'guild_event_creation') }
 
         it 'does not create new notification' do
@@ -28,7 +27,7 @@ RSpec.describe NotificationForm, type: :service do
       end
 
       context 'for unexisted notification' do
-        let(:service) { NotificationForm.new(name: { 'en' => 'Guild event creation', 'ru' => 'Создание гильдейского события' }, event: 'guild_event_creation') }
+        let(:service) { NotificationForm.new(name: { 'en' => 'Guild event creation', 'ru' => 'Создание гильдейского события' }, event: 'guild_event_creation', status: 0) }
 
         it 'creates new notification' do
           expect { service.persist? }.to change { Notification.count }.by(1)
