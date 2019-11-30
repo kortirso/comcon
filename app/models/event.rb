@@ -81,8 +81,7 @@ class Event < ApplicationRecord
   def slug_candidates
     [
       :name,
-      %i[name owner_id],
-      %i[name owner_id id]
+      %i[name id]
     ]
   end
 end

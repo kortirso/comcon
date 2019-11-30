@@ -16,6 +16,6 @@
           td= link_to character[:name], character_path(character[:slug]), class: 'character_link'
           td
             .role_icons
-              .role_icon class="#{character[:main_role_name]['en']}"
+              .role_icon class="#{character[:roles][0]['en']}"
           td= character[:level]
           td= character[:guild_name]
