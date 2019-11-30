@@ -1,4 +1,4 @@
-RSpec.describe Notificators::CreateEventForGuildStaticNotificator, type: :service do
+RSpec.describe Notificators::Guilds::CreateEventForGuildStaticNotificator, type: :service do
   let!(:guild) { create :guild }
   let!(:static) { create :static, staticable: guild }
   let!(:guild_event) { create :event, eventable: static }
@@ -8,7 +8,7 @@ RSpec.describe Notificators::CreateEventForGuildStaticNotificator, type: :servic
   let(:service) { described_class.new }
 
   describe 'self.call' do
-    it 'executes call for Notificators::CreateEventForGuildStaticNotificator object' do
+    it 'executes call for Notificators::Guilds::CreateEventForGuildStaticNotificator object' do
       expect_any_instance_of(described_class).to receive(:call).and_call_original
 
       described_class.call(event_id: guild_event.id)

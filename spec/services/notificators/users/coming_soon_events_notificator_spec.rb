@@ -1,4 +1,4 @@
-RSpec.describe Notificators::ComingSoonEventsNotificator, type: :service do
+RSpec.describe Notificators::Users::ComingSoonEventsNotificator, type: :service do
   let!(:event) { create :event, start_time: DateTime.now.utc + 35.minutes }
   let!(:notification) { create :notification, event: 'event_start_soon' }
   let!(:character) { create :character }
@@ -6,7 +6,7 @@ RSpec.describe Notificators::ComingSoonEventsNotificator, type: :service do
   let(:service) { described_class.new }
 
   describe 'self.call' do
-    it 'executes call for Notificators::ComingSoonEventsNotificator object' do
+    it 'executes call for Notificators::Users::ComingSoonEventsNotificator object' do
       expect_any_instance_of(described_class).to receive(:call).and_call_original
 
       described_class.call

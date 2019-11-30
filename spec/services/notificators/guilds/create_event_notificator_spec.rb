@@ -1,4 +1,4 @@
-RSpec.describe Notificators::CreateEventNotificator, type: :service do
+RSpec.describe Notificators::Guilds::CreateEventNotificator, type: :service do
   let!(:guild) { create :guild }
   let!(:guild_event) { create :event, eventable: guild }
   let!(:notification) { create :notification, event: 'guild_event_creation' }
@@ -7,7 +7,7 @@ RSpec.describe Notificators::CreateEventNotificator, type: :service do
   let(:service) { described_class.new }
 
   describe 'self.call' do
-    it 'executes call for Notificators::CreateEventNotificator object' do
+    it 'executes call for Notificators::Guilds::CreateEventNotificator object' do
       expect_any_instance_of(described_class).to receive(:call).and_call_original
 
       described_class.call(event_id: guild_event.id)
