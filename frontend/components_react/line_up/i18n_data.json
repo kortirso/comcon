@@ -25,7 +25,11 @@
     "form": "Approve character form",
     "selectRole": "Select role",
     "selectStatus": "Select status",
-    "apply": "Apply"
+    "apply": "Apply",
+    "tanks": "Tanks",
+    "healers": "Healers",
+    "dd": "Damage dealers",
+    "alternative": "Alternative renderer"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -53,6 +57,10 @@
     "form": "Форма утверждения персонажа",
     "selectRole": "Выберите роль",
     "selectStatus": "Выберите статус",
-    "apply": "Обновить"
+    "apply": "Обновить",
+    "tanks": "Танки",
+    "healers": "Лекари",
+    "dd": "Бойцы",
+    "alternative": "Альтернативное представление"
   }
 }

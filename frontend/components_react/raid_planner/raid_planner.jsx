@@ -38,7 +38,6 @@ export default class RaidPlanner extends React.Component {
     return (
       <div className="raid_role" key={key}>
         <p>{this.props.locale === 'en' ? this._capitalize(key) : roles[this._capitalize(key)]}</p>
-        <input placeholder={strings.total} value={value["amount"] === 0 ? '' : value["amount"]} onChange={(event) => this.props.onChangeAmount(key, event.target.value)} />
         {this._renderRoleByClass(key, value["by_class"])}
       </div>
     )

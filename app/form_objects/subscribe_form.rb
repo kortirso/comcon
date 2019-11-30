@@ -19,7 +19,8 @@ class SubscribeForm
 
   def persist?
     self.status = status_to_integer
-    self.for_role = for_role_to_integer
+    self.for_role = for_role_nil_to_integer if for_role.nil?
+    self.for_role = for_role_string_to_integer if for_role.is_a?(String)
     return false unless valid?
     @subscribe = id ? Subscribe.find_by(id: id) : Subscribe.new
     return false if @subscribe.nil?
@@ -42,10 +43,22 @@ class SubscribeForm
     end
   end
 
-  def for_role_to_integer
-    return for_role if for_role.is_a?(Integer)
+  def for_role_string_to_integer
     case for_role
       when 'Dd' then 2
+      when 'Healer' then 1
+      when 'Tank' then 0
+      else 2
+    end
+  end
+
+  def for_role_nil_to_integer
+    return nil if character.nil?
+    return nil if character.roles.size.zero?
+    main_role_name = character.roles.order(main: :desc)[0].name['en']
+    case main_role_name
+      when 'Melee' then 2
+      when 'Ranged' then 2
       when 'Healer' then 1
       when 'Tank' then 0
       else 2

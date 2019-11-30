@@ -2,6 +2,8 @@
 
 .event {
   .alternative_line_up {
+    margin-bottom: 2rem;
+
     .main_roles, .dd {
       margin-bottom: 0.5rem;
     }
@@ -47,6 +49,10 @@
             flex-direction: row;
             align-items: center;
             border-bottom: 1px solid #eee;
+
+            &:nth-last-of-type(1) {
+              border-bottom: none;
+            }
 
             span {
               font-size: 0.75rem;

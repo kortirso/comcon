@@ -107,6 +107,8 @@ RSpec.describe 'Events API' do
 
       context 'for valid params' do
         let!(:character) { create :character, user: user }
+        let!(:role) { create :role, :tank }
+        let!(:character_role) { create :character_role, character: character, role: role }
         let!(:dungeon) { create :dungeon }
         let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now + 1.day).to_i, eventable_type: 'World' } } }
 

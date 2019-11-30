@@ -28,7 +28,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class LineUp extends React.Component {
   constructor() {
@@ -40,6 +40,7 @@ export default class LineUp extends React.Component {
       editMode: null,
       commentValue: '',
       showApprovingBox: false,
+      approvingBoxForAdmin: true,
       approvingSubscribe: null,
       approvingRole: '',
       approvingStatus: '',
@@ -222,7 +223,7 @@ export default class LineUp extends React.Component {
           <td>
             <div className="buttons">
               {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe)}
-              {this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe, status)}
+              {this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
             </div>
           </td>
         </tr>
@@ -296,11 +297,15 @@ export default class LineUp extends React.Component {
   }
 
   _renderAdminButton(subscribe) {
-    return <button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe)}></button>
+    return <button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, true)}></button>
   }
 
-  _showApprovingBox(subscribe) {
-    this.setState({showApprovingBox: true, approvingSubscribe: subscribe, approvingRole: subscribe.character.roles[0][this.props.locale], approvingStatus: 'approved'})
+  _renderUserButton(subscribe) {
+    return <button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, false)}></button>
+  }
+
+  _showApprovingBox(subscribe, forAdmin) {
+    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.character.roles[0][this.props.locale], approvingStatus: forAdmin ? 'approved' : 'signed'})
   }
 
   _onApproveSubscribe() {
@@ -311,15 +316,6 @@ export default class LineUp extends React.Component {
     if (['Tank', 'Танк'].includes(role)) return 'Tank'
     else if (['Healer', 'Лекарь'].includes(role)) return 'Healer'
     else return 'Dd'
-  }
-
-  _renderUserButton(subscribe, status) {
-    if (!this.props.event_is_open) return false
-    let buttons = []
-    if (status !== 'signed') buttons.push(<button key='0' className="btn btn-primary btn-sm" onClick={this.onUpdateSubscribe.bind(this, subscribe, { status: 'signed' })}>{strings.signed}</button>)
-    if (status !== 'unknown') buttons.push(<button key='2' className="btn btn-primary btn-sm" onClick={this.onUpdateSubscribe.bind(this, subscribe, { status: 'unknown' })}>{strings.unknown}</button>)
-    if (status !== 'rejected') buttons.push(<button key='1' className="btn btn-primary btn-sm" onClick={this.onUpdateSubscribe.bind(this, subscribe, { status: 'rejected' })}>{strings.rejected}</button>)
-    return <div className="user_buttons">{buttons}</div>
   }
 
   _renderRLBlock() {
@@ -412,27 +408,33 @@ export default class LineUp extends React.Component {
             {this._renderRLBlock()}
           </div>
         }
-        <div className="form-group form-check">
-          <input className="form-check-input" type="checkbox" checked={this.state.alternativeRender} onChange={() => this.setState({alternativeRender: !this.state.alternativeRender})} id="alternative_checkbox" />
-          <label htmlFor="alternative_checkbox">Alternative renderer</label>
-        </div>
+        {eventInfo !== null && eventInfo.group_role !== null &&
+          <div className="form-group form-check">
+            <input className="form-check-input" type="checkbox" checked={this.state.alternativeRender} onChange={() => this.setState({alternativeRender: !this.state.alternativeRender})} id="alternative_checkbox" />
+            <label htmlFor="alternative_checkbox">{strings.alternative}</label>
+          </div>
+        }
         {this._renderSignBlock()}
         {this.state.showApprovingBox &&
           <div className="approving_box">
             <p className="approving_box_title">{strings.form}</p>
             <p className="approving_box_character">{this.state.approvingSubscribe.character.name}</p>
-            <div className="form-group">
-              <label htmlFor="signed_role">{strings.selectRole}</label>
-              <select className="form-control form-control-sm" id="signed_role" onChange={(event) => this.setState({approvingRole: event.target.value})} value={this.state.approvingRole}>
-                {this._renderAvailableRoles(this.state.approvingSubscribe.character.roles)}
-              </select>
-            </div>
+            {this.state.approvingBoxForAdmin &&
+              <div className="form-group">
+                <label htmlFor="signed_role">{strings.selectRole}</label>
+                <select className="form-control form-control-sm" id="signed_role" onChange={(event) => this.setState({approvingRole: event.target.value})} value={this.state.approvingRole}>
+                  {this._renderAvailableRoles(this.state.approvingSubscribe.character.roles)}
+                </select>
+              </div>
+            }
             <div className="form-group">
               <label htmlFor="signed_status">{strings.selectStatus}</label>
               <select className="form-control form-control-sm" id="signed_status" onChange={(event) => this.setState({approvingStatus: event.target.value})} value={this.state.approvingStatus}>
-                <option value="approved" key={0}>{strings.approved}</option>
-                <option value="reserve" key={1}>{strings.reserve}</option>
+                {this.state.approvingBoxForAdmin && <option value="approved" key={0}>{strings.approved}</option>}
+                {this.state.approvingBoxForAdmin && <option value="reserve" key={1}>{strings.reserve}</option>}
                 <option value="signed" key={2}>{strings.signed}</option>
+                {!this.state.approvingBoxForAdmin && <option value="unknown" key={3}>{strings.unknown}</option>}
+                {!this.state.approvingBoxForAdmin && <option value="rejected" key={4}>{strings.rejected}</option>}
               </select>
               <button className="btn btn-primary btn-sm" onClick={() => this._onApproveSubscribe()}>{strings.apply}</button>
             </div>
@@ -442,45 +444,45 @@ export default class LineUp extends React.Component {
           <div className="alternative_line_up">
             <div className="main_roles">
               <div className="role_type">
-                <h2>Tanks</h2>
+                <h2>{strings.tanks}</h2>
                 <div className="classes">
                   <div className="class_list">
-                    <h3 className="Warrior">4</h3>
+                    <h3 className="Warrior">{eventInfo.group_role.tanks.by_class.warrior}</h3>
                     {this._renderClassList("Tank", "Warrior")}
                   </div>
                   <div className="class_list">
-                    <h3 className="Druid">4</h3>
+                    <h3 className="Druid">{eventInfo.group_role.tanks.by_class.druid}</h3>
                     {this._renderClassList("Tank", "Druid")}
                   </div>
                   {eventInfo.fraction_name.en === 'Alliance' &&
                     <div className="class_list">
-                      <h3 className="Paladin">4</h3>
+                      <h3 className="Paladin">{eventInfo.group_role.tanks.by_class.paladin}</h3>
                       {this._renderClassList("Tank", "Paladin")}
                     </div>
                   }
                 </div>
               </div>
               <div className="role_type">
-                <h2>Healers</h2>
+                <h2>{strings.healers}</h2>
                 <div className="classes">
                   {eventInfo.fraction_name.en === 'Horde' &&
                     <div className="class_list">
-                      <h3 className="Shaman">4</h3>
+                      <h3 className="Shaman">{eventInfo.group_role.healers.by_class.shaman}</h3>
                       {this._renderClassList("Healer", "Shaman")}
                     </div>
                   }
                   <div className="class_list">
-                    <h3 className="Druid">4</h3>
+                    <h3 className="Druid">{eventInfo.group_role.healers.by_class.druid}</h3>
                     {this._renderClassList("Healer", "Druid")}
                   </div>
                   {eventInfo.fraction_name.en === 'Alliance' &&
                     <div className="class_list">
-                      <h3 className="Paladin">4</h3>
+                      <h3 className="Paladin">{eventInfo.group_role.healers.by_class.paladin}</h3>
                       {this._renderClassList("Healer", "Paladin")}
                     </div>
                   }
                   <div className="class_list">
-                    <h3 className="Priest">4</h3>
+                    <h3 className="Priest">{eventInfo.group_role.healers.by_class.priest}</h3>
                     {this._renderClassList("Healer", "Priest")}
                   </div>
                 </div>
@@ -488,46 +490,46 @@ export default class LineUp extends React.Component {
             </div>
             <div className="dd">
               <div className="role_type">
-                <h2>Damage Dealers</h2>
+                <h2>{strings.dd}</h2>
                 <div className="classes">
                   <div className="class_list">
-                    <h3 className="Warrior">4</h3>
+                    <h3 className="Warrior">{eventInfo.group_role.dd.by_class.warrior}</h3>
                     {this._renderClassList("Dd", "Warrior")}
                   </div>
                   <div className="class_list">
-                    <h3 className="Druid">4</h3>
+                    <h3 className="Druid">{eventInfo.group_role.dd.by_class.druid}</h3>
                     {this._renderClassList("Dd", "Druid")}
                   </div>
                   {eventInfo.fraction_name.en === 'Alliance' &&
                     <div className="class_list">
-                      <h3 className="Paladin">4</h3>
+                      <h3 className="Paladin">{eventInfo.group_role.dd.by_class.paladin}</h3>
                       {this._renderClassList("Dd", "Paladin")}
                     </div>
                   }
                   <div className="class_list">
-                    <h3 className="Priest">4</h3>
+                    <h3 className="Priest">{eventInfo.group_role.dd.by_class.priest}</h3>
                     {this._renderClassList("Dd", "Priest")}
                   </div>
                   {eventInfo.fraction_name.en === 'Horde' &&
                     <div className="class_list">
-                      <h3 className="Shaman">4</h3>
+                      <h3 className="Shaman">{eventInfo.group_role.dd.by_class.shaman}</h3>
                       {this._renderClassList("Dd", "Shaman")}
                     </div>
                   }
                   <div className="class_list">
-                    <h3 className="Warlock">4</h3>
+                    <h3 className="Warlock">{eventInfo.group_role.dd.by_class.warlock}</h3>
                     {this._renderClassList("Dd", "Warlock")}
                   </div>
                   <div className="class_list">
-                    <h3 className="Mage">4</h3>
+                    <h3 className="Mage">{eventInfo.group_role.dd.by_class.mage}</h3>
                     {this._renderClassList("Dd", "Mage")}
                   </div>
                   <div className="class_list">
-                    <h3 className="Hunter">4</h3>
+                    <h3 className="Hunter">{eventInfo.group_role.dd.by_class.hunter}</h3>
                     {this._renderClassList("Dd", "Hunter")}
                   </div>
                   <div className="class_list">
-                    <h3 className="Rogue">4</h3>
+                    <h3 className="Rogue">{eventInfo.group_role.dd.by_class.rogue}</h3>
                     {this._renderClassList("Dd", "Rogue")}
                   </div>
                 </div>
