@@ -11,6 +11,7 @@ class Static < ApplicationRecord
 
   has_many :static_members, dependent: :destroy
   has_many :characters, through: :static_members
+  has_many :users, -> { distinct }, through: :characters, source: :user
 
   has_many :static_invites, dependent: :destroy
   has_many :invited_characters, through: :static_invites, source: :static

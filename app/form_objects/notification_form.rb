@@ -10,12 +10,12 @@ class NotificationForm
   validates :status, :name, :event, presence: true
   validates :status, inclusion: 0..2
   validate :name_as_hash
+  validate :exists?
 
   attr_reader :notification
 
   def persist?
     return false unless valid?
-    return false if exists?
     @notification = Notification.new
     @notification.attributes = attributes
     @notification.save
@@ -25,7 +25,8 @@ class NotificationForm
   private
 
   def exists?
-    Notification.find_by(name: name).present?
+    return unless Notification.where(event: event, status: status).exists?
+    errors[:notification] << 'is already exists'
   end
 
   def name_as_hash

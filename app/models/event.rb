@@ -15,6 +15,7 @@ class Event < ApplicationRecord
 
   has_many :subscribes, dependent: :destroy
   has_many :characters, through: :subscribes
+  has_many :users, -> { distinct }, through: :characters, source: :user
 
   has_many :signed_subscribes, -> { where status: %w[approved signed] }, class_name: 'Subscribe'
   has_many :signed_characters, through: :signed_subscribes, source: :character

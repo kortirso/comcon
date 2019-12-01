@@ -39,7 +39,6 @@ class SubscribeForm
       when 'signed' then 2
       when 'unknown' then 1
       when 'rejected' then 0
-      else 1
     end
   end
 
@@ -61,7 +60,6 @@ class SubscribeForm
       when 'Ranged' then 2
       when 'Healer' then 1
       when 'Tank' then 0
-      else 2
     end
   end
 end

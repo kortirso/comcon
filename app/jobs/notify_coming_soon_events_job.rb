@@ -3,6 +3,6 @@ class NotifyComingSoonEventsJob < ApplicationJob
   queue_as :default
 
   def perform
-    Notificators::ComingSoonEventsNotificator.call
+    Notifies::ComingSoonEvents.new.call
   end
 end

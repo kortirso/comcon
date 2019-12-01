@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :paladin do
       name { { en: 'Paladin', ru: 'Паладин' } }
     end
+
+    trait :druid do
+      name { { en: 'Druid', ru: 'Друид' } }
+    end
   end
 end
