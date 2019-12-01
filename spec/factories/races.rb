@@ -5,6 +5,11 @@ FactoryBot.define do
       association :fraction, :alliance
     end
 
+    trait :night_elf do
+      name { { en: 'Night Elf', ru: 'Ночной Эльф' } }
+      association :fraction, :alliance
+    end
+
     trait :orc do
       name { { en: 'Orc', ru: 'Орк' } }
       association :fraction, :horde

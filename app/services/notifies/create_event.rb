@@ -21,13 +21,13 @@ module Notifies
 
     def notify_guild(guild_id:, event_name:, event:)
       notification = Notification.find_by(event: event_name, status: 0)
-      do_notify(receiver_ids: guild_id, receiver_type: 'Guild', notification_id: notification.id, content: notification.content(event: event))
+      do_notify(receiver_ids: guild_id, receiver_type: 'Guild', notification_id: notification.id, content: notification.content(event_object: event))
     end
 
     def notify_users(object:, event_name:, event:)
       notification = Notification.find_by(event: event_name, status: 1)
       user_ids = object.users.with_discord_identity.pluck(:id)
-      do_notify(receiver_ids: user_ids, receiver_type: 'User', notification_id: notification.id, content: notification.content(event: event))
+      do_notify(receiver_ids: user_ids, receiver_type: 'User', notification_id: notification.id, content: notification.content(event_object: event))
     end
   end
 end

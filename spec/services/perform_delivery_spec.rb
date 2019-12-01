@@ -8,7 +8,7 @@ RSpec.describe PerformDelivery, type: :service do
 
   describe '.call' do
     context 'for discord_webhook delivery_type' do
-      let(:request) { described_class.call(delivery: delivery1, content: notification.content(event: guild_event)) }
+      let(:request) { described_class.call(delivery: delivery1, content: notification.content(event_object: guild_event)) }
 
       it 'calls DiscordMethod::ExecuteWebhook' do
         expect(DiscordMethod::ExecuteWebhook).to receive(:call)
@@ -18,7 +18,7 @@ RSpec.describe PerformDelivery, type: :service do
     end
 
     context 'for discord_message delivery_type' do
-      let(:request) { described_class.call(delivery: delivery2, content: notification.content(event: guild_event)) }
+      let(:request) { described_class.call(delivery: delivery2, content: notification.content(event_object: guild_event)) }
 
       it 'calls DiscordMethod::CreateChannelMessage' do
         expect(DiscordMethod::CreateChannelMessage).to receive(:call)
