@@ -17,6 +17,9 @@ class GroupRole < ApplicationRecord
   end
 
   def defined?
-    value != GroupRole.default
+    return true if value['tanks']['by_class'].values.any? { |value| !value.zero? }
+    return true if value['healers']['by_class'].values.any? { |value| !value.zero? }
+    return true if value['dd']['by_class'].values.any? { |value| !value.zero? }
+    false
   end
 end

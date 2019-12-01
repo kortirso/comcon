@@ -13,6 +13,8 @@ class EventEditSerializer < ActiveModel::Serializer
   end
 
   def group_role
-    object.group_role&.value
+    return nil if object.group_role.nil?
+    return nil unless object.group_role.defined?
+    object.group_role.value
   end
 end
