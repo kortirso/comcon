@@ -232,6 +232,7 @@ export default class LineUp extends React.Component {
   }
 
   _renderSubscribedRole(role) {
+    console.log(role)
     if (role === 'Tank' || role === 'Healer') return <div className={`role_icon ${role}`}></div>
     else return <div className="role_icon Melee"></div>
   }
@@ -314,7 +315,7 @@ export default class LineUp extends React.Component {
 
   _modifyRole(role) {
     if (['Tank', 'Танк'].includes(role)) return 'Tank'
-    else if (['Healer', 'Лекарь'].includes(role)) return 'Healer'
+    else if (['Healer', 'Целитель'].includes(role)) return 'Healer'
     else return 'Dd'
   }
 

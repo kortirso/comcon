@@ -91,10 +91,16 @@ RSpec.describe SubscribeForm, type: :service do
     context 'for valid data' do
       let!(:event) { create :event }
       let!(:character) { create :character }
-      let(:service) { SubscribeForm.new(event: event, character: character) }
+      let(:service) { SubscribeForm.new(event: event, character: character, for_role: 'Healer') }
 
       it 'creates new subscribe' do
         expect { service.persist? }.to change { Subscribe.count }.by(1)
+      end
+
+      it 'and subscribe is created with for_role 1' do
+        service.persist?
+
+        expect(Subscribe.last.for_role).to eq 'Healer'
       end
 
       it 'and returns true' do
