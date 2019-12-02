@@ -9,6 +9,7 @@ class Oauth
       u.password = Devise.friendly_token[0, 20]
       u.confirmed_at = DateTime.now
     end
+    ConfirmUser.call(user: user)
     CreateIdentity.call(uid: auth.uid, provider: auth.provider, user: user, email: email)
     user
   end

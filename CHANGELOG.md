@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Modified
 - character's name limit is 12, guild's name limit is 24 and capitalized
+- confirm user after attaching discord account
 
 ### Fixed
 - disbund guild after self-kick of last character
