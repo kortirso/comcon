@@ -44,7 +44,7 @@ en:
               is_not_valid: is not available for this fraction
             name:
               blank: can't be blank
-              too_long: is too long (maximum is 20 characters)
+              too_long: is too long (maximum is 12 characters)
               too_short: is too short (minimum is 2 characters)
             world:
               blank: can't be blank
@@ -56,7 +56,7 @@ en:
           attributes:
             name:
               blank: can't be blank
-              too_long: is too long (maximum is 30 characters)
+              too_long: is too long (maximum is 24 characters)
               too_short: is too short (minimum is 2 characters)
             guild:
               already_exist: already exists in this world with this name

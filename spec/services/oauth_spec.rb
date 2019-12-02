@@ -18,6 +18,12 @@ RSpec.describe Oauth, type: :service do
         request
       end
 
+      it 'and calls ConfirmUser' do
+        expect(ConfirmUser).to receive(:call).and_call_original
+
+        request
+      end
+
       it 'and creates new Identity' do
         expect { request }.to change(Identity, :count).by(1)
       end

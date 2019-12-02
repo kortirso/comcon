@@ -80,6 +80,7 @@ module Api
       def kick_character
         authorize! @guild, to: :management?
         @character.update(guild_id: nil)
+        RebuildGuildRoles.call(guild: @guild)
         render json: { result: 'Character is kicked from guild' }, status: 200
       end
 

@@ -14,7 +14,7 @@ class CharacterForm
   attribute :world_fraction, WorldFraction
 
   validates :name, :level, :race, :character_class, :user, :world, :world_fraction, presence: true
-  validates :name, length: { in: 2..20 }
+  validates :name, length: { in: 2..12 }
   validates :level, inclusion: 1..60
   validate :exists?
   validate :race_class_restrictions
@@ -23,6 +23,7 @@ class CharacterForm
   attr_reader :character
 
   def persist?
+    self.name = name.capitalize if name.present?
     self.world_fraction = id ? world_fraction : WorldFraction.find_by(world: world, fraction: race&.fraction)
     return false unless valid?
     @character = id ? Character.find_by(id: id) : Character.new

@@ -357,6 +357,12 @@ RSpec.describe 'Guilds API' do
             expect(character.guild_id).to eq nil
           end
 
+          it 'and calls RebuildGuildRoles' do
+            expect(RebuildGuildRoles).to receive(:call).and_call_original
+
+            request
+          end
+
           context 'in answer' do
             before { request }
 
