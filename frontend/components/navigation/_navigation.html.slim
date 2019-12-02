@@ -1,24 +1,25 @@
-nav.navbar.navbar-expand-md.navbar-light
-  = link_to 'Guild-Hall', root_path, class: 'navbar-brand'
-  button.navbar-toggler type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'
-    span.navbar-toggler-icon
-  .collapse.navbar-collapse#navbarSupportedContent
-    .links
-      - if user_signed_in? && Current.user&.confirmed?
-        - if Current.user&.is_admin?
-          = link_to t('navigation.worlds'), worlds_path, class: 'with_right_margin for_admins'
-          = link_to t('navigation.users'), users_path, class: 'with_right_margin for_admins'
-          = link_to t('navigation.recipes'), recipes_path, class: 'with_right_margin for_admins'
-        = link_to t('navigation.characters'), characters_path, class: 'with_right_margin'
-        = link_to t('navigation.guilds'), guilds_path, class: 'with_right_margin'
-        = link_to t('navigation.statics'), statics_path, class: 'with_right_margin'
-        = link_to t('navigation.events'), events_path, class: 'with_right_margin'
-        = link_to t('navigation.craft'), craft_index_path, class: 'with_right_margin'
-    .right
-      - if user_signed_in?
-        - if Current.user&.confirmed?
-          = link_to t('navigation.settings'), settings_path
-        = link_to t('navigation.logout'), destroy_user_session_path, method: :delete
-      - else
-        = link_to t('navigation.login'), new_user_session_path
-        = link_to t('navigation.sign_up'), new_user_registration_path
+nav.navigation
+  .topbar
+  ul.navigation_block
+    li
+      = link_to_if request.fullpath =~ /characters/, t('navigation.characters'), characters_path, class: 'active' do
+        = link_to t('navigation.characters'), characters_path
+    li
+      = link_to_if request.fullpath =~ /guilds/, t('navigation.guilds'), guilds_path, class: 'active' do
+        = link_to t('navigation.guilds'), guilds_path
+    li
+      = link_to_if request.fullpath =~ /statics/, t('navigation.statics'), statics_path, class: 'active' do
+        = link_to t('navigation.statics'), statics_path
+    li
+      = link_to_if request.fullpath =~ /events/, t('navigation.events'), events_path, class: 'active' do
+        = link_to t('navigation.events'), events_path
+    li
+      = link_to_if request.fullpath =~ /craft/, t('navigation.craft'), craft_index_path, class: 'active' do
+        = link_to t('navigation.craft'), craft_index_path
+  ul.navigation_block
+    li= link_to t('navigation.worlds'), worlds_path
+    li= link_to t('navigation.users'), users_path
+    li= link_to t('navigation.recipes'), recipes_path
+  ul.navigation_block
+    li= link_to t('navigation.settings'), settings_path
+    li= link_to t('navigation.logout'), destroy_user_session_path, method: :delete

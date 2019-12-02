@@ -1,12 +1,21 @@
+@import '../../init/variables.scss';
+
 .content {
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   .inside {
     display: flex;
+    flex-direction: column;
     flex: 1;
-    padding: 1rem 0;
+
+    main {
+      display: flex;
+      flex: 1;
+      padding: 1rem;
+      overflow: hidden;
+    }
   }
 }

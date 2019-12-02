@@ -1,10 +1,14 @@
 import "init";
 import "images";
 
+import "components/guest_page/guest_page";
+import "components/guest_navigation/guest_navigation";
+import "components/footer/footer";
+
 import "components/page/page";
 import "components/navigation/navigation";
-import "components/footer/footer";
 import "components/flashes/flashes";
+import "components/topbar/topbar";
 
 import "components/external_services/external_services";
 import "components/users/users";

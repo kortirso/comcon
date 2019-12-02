@@ -204,6 +204,8 @@ en:
     level: Level
     guild: Guild
     find_guild: Find guild
+  character_form:
+    creating: Create new character
   select:
     world: Realm
     guild: Guild

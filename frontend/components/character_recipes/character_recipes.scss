@@ -1,14 +1,23 @@
-.character_professions {
-  .character_profession {
-    margin-bottom: 2rem;
+@import '../../init/variables.scss';
 
-    .recipes {
-      .recipe {
-        margin-bottom: 0.25rem;
+.character_recipes {
+  width: 100%;
+  background: $white;
+  padding: 1rem;
+  overflow-y: scroll;
 
-        label {
-          a {
-            color: #000;
+  .character_professions {
+    .character_profession {
+      margin-bottom: 2rem;
+
+      .recipes {
+        .recipe {
+          margin-bottom: 0.25rem;
+
+          label {
+            a {
+              color: #000;
+            }
           }
         }
       }

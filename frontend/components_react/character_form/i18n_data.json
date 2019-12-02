@@ -13,9 +13,7 @@
     "quests": "Completed quests for dungeons",
     "keys": "Available keys for dungeons",
     "create": "Create",
-    "update": "Update",
-    "newCharacter": "Create new character",
-    "updateCharacter": "Update character"
+    "update": "Update"
   },
   "ru": {
     "name": "Имя",
@@ -31,8 +29,6 @@
     "quests": "Выполненные квесты для подземелий",
     "keys": "Полученные ключи для подземелий",
     "create": "Создать",
-    "update": "Обновить",
-    "newCharacter": "Создать нового персонажа",
-    "updateCharacter": "Обновить персонажа"
+    "update": "Обновить"
   }
 }

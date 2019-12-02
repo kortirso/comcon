@@ -18,6 +18,7 @@ html {
 
 body {
   overflow-x: hidden;
+  background: $light-grey;
 
   .flex {
     display: flex;
@@ -42,34 +43,6 @@ body {
 
   .with_top_margin {
     margin-top: 0.5rem;
-  }
-
-  .double_line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .double_line {
-      width: 49%;
-    }
-
-    .form-group, .block {
-      width: 49%;
-    }
-  }
-
-  .triple_line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .form-group, .block {
-      width: 32%;
-
-      &.double {
-        width: 66%;
-      }
-    }
   }
 
   .form-group {
@@ -100,9 +73,28 @@ body {
   }
 
   .table {
-    td {
-      padding: 0.25rem;
-      vertical-align: middle;
+    margin-bottom: 0;
+
+    thead {
+      tr {
+        th {
+          border-top: none;
+          border-bottom: none;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          padding: 0.25rem;
+          vertical-align: middle;
+
+          &:nth-last-of-type(1) {
+            text-align: right;
+          }
+        }
+      }
     }
   }
 
@@ -148,6 +140,22 @@ body {
 
   .Warrior {
     background: $warrior;
+  }
+
+
+  .btn {
+    &.btn-primary {
+      background: #1779ba;
+      color: #fefefe;
+
+      &:hover {
+        background: #14679f;
+      }
+    }
+
+    &.btn-sm {
+      padding: 0.1rem 0.25rem;
+    }
   }
 
   .alert {

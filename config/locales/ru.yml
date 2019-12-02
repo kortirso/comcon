@@ -215,6 +215,8 @@ ru:
     level: Уровень
     guild: Гильдия
     find_guild: Найти гильдию
+  character_form:
+    creating: Добавить нового персонажа
   select:
     world: Игровой Мир
     guild: Гильдия

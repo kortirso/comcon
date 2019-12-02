@@ -1,0 +1,15 @@
+@import '../../init/variables.scss';
+
+.inside_topbar {
+  height: 45px;
+  background: $white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+
+  .title {
+    font-size: 1.2rem;
+  }
+}

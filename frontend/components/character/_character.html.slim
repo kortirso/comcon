@@ -1,16 +1,18 @@
-.container.character
-  h2= @character.name
-  p= "#{@character.race.name[I18n.locale.to_s]}"
-  .character_recipes
-    h3= t('character_recipes.recipes')
-    .row.professions
-      - @character_professions.each do |character_profession|
-        .col-md-6.col-lg-4
-          .character_profession
-            h4= character_profession.profession.name[I18n.locale.to_s]
-            .recipes
-              - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
-              - character_profession.profession.recipes.where(id: existed_recipe_ids).order(skill: :desc).each do |recipe|
-                .recipe
-                  span= link_to recipe.name[I18n.locale.to_s], recipe.links[I18n.locale.to_s]
-                  span= recipe.skill
+.inside
+  .inside_topbar
+    .title= @character.name
+  main
+    .character
+      .character_recipes
+        h3= t('character_recipes.recipes')
+        .row.professions
+          - @character_professions.each do |character_profession|
+            .col-md-12.col-xl-4
+              .character_profession
+                h4= character_profession.profession.name[I18n.locale.to_s]
+                .recipes
+                  - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
+                  - character_profession.profession.recipes.where(id: existed_recipe_ids).order(skill: :desc).each do |recipe|
+                    .recipe
+                      span= link_to recipe.name[I18n.locale.to_s], recipe.links[I18n.locale.to_s]
+                      span= recipe.skill
