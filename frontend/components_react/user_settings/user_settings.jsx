@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class UserSettings extends React.Component {
   constructor() {
@@ -70,12 +70,11 @@ export default class UserSettings extends React.Component {
   render() {
     return (
       <div>
-        <div className="user_settings">
-          <h3>{strings.personal}</h3>
-          {this.state.alert !== '' &&
-            <Alert type="success" value={this.state.alert} />
-          }
-          <div className="settings_block">
+        {this.state.alert !== '' &&
+          <Alert type="success" value={this.state.alert} />
+        }
+        <div className="row">
+          <div className="col-md-4">
             <h3>{strings.timeZone}</h3>
             <select className="form-control form-control-sm time_offset" id="event_character_id" onChange={this._onChangeTimeOffset.bind(this)} value={this.state.timeOffset.value}>
               <option value='' key='20'>{strings.browser}</option>
@@ -83,9 +82,7 @@ export default class UserSettings extends React.Component {
             </select>
           </div>
         </div>
-        <div className="save_block">
-          <input type="submit" name="commit" value={strings.save} className="btn btn-primary btn-sm" onClick={this._onSave.bind(this)} />
-        </div>
+        <input type="submit" name="commit" value={strings.save} className="btn btn-primary btn-sm with_top_margin" onClick={this._onSave.bind(this)} />
       </div>
     )
   }

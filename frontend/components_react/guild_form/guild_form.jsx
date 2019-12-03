@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class GuildForm extends React.Component {
   constructor(props) {
@@ -108,7 +108,6 @@ export default class GuildForm extends React.Component {
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <h2>{this.state.guildId === undefined ? strings.newGuild : strings.updateGuild}</h2>
         <div className="row">
           <div className="col-md-6 col-xl-4">
             <div className="form-group">
@@ -116,8 +115,6 @@ export default class GuildForm extends React.Component {
               <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="guild_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
             </div>
           </div>
-        </div>
-        <div className="row">
           <div className="col-md-6 col-xl-4">
             {this.state.guildId === undefined &&
               <div className="form-group">

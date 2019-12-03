@@ -15,7 +15,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class EventForm extends React.Component {
   constructor(props) {
@@ -233,7 +233,6 @@ export default class EventForm extends React.Component {
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <h2>{this.state.eventId === undefined ? strings.newEvent : strings.updateEvent}</h2>
         <div className="row">
           <div className="col-sm-6 col-xl-3">
             <div className="form-group">

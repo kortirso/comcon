@@ -1,3 +1,6 @@
-.container
-  = javascript_pack_tag 'guild_form'
-  = react_component('GuildForm', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+= javascript_pack_tag 'guild_form'
+.inside
+  .inside_topbar
+    .title= @guild.name
+  main
+    = react_component('GuildForm', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

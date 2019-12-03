@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class DeliveryForm extends React.Component {
   constructor() {
@@ -97,14 +97,20 @@ export default class DeliveryForm extends React.Component {
 
   _renderDiscordWebhookParams() {
     return (
-      <div className="double_line">
-        <div className="form-group">
-          <label htmlFor="delivery_param_id">{strings.webhookId}</label>
-          <input placeholder={strings.webhookId} className="form-control form-control-sm" type="text" id="delivery_param_id" value={this.state.deliveryParamId} onChange={(event) => this.setState({deliveryParamId: event.target.value})} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="delivery_param_token">{strings.webhookToken}</label>
-          <input placeholder={strings.webhookToken} className="form-control form-control-sm" type="text" id="delivery_param_token" value={this.state.deliveryParamToken} onChange={(event) => this.setState({deliveryParamToken: event.target.value})} />
+      <div className="col-md-6">
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="delivery_param_id">{strings.webhookId}</label>
+              <input placeholder={strings.webhookId} className="form-control form-control-sm" type="text" id="delivery_param_id" value={this.state.deliveryParamId} onChange={(event) => this.setState({deliveryParamId: event.target.value})} />
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="delivery_param_token">{strings.webhookToken}</label>
+              <input placeholder={strings.webhookToken} className="form-control form-control-sm" type="text" id="delivery_param_token" value={this.state.deliveryParamToken} onChange={(event) => this.setState({deliveryParamToken: event.target.value})} />
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -112,7 +118,7 @@ export default class DeliveryForm extends React.Component {
 
   _renderDiscordMessageParams() {
     return (
-      <div className="double_line">
+      <div className="col-md-6 col-lg-3">
         <div className="form-group">
           <label htmlFor="delivery_param_channel_id">{strings.channelId}</label>
           <input placeholder={strings.channelId} className="form-control form-control-sm" type="text" id="delivery_param_channel_id" value={this.state.deliveryParamChannelId} onChange={(event) => this.setState({deliveryParamChannelId: event.target.value})} />
@@ -127,14 +133,16 @@ export default class DeliveryForm extends React.Component {
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <div className="double_line">
-          <div className="double_line">
+        <div className="row">
+          <div className="col-md-6 col-lg-3">
             <div className="form-group">
               <label htmlFor="delivery_notification_id">{strings.notification}</label>
               <select className="form-control form-control-sm" id="delivery_notification_id" onChange={this._onNotificationChange.bind(this)} value={this.state.notificationId}>
                 {this._renderNotifications()}
               </select>
             </div>
+          </div>
+          <div className="col-md-6 col-lg-3">
             <div className="form-group">
               <label htmlFor="delivery_type">{strings.deliveryType}</label>
               <select className="form-control form-control-sm" id="delivery_type" onChange={this._onDeliveryTypeChange.bind(this)} value={this.state.deliveryType}>

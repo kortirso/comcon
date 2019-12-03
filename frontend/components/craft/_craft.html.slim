@@ -1,5 +1,8 @@
 = javascript_pack_tag 'craft'
-.container#craft
-  h2= t('craft.title')
-  p= t('craft.description')
-  = react_component('Craft', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+.inside
+  .inside_topbar
+    .title= t('craft.title')
+  main
+    #craft
+      p= t('craft.description')
+      = react_component('Craft', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

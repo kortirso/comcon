@@ -1,21 +1,29 @@
-.container.static
-  - if Current.user.any_static_role?(@static)
-    = link_to t('guild.management'), management_static_path(@static.slug), class: 'btn btn-sm btn-primary with_bottom_margin'
-  h2= t('static.label')
-  p= @static.description
-  table.table.table-sm
-    thead
-      tr
-        th= t('characters.name')
-        th= t('characters.role')
-        th= t('characters.level')
-        th= t('characters.guild')
-    tbody
-      - @static_characters.each do |character|
-        tr class="#{character[:character_class_name]['en']}"
-          td= link_to character[:name], character_path(character[:slug]), class: 'character_link'
-          td
-            .role_icons
-              .role_icon class="#{character[:roles][0]['en']}"
-          td= character[:level]
-          td= character[:guild_name]
+.inside
+  .inside_topbar
+    .title= @static.name
+    .action
+      - if Current.user.any_static_role?(@static)
+        = link_to t('guild.management'), management_static_path(@static.slug), class: 'btn btn-sm btn-primary'
+  main
+    .static
+      p= @static.description
+      table.table.table-sm
+        thead
+          tr
+            th= t('characters.name')
+            th= t('characters.role')
+            th= t('characters.level')
+            th= t('characters.guild')
+            - if Current.user.any_static_role?(@static)
+              th
+        tbody
+          - @static_characters.each do |character|
+            tr class="#{character[:character_class_name]['en']}"
+              td= link_to character[:name], character_path(character[:slug]), class: 'character_link'
+              td
+                .role_icons
+                  .role_icon class="#{character[:roles][0]['en']}"
+              td= character[:level]
+              td= character[:guild_name]
+              - if Current.user.any_static_role?(@static)
+                td

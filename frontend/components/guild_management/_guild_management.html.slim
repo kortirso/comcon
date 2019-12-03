@@ -1,39 +1,14 @@
-.container
-  #invitations
-    = link_to t('management.edit_guild'), edit_guild_path(@guild.slug), class: 'btn btn-primary btn-sm with_right_margin with_bottom_margin'
-    = link_to t('management.create_invite'), new_guild_invite_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
-  #statics
-    h3= t('statics.title')
-    = link_to t('statics.add'), new_static_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm with_bottom_margin'
-    - if @guild.statics.size.positive?
-      table.table.table-striped.table-sm
-        thead
-          tr
-            th= t('statics.name')
-            th= t('statics.description')
-            th
-        tbody
-          - @guild.statics.each do |static|
-            tr
-              td= link_to static.name, static
-              td= static.description
-              td
-                = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
-                = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
-  #notifications
-    h3= t('notifications.title')
-    = link_to t('notifications.add'), new_delivery_path(deliveriable_id: @guild.id, deliveriable_type: 'Guild'), class: 'btn btn-primary btn-sm with_bottom_margin'
-    - @guild.notifications.each do |notification|
-      .notification
-        table.table.table-striped.table-sm
-          tbody
-            - notification.deliveries.includes(:delivery_param).where(deliveriable_id: @guild.id, deliveriable_type: 'Guild').each do |delivery|
-              tr
-                td= notification.name[I18n.locale.to_s]
-                td= delivery.delivery_type
-                td.delivery_param
-                  - if delivery.delivery_param.present?
-                    - delivery.delivery_param.params.each do |key, value|
-                      span= "#{key}: #{value}"
-                td
-                  = link_to t('buttons.delete'), delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+= javascript_pack_tag 'invite_form_for_guild'
+.inside
+  .inside_topbar
+    .title= @guild.full_name
+    .tabs
+      ul
+        li= link_to t('guild.management'), management_guild_path(@guild.slug), class: 'active'
+        li= link_to t('statics.title'), statics_guild_path(@guild.slug)
+        li= link_to t('notifications.title'), notifications_guild_path(@guild.slug)
+    .action
+      = link_to t('management.edit_guild'), edit_guild_path(@guild.slug), class: 'btn btn-primary btn-sm'
+  main
+    .guild_management
+      = react_component('InviteFormForGuild', guild_id: @guild.id, guild_name: @guild.full_name, fraction_id: @guild.fraction_id, world_id: @guild.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

@@ -1,11 +1,16 @@
-.container
-  = form_with model: @world, local: true do |f|
-    .double_line
-      .form-group
-        = f.label :name, t('world.name')
-        = f.text_field :name, required: true, placeholder: t('world.name_title'), class: 'form-control form-control-sm', value: @world.name
-      .form-group
-        = f.label :zone, t('world.zone')
-        = f.text_field :zone, required: true, placeholder: t('world.zone_title'), class: 'form-control form-control-sm', value: @world.zone
-    = f.submit t('buttons.update'), class: 'btn btn-primary btn-sm'
+.inside
+  .inside_topbar
+    .title= t('worlds.edit')
+  main
+    .world_form
+      = form_with model: @world, local: true do |f|
+        .row
+          .col-md-4
+            .form-group
+              = f.label :name, t('world.name')
+              = f.text_field :name, required: true, placeholder: t('world.name_title'), class: 'form-control form-control-sm', value: @world.name
+            .form-group
+              = f.label :zone, t('world.zone')
+              = f.text_field :zone, required: true, placeholder: t('world.zone_title'), class: 'form-control form-control-sm', value: @world.zone
+        = f.submit t('buttons.update'), class: 'btn btn-primary btn-sm'
     

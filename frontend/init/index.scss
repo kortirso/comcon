@@ -18,7 +18,6 @@ html {
 
 body {
   overflow-x: hidden;
-  background: $light-grey;
 
   .flex {
     display: flex;
@@ -74,6 +73,7 @@ body {
 
   .table {
     margin-bottom: 0;
+    font-size: 0.9rem;
 
     thead {
       tr {
@@ -89,10 +89,6 @@ body {
         td {
           padding: 0.25rem;
           vertical-align: middle;
-
-          &:nth-last-of-type(1) {
-            text-align: right;
-          }
         }
       }
     }
@@ -253,6 +249,10 @@ body {
         }
       }
     }
+  }
+
+  .modal {
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 

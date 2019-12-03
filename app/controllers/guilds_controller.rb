@@ -1,6 +1,6 @@
 class GuildsController < ApplicationController
   before_action :find_guild_invites_for_user, only: %i[index]
-  before_action :find_guild_by_slug, only: %i[show edit management]
+  before_action :find_guild_by_slug, only: %i[show edit management statics notifications]
   before_action :find_user_characters, only: %i[show]
 
   def index; end
@@ -15,6 +15,14 @@ class GuildsController < ApplicationController
 
   def management
     authorize! @guild
+  end
+
+  def statics
+    authorize! @guild, to: :management?
+  end
+
+  def notifications
+    authorize! @guild, to: :management?
   end
 
   private

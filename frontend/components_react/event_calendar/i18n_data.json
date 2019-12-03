@@ -22,14 +22,13 @@
     "startTime": "Start time",
     "noEvents": "No event selected",
     "at": "at",
-    "selectedDay": "Chosen day",
-    "selectedEvent": "Chosen event",
     "noDay": "No day selected",
     "noDayEvents": "No events at this day",
     "otherEvents": "And other events",
     "sure": "Are sure?",
     "withSubscription": "Subscribed",
-    "addEvent": "Add event"
+    "eventOfTheDay": "Event of the day",
+    "close": "Close"
   },
   "ru": {
     "none": "все",
@@ -54,13 +53,12 @@
     "startTime": "Время начала",
     "noEvents": "Пока не выбрано никаких событий",
     "at": "в",
-    "selectedDay": "Выбранный день",
-    "selectedEvent": "Выбранное событие",
     "noDay": "Пока не выбран никакой день",
     "noDayEvents": "В данный день нет никаких событий",
     "otherEvents": "И другие события",
     "sure": "Вы уверены?",
     "withSubscription": "Подписавшиеся",
-    "addEvent": "Добавить событие"
+    "eventOfTheDay": "Событие дня",
+    "close": "Закрыть"
   }
 }

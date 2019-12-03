@@ -17,9 +17,7 @@
     "description": "Description",
     "startTime": "Start time",
     "hoursBeforeClose": "Hours before close",
-    "statics": "Statics",
-    "newEvent": "Create new event",
-    "updateEvent": "Update event"
+    "statics": "Statics"
   },
   "ru": {
     "name": "Название",
@@ -39,8 +37,6 @@
     "description": "Описание",
     "startTime": "Время начала",
     "hoursBeforeClose": "Часов до закрытия",
-    "statics": "Статики",
-    "newEvent": "Добавить новое событие",
-    "updateEvent": "Обновить событие"
+    "statics": "Статики"
   }
 }

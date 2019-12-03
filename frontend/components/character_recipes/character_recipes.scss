@@ -1,11 +1,6 @@
 @import '../../init/variables.scss';
 
 .character_recipes {
-  width: 100%;
-  background: $white;
-  padding: 1rem;
-  overflow-y: scroll;
-
   .character_professions {
     .character_profession {
       margin-bottom: 2rem;

@@ -1,6 +1,5 @@
 {
   "en": {
-    "label": "Search guilds for invite",
     "name": "Name",
     "nameLabel": "Search guild by name (minimum 3 symbols)",
     "invite": "Request",
@@ -16,7 +15,6 @@
     "status": "Status"
   },
   "ru": {
-    "label": "Поиск гильдий для вступления",
     "name": "Название",
     "nameLabel": "Поиск гильдий по названию (минимум 3 символа)",
     "invite": "Запрос",

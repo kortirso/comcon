@@ -154,7 +154,8 @@ ru:
     settings: Настройки
     logout: Выход
   settings:
-    personal: Личные настройки
+    label: Настройки
+    personal: Личная информация
     password: Пароль
     external_services: Внешние сервисы
     notifications: Уведомления
@@ -164,7 +165,6 @@ ru:
     bindings_2: После этого вы сможете входить на сервис в один клик.
     bindings_existed: К вашему аккаунту привязана учетная запись Discord
   user_notifications:
-    title: Уведомления
     p_1: На этой странице вы можете настроить, какие уведомления и каким способом вы хотите получать
   registration:
     title: Создайте профиль
@@ -180,10 +180,13 @@ ru:
     login_through: Вход через
     linking: Войдите с помощью учетной записи в других сервисах
   worlds:
-    add: Добавить мир
+    title: Игровые Миры
+    add: Добавить игровой мир
+    edit: Изменить игровой мир
     name: Название
     zone: Зона
   users:
+    title: Пользователи
     email: Почта
     role: Роль
     identities: Соцсети
@@ -204,6 +207,9 @@ ru:
     decline: Отклонить
   events:
     no_characters: Для просмотра событий привяжите персонажа к учетной записи
+    add: Добавить новое событие
+    edit: Изменить событие
+    label: Календарь событий
   characters:
     label: Персонажи
     add: Добавить персонажа
@@ -221,10 +227,12 @@ ru:
     world: Игровой Мир
     guild: Гильдия
   recipes:
+    title: Рецепты
+    new: Добавить новый рецепт
     add: Добавить рецепт
   character_recipes:
     no_data: У вашего персонажа нет профессий с рецептами
-    label: Изученные рецепты для персонажа %{character_name}
+    label: '%{character_name}, изученные рецепты'
     page_description: На этой странице вы можете вручную указать, какие рецепты известны вашему персонажу.
     addon: "Но также есть замечательный аддон "
     addon_from: " от Ardash'а, который позволяет в игре скопировать в буфер обмена эту информацию и только указать её здесь. Установите аддон, в игре используйте команды вида '/ps Cooking', '/ps Enchanting', '/ps Alchemy', '/ps Leatherworking', '/ps Engineering', '/ps Tailoring', '/ps Blacksmithing', затем разместите полученную информацию в блоках ниже для вашей профессии и нажмите Загрузить."
@@ -246,17 +254,29 @@ ru:
     private: Частный
     public: Общедоступный
     all: Все общедоступные статики
+    existed: В составе
+    search: Поиск
+    add: Добавить новый статик
   static:
     label: Состав статика
   guild:
     management: Управление
+  guild_invite:
+    for_user: Поиск гильдии для персонажа %{character_name}
   notifications:
     title: Уведомления
     add: Создать уведомление
+    event: Название уведомления
+    delivery_param: Тип доставки
+    delivery_value: Значения
   management:
     edit_guild: Редактировать гильдию
     create_invite: Управление приглашениями в гильдию
-  guilds: 
+    statics: Статики
+  guilds:
+    label: Гильдии
+    add: Добавить гильдию
+    creating: Добавить новую гильдию
     no_characters: Для создания гильдии привяжите персонажа к учетной записи
   restore_password:
     title: Сброс пароля

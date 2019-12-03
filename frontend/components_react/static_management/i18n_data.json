@@ -1,6 +1,5 @@
 {
   "en": {
-    "alreadyMembers": "Static members",
     "name": "Name",
     "level": "Level",
     "guild": "Guild",
@@ -14,7 +13,6 @@
     "sure": "Are you sure?"
   },
   "ru": {
-    "alreadyMembers": "Состав статика",
     "name": "Имя",
     "level": "Уровень",
     "guild": "Гильдия",

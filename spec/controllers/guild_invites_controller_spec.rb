@@ -16,37 +16,6 @@ RSpec.describe GuildInvitesController, type: :controller do
         end
       end
 
-      context 'with guild param' do
-        context 'for unexisted guild' do
-          it 'renders error page' do
-            get :new, params: { locale: 'en', guild_id: 'unexisted' }
-
-            expect(response).to render_template 'shared/error'
-          end
-        end
-
-        context 'for existed guild' do
-          context 'for permitted guild' do
-            it 'renders error page' do
-              get :new, params: { locale: 'en', guild_id: guild.id }
-
-              expect(response).to render_template 'shared/error'
-            end
-          end
-
-          context 'for valid guild' do
-            let!(:character) { create :character, guild: guild, user: @current_user }
-            let!(:guild_role) { create :guild_role, character: character, guild: guild, name: 'gm' }
-
-            it 'renders new template' do
-              get :new, params: { locale: 'en', guild_id: guild.id }
-
-              expect(response).to render_template :new
-            end
-          end
-        end
-      end
-
       context 'with character param' do
         context 'for unexisted character' do
           it 'renders error page' do

@@ -3,20 +3,16 @@ class GuildInvitePolicy < ApplicationPolicy
   authorize :guild, :character
 
   def index?
-    new?
-  end
-
-  def new?
     return user.any_role?(guild.id, 'gm', 'rl') if record == 'true'
     character.user_id == user.id && character.guild_id.nil?
   end
 
   def create?
-    new?
+    index?
   end
 
   def destroy?
-    new?
+    index?
   end
 
   def approve?

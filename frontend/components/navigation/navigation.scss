@@ -1,13 +1,25 @@
 @import '../../init/variables.scss';
 
 nav.navigation {
-  width: 300px;
-  padding: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+  }
 
   .topbar {
     height: 45px;
     background: $white;
-    margin-bottom: 2rem;
+  }
+
+  .collapse {
+    background: $white;
   }
 
   .navigation_block {
@@ -35,6 +47,51 @@ nav.navigation {
           color: #ff0000;
         }
       }
+    }
+  }
+
+  @media screen and (max-width: 1199px) {
+    border-bottom: 2px solid rgba(0, 0, 0, .05);
+
+    .topbar {
+      text-align: right;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+
+      button {
+        padding: 0;
+        border: none;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    .collapse {
+      &.show {
+        height: calc(100vh - 45px);
+      }
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    position: sticky;
+    height: 100vh;
+    width: 300px;
+    padding: 0 0 2rem;
+
+    .topbar {
+      button {
+        display: none;
+      }
+    }
+
+    .collapse {
+      display: block;
+      background: transparent;
+      padding-top: 2rem;
     }
   }
 }

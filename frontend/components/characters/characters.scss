@@ -1,11 +1,6 @@
 @import '../../init/variables.scss';
 
 .characters {
-  width: 100%;
-  background: $white;
-  padding: 1rem;
-  overflow-y: scroll;
-
   .find_guild {
     font-size: 0.75rem;
     opacity: 0.5;

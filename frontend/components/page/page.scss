@@ -5,6 +5,7 @@
   position: relative;
   display: flex;
   flex-direction: row;
+  background: $light-grey;
 
   .inside {
     display: flex;
@@ -16,6 +17,23 @@
       flex: 1;
       padding: 1rem;
       overflow: hidden;
+
+      > div {
+        width: 100%;
+        background: $white;
+        padding: 1rem;
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1199px) {
+    min-height: 100vh;
+    height: auto;
+    flex-direction: column;
+
+    .inside {
+      padding-top: 45px;
     }
   }
 }

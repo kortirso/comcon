@@ -1,12 +1,15 @@
 = javascript_pack_tag 'line_up'
-.container
-  = react_component('LineUp',
-    event_id: @event.id,
-    event_is_open: @event.is_open?,
-    current_user_id: Current.user.id,
-    is_owner: @event.owner.user_id == Current.user.id,
-    guild_role: @event.guild_role_of_user(Current.user.id),
-    user_subscribed: Subscribe.where(event_id: @event.id, character_id: Current.user.characters.pluck(:id)).exists?,
-    time_offset_value: Current.user.time_offset.value,
-    locale: I18n.locale.to_s,
-    access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+.inside
+  .inside_topbar
+    .title= @event.name
+  main
+    = react_component('LineUp',
+        event_id: @event.id,
+        event_is_open: @event.is_open?,
+        current_user_id: Current.user.id,
+        is_owner: @event.owner.user_id == Current.user.id,
+        guild_role: @event.guild_role_of_user(Current.user.id),
+        user_subscribed: Subscribe.where(event_id: @event.id, character_id: Current.user.characters.pluck(:id)).exists?,
+        time_offset_value: Current.user.time_offset.value,
+        locale: I18n.locale.to_s,
+        access_token: JwtService.new.json_response(user: Current.user)[:access_token])

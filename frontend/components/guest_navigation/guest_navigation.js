@@ -2,6 +2,6 @@ import "./guest_navigation.scss";
 
 const $ = require("jquery")
 
-$('.content').on('click', '.navbar-toggler', function() {
-  $('#navbarSupportedContent').toggleClass('show')
+$('.guest_content').on('click', '.navbar-toggler', function() {
+  $('.guest_content .collapse').toggleClass('show')
 })

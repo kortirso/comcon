@@ -143,6 +143,7 @@ en:
     settings: Settings
     logout: Logout
   settings:
+    label: Settings
     personal: Personal settings
     password: Password
     external_services: External Services
@@ -153,7 +154,6 @@ en:
     bindings_2: After that, you can enter the service in one click.
     bindings_existed: Discord's account linked to your account
   user_notifications:
-    title: Notifications
     p_1: On this page you can configure which notifications and in what way you want to receive
   registration:
     title: Create your profile
@@ -169,10 +169,13 @@ en:
     login_through: Login through
     linking: Sign In by using account at other networks
   worlds:
+    title: Realms
     add: Add realm
+    edit: Edit realm
     name: Name
     zone: Zone
   users:
+    title: Users
     email: Email
     role: Role
     identities: Identities
@@ -193,6 +196,9 @@ en:
     decline: Decline
   events:
     no_characters: For viewing events you need to attach new character to your account
+    add: Add new event
+    edit: Edit event
+    label: Events calendar
   characters:
     label: Characters
     add: Add character
@@ -210,10 +216,12 @@ en:
     world: Realm
     guild: Guild
   recipes:
+    title: Recipes
+    new: Add recipe
     add: Add
   character_recipes:
     no_data: Your character does not have professions with recipes
-    label: Learned recipes for character %{character_name}
+    label: '%{character_name}, learned recipes'
     page_description: On this page, you can manually specify which recipes your character knows.
     addon: "But there is also a wonderful addon "
     addon_from: " from Ardash, which allows you to copy this information to the clipboard in the game and only specify it here. Install the addon, in the game use commands like '/ps Cooking', '/ps Enchanting', '/ps Alchemy', '/ps Leatherworking', '/ps Engineering', '/ps Tailoring', '/ps Blacksmithing', then place the received information in the blocks below for your profession and click Upload."
@@ -235,6 +243,9 @@ en:
     private: Private
     public: Public
     all: All public statics
+    existed: As member
+    search: Search
+    add: Add new static
   static:
     label: Static roster
   guild:
@@ -242,10 +253,17 @@ en:
   notifications:
     title: Notifications
     add: Add notification
+    event: Event name
+    delivery_param: Delivery type
+    delivery_value: Values
   management:
     edit_guild: Edit guild
     create_invite: Guild invite management
-  guilds: 
+    statics: Statics
+  guilds:
+    label: Guilds
+    add: Create guild
+    creating: Create new guild
     no_characters: For creating guild you need to attach new character to your account
   mailer:
     user:

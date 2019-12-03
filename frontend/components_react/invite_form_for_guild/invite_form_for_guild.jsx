@@ -228,9 +228,8 @@ export default class InviteFormForGuild extends React.Component {
   render() {
     return (
       <div className="invite_form_for_guild">
-        <h2>{strings.forGuild} - {this.props.guild_name}</h2>
-        <div className="double_line">
-          <div className="form-group search">
+        <div className="row">
+          <div className="form-group search col-md-6">
             {this.state.errors.length > 0 &&
               <ErrorView errors={this.state.errors} />
             }
@@ -238,7 +237,7 @@ export default class InviteFormForGuild extends React.Component {
             <input placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
             {this._renderSearchedCharacters()}
           </div>
-          <div className="form-group invites">
+          <div className="form-group invites col-md-6">
             <h3>{strings.requestsLabel}</h3>
             {this._renderGuildInvites()}
             <h3>{strings.invitesLabel}</h3>

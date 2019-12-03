@@ -20,9 +20,7 @@
     "skill": "Skill",
     "skillLabel": "Skill",
     "create": "Create",
-    "update": "Update",
-    "createLabel": "Create new recipe",
-    "updateLabel": "Update recipe"
+    "update": "Update"
   },
   "ru": {
     "nameEn": "Название EN",
@@ -45,8 +43,6 @@
     "skill": "Уровень навыка",
     "skillLabel": "Уровень навыка",
     "create": "Создать",
-    "update": "Обновить",
-    "createLabel": "Добавить новый рецепт",
-    "updateLabel": "Обновить рецепт"
+    "update": "Обновить"
   }
 }

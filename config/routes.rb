@@ -74,10 +74,13 @@ Rails.application.routes.draw do
     resources :recipes, only: %i[index new edit destroy]
     resources :guilds, only: %i[index show new edit] do
       get :management, on: :member
+      get :statics, on: :member
+      get :notifications, on: :member
     end
     resources :craft, only: %i[index]
     resources :statics, except: %i[create update] do
       get :management, on: :member
+      get :search, on: :collection
     end
     resources :static_invites, only: %i[] do
       get :approve, on: :member
