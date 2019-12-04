@@ -13,7 +13,8 @@
     "quests": "Completed quests for dungeons",
     "keys": "Available keys for dungeons",
     "create": "Create",
-    "update": "Update"
+    "update": "Update",
+    "guildRequest": "Send request to guild"
   },
   "ru": {
     "name": "Имя",
@@ -29,6 +30,7 @@
     "quests": "Выполненные квесты для подземелий",
     "keys": "Полученные ключи для подземелий",
     "create": "Создать",
-    "update": "Обновить"
+    "update": "Обновить",
+    "guildRequest": "Отправить заявку в гильдию"
   }
 }
