@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - create guild invite while character creation
+- automatic approving guild invites for twinks
 
 ## [0.9.5] - 2019-12-04
 ### Modified

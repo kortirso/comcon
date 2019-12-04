@@ -7,11 +7,24 @@ class CreateGuildInvite
   # context.character
   # context.from_guild
   def call
-    guild_invite_form = GuildInviteForm.new(guild: context.guild, character: context.character, from_guild: context.from_guild)
+    check_twinks
+    return if context.guild_invite == { result: 'Approved' }
+    guild_invite_form = GuildInviteForm.new(guild: context.guild, character: context.character, from_guild: ['true', true].include?(context.from_guild))
     if guild_invite_form.persist?
       context.guild_invite = guild_invite_form.guild_invite
     else
       context.fail!(message: guild_invite_form.errors.full_messages)
+    end
+  end
+
+  private
+
+  def check_twinks
+    return if ['true', true].include?(context.from_guild)
+    if context.character.user.has_characters_in_guild?(guild_id: context.guild.id)
+      context.character.update(guild_id: context.guild.id)
+      context.guild_invite = { result: 'Approved' }
+      context.character.guild_invites.destroy_all
     end
   end
 end

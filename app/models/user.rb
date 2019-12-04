@@ -80,6 +80,10 @@ class User < ApplicationRecord
     !confirmed_at.nil?
   end
 
+  def has_characters_in_guild?(guild_id:)
+    characters.where(guild_id: guild_id).exists?
+  end
+
   private
 
   def set_confirmation_token
