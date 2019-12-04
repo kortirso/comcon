@@ -205,5 +205,22 @@ RSpec.describe User, type: :model do
         expect(result[0]).to eq character3
       end
     end
+
+    context '.has_characters_in_guild?' do
+      let!(:user) { create :user }
+      let!(:guild1) { create :guild }
+      let!(:character) { create :character, user: user }
+      let!(:guild2) { create :guild, world: character.world, fraction: character.race.fraction }
+
+      it 'returns false for no characters in guild' do
+        expect(user.has_characters_in_guild?(guild_id: guild1.id)).to eq false
+      end
+
+      it 'returns true for characters in guild' do
+        character.update(guild_id: guild2.id)
+
+        expect(user.has_characters_in_guild?(guild_id: guild2.id)).to eq true
+      end
+    end
   end
 end

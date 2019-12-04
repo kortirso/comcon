@@ -118,6 +118,7 @@ module Api
         CreateCharacterRoles.call(character_id: character.id, character_role_params: character_role_params)
         CreateDungeonAccess.call(character_id: character.id, dungeon_params: dungeon_params)
         CreateCharacterProfessions.call(character_id: character.id, profession_params: profession_params)
+        CreateGuildInvite.call(character: character, guild: Guild.find_by(world_fraction: character.world_fraction, id: params[:character][:guild_id]), from_guild: false) if params[:character][:guild_id].present?
       end
 
       def character_params

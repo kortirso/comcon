@@ -48,6 +48,7 @@ RSpec.describe 'Characters API' do
     let!(:world) { create :world }
     let!(:role) { create :role }
     let!(:world_fraction) { create :world_fraction, world: world, fraction: race.fraction }
+    let!(:guild) { create :guild, world: world, fraction: race.fraction }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
@@ -78,7 +79,7 @@ RSpec.describe 'Characters API' do
       end
 
       context 'for valid params' do
-        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '134', level: 1, race_id: race.id, character_class_id: character_class.id, world_id: world.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
+        let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '134', level: 1, race_id: race.id, character_class_id: character_class.id, world_id: world.id, guild_id: guild.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
 
         it 'calls CreateCharacterRoles' do
           expect(CreateCharacterRoles).to receive(:call).and_call_original
@@ -94,6 +95,12 @@ RSpec.describe 'Characters API' do
 
         it 'and calls CreateCharacterProfessions' do
           expect(CreateCharacterProfessions).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'and calls CreateGuildInvite' do
+          expect(CreateGuildInvite).to receive(:call).and_call_original
 
           request
         end

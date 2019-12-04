@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class CharacterForm extends React.Component {
   constructor(props) {
@@ -24,6 +24,7 @@ export default class CharacterForm extends React.Component {
       dungeons: [],
       keyDungeons: [],
       questDungeons: [],
+      guilds: [],
       raceCharacterClasses: {},
       roles: {},
       secondaryRoles: [],
@@ -37,6 +38,9 @@ export default class CharacterForm extends React.Component {
       professions: [],
       currentProfessions: {},
       secondaryProfessionIds: [],
+      currentGuildId: 0,
+      currentFractionId: 0,
+      updateFractionId: 0,
       errors: []
     }
   }
@@ -55,6 +59,7 @@ export default class CharacterForm extends React.Component {
       url: `/api/v1/characters/default_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const currentRace = Object.keys(data.races)[0]
+        const currentFractionId = data.races[currentRace].fraction_id
         const raceCharacterClasses = data.races[currentRace].character_classes
         const currentCharacterClass = Object.keys(raceCharacterClasses)[0]
         const roles = raceCharacterClasses[currentCharacterClass].roles
@@ -77,7 +82,7 @@ export default class CharacterForm extends React.Component {
           currentProfessions[profession.id] = 0
         })
 
-        this.setState({worlds: data.worlds, dungeons: data.dungeons, keyDungeons: keyDungeons, questDungeons: questDungeons, currentDungeons: currentDungeons, data: data.races, races: data.races, currentRace: currentRace, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, professions: data.professions, currentProfessions: currentProfessions, secondaryProfessionIds: secondaryProfessionIds}, () => {
+        this.setState({worlds: data.worlds, dungeons: data.dungeons, keyDungeons: keyDungeons, questDungeons: questDungeons, currentDungeons: currentDungeons, data: data.races, races: data.races, currentRace: currentRace, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, professions: data.professions, currentProfessions: currentProfessions, secondaryProfessionIds: secondaryProfessionIds, currentFractionId: currentFractionId, updateFractionId: currentFractionId}, () => {
           this._getCharacter()
         })
       }
@@ -90,6 +95,7 @@ export default class CharacterForm extends React.Component {
       method: 'GET',
       url: `/api/v1/characters/${this.state.characterId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
+        console.log(data)
         const character = data.character
         const raceCharacterClasses = this.state.data[character.race_id].character_classes
         const currentCharacterClass = character.character_class_id.toString()
@@ -122,6 +128,20 @@ export default class CharacterForm extends React.Component {
     })
   }
 
+  _getGuilds() {
+    if (this.state.currentWorld === 0) {
+      this.setState({guilds: []})
+    } else {
+      $.ajax({
+        method: 'GET',
+        url: `/api/v1/guilds.json?access_token=${this.props.access_token}&world_id=${this.state.currentWorld}&fraction_id=${this.state.updateFractionId}`,
+        success: (data) => {
+          this.setState({guilds: data.guilds, currentGuildId: 0, currentFractionId: this.state.updateFractionId})
+        }
+      })
+    }
+  }
+
   _onCreate() {
     const state = this.state
     let currentSecondaryRoles = state.currentSecondaryRoles
@@ -131,7 +151,7 @@ export default class CharacterForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: url,
-      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons, professions: state.currentProfessions } },
+      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, dungeon: state.currentDungeons, professions: state.currentProfessions, guild_id: state.currentGuildId } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
@@ -176,6 +196,12 @@ export default class CharacterForm extends React.Component {
   _renderWorlds() {
     return this.state.worlds.map((world) => {
       return <option value={world.id} key={world.id}>{world.name}</option>
+    })
+  }
+
+  _renderGuilds() {
+    return this.state.guilds.map((guild) => {
+      return <option value={guild.id} key={guild.id}>{guild.name}</option>
     })
   }
 
@@ -241,10 +267,11 @@ export default class CharacterForm extends React.Component {
 
   _onChangeRace(event) {
     const currentRace = event.target.value
+    const updateFractionId = this.state.data[currentRace].fraction_id
     const raceCharacterClasses = this.state.data[currentRace].character_classes
     const currentCharacterClass = Object.keys(raceCharacterClasses)[0]
 
-    this.setState({currentRace: currentRace, raceCharacterClasses: raceCharacterClasses}, () => {
+    this.setState({currentRace: currentRace, raceCharacterClasses: raceCharacterClasses, updateFractionId: updateFractionId}, () => {
       this._onChangeClass(currentCharacterClass)
     })
   }
@@ -275,11 +302,19 @@ export default class CharacterForm extends React.Component {
         name: role[1].name
       })
     })
-    this.setState({currentMainRole: currentMainRole, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles})
+    this.setState({currentMainRole: currentMainRole, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles}, () => {
+      this._checkFractionChange()
+    })
+  }
+
+  _checkFractionChange() {
+    if (this.state.currentGuildId !== this.state.updateFractionId) this._getGuilds()
   }
 
   _onChangeWorld(event) {
-    this.setState({currentWorld: event.target.value})
+    this.setState({currentWorld: event.target.value}, () => {
+      this._getGuilds()
+    })
   }
 
   _onChangeRole(roleId) {
@@ -317,6 +352,10 @@ export default class CharacterForm extends React.Component {
     let dungeons = this.state.currentDungeons
     dungeons[dungeonId] = (dungeons[dungeonId] === 0 ? 1 : 0)
     this.setState({currentDungeons: dungeons})
+  }
+
+  _onChangeGuild(event) {
+    this.setState({currentGuildId: event.target.value})
   }
 
   render() {
@@ -360,7 +399,7 @@ export default class CharacterForm extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-sm-4">
+              <div className="col-sm-6">
                 <div className="form-group">
                   <label htmlFor="world_id">{strings.world}</label>
                   <select className="form-control form-control-sm" id="world_id" onChange={this._onChangeWorld.bind(this)} value={this.state.currentWorld} disabled={this.state.characterId !== undefined}>
@@ -369,6 +408,17 @@ export default class CharacterForm extends React.Component {
                   </select>
                 </div>
               </div>
+              <div className="col-sm-6">
+                <div className="form-group">
+                  <label htmlFor="guild_id">{strings.guildRequest}</label>
+                  <select className="form-control form-control-sm" id="guild_id" onChange={this._onChangeGuild.bind(this)} value={this.state.currentGuildId} disabled={this.state.characterId !== undefined}>
+                    <option value="0"></option>
+                    {this._renderGuilds()}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="row">
               <div className="col-sm-4">
                 <div className="form-group">
                   <label htmlFor="character_main_role_id">{strings.mainRole}</label>

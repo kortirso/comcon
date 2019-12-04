@@ -67,12 +67,15 @@ export default class InviteFormForCharacter extends React.Component {
       url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}`,
       data: { guild_invite: { guild_id: guild.id, character_id: this.props.character_id, from_guild: false } },
       success: (data) => {
-        const searchedGuilds = [... this.state.searchedGuilds]
-        const guildIndex = searchedGuilds.indexOf(guild)
-        searchedGuilds.splice(guildIndex, 1)
-        let userRequests = this.state.userRequests
-        userRequests.push(data.guild_invite)
-        this.setState({searchedGuilds: searchedGuilds, userRequests: userRequests})
+        if (data.result !== undefined && data.result === "Approved") window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/characters`
+        else {
+          const searchedGuilds = [... this.state.searchedGuilds]
+          const guildIndex = searchedGuilds.indexOf(guild)
+          searchedGuilds.splice(guildIndex, 1)
+          let userRequests = this.state.userRequests
+          userRequests.push(data.guild_invite)
+          this.setState({searchedGuilds: searchedGuilds, userRequests: userRequests})
+        }
       },
       error: (data) => {
         this.setState({errors: data.responseJSON.errors})
