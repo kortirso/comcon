@@ -1,27 +1,30 @@
 = javascript_pack_tag 'recipe_uploader'
-.container
-  h2= t('character_recipes.label', character_name: @character.full_name)
-  - if @character_professions.size.zero?
-    p= t('character_recipes.no_data')
-  - else
-    p= t('character_recipes.page_description')
-    p
-      = t('character_recipes.addon')
-      = link_to 'ProfScanner', '/files/ProfScanner.zip', download: '/files/ProfScanner.zip'
-      = t('character_recipes.addon_from')
-    = form_with url: update_recipes_character_path(@character.id), local: true do |f|
-      .row.character_professions
-        - @character_professions.each do |character_profession|
-          .col-md-6.col-lg-4
-            .character_profession
-              h3= character_profession.profession.name[I18n.locale.to_s]
-              .uploader
-                = react_component('RecipeUploader', character_id: @character.id, profession_id: character_profession.profession_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
-              .recipes
-                - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
-                - character_profession.profession.recipes.order(skill: :desc).each do |recipe|
-                  .form-group.form-check.recipe
-                    = check_box_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", '1', existed_recipe_ids.include?(recipe.id), class: 'form-check-input'
-                    = label_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", class: 'form-check-label'
-                      = recipe.name[I18n.locale.to_s]
-      = f.submit t('buttons.update'), class: 'btn btn-primary btn-sm'
+.inside
+  .inside_topbar
+    .title= t('character_recipes.label', character_name: @character.full_name)
+  main
+    .character_recipes
+      - if @character_professions.size.zero?
+        p= t('character_recipes.no_data')
+      - else
+        p= t('character_recipes.page_description')
+        p
+          = t('character_recipes.addon')
+          = link_to 'ProfScanner', '/files/ProfScanner.zip', download: '/files/ProfScanner.zip'
+          = t('character_recipes.addon_from')
+        = form_with url: update_recipes_character_path(@character.id), local: true do |f|
+          .row.character_professions
+            - @character_professions.each do |character_profession|
+              .col-md-6.col-xl-4
+                .character_profession
+                  h3= character_profession.profession.name[I18n.locale.to_s]
+                  .uploader
+                    = react_component('RecipeUploader', character_id: @character.id, profession_id: character_profession.profession_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+                  .recipes
+                    - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
+                    - character_profession.profession.recipes.order(skill: :desc).each do |recipe|
+                      .form-group.form-check.recipe
+                        = check_box_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", '1', existed_recipe_ids.include?(recipe.id), class: 'form-check-input'
+                        = label_tag "character[recipes][#{character_profession.id}][#{recipe.id}]", class: 'form-check-label'
+                          = recipe.name[I18n.locale.to_s]
+          = f.submit t('buttons.update'), class: 'btn btn-primary btn-sm'

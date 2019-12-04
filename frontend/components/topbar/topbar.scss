@@ -1,0 +1,66 @@
+@import '../../init/variables.scss';
+
+.inside_topbar {
+  height: 45px;
+  background: $white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 1rem;
+
+  .tabs {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+
+      li {
+        margin-right: 0.5rem;
+
+        a {
+          display: inline-block;
+          padding: 9px;
+          border-bottom: 2px solid transparent;
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: $middle-grey;
+
+          &:hover {
+            text-decoration: none;
+          }
+
+          &.active {
+            color: $red;
+            border-bottom: 2px solid $red;
+          }
+        }
+      }
+    }
+  }
+
+  .title {
+    font-size: 1.2rem;
+    margin-right: 2rem;
+  }
+
+  .action {
+    flex: 1;
+    text-align: right;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .tabs {
+      ul {
+        li {
+          a {
+            font-size: 0.6rem;
+            padding: 13px 0;
+          }
+        }
+      }
+    }
+  }
+}

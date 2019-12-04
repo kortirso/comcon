@@ -11,8 +11,9 @@
     "noInvites": "No invites",
     "approveRequest": "Approve",
     "declineRequest": "Decline",
-    "forGuild": "Search characters for your guild",
-    "status": "Status"
+    "status": "Status",
+    "send": "Sent",
+    "declined": "Declined"
   },
   "ru": {
     "label": "Поиск персонажей для приглашения",
@@ -26,7 +27,8 @@
     "noInvites": "Нет приглашений",
     "approveRequest": "Принять",
     "declineRequest": "Отклонить",
-    "forGuild": "Поиск персонажей для вашей гильдии",
-    "status": "Статус"
+    "status": "Статус",
+    "send": "Отправлен",
+    "declined": "Отклонен"
   }
 }

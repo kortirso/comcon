@@ -1,0 +1,6 @@
+.guest_content
+  = render 'components/guest_navigation/guest_navigation'
+  = render 'components/flashes/flashes'
+  .inside
+    = yield
+  = render 'components/footer/footer'

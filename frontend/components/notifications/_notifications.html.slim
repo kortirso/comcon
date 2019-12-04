@@ -1,13 +1,26 @@
-.container.settings
-  = render 'components/settings_menu/settings_menu'
-  .settings_content
-    h3= t('user_notifications.title')
-    p= t('user_notifications.p_1')
-    = link_to t('notifications.add'), new_delivery_path(deliveriable_id: Current.user.id, deliveriable_type: 'User'), class: 'btn btn-primary btn-sm with_bottom_margin'
-    - Current.user.notifications.each do |notification|
-      .notification
-        table.table.table-striped.table-sm
-          tbody
+.inside
+  .inside_topbar
+    .title= t('settings.label')
+    .tabs
+      ul
+        li= link_to t('settings.personal'), settings_path
+        li= link_to t('settings.password'), password_settings_path
+        li= link_to t('settings.external_services'), external_services_settings_path
+        li= link_to t('settings.notifications'), notifications_settings_path, class: 'active'
+    .action
+      = link_to t('notifications.add'), new_delivery_path(deliveriable_id: Current.user.id, deliveriable_type: 'User'), class: 'btn btn-primary btn-sm'
+  main
+    .settings
+      p= t('user_notifications.p_1')
+      table.table.table-striped.table-sm
+        thead
+          tr
+            th= t('notifications.event')
+            th= t('notifications.delivery_param')
+            th= t('notifications.delivery_value')
+            th
+        tbody
+          - Current.user.notifications.each do |notification|
             - notification.deliveries.where(deliveriable_id: Current.user.id, deliveriable_type: 'User').each do |delivery|
               tr
                 td= notification.name[I18n.locale.to_s]

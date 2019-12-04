@@ -1,3 +1,6 @@
 = javascript_pack_tag 'character_form'
-.container
-  = react_component('CharacterForm', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+.inside
+  .inside_topbar
+    .title= t('character_form.creating')
+  main
+    = react_component('CharacterForm', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])

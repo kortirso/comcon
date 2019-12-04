@@ -1,0 +1,16 @@
+.inside
+  .inside_topbar
+    .title= t('navigation.statics')
+    .tabs
+      ul
+        li= link_to t('statics.existed'), statics_path
+        li= link_to t('statics.search'), search_statics_path, class: 'active'
+    .action
+      = link_to t('statics.add'), new_static_path, class: 'btn btn-primary btn-sm'
+  main
+    #statics
+      - if Current.user.characters.size.positive?
+        = javascript_pack_tag 'statics_list'
+        = react_component('StaticsList', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+      - else
+        p= t('statics.no_characters')

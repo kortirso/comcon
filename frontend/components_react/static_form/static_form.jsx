@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class StaticForm extends React.Component {
   constructor(props) {
@@ -129,7 +129,6 @@ export default class StaticForm extends React.Component {
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }
-        <h2>{this.state.staticId === undefined ? strings.newStatic : strings.updateStatic}</h2>
         <div className="row">
           <div className="col-sm-6">
             <label htmlFor="static_name">{strings.name}</label>

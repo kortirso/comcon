@@ -1,6 +1,5 @@
 {
   "en": {
-    "label": "Search guilds for invite",
     "name": "Name",
     "nameLabel": "Search guild by name (minimum 3 symbols)",
     "invite": "Request",
@@ -13,10 +12,11 @@
     "noInvites": "No invites",
     "approveInvite": "Approve",
     "declineInvite": "Decline",
-    "status": "Status"
+    "status": "Status",
+    "send": "Sent",
+    "declined": "Declined"
   },
   "ru": {
-    "label": "Поиск гильдий для вступления",
     "name": "Название",
     "nameLabel": "Поиск гильдий по названию (минимум 3 символа)",
     "invite": "Запрос",
@@ -29,6 +29,8 @@
     "noInvites": "Нет приглашений",
     "approveInvite": "Принять",
     "declineInvite": "Отменить",
-    "status": "Статус"
+    "status": "Статус",
+    "send": "Отправлен",
+    "declined": "Отклонен"
   }
 }

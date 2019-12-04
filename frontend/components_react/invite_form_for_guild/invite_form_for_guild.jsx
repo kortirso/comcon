@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class InviteFormForGuild extends React.Component {
   constructor() {
@@ -169,7 +169,7 @@ export default class InviteFormForGuild extends React.Component {
         <tr className={invite.character.character_class_name.en} key={invite.id}>
           <td>{invite.character.name}</td>
           <td>{invite.character.level}</td>
-          <td>{invite.status}</td>
+          <td>{strings[invite.status]}</td>
           <td>
             <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
           </td>
@@ -204,7 +204,7 @@ export default class InviteFormForGuild extends React.Component {
         <tr className={request.character.character_class_name.en} key={request.id}>
           <td>{request.character.name}</td>
           <td>{request.character.level}</td>
-          <td>{request.status}</td>
+          <td>{strings[request.status]}</td>
           <td>
             <input type="submit" name="commit" value={strings.approveRequest} className="btn btn-primary btn-sm with_right_margin" onClick={this._onSubmitRequest.bind(this, request, 'approve')} />
             <input type="submit" name="commit" value={strings.declineRequest} className="btn btn-primary btn-sm" onClick={this._onSubmitRequest.bind(this, request, 'decline')} />
@@ -228,9 +228,8 @@ export default class InviteFormForGuild extends React.Component {
   render() {
     return (
       <div className="invite_form_for_guild">
-        <h2>{strings.forGuild} - {this.props.guild_name}</h2>
-        <div className="double_line">
-          <div className="form-group search">
+        <div className="row">
+          <div className="form-group search col-md-6">
             {this.state.errors.length > 0 &&
               <ErrorView errors={this.state.errors} />
             }
@@ -238,7 +237,7 @@ export default class InviteFormForGuild extends React.Component {
             <input placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
             {this._renderSearchedCharacters()}
           </div>
-          <div className="form-group invites">
+          <div className="form-group invites col-md-6">
             <h3>{strings.requestsLabel}</h3>
             {this._renderGuildInvites()}
             <h3>{strings.invitesLabel}</h3>

@@ -44,34 +44,6 @@ body {
     margin-top: 0.5rem;
   }
 
-  .double_line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .double_line {
-      width: 49%;
-    }
-
-    .form-group, .block {
-      width: 49%;
-    }
-  }
-
-  .triple_line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .form-group, .block {
-      width: 32%;
-
-      &.double {
-        width: 66%;
-      }
-    }
-  }
-
   .form-group {
     input[type="text"], textarea {
       &::placeholder {
@@ -100,9 +72,25 @@ body {
   }
 
   .table {
-    td {
-      padding: 0.25rem;
-      vertical-align: middle;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+
+    thead {
+      tr {
+        th {
+          border-top: none;
+          border-bottom: none;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          padding: 0.25rem;
+          vertical-align: middle;
+        }
+      }
     }
   }
 
@@ -148,6 +136,22 @@ body {
 
   .Warrior {
     background: $warrior;
+  }
+
+
+  .btn {
+    &.btn-primary {
+      background: #1779ba;
+      color: #fefefe;
+
+      &:hover {
+        background: #14679f;
+      }
+    }
+
+    &.btn-sm {
+      padding: 0.1rem 0.25rem;
+    }
   }
 
   .alert {
@@ -243,6 +247,18 @@ body {
           text-align: center;
           margin-bottom: 5px;
         }
+      }
+    }
+  }
+
+  .modal {
+    background: rgba(0, 0, 0, 0.5);
+
+    &.fade {
+      display: none;
+
+      &.show {
+        display: block;
       }
     }
   }

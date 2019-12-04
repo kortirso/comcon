@@ -9,7 +9,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class GuildsList extends React.Component {
   constructor(props) {
@@ -88,7 +88,6 @@ export default class GuildsList extends React.Component {
       <div className="filters">
         {this._renderWorldFilter()}
         {this._renderFractionFilter()}
-        <a className="btn btn-primary btn-sm" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/guilds/new`}>{strings.addGuild}</a>
       </div>
     )
   }
@@ -162,7 +161,6 @@ export default class GuildsList extends React.Component {
   render() {
     return (
       <div className="guilds">
-        <h2>{strings.guilds}</h2>
         {this._renderFilters()}
         <table className="table table-striped table-sm">
           <thead>

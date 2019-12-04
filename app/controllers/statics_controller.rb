@@ -28,6 +28,8 @@ class StaticsController < ApplicationController
     authorize! @static, to: :edit?
   end
 
+  def search; end
+
   private
 
   def find_user_statics

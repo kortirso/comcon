@@ -29,7 +29,8 @@
     "tanks": "Tanks",
     "healers": "Healers",
     "dd": "Damage dealers",
-    "alternative": "Alternative renderer"
+    "alternative": "Alternative renderer",
+    "close": "Close"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -61,6 +62,7 @@
     "tanks": "Танки",
     "healers": "Лекари",
     "dd": "Бойцы",
-    "alternative": "Альтернативное представление"
+    "alternative": "Альтернативное представление",
+    "close": "Закрыть"
   }
 }

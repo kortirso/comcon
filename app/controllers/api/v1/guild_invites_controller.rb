@@ -15,7 +15,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         authorize! @from_guild, with: GuildInvitePolicy, context: { guild: @invite_creator, character: @invite_creator }
-        render json: @invite_creator.guild_invites, status: 200
+        render json: (@invite_creator.is_a?(Guild) ? @invite_creator.guild_invites.includes(:character) : @invite_creator.guild_invites.includes(:guild)), status: 200
       end
 
       api :POST, '/v1/guild_invites.json', 'Create guild invite'

@@ -9,15 +9,61 @@ RSpec.describe 'Events API' do
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
       let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-      before { get '/api/v1/events.json', params: { access_token: access_token } }
 
-      it 'returns status 200' do
-        expect(response.status).to eq 200
+      context 'without params' do
+        before { get '/api/v1/events.json', params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name date time slug].each do |attr|
+          it "and contains event #{attr}" do
+            expect(response.body).to have_json_path("events/0/#{attr}")
+          end
+        end
       end
 
-      %w[id name date time slug].each do |attr|
-        it "and contains event #{attr}" do
-          expect(response.body).to have_json_path("events/0/#{attr}")
+      context 'with day params' do
+        let(:time) { Time.now - 7.days }
+        before { get '/api/v1/events.json', params: { year: time.year, month: time.month, day: time.day, days: 14, access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name date time slug].each do |attr|
+          it "and contains event #{attr}" do
+            expect(response.body).to have_json_path("events/0/#{attr}")
+          end
+        end
+      end
+
+      context 'with unexisted character id' do
+        before { get '/api/v1/events.json', params: { character_id: 'unexisted', access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name date time slug].each do |attr|
+          it "and contains event #{attr}" do
+            expect(response.body).to have_json_path("events/0/#{attr}")
+          end
+        end
+      end
+
+      context 'with existed character id' do
+        before { get '/api/v1/events.json', params: { character_id: character.id, access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id name date time slug].each do |attr|
+          it "and contains event #{attr}" do
+            expect(response.body).to have_json_path("events/0/#{attr}")
+          end
         end
       end
     end
@@ -468,6 +514,9 @@ RSpec.describe 'Events API' do
     context 'for logged user' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+      let!(:character) { create :character, user: user }
+      let!(:static) { create :static, staticable: character }
+      let!(:static_member) { create :static_member, character: character, static: static }
       before { get '/api/v1/events/event_form_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do

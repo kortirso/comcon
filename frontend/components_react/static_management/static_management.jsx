@@ -227,7 +227,6 @@ export default class StaticManagement extends React.Component {
     return (
       <div className="static_management">
         <div className="members">
-          <h2>{strings.alreadyMembers}</h2>
           <table className="table table-sm">
             <thead>
               <tr>
@@ -242,15 +241,15 @@ export default class StaticManagement extends React.Component {
             </tbody>
           </table>
         </div>
-        <div className="double_line">
-          <div className="form-group invites">
-            <h3>{strings.invites}</h3>
-            {this._renderInvites()}
-          </div>
-          <div className="form-group search">
+        <div className="row">
+          <div className="form-group search col-md-6">
             <h3>{strings.search}</h3>
             <input placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
             {this._renderSearchedCharacters()}
+          </div>
+          <div className="form-group invites col-md-6">
+            <h3>{strings.invites}</h3>
+            {this._renderInvites()}
           </div>
         </div>
       </div>

@@ -1,18 +1,23 @@
-.container
-  = link_to t('worlds.add'), new_world_path, class: 'btn btn-primary btn-sm with_bottom_margin'
-  table.table.table-striped.table-sm
-    thead
-      tr
-        th ID
-        th= t('worlds.name')
-        th= t('worlds.zone')
-        th
-    tbody
-      - @worlds.each do |world|
-        tr
-          td= world.id
-          td= world.name
-          td= world.zone
-          td
-            = link_to t('buttons.edit'), edit_world_path(world), class: 'btn btn-primary btn-sm with_right_margin'
-            = link_to t('buttons.delete'), world, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+.inside
+  .inside_topbar
+    .title= t('navigation.worlds')
+    .action
+      = link_to t('worlds.add'), new_world_path, class: 'btn btn-primary btn-sm'
+  main
+    .worlds
+      table.table.table-striped.table-sm
+        thead
+          tr
+            th ID
+            th= t('worlds.name')
+            th= t('worlds.zone')
+            th
+        tbody
+          - @worlds.each do |world|
+            tr
+              td= world.id
+              td= world.name
+              td= world.zone
+              td
+                = link_to t('buttons.edit'), edit_world_path(world), class: 'btn btn-primary btn-sm with_right_margin'
+                = link_to t('buttons.delete'), world, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

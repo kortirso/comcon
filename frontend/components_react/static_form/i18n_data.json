@@ -8,9 +8,7 @@
     "create": "Create",
     "update": "Update",
     "privy": "Private static?",
-    "options": "Options",
-    "newStatic": "Create new static",
-    "updateStatic": "Update static"
+    "options": "Options"
   },
   "ru": {
     "name": "Название",
@@ -21,8 +19,6 @@
     "create": "Создать",
     "update": "Обновить",
     "privy": "Закрытый статик?",
-    "options": "Опции",
-    "newStatic": "Создать новый статик",
-    "updateStatic": "Обновить статик"
+    "options": "Опции"
   }
 }

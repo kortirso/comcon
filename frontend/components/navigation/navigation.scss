@@ -1,59 +1,97 @@
 @import '../../init/variables.scss';
 
-nav.navbar {
-  padding: 0 2rem;
+nav.navigation {
+  position: absolute;
   width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
+  z-index: 1;
 
-  .navbar-toggler {
-    border: none;
-    padding: 0;
+  footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+  }
 
-    &:focus {
-      outline: none;
-    }
+  .topbar {
+    height: 45px;
+    background: $white;
   }
 
   .collapse {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    background: $white;
+  }
 
-    .links {
-      .for_admins {
-        background: $horde;
-        color: $white;
-        padding: 0 0.25rem;
+  .navigation_block {
+    margin-bottom: 2rem;
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      a {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding-left: 40px;
+        color: $middle-grey;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+
+        &:hover {
+          background: #dfdfe4;
+          text-decoration: none;
+        }
+
+        &.active {
+          color: #ff0000;
+        }
       }
     }
+  }
 
-    .right {
-      a {
-        margin-right: 1rem;
+  @media screen and (max-width: 1199px) {
+    border-bottom: 2px solid rgba(0, 0, 0, .05);
 
-        &:nth-last-of-type(1) {
-          margin-right: 0;
+    .topbar {
+      text-align: right;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+
+      button {
+        padding: 0;
+        border: none;
+
+        &:focus {
+          outline: none;
         }
       }
     }
 
-    &:not(.show) {
-      display: none;
-    }
-
-    &.show {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+    .collapse {
+      &.show {
+        height: calc(100vh - 45px);
+      }
     }
   }
 
-  @media screen and (max-width: 768px) {
-    .collapse {
-      &.show {
-        display: block;
+  @media screen and (min-width: 1200px) {
+    position: sticky;
+    height: 100vh;
+    width: 300px;
+    padding: 0 0 2rem;
+
+    .topbar {
+      button {
+        display: none;
       }
+    }
+
+    .collapse {
+      display: block;
+      background: transparent;
+      padding-top: 2rem;
     }
   }
 }

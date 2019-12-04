@@ -71,7 +71,7 @@ module Api
       def members
         authorize! @static, to: :edit?
         render json: {
-          members: ActiveModelSerializers::SerializableResource.new(@static.static_members, each_serializer: StaticMemberSerializer).as_json[:static_members],
+          members: ActiveModelSerializers::SerializableResource.new(@static.static_members.includes(character: %i[character_class guild world race]), each_serializer: StaticMemberSerializer).as_json[:static_members],
           invites: ActiveModelSerializers::SerializableResource.new(@static.static_invites, each_serializer: StaticInviteSerializer).as_json[:static_invites]
         }, status: 200
       end

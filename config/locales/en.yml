@@ -133,7 +133,7 @@ en:
     worlds: Realms
     users: Users
     recipes: Recipes
-    characters: Characters
+    characters: My characters
     guilds: Guilds
     statics: Statics
     events: Events
@@ -143,6 +143,7 @@ en:
     settings: Settings
     logout: Logout
   settings:
+    label: Settings
     personal: Personal settings
     password: Password
     external_services: External Services
@@ -153,7 +154,6 @@ en:
     bindings_2: After that, you can enter the service in one click.
     bindings_existed: Discord's account linked to your account
   user_notifications:
-    title: Notifications
     p_1: On this page you can configure which notifications and in what way you want to receive
   registration:
     title: Create your profile
@@ -169,10 +169,13 @@ en:
     login_through: Login through
     linking: Sign In by using account at other networks
   worlds:
-    add: Add realm
+    add: Create realm
+    creating: Create new realm
+    edit: Edit realm
     name: Name
     zone: Zone
   users:
+    title: Users
     email: Email
     role: Role
     identities: Identities
@@ -193,9 +196,12 @@ en:
     decline: Decline
   events:
     no_characters: For viewing events you need to attach new character to your account
+    add: Create event
+    edit: Edit event
+    label: Events calendar
+    creating: Create new event
   characters:
-    label: Characters
-    add: Add character
+    add: Create character
     name: Name
     world: Realm
     race: Race
@@ -204,14 +210,18 @@ en:
     level: Level
     guild: Guild
     find_guild: Find guild
+  character_form:
+    creating: Create new character
   select:
     world: Realm
     guild: Guild
   recipes:
+    title: Recipes
+    new: Add recipe
     add: Add
   character_recipes:
     no_data: Your character does not have professions with recipes
-    label: Learned recipes for character %{character_name}
+    label: '%{character_name}, learned recipes'
     page_description: On this page, you can manually specify which recipes your character knows.
     addon: "But there is also a wonderful addon "
     addon_from: " from Ardash, which allows you to copy this information to the clipboard in the game and only specify it here. Install the addon, in the game use commands like '/ps Cooking', '/ps Enchanting', '/ps Alchemy', '/ps Leatherworking', '/ps Engineering', '/ps Tailoring', '/ps Blacksmithing', then place the received information in the blocks below for your profession and click Upload."
@@ -220,7 +230,6 @@ en:
     title: Crafters search
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help! Search will start after recipe select.
   statics:
-    title: Statics
     description: Description
     owner: Owner
     add: Add static
@@ -233,17 +242,28 @@ en:
     private: Private
     public: Public
     all: All public statics
+    existed: As member
+    search: Search
+    creating: Create new static
   static:
     label: Static roster
   guild:
     management: Management
+  guild_invite:
+    for_user: '%{character_name}, search for guild'
   notifications:
     title: Notifications
     add: Add notification
+    event: Event name
+    delivery_param: Delivery type
+    delivery_value: Values
   management:
     edit_guild: Edit guild
     create_invite: Guild invite management
-  guilds: 
+    statics: Statics
+  guilds:
+    add: Create guild
+    creating: Create new guild
     no_characters: For creating guild you need to attach new character to your account
   mailer:
     user:

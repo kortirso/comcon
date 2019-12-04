@@ -498,29 +498,51 @@ export default class EventCalendar extends React.Component {
     }
   }
 
+  _renderModal() {
+    return (
+      <div className={`modal fade ${this.state.currentDayId === null ? '' : 'show'}`} id="selectedDayModal" tabIndex="-1" role="dialog" aria-labelledby="selectedDayModalLabel" aria-hidden="true" onClick={() => this._onSelectCurrentDay(null)}>
+        <div className="modal-dialog" role="document" onClick={(e) => { e.stopPropagation() }}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="selectedDayModalLabel">{strings.eventOfTheDay}</h5>
+              <button type="button" className="close" onClick={() => this._onSelectCurrentDay(null)}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="current-data">
+                <div className="current-day">
+                  {this._renderCurrentDay()}
+                </div>
+                <div className="current-event">
+                  {this._renderCurrentEvent()}
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => this._onSelectCurrentDay(null)}>{strings.close}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="events">
         {this._renderFilters()}
         <div className="calendar-block">
           <div className="full-calendar">
-            <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, -1)}>{strings.previous}</button>
+            <div className="buttons">
+              <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, -1)}>{strings.previous}</button>
+              <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, 1)}>{strings.next}</button>
+            </div>
             <div className="calendar">
               {this._renderDays()}
             </div>
-            <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, 1)}>{strings.next}</button>
           </div>
-          <div className="current-data">
-            <a className="btn btn-primary btn-sm with_bottom_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/new`}>{strings.addEvent}</a>
-            <div className="current-day">
-              <p>{strings.selectedDay}</p>
-              {this._renderCurrentDay()}
-            </div>
-            <div className="current-event">
-              <p>{strings.selectedEvent}</p>
-              {this._renderCurrentEvent()}
-            </div>
-          </div>
+          {this._renderModal()}
         </div>
       </div>
     )

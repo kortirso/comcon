@@ -49,6 +49,61 @@ RSpec.describe GuildsController, type: :controller do
     end
   end
 
+  describe 'GET#new' do
+    let!(:guild) { create :guild }
+
+    it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      it 'renders new template' do
+        get :new, params: { locale: 'en' }
+
+        expect(response).to render_template :new
+      end
+    end
+
+    def do_request
+      get :new, params: { locale: 'en' }
+    end
+  end
+
+  describe 'GET#edit' do
+    let!(:guild) { create :guild }
+
+    it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted guild' do
+        it 'renders error template' do
+          get :edit, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed guild' do
+        let!(:character) { create :character, guild: guild, world: guild.world, user: @current_user }
+        let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+        it 'renders edit template' do
+          get :edit, params: { locale: 'en', id: guild.slug }
+
+          expect(response).to render_template :edit
+        end
+      end
+    end
+
+    def do_request
+      get :edit, params: { locale: 'en', id: guild.slug }
+    end
+  end
+
   describe 'GET#management' do
     let!(:guild) { create :guild }
 
@@ -80,6 +135,74 @@ RSpec.describe GuildsController, type: :controller do
 
     def do_request
       get :management, params: { locale: 'en', id: guild.slug }
+    end
+  end
+
+  describe 'GET#statics' do
+    let!(:guild) { create :guild }
+
+    it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted guild' do
+        it 'renders error template' do
+          get :statics, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed guild' do
+        let!(:character) { create :character, guild: guild, world: guild.world, user: @current_user }
+        let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+        it 'renders statics template' do
+          get :statics, params: { locale: 'en', id: guild.slug }
+
+          expect(response).to render_template :statics
+        end
+      end
+    end
+
+    def do_request
+      get :statics, params: { locale: 'en', id: guild.slug }
+    end
+  end
+
+  describe 'GET#notifications' do
+    let!(:guild) { create :guild }
+
+    it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted guild' do
+        it 'renders error template' do
+          get :notifications, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/error'
+        end
+      end
+
+      context 'for existed guild' do
+        let!(:character) { create :character, guild: guild, world: guild.world, user: @current_user }
+        let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+        it 'renders notifications template' do
+          get :notifications, params: { locale: 'en', id: guild.slug }
+
+          expect(response).to render_template :notifications
+        end
+      end
+    end
+
+    def do_request
+      get :notifications, params: { locale: 'en', id: guild.slug }
     end
   end
 end

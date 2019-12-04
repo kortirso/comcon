@@ -1,14 +1,14 @@
 {
   "en": {
     "personal": "Personal information",
-    "timeZone": "Time Zone (for time rendering)",
+    "timeZone": "Time Zone",
     "save": "Save",
     "browser": "Browser settings",
     "success": "User settings are saved"
   },
   "ru": {
     "personal": "Личная информация",
-    "timeZone": "Часовой пояс (для отображение времени)",
+    "timeZone": "Часовой пояс",
     "save": "Сохранить",
     "browser": "Настройки браузера",
     "success": "Настройки пользователя сохранены"

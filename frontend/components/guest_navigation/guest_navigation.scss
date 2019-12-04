@@ -1,0 +1,51 @@
+@import '../../init/variables.scss';
+
+nav.navbar {
+  padding: 0 2rem;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+
+  .navbar-toggler {
+    border: none;
+    padding: 0;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .collapse {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .right {
+      a {
+        margin-right: 1rem;
+
+        &:nth-last-of-type(1) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    &:not(.show) {
+      display: none;
+    }
+
+    &.show {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .collapse {
+      &.show {
+        display: block;
+      }
+    }
+  }
+}

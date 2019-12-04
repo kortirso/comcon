@@ -5,9 +5,7 @@
     "world": "Realm",
     "description": "Description",
     "filterWorld": "Filter by realm",
-    "filterFraction": "Filter by fraction",
-    "guilds": "Guilds",
-    "addGuild": "Add Guild"
+    "filterFraction": "Filter by fraction"
   },
   "ru": {
     "none": "все",
@@ -15,8 +13,6 @@
     "world": "Игровой Мир",
     "description": "Описание",
     "filterWorld": "Фильтр по мирам",
-    "filterFraction": "Фильтр по фракциям",
-    "guilds": "Гильдии",
-    "addGuild": "Добавить гильдию"
+    "filterFraction": "Фильтр по фракциям"
   }
 }

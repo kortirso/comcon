@@ -1,0 +1,12 @@
+.guest_content {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .inside {
+    display: flex;
+    flex: 1;
+    padding: 1rem 0;
+  }
+}
