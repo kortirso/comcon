@@ -141,10 +141,10 @@ ru:
         title: Выберите пароль
         submit: Сохранить
   navigation:
-    worlds: Миры
+    worlds: Игровые миры
     users: Пользователи
     recipes: Рецепты
-    characters: Персонажи
+    characters: Мои персонажи
     guilds: Гильдии
     statics: Статики
     events: События
@@ -180,8 +180,8 @@ ru:
     login_through: Вход через
     linking: Войдите с помощью учетной записи в других сервисах
   worlds:
-    title: Игровые Миры
     add: Добавить игровой мир
+    creating: Добавить новый игровой мир
     edit: Изменить игровой мир
     name: Название
     zone: Зона
@@ -207,14 +207,14 @@ ru:
     decline: Отклонить
   events:
     no_characters: Для просмотра событий привяжите персонажа к учетной записи
-    add: Добавить новое событие
+    add: Добавить событие
     edit: Изменить событие
     label: Календарь событий
+    creating: Добавить новое событие
   characters:
-    label: Персонажи
     add: Добавить персонажа
     name: Имя
-    world: Мир
+    world: Игровой мир
     race: Раса
     role: Роль
     character_class: Класс
@@ -224,7 +224,7 @@ ru:
   character_form:
     creating: Добавить нового персонажа
   select:
-    world: Игровой Мир
+    world: Игровой мир
     guild: Гильдия
   recipes:
     title: Рецепты
@@ -241,7 +241,6 @@ ru:
     title: Поиск крафтеров
     description: Ищите, кто бы скрафтил Меч Азерота вашему крутому паладину? Эта форма поиска явно поможет! Поиск начнется после выбора рецепта.
   statics:
-    title: Статики
     description: Описание
     owner: Владелец
     add: Добавить статик
@@ -256,13 +255,13 @@ ru:
     all: Все общедоступные статики
     existed: В составе
     search: Поиск
-    add: Добавить новый статик
+    creating: Добавить новый статик
   static:
     label: Состав статика
   guild:
     management: Управление
   guild_invite:
-    for_user: Поиск гильдии для персонажа %{character_name}
+    for_user: '%{character_name}, поиск гильдии'
   notifications:
     title: Уведомления
     add: Создать уведомление
@@ -274,7 +273,6 @@ ru:
     create_invite: Управление приглашениями в гильдию
     statics: Статики
   guilds:
-    label: Гильдии
     add: Добавить гильдию
     creating: Добавить новую гильдию
     no_characters: Для создания гильдии привяжите персонажа к учетной записи

@@ -164,7 +164,7 @@ export default class InviteFormForCharacter extends React.Component {
       return (
         <tr key={request.id}>
           <td>{request.guild.name} - {request.guild.world_name}</td>
-          <td>{request.status}</td>
+          <td>{strings[request.status]}</td>
           <td>
             <input type="submit" name="commit" value={strings.deleteRequest} className="btn btn-primary btn-sm" onClick={this._onDeleteRequest.bind(this, request)} />
           </td>
@@ -197,7 +197,7 @@ export default class InviteFormForCharacter extends React.Component {
       return (
         <tr key={invite.id}>
           <td>{invite.guild.name} - {invite.guild.world_name}</td>
-          <td>{invite.status}</td>
+          <td>{strings[invite.status]}</td>
           <td>
             <input type="submit" name="commit" value={strings.approveInvite} className="btn btn-primary btn-sm with_right_margin" onClick={this._onSubmitInvite.bind(this, invite, 'approve')} />
             <input type="submit" name="commit" value={strings.declineInvite} className="btn btn-primary btn-sm" onClick={this._onSubmitInvite.bind(this, invite, 'decline')} />

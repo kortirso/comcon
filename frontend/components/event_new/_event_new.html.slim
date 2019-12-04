@@ -1,7 +1,7 @@
 = javascript_pack_tag 'event_form'
 .inside
   .inside_topbar
-    .title= t('events.add')
+    .title= t('events.creating')
   main
     = react_component('EventForm', time_offset_value: Current.user.time_offset.value, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
     

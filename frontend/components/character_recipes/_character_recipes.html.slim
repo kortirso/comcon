@@ -15,7 +15,7 @@
         = form_with url: update_recipes_character_path(@character.id), local: true do |f|
           .row.character_professions
             - @character_professions.each do |character_profession|
-              .col-md-12.col-xl-4
+              .col-md-6.col-xl-4
                 .character_profession
                   h3= character_profession.profession.name[I18n.locale.to_s]
                   .uploader

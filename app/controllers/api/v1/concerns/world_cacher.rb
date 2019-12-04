@@ -7,7 +7,7 @@ module Api
         private
 
         def get_worlds_from_cache
-          worlds = World.order(id: :asc)
+          worlds = World.order(name: :asc)
           @worlds_json = Rails.cache.fetch(World.cache_key(worlds)) do
             ActiveModelSerializers::SerializableResource.new(worlds, each_serializer: WorldSerializer).as_json[:worlds]
           end

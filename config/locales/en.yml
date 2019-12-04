@@ -133,7 +133,7 @@ en:
     worlds: Realms
     users: Users
     recipes: Recipes
-    characters: Characters
+    characters: My characters
     guilds: Guilds
     statics: Statics
     events: Events
@@ -169,8 +169,8 @@ en:
     login_through: Login through
     linking: Sign In by using account at other networks
   worlds:
-    title: Realms
-    add: Add realm
+    add: Create realm
+    creating: Create new realm
     edit: Edit realm
     name: Name
     zone: Zone
@@ -196,12 +196,12 @@ en:
     decline: Decline
   events:
     no_characters: For viewing events you need to attach new character to your account
-    add: Add new event
+    add: Create event
     edit: Edit event
     label: Events calendar
+    creating: Create new event
   characters:
-    label: Characters
-    add: Add character
+    add: Create character
     name: Name
     world: Realm
     race: Race
@@ -230,7 +230,6 @@ en:
     title: Crafters search
     description: Are you looking for someone to craft the Azeroth Sword for your amazing paladin? This search form will clearly help! Search will start after recipe select.
   statics:
-    title: Statics
     description: Description
     owner: Owner
     add: Add static
@@ -245,11 +244,13 @@ en:
     all: All public statics
     existed: As member
     search: Search
-    add: Add new static
+    creating: Create new static
   static:
     label: Static roster
   guild:
     management: Management
+  guild_invite:
+    for_user: '%{character_name}, search for guild'
   notifications:
     title: Notifications
     add: Add notification
@@ -261,7 +262,6 @@ en:
     create_invite: Guild invite management
     statics: Statics
   guilds:
-    label: Guilds
     add: Create guild
     creating: Create new guild
     no_characters: For creating guild you need to attach new character to your account

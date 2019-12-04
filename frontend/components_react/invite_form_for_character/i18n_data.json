@@ -12,7 +12,9 @@
     "noInvites": "No invites",
     "approveInvite": "Approve",
     "declineInvite": "Decline",
-    "status": "Status"
+    "status": "Status",
+    "send": "Sent",
+    "declined": "Declined"
   },
   "ru": {
     "name": "Название",
@@ -27,6 +29,8 @@
     "noInvites": "Нет приглашений",
     "approveInvite": "Принять",
     "declineInvite": "Отменить",
-    "status": "Статус"
+    "status": "Статус",
+    "send": "Отправлен",
+    "declined": "Отклонен"
   }
 }
