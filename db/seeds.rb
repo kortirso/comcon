@@ -253,8 +253,8 @@ notification_form.persist?
 notification_form = NotificationForm.new(name: { 'en' => 'Event will start soon', 'ru' => 'Скоро начнется событие' }, event: 'event_start_soon', status: 1)
 notification_form.persist?
 
-notification_form = NotificationForm.new(name: { 'en' => 'Event creation for guild static', 'ru' => 'Создание события для гильдейского статика' }, event: 'guild_static_event_creation', status: 0)
+notification_form = NotificationForm.new(name: { 'en' => 'Event creation for static', 'ru' => 'Создание события для статика' }, event: 'guild_static_event_creation', status: 0)
 notification_form.persist?
 
-notification_form = NotificationForm.new(name: { 'en' => 'Event creation for guild static', 'ru' => 'Создание события для гильдейского статика' }, event: 'guild_static_event_creation', status: 1)
+notification_form = NotificationForm.new(name: { 'en' => 'Event creation for static', 'ru' => 'Создание события для статика' }, event: 'guild_static_event_creation', status: 1)
 notification_form.persist?

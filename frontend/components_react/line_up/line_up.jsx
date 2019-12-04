@@ -232,7 +232,6 @@ export default class LineUp extends React.Component {
   }
 
   _renderSubscribedRole(role) {
-    console.log(role)
     if (role === 'Tank' || role === 'Healer') return <div className={`role_icon ${role}`}></div>
     else return <div className="role_icon Melee"></div>
   }
@@ -309,6 +308,10 @@ export default class LineUp extends React.Component {
     this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.character.roles[0][this.props.locale], approvingStatus: forAdmin ? 'approved' : 'signed'})
   }
 
+  closeModal() {
+    this.setState({showApprovingBox: false, approvingBoxForAdmin: false, approvingSubscribe: null, approvingRole: '', approvingStatus: ''})
+  }
+
   _onApproveSubscribe() {
     this.onUpdateSubscribe(this.state.approvingSubscribe, { status: this.state.approvingStatus, for_role: this._modifyRole(this.state.approvingRole) })
   }
@@ -374,7 +377,9 @@ export default class LineUp extends React.Component {
         <div className="subscribe" key={index}>
           <span>{subscribe.character.name}</span>
           <span>{strings[subscribe.status]}</span>
-          <span>{this._checkAdminButton(subscribe.character, subscribe.status) && this._renderAdminButton(subscribe)}</span>
+          {this._checkAdminButton(subscribe.character, subscribe.status) &&
+            <span>{this._renderAdminButton(subscribe)}</span>
+          }
         </div>
       )
     })
@@ -391,6 +396,46 @@ export default class LineUp extends React.Component {
         else return 1
       }
     }
+  }
+
+  _renderModal() {
+    if (!this.state.showApprovingBox) return false
+    return (
+      <div className={`modal fade ${this.state.showApprovingBox ? 'show' : ''}`} id="changeStatusModal" tabIndex="-1" role="dialog" aria-labelledby="changeStatusModalLabel" aria-hidden="true" onClick={this.closeModal.bind(this)}>
+        <div className="modal-dialog" role="document" onClick={(e) => { e.stopPropagation() }}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="changeStatusModalLabel">{strings.form}</h5>
+              <button type="button" className="close" onClick={() => this.closeModal()}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <p className="approving_box_character">{this.state.approvingSubscribe.character.name}</p>
+              {this.state.approvingBoxForAdmin &&
+                <div className="form-group">
+                  <label htmlFor="signed_role">{strings.selectRole}</label>
+                  <select className="form-control form-control-sm" id="signed_role" onChange={(event) => this.setState({approvingRole: event.target.value})} value={this.state.approvingRole}>
+                    {this._renderAvailableRoles(this.state.approvingSubscribe.character.roles)}
+                  </select>
+                </div>
+              }
+              <div className="form-group">
+                <label htmlFor="signed_status">{strings.selectStatus}</label>
+                <select className="form-control form-control-sm" id="signed_status" onChange={(event) => this.setState({approvingStatus: event.target.value})} value={this.state.approvingStatus}>
+                  {this.state.approvingBoxForAdmin && <option value="approved" key={0}>{strings.approved}</option>}
+                  {this.state.approvingBoxForAdmin && <option value="reserve" key={1}>{strings.reserve}</option>}
+                  <option value="signed" key={2}>{strings.signed}</option>
+                  {!this.state.approvingBoxForAdmin && <option value="unknown" key={3}>{strings.unknown}</option>}
+                  {!this.state.approvingBoxForAdmin && <option value="rejected" key={4}>{strings.rejected}</option>}
+                </select>
+                <button className="btn btn-primary btn-sm with_top_margin" onClick={() => this._onApproveSubscribe()}>{strings.apply}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   render() {
@@ -416,31 +461,7 @@ export default class LineUp extends React.Component {
           </div>
         }
         {this._renderSignBlock()}
-        {this.state.showApprovingBox &&
-          <div className="approving_box">
-            <p className="approving_box_title">{strings.form}</p>
-            <p className="approving_box_character">{this.state.approvingSubscribe.character.name}</p>
-            {this.state.approvingBoxForAdmin &&
-              <div className="form-group">
-                <label htmlFor="signed_role">{strings.selectRole}</label>
-                <select className="form-control form-control-sm" id="signed_role" onChange={(event) => this.setState({approvingRole: event.target.value})} value={this.state.approvingRole}>
-                  {this._renderAvailableRoles(this.state.approvingSubscribe.character.roles)}
-                </select>
-              </div>
-            }
-            <div className="form-group">
-              <label htmlFor="signed_status">{strings.selectStatus}</label>
-              <select className="form-control form-control-sm" id="signed_status" onChange={(event) => this.setState({approvingStatus: event.target.value})} value={this.state.approvingStatus}>
-                {this.state.approvingBoxForAdmin && <option value="approved" key={0}>{strings.approved}</option>}
-                {this.state.approvingBoxForAdmin && <option value="reserve" key={1}>{strings.reserve}</option>}
-                <option value="signed" key={2}>{strings.signed}</option>
-                {!this.state.approvingBoxForAdmin && <option value="unknown" key={3}>{strings.unknown}</option>}
-                {!this.state.approvingBoxForAdmin && <option value="rejected" key={4}>{strings.rejected}</option>}
-              </select>
-              <button className="btn btn-primary btn-sm" onClick={() => this._onApproveSubscribe()}>{strings.apply}</button>
-            </div>
-          </div>
-        }
+        {this._renderModal()}
         {this.state.alternativeRender && eventInfo !== null &&
           <div className="alternative_line_up">
             <div className="main_roles">

@@ -49,6 +49,7 @@
             flex-direction: row;
             align-items: center;
             border-bottom: 1px solid #eee;
+            padding: 2px;
 
             &:nth-last-of-type(1) {
               border-bottom: none;
@@ -63,8 +64,6 @@
               }
 
               &:nth-of-type(3) {
-                width: 25px;
-
                 .btn-plus {
                   width: 20px;
                   height: 20px;
@@ -90,6 +89,7 @@
 
   .approving_box {
     position: fixed;
+    z-index: 1;
     top: 30%;
     right: 0;
     background: #fff;

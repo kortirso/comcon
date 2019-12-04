@@ -262,33 +262,63 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'for existed user with incorrect params' do
+    context 'for existed user' do
       let!(:user) { create :user, reset_password_token: SecureRandom.urlsafe_base64.to_s }
-      before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: '123456' } }
 
-      it 'does not change password' do
-        user.reload
+      context 'with incorrect params' do
+        before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: '123456' } }
 
-        expect(user.valid_password?('123456qwer')).to eq false
+        it 'does not change password' do
+          user.reload
+
+          expect(user.valid_password?('123456qwer')).to eq false
+        end
+
+        it 'and render error' do
+          expect(response).to render_template 'shared/error'
+        end
       end
 
-      it 'and render error' do
-        expect(response).to render_template 'shared/error'
+      context 'with different passwords' do
+        before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '1', password_confirmation: '12' }, reset_password_token: user.reset_password_token } }
+
+        it 'does not change password' do
+          user.reload
+
+          expect(user.valid_password?('1')).to eq false
+        end
+
+        it 'and redirects to new_password_users_ru_path' do
+          expect(response).to redirect_to new_password_users_ru_path(email: user.email, reset_password_token: user.reset_password_token)
+        end
       end
-    end
 
-    context 'for existed user with correct params' do
-      let!(:user) { create :user, reset_password_token: SecureRandom.urlsafe_base64.to_s }
-      before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: user.reset_password_token } }
+      context 'with short passwords' do
+        before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '12', password_confirmation: '12' }, reset_password_token: user.reset_password_token } }
 
-      it 'change password' do
-        user.reload
+        it 'does not change password' do
+          user.reload
 
-        expect(user.valid_password?('123456qwer')).to eq true
+          expect(user.valid_password?('12')).to eq false
+        end
+
+        it 'and redirects to new_password_users_ru_path' do
+          expect(response).to redirect_to new_password_users_ru_path(email: user.email, reset_password_token: user.reset_password_token)
+        end
       end
 
-      it 'and redirects to root path' do
-        expect(response).to redirect_to root_ru_path
+      context 'with correct params' do
+        before { patch :change_password, params: { locale: 'ru', email: user.email, user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: user.reset_password_token } }
+
+        it 'change password' do
+          user.reload
+
+          expect(user.valid_password?('123456qwer')).to eq true
+        end
+
+        it 'and redirects to root path' do
+          expect(response).to redirect_to root_ru_path
+        end
       end
     end
   end

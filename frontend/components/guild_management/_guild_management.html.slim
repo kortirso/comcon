@@ -5,7 +5,7 @@
     .tabs
       ul
         li= link_to t('guild.management'), management_guild_path(@guild.slug), class: 'active'
-        li= link_to t('statics.title'), statics_guild_path(@guild.slug)
+        li= link_to t('navigation.statics'), statics_guild_path(@guild.slug)
         li= link_to t('notifications.title'), notifications_guild_path(@guild.slug)
     .action
       = link_to t('management.edit_guild'), edit_guild_path(@guild.slug), class: 'btn btn-primary btn-sm'

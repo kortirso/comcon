@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class InviteFormForGuild extends React.Component {
   constructor() {
@@ -169,7 +169,7 @@ export default class InviteFormForGuild extends React.Component {
         <tr className={invite.character.character_class_name.en} key={invite.id}>
           <td>{invite.character.name}</td>
           <td>{invite.character.level}</td>
-          <td>{invite.status}</td>
+          <td>{strings[invite.status]}</td>
           <td>
             <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
           </td>
@@ -204,7 +204,7 @@ export default class InviteFormForGuild extends React.Component {
         <tr className={request.character.character_class_name.en} key={request.id}>
           <td>{request.character.name}</td>
           <td>{request.character.level}</td>
-          <td>{request.status}</td>
+          <td>{strings[request.status]}</td>
           <td>
             <input type="submit" name="commit" value={strings.approveRequest} className="btn btn-primary btn-sm with_right_margin" onClick={this._onSubmitRequest.bind(this, request, 'approve')} />
             <input type="submit" name="commit" value={strings.declineRequest} className="btn btn-primary btn-sm" onClick={this._onSubmitRequest.bind(this, request, 'decline')} />

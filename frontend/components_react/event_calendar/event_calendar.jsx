@@ -139,7 +139,6 @@ export default class EventCalendar extends React.Component {
 
   _onSelectCurrentDay(value) {
     this.setState({currentDayId: value})
-    $('#selectedDayModal').show()
   }
 
   _renderEvents(dateForDay) {
@@ -499,19 +498,14 @@ export default class EventCalendar extends React.Component {
     }
   }
 
-  closeModal() {
-    this.setState({currentDayId: null})
-    $('#selectedDayModal').hide()
-  }
-
   _renderModal() {
     return (
-      <div className={`modal fade ${this.state.currentDayId === null ? '' : 'show'}`} id="selectedDayModal" tabIndex="-1" role="dialog" aria-labelledby="selectedDayModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
+      <div className={`modal fade ${this.state.currentDayId === null ? '' : 'show'}`} id="selectedDayModal" tabIndex="-1" role="dialog" aria-labelledby="selectedDayModalLabel" aria-hidden="true" onClick={() => this._onSelectCurrentDay(null)}>
+        <div className="modal-dialog" role="document" onClick={(e) => { e.stopPropagation() }}>
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="selectedDayModalLabel">{strings.eventOfTheDay}</h5>
-              <button type="button" className="close" onClick={() => this.closeModal()}>
+              <button type="button" className="close" onClick={() => this._onSelectCurrentDay(null)}>
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -526,7 +520,7 @@ export default class EventCalendar extends React.Component {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary btn-sm" onClick={() => this.closeModal()}>{strings.close}</button>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => this._onSelectCurrentDay(null)}>{strings.close}</button>
             </div>
           </div>
         </div>

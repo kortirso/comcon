@@ -11,7 +11,9 @@
     "noInvites": "No invites",
     "approveRequest": "Approve",
     "declineRequest": "Decline",
-    "status": "Status"
+    "status": "Status",
+    "send": "Sent",
+    "declined": "Declined"
   },
   "ru": {
     "label": "Поиск персонажей для приглашения",
@@ -25,6 +27,8 @@
     "noInvites": "Нет приглашений",
     "approveRequest": "Принять",
     "declineRequest": "Отклонить",
-    "status": "Статус"
+    "status": "Статус",
+    "send": "Отправлен",
+    "declined": "Отклонен"
   }
 }

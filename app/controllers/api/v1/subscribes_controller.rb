@@ -3,7 +3,6 @@ module Api
     class SubscribesController < Api::V1::BaseController
       before_action :find_event, only: %i[create]
       before_action :find_subscribe, only: %i[update]
-      before_action :find_user_subscribe, only: %i[create_comment]
 
       def create
         authorize! @event, with: SubscribePolicy, context: { status: params[:subscribe][:status] }
@@ -24,11 +23,6 @@ module Api
 
       def find_subscribe
         @subscribe = Subscribe.find_by(id: params[:id])
-        render_error('Object is not found') if @subscribe.nil?
-      end
-
-      def find_user_subscribe
-        @subscribe = Current.user.subscribes.find_by(id: params[:id])
         render_error('Object is not found') if @subscribe.nil?
       end
 

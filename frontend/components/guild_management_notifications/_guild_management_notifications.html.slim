@@ -4,7 +4,7 @@
     .tabs
       ul
         li= link_to t('guild.management'), management_guild_path(@guild.slug)
-        li= link_to t('statics.title'), statics_guild_path(@guild.slug)
+        li= link_to t('navigation.statics'), statics_guild_path(@guild.slug)
         li= link_to t('notifications.title'), notifications_guild_path(@guild.slug), class: 'active'
     .action
       = link_to t('notifications.add'), new_delivery_path(deliveriable_id: @guild.id, deliveriable_type: 'Guild'), class: 'btn btn-primary btn-sm'
