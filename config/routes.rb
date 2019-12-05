@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         get :user_characters, on: :member
         get :filter_values, on: :collection
         get :event_form_values, on: :collection
+        get :characters_without_subscribe, on: :member
       end
       resources :subscribes, only: %i[create update]
       resources :professions, only: %i[index]

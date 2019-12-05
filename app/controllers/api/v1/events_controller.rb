@@ -7,10 +7,12 @@ module Api
 
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
-      before_action :find_event, only: %i[show edit update destroy subscribers user_characters]
+      before_action :find_event, only: %i[show edit update destroy subscribers user_characters characters_without_subscribe]
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
+      before_action :check_event, only: %i[characters_without_subscribe]
+      before_action :find_characters, only: %i[characters_without_subscribe]
 
       resource_description do
         short 'Event information resources'
@@ -134,6 +136,15 @@ module Api
         }, status: 200
       end
 
+      api :GET, '/v1/events/:id/characters_without_subscribe.json', 'Show characters who not subscribe for event'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def characters_without_subscribe
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@not_subscribed, each_serializer: CharacterSubscriptionSerializer).as_json[:characters]
+        }, status: 200
+      end
+
       private
 
       def find_start_of_month
@@ -166,6 +177,15 @@ module Api
       def find_event
         @event = Event.find_by(id: params[:id])
         render_error('Object is not found') if @event.nil?
+      end
+
+      def check_event
+        render_error('Event is not for static') if @event.eventable_type != 'Static'
+      end
+
+      def find_characters
+        character_ids = @event.subscribes.pluck(:character_id)
+        @not_subscribed = @event.eventable.characters.where.not(id: character_ids)
       end
 
       def user_statics

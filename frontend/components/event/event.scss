@@ -149,6 +149,10 @@
   }
 
   .line_up {
+    &.not_subscribed {
+      margin: 2rem 0;
+    }
+
     table {
       tbody {
         tr {

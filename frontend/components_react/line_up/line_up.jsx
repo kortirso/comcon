@@ -44,7 +44,8 @@ export default class LineUp extends React.Component {
       approvingSubscribe: null,
       approvingRole: '',
       approvingStatus: '',
-      alternativeRender: false
+      alternativeRender: false,
+      notSubscribed: []
     }
   }
 
@@ -65,6 +66,19 @@ export default class LineUp extends React.Component {
       url: `/api/v1/events/${this.props.event_id}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         this.setState({eventInfo: data.event}, () => {
+          if (this.state.eventInfo.eventable_type === 'Static') this._getNotSubscribedCharacters()
+          else this._getEventsSubscribes()
+        })
+      }
+    })
+  }
+
+  _getNotSubscribedCharacters() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/events/${this.props.event_id}/characters_without_subscribe.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        this.setState({notSubscribed: data.characters}, () => {
           this._getEventsSubscribes()
         })
       }
@@ -226,6 +240,25 @@ export default class LineUp extends React.Component {
               {this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
             </div>
           </td>
+        </tr>
+      )
+    })
+  }
+
+  _renderNotSubscribed() {
+    return this.state.notSubscribed.map((character) => {
+      return (
+        <tr className={character.character_class_name.en} key={character.id}>
+          <td>
+            <div className="character_name">{character.name}</div>
+          </td>
+          <td>
+            <div className="role_icons">
+              {this._renderRoles(character.roles)}
+            </div>
+          </td>
+          <td>{character.level}</td>
+          <td>{character.guild_name}</td>
         </tr>
       )
     })
@@ -586,6 +619,24 @@ export default class LineUp extends React.Component {
             </tbody>
           </table>
         </div>
+        {this.state.notSubscribed.length > 0 &&
+          <div className="line_up not_subscribed">
+            <h4>{strings.notSubscribed}</h4>
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th>{strings.name}</th>
+                  <th>{strings.role}</th>
+                  <th>{strings.level}</th>
+                  <th>{strings.guild}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this._renderNotSubscribed()}
+              </tbody>
+            </table>
+          </div>
+        }
       </div>
     )
   }

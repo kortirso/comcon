@@ -31,7 +31,8 @@
     "dd": "Damage dealers",
     "alternative": "Alternative renderer",
     "close": "Close",
-    "hoursBeforeClose": "Hours before close registration for event"
+    "hoursBeforeClose": "Hours before close registration for event",
+    "notSubscribed": "Characters of static without subscribe"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -65,6 +66,7 @@
     "dd": "Бойцы",
     "alternative": "Альтернативное представление",
     "close": "Закрыть",
-    "hoursBeforeClose": "Часов до закрытия регистрации на событие"
+    "hoursBeforeClose": "Часов до закрытия регистрации на событие",
+    "notSubscribed": "Персонажи статика, которые не подписались на событие"
   }
 }

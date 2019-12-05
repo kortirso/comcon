@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - create guild invite while character creation
 - automatic approving guild invites for twinks
 - invite form at guild page
+- not subscribed for event static members
 
 ### Modified
 - event page, show hours before close event
