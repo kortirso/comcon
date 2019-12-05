@@ -146,7 +146,7 @@ module Api
 
       def find_characters_for_request
         existed_guild_invite_ids = GuildInvite.where(guild_id: @guild.id).pluck(:character_id)
-        @characters_for_request = Current.user.characters.where(guild_id: nil).where.not(id: existed_guild_invite_ids)
+        @characters_for_request = Current.user.characters.where(guild_id: nil, world_fraction_id: @guild.world_fraction_id).where.not(id: existed_guild_invite_ids)
       end
 
       def search_guilds
