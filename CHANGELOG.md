@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Modified
 - event page, show hours before close event
+- manual typing event start time
 
 ## [0.9.5] - 2019-12-04
 ### Modified

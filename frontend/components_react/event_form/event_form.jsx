@@ -37,7 +37,8 @@ export default class EventForm extends React.Component {
       currentStatics: [],
       staticId: '',
       groupRoles: {},
-      errors: []
+      errors: [],
+      manualTime: false
     }
   }
 
@@ -51,7 +52,7 @@ export default class EventForm extends React.Component {
     $(".datepicker-here").datepicker({
       onSelect: function(formattedDate, date) {
         const updatedCurrentLocalTime = _this.props.time_offset_value === null ? date : (new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() - _this.props.time_offset_value - date.getTimezoneOffset() / 60, date.getMinutes()))
-        _this.setState({startTime: Number(updatedCurrentLocalTime) / 1000})
+        _this.setState({startTime: Number(updatedCurrentLocalTime) / 1000, manualTime: false})
       }
     })
 
@@ -108,9 +109,31 @@ export default class EventForm extends React.Component {
     })
   }
 
+  _checkManualTime() {
+    if (this.state.manualTime) {
+      const value = $('#event_start_time').val()
+      const dates = value.split(' ')[0]
+      const time = value.split(' ')[1]
+      if (dates === undefined || time === undefined) return this.state.startTime
+      else {
+        const day = dates.split('.')[0]
+        const month = dates.split('.')[1]
+        const year = dates.split('.')[2]
+        const hours = time.split(':')[0]
+        const minutes = time.split(':')[1]
+        if (day === undefined || month === undefined || year === undefined || hours === undefined || minutes === undefined) return this.state.startTime
+        else {
+          const currentDate = new Date()
+          const updatedCurrentLocalTime = this.props.time_offset_value === null ? (new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hours), parseInt(minutes))) : (new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hours) - this.props.time_offset_value - currentDate.getTimezoneOffset() / 60, parseInt(minutes)))
+          return Number(updatedCurrentLocalTime) / 1000
+        }
+      }
+    } else return this.state.startTime
+  }
+
   _onCreate() {
     const state = this.state
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description, group_roles: state.groupRoles } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: this._checkManualTime(), description: state.description, group_roles: state.groupRoles } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -129,7 +152,7 @@ export default class EventForm extends React.Component {
 
   _onUpdate() {
     const state = this.state
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: state.startTime, description: state.description, group_roles: state.groupRoles } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: this._checkManualTime(), description: state.description, group_roles: state.groupRoles } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events/${state.eventId}.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -227,6 +250,10 @@ export default class EventForm extends React.Component {
     this.setState({groupRoles: groupRoles})
   }
 
+  _onManualTimeChange(event) {
+    this.setState({manualTime: true})
+  }
+
   render() {
     return (
       <div className="event_form">
@@ -251,7 +278,7 @@ export default class EventForm extends React.Component {
           <div className="col-sm-6 col-xl-3">
             <div className="form-group">
               <label htmlFor="event_start_time">{strings.startTime}</label>
-              <input type="text" className="datepicker-here form-control form-control-sm" id="event_start_time" data-language={this.props.locale} data-date-format="dd.mm.yyyy" data-timepicker="true" />
+              <input type="text" className="datepicker-here form-control form-control-sm" id="event_start_time" data-language={this.props.locale} data-date-format="dd.mm.yyyy" data-time-format='hh:ii' data-timepicker="true" placeholder="dd.mm.yyyy hh:ii" onChange={this._onManualTimeChange.bind(this)} />
             </div>
           </div>
           <div className="col-sm-6 col-xl-3">
