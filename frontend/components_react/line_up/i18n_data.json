@@ -30,7 +30,8 @@
     "healers": "Healers",
     "dd": "Damage dealers",
     "alternative": "Alternative renderer",
-    "close": "Close"
+    "close": "Close",
+    "hoursBeforeClose": "Hours before close registration for event"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -63,6 +64,7 @@
     "healers": "Лекари",
     "dd": "Бойцы",
     "alternative": "Альтернативное представление",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "hoursBeforeClose": "Часов до закрытия регистрации на событие"
   }
 }

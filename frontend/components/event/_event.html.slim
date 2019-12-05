@@ -6,6 +6,7 @@
     = react_component('LineUp',
         event_id: @event.id,
         event_is_open: @event.is_open?,
+        hours_before_close: @event.hours_before_close,
         current_user_id: Current.user.id,
         is_owner: @event.owner.user_id == Current.user.id,
         guild_role: @event.guild_role_of_user(Current.user.id),

@@ -451,6 +451,7 @@ export default class LineUp extends React.Component {
             <p>{this._renderAccess(eventInfo)}</p>
             <p>{strings.owner} - {eventInfo.owner_name}</p>
             <p>{eventInfo.description}</p>
+            <p>{strings.hoursBeforeClose} - {this.props.hours_before_close}</p>
             {this._renderRLBlock()}
           </div>
         }
