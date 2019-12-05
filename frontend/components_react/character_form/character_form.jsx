@@ -95,7 +95,6 @@ export default class CharacterForm extends React.Component {
       method: 'GET',
       url: `/api/v1/characters/${this.state.characterId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        console.log(data)
         const character = data.character
         const raceCharacterClasses = this.state.data[character.race_id].character_classes
         const currentCharacterClass = character.character_class_id.toString()
