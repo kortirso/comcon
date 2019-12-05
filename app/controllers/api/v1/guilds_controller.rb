@@ -3,12 +3,13 @@ module Api
     class GuildsController < Api::V1::BaseController
       before_action :find_guilds, only: %i[index]
       before_action :find_guild_by_slug, only: %i[characters kick_character leave_character]
-      before_action :find_guild, only: %i[show update]
+      before_action :find_guild, only: %i[show update characters_for_request]
       before_action :find_guild_character, only: %i[kick_character]
       before_action :find_user_character_in_guild, only: %i[leave_character]
       before_action :find_guild_characters, only: %i[characters]
       before_action :search_guilds, only: %i[search]
       before_action :find_user_characters_for_guild, only: %i[form_values]
+      before_action :find_characters_for_request, only: %i[characters_for_request]
 
       resource_description do
         short 'Guild resources'
@@ -103,6 +104,14 @@ module Api
         }, status: 200
       end
 
+      api :GET, '/v1/guilds/:id/characters_for_request.json', 'Get list of characters for request to guild'
+      error code: 401, desc: 'Unauthorized'
+      def characters_for_request
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@characters_for_request, each_serializer: CharacterIndexSerializer).as_json[:characters]
+        }, status: 200
+      end
+
       private
 
       def find_guilds
@@ -133,6 +142,11 @@ module Api
 
       def find_guild_characters
         @guild_characters = ActiveModelSerializers::SerializableResource.new(@guild.characters.includes(:race, :character_class, :main_roles, :guild_role), each_serializer: GuildCharacterSerializer).as_json[:characters].sort_by { |character| [- character[:level], character[:character_class_name]['en'], Role::ROLE_VALUES[character[:main_role_name]['en']], character[:name]] }
+      end
+
+      def find_characters_for_request
+        existed_guild_invite_ids = GuildInvite.where(guild_id: @guild.id).pluck(:character_id)
+        @characters_for_request = Current.user.characters.where(guild_id: nil).where.not(id: existed_guild_invite_ids)
       end
 
       def search_guilds

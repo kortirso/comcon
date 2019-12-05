@@ -1,0 +1,12 @@
+{
+  "en": {
+    "characters": "Your characters without guild",
+    "create": "Send request",
+    "success": "Request to guild is sent"
+  },
+  "ru": {
+    "characters": "Ваши персонажи без гильдии",
+    "create": "Отправить запрос",
+    "success": "Запрос в гильдию отправлен"
+  }
+}

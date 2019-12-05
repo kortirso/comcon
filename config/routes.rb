@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         post :leave_character, on: :member
         get :search, on: :collection
         get :form_values, on: :collection
+        get :characters_for_request, on: :member
       end
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]

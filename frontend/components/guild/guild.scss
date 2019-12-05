@@ -26,4 +26,16 @@
       }
     }
   }
+
+  .guild_invite_form {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+
+    .form-group {
+      margin: 0 1rem 0 0;
+      font-size: 0.9rem;
+    }
+  }
 }

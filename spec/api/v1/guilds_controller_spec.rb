@@ -522,4 +522,57 @@ RSpec.describe 'Guilds API' do
       get '/api/v1/guilds/search.json', headers: headers
     end
   end
+
+  describe 'GET#shcharacters_for_requestow' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted guild' do
+        before { get '/api/v1/guilds/unexisted/characters_for_request.json', params: { access_token: access_token } }
+
+        it 'returns status 400' do
+          expect(response.status).to eq 400
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed guild' do
+        let!(:character1) { create :character, user: user }
+        let!(:guild) { create :guild, world: character1.world, fraction: character1.race.fraction }
+        let!(:character2) { create :character, user: user, guild: guild, world: character1.world, race: character1.race }
+        let!(:character3) { create :character, user: user, world: character1.world, race: character1.race }
+        let!(:guild_invite) { create :guild_invite, character: character3, guild: guild }
+        before { get "/api/v1/guilds/#{guild.id}/characters_for_request.json", params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        it 'returns only character without guild' do
+          result = JSON.parse(response.body)
+
+          expect(result['characters'].size).to eq 1
+          expect(result['characters'][0]['id']).to eq character1.id
+        end
+
+        %w[id name].each do |attr|
+          it "and contains character #{attr}" do
+            expect(response.body).to have_json_path("characters/0/#{attr}")
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v1/guilds/unexisted/characters_for_request.json', headers: headers
+    end
+  end
 end
