@@ -258,3 +258,9 @@ notification_form.persist?
 
 notification_form = NotificationForm.new(name: { 'en' => 'Event creation for static', 'ru' => 'Создание события для статика' }, event: 'guild_static_event_creation', status: 1)
 notification_form.persist?
+
+notification_form = NotificationForm.new(name: { 'en' => 'Guild request creation', 'ru' => 'Создание заявки в гильдию' }, event: 'guild_request_creation', status: 0)
+notification_form.persist?
+
+notification_form = NotificationForm.new(name: { 'en' => 'Guild request creation', 'ru' => 'Создание заявки в гильдию' }, event: 'guild_request_creation', status: 1)
+notification_form.persist?

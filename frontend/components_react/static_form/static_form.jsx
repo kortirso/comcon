@@ -70,7 +70,7 @@ export default class StaticForm extends React.Component {
       data: { static: { name: state.name, staticable_type: staticableType, staticable_id: staticableId, description: state.description, privy: state.privy } },
       success: (data) => {
         if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
-        else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/management`)
+        else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/statics`)
       },
       error: (data) => {
         this.setState({errors: data.responseJSON.errors})
@@ -88,7 +88,7 @@ export default class StaticForm extends React.Component {
       data: { static: { name: state.name, description: state.description, privy: state.privy } },
       success: (data) => {
         if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
-        else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/management`)
+        else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/statics`)
       },
       error: (data) => {
         this.setState({errors: data.responseJSON.errors})

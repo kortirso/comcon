@@ -10,6 +10,7 @@ module Api
         authorize! @deliveriable, with: DeliveryPolicy
         result = CreateDeliveryWithParams.call(delivery_params: delivery_params, delivery_param_params: delivery_param_params)
         if result.success?
+          CreateDublicateForGmUser.call(delivery: result.delivery)
           render json: result.delivery, status: 201
         else
           render json: { errors: result.message }, status: 409

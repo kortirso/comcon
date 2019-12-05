@@ -19,6 +19,10 @@ class Guild < ApplicationRecord
   has_many :guild_roles, dependent: :destroy
   has_many :characters_with_role, through: :guild_roles, source: :character
 
+  has_many :head_guild_roles, -> { where(name: 'gm') }, class_name: 'GuildRole'
+  has_many :characters_with_head_role, through: :head_guild_roles, source: :character
+  has_many :head_users, -> { distinct }, through: :characters_with_head_role, source: :user
+
   has_many :leader_guild_roles, -> { where(name: 'rl').or(where(name: 'cl')) }, class_name: 'GuildRole'
   has_many :characters_with_leader_role, through: :leader_guild_roles, source: :character
 

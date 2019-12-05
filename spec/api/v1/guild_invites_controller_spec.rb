@@ -121,6 +121,7 @@ RSpec.describe 'GuildInvites API' do
     let!(:race) { create :race, :human }
     let!(:guild) { create :guild, fraction: race.fraction }
     let!(:character) { create :character, guild_id: nil, race: race }
+    let!(:notification) { create :notification, event: 'guild_request_creation', status: 1 }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'

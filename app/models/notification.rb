@@ -16,6 +16,7 @@ class Notification < ApplicationRecord
       when 'guild_event_creation' then guild_event_creation_content(event: event_object)
       when 'event_start_soon' then event_start_soon_content(event: event_object)
       when 'guild_static_event_creation' then guild_static_event_creation_content(event: event_object)
+      when 'guild_request_creation' then guild_request_creation_content(guild_invite: event_object)
     end
   end
 
@@ -37,6 +38,10 @@ class Notification < ApplicationRecord
     content = "Создано событие для статика \"#{event.eventable.name}\" - \"#{event.name}\" от #{event.owner.full_name}, "
     content += "место проведения - #{event.dungeon.name['ru']}, " unless event.dungeon_id.nil?
     content + "время начала (по мск) - #{render_start_time(event: event)}, для ознакомления с событием посетите портал гильдии по адресу https://guild-hall.org/ru/events/#{event.slug}"
+  end
+
+  def guild_request_creation_content(guild_invite:)
+    "Создан запрос на вступление в гильдию \"#{guild_invite.guild.full_name}\" от #{guild_invite.character.name}, для просмотра запросов посетите портал гильдии по адресу https://guild-hall.org/ru/guilds/#{guild_invite.guild.slug}/management"
   end
 
   def render_start_time(event:)

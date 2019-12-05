@@ -37,6 +37,12 @@ describe CreateGuildInvite do
         expect(interactor).to be_a_success
       end
 
+      it 'and calls CreateGuildRequestJob' do
+        expect(CreateGuildRequestJob).to receive(:perform_now).and_call_original
+
+        interactor
+      end
+
       it 'and creates guild invite' do
         expect { interactor }.to change { guild.guild_invites.count }.by(1)
       end

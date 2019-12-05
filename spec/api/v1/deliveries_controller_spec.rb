@@ -82,6 +82,12 @@ RSpec.describe 'Deliveries API' do
             expect { request }.to change { DeliveryParam.count }.by(1)
           end
 
+          it 'calls CreateDublicateForGmUser' do
+            expect(CreateDublicateForGmUser).to receive(:call).and_call_original
+
+            request
+          end
+
           context 'in answer' do
             before { request }
 

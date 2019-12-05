@@ -49,6 +49,7 @@ RSpec.describe 'Characters API' do
     let!(:role) { create :role }
     let!(:world_fraction) { create :world_fraction, world: world, fraction: race.fraction }
     let!(:guild) { create :guild, world: world, fraction: race.fraction }
+    let!(:notification) { create :notification, event: 'guild_request_creation', status: 1 }
 
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'

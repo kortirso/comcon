@@ -83,7 +83,7 @@ export default class GuildForm extends React.Component {
       url: url,
       data: { guild: { name: state.name, description: state.description } },
       success: (data) => {
-        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds`)
+        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data.guild.slug}/management`)
       },
       error: (data) => {
         this.setState({errors: data.responseJSON.errors})

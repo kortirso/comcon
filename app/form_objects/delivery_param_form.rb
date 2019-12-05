@@ -49,6 +49,10 @@ class DeliveryParamForm
     return errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.is_not_hash') unless params.is_a?(Hash)
     return errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.channel_id_not_exist') unless params.key?('channel_id')
     return if delivery.nil?
-    errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.channel_id_is_empty') if delivery.deliveriable_type == 'Guild' && params['channel_id'].empty?
+    return if delivery.notification.nil?
+    if delivery.deliveriable_type == 'Guild' && params['channel_id'].empty?
+      return if delivery.notification.event == 'guild_request_creation'
+      errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.channel_id_is_empty')
+    end
   end
 end

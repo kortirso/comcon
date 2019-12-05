@@ -23,7 +23,8 @@ export default class DeliveryForm extends React.Component {
       deliveryParamId: '',
       deliveryParamToken: '',
       deliveryParamChannelId: '',
-      errors: []
+      errors: [],
+      guildRequestCreation: false
     }
   }
 
@@ -55,7 +56,7 @@ export default class DeliveryForm extends React.Component {
       url: url,
       data: { delivery: { deliveriable_id: this.props.deliveriable_id, deliveriable_type: this.props.deliveriable_type, notification_id: state.notificationId, delivery_type: state.deliveryType }, delivery_param: { params: params } },
       success: (data) => {
-        if (data.delivery.deliveriable !== null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data.delivery.deliveriable.slug}/management`)
+        if (data.delivery.deliveriable !== null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data.delivery.deliveriable.slug}/notifications`)
         else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/settings/notifications`)
       },
       error: (data) => {
@@ -81,7 +82,12 @@ export default class DeliveryForm extends React.Component {
   }
 
   _onNotificationChange(event) {
-    this.setState({notificationId: event.target.value})
+    const notification = this.state.notifications.filter((notification) => {
+      return notification.id === parseInt(event.target.value)
+    })[0]
+    if (notification.event === "guild_request_creation") {
+      this.setState({notificationId: event.target.value, deliveryType: 2, guildRequestCreation: true})
+    } else this.setState({notificationId: event.target.value, guildRequestCreation: false})
   }
 
   _onDeliveryTypeChange(event) {
@@ -121,7 +127,7 @@ export default class DeliveryForm extends React.Component {
       <div className="col-md-6 col-lg-3">
         <div className="form-group">
           <label htmlFor="delivery_param_channel_id">{strings.channelId}</label>
-          <input placeholder={strings.channelId} className="form-control form-control-sm" type="text" id="delivery_param_channel_id" value={this.state.deliveryParamChannelId} onChange={(event) => this.setState({deliveryParamChannelId: event.target.value})} />
+          <input placeholder={strings.channelId} className="form-control form-control-sm" type="text" id="delivery_param_channel_id" value={this.state.deliveryParamChannelId} onChange={(event) => this.setState({deliveryParamChannelId: event.target.value})} disabled={this.state.guildRequestCreation} />
         </div>
       </div>
     )
@@ -145,7 +151,7 @@ export default class DeliveryForm extends React.Component {
           <div className="col-md-6 col-lg-3">
             <div className="form-group">
               <label htmlFor="delivery_type">{strings.deliveryType}</label>
-              <select className="form-control form-control-sm" id="delivery_type" onChange={this._onDeliveryTypeChange.bind(this)} value={this.state.deliveryType}>
+              <select className="form-control form-control-sm" id="delivery_type" onChange={this._onDeliveryTypeChange.bind(this)} value={this.state.deliveryType} disabled={this.state.guildRequestCreation}>
                 {this.props.deliveriable_type === 'Guild' &&
                   <option value={0} key={0}>Discord webhook</option>
                 }

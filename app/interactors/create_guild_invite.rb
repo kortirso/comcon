@@ -12,6 +12,7 @@ class CreateGuildInvite
     guild_invite_form = GuildInviteForm.new(guild: context.guild, character: context.character, from_guild: ['true', true].include?(context.from_guild))
     if guild_invite_form.persist?
       context.guild_invite = guild_invite_form.guild_invite
+      CreateGuildRequestJob.perform_now(guild_invite_id: guild_invite_form.guild_invite.id)
     else
       context.fail!(message: guild_invite_form.errors.full_messages)
     end

@@ -34,6 +34,15 @@ RSpec.describe Notification, type: :model do
       end
     end
 
+    context 'for guild_request_creation_content' do
+      let!(:guild_invite) { create :guild_invite }
+      let!(:notification) { create :notification, event: 'guild_request_creation' }
+
+      it 'returns string' do
+        expect(notification.content(event_object: guild_invite).is_a?(String)).to eq true
+      end
+    end
+
     context '.render_start_time' do
       let!(:notification) { create :notification, event: 'guild_static_event_creation' }
 
