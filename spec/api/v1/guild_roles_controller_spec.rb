@@ -178,6 +178,12 @@ RSpec.describe 'GuildRoles API' do
           expect { request }.to change { GuildRole.count }.by(-1)
         end
 
+        it 'and calls CheckRemovedHeadRole' do
+          expect(CheckRemovedHeadRole).to receive(:call).and_call_original
+
+          request
+        end
+
         context 'in answer' do
           before { request }
 

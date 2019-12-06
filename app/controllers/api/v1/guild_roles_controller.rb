@@ -42,6 +42,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def destroy
         authorize! @guild_role
+        CheckRemovedHeadRole.call(guild_role: @guild_role)
         @guild_role.destroy
         render json: { result: 'Success' }, status: 200
       end
