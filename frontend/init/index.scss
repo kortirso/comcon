@@ -177,13 +177,12 @@ body {
 
   .icon_social {
     display: inline-block;
-    background: url(../images/icons.png);
     width: 32px;
     height: 32px;
 
-    &.discord {
-      background-position: 0 0;
-      background-size: 32px 32px;
+    img {
+      width: 32px;
+      height: 32px;
     }
   }
 
@@ -197,27 +196,27 @@ body {
       margin-right: 0.25rem;
 
       &.Tank {
-        background: url(../images/role_icons.png);
-        background-position: 0 0;
-        background-size: cover;
+        background: url(../images/all_icons.png);
+        background-position: 0 -26px;
+        background-size: 234px;
       }
 
       &.Healer {
-        background: url(../images/role_icons.png);
-        background-position: -26px 0;
-        background-size: cover;
+        background: url(../images/all_icons.png);
+        background-position: -26px -26px;
+        background-size: 234px;
       }
 
       &.Melee {
-        background: url(../images/role_icons.png);
-        background-position: -52px 0;
-        background-size: cover;
+        background: url(../images/all_icons.png);
+        background-position: -52px -26px;
+        background-size: 234px;
       }
 
       &.Ranged {
-        background: url(../images/role_icons.png);
-        background-position: -78px 0;
-        background-size: cover;
+        background: url(../images/all_icons.png);
+        background-position: -78px -26px;
+        background-size: 234px;
       }
     }
   }
@@ -230,28 +229,83 @@ body {
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      margin-top: 0.5rem;
+      margin: 0.25rem 0;
 
       p {
         margin: 0;
         width: 75px;
       }
 
-      input {
-        width: 40px;
-        margin-right: 10px;
-        font-size: 0.9rem;
-      }
-
       .role_by_class {
-        span {
-          margin-right: 5px;
-          font-size: 0.9rem;
+        display: flex;
+        flex-direction: row;
+        margin-right: 0.5rem;
+
+        .class_icon {
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          margin-right: 0.25rem;
+
+          &.warrior_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: 0 0;
+            background-size: 270px;
+          }
+
+          &.warlock_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -30px 0;
+            background-size: 270px;
+          }
+
+          &.shaman_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -60px 0;
+            background-size: 270px;
+          }
+
+          &.rogue_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -90px 0;
+            background-size: 270px;
+          }
+
+          &.priest_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -120px 0;
+            background-size: 270px;
+          }
+
+          &.paladin_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -150px 0;
+            background-size: 270px;
+          }
+
+          &.mage_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -180px 0;
+            background-size: 270px;
+          }
+
+          &.hunter_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -210px 0;
+            background-size: 270px;
+          }
+
+          &.druid_class_icon {
+            background: url(../images/all_icons.png);
+            background-position: -240px 0;
+            background-size: 270px;
+          }
         }
 
         input {
+          width: 40px;
           text-align: center;
-          margin-bottom: 5px;
+          font-size: 0.9rem;
         }
       }
     }

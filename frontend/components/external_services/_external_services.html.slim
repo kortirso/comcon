@@ -13,7 +13,7 @@
         h3= t('external_services.bindings_title')
         p= t('external_services.bindings_1')
         p= t('external_services.bindings_2')
-        - if Current.user.identities.where(provider: 'discord').empty?
+        - unless Current.user.identities.where(provider: 'discord').empty?
           = link_to image_tag(asset_pack_path('media/images/discord.png')), user_discord_omniauth_authorize_path, method: :post, title: 'Discord', class: 'binding'
         - else
           p= t('external_services.bindings_existed')

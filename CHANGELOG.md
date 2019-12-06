@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - new error pages
+- new icons
 
 ### Modified
 - generate token after expiration

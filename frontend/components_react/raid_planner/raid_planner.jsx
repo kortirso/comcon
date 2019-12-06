@@ -47,7 +47,7 @@ export default class RaidPlanner extends React.Component {
     return Object.entries(byClass).map(([key, value]) => {
       return (
         <div className="role_by_class" key={key}>
-          <span>{this.props.locale === 'en' ? this._capitalize(key) : classes[this._capitalize(key)]}</span>
+          <span className={`${key}_class_icon class_icon`}></span>
           <input value={value === 0 ? '' : value} onChange={(event) => this.props.onChangeClassAmount(role, key, event.target.value)} />
         </div>
       )

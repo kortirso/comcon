@@ -13,4 +13,4 @@
       p= link_to t('custom_errors.reset_password.forgot'), restore_password_users_path, class: 'forgot_password'
       .form-group.other_services
         p= t('session.linking')
-        = link_to '', user_discord_omniauth_authorize_path, method: :post, title: "#{t('session.login_through')} Discord", class: 'icon_social discord'
+        = link_to image_tag(asset_pack_path('media/images/discord.png')), user_discord_omniauth_authorize_path, method: :post, title: "#{t('session.login_through')} Discord", class: 'icon_social'
