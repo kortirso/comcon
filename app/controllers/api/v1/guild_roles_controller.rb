@@ -17,6 +17,7 @@ module Api
         authorize! @guild, with: GuildRolePolicy
         result = CreateGuildRole.call(guild: @guild, character: @character, name: params[:guild_role][:name])
         if result.success?
+          CheckAddedHeadRole.call(guild_role: result.guild_role)
           render json: result.guild_role, status: 201
         else
           render json: { errors: result.message }, status: 409
@@ -31,6 +32,7 @@ module Api
         authorize! @guild_role
         guild_role_form = GuildRoleForm.new(@guild_role.attributes.merge(guild: @guild, character: @character, name: params[:guild_role][:name]))
         if guild_role_form.persist?
+          CheckAddedHeadRole.call(guild_role: guild_role_form.guild_role)
           render json: guild_role_form.guild_role, status: 200
         else
           render json: { errors: guild_role_form.errors.full_messages }, status: 409

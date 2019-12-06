@@ -39,6 +39,12 @@ RSpec.describe 'GuildRoles API' do
           expect { request }.to change { GuildRole.count }.by(1)
         end
 
+        it 'and calls CheckAddedHeadRole' do
+          expect(CheckAddedHeadRole).to receive(:call).and_call_original
+
+          request
+        end
+
         context 'in answer' do
           before { request }
 
@@ -117,6 +123,12 @@ RSpec.describe 'GuildRoles API' do
             guild_role.reload
 
             expect(guild_role.name).to eq 'rl'
+          end
+
+          it 'and calls CheckAddedHeadRole' do
+            expect(CheckAddedHeadRole).to receive(:call).and_call_original
+
+            request
           end
 
           context 'in answer' do

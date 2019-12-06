@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - remove capitalize for guild name
 - send guild invite notifications if only delivery exists in guild's settings
 - create delivery about guild invite only for users that does not have it
+- create delivery about guild invite after creating gm role for user if user does not have it
 
 ## [0.9.7] - 2019-12-05
 ### Added
