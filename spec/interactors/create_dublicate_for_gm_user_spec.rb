@@ -32,7 +32,24 @@ describe CreateDublicateForGmUser do
         end
       end
 
-      context 'for existed user notification' do
+      context 'for existed user notification, user has delivery' do
+        let!(:user_notification) { create :notification, event: 'guild_request_creation', status: 1 }
+        let!(:gm) { create :character, guild: delivery.deliveriable }
+        let!(:guild_role) { create :guild_role, character: gm, guild: delivery.deliveriable, name: 'gm' }
+        let!(:existed_delivery) { create :delivery, deliveriable: gm.user, notification: user_notification }
+
+        it 'succeeds' do
+          expect(interactor).to be_a_success
+        end
+
+        it 'and does not call CreateDeliveryWithParams' do
+          expect(CreateDeliveryWithParams).to_not receive(:call).and_call_original
+
+          interactor
+        end
+      end
+
+      context 'for existed user notification, user does not have delivery' do
         let!(:user_notification) { create :notification, event: 'guild_request_creation', status: 1 }
         let!(:gm) { create :character, guild: delivery.deliveriable }
         let!(:guild_role) { create :guild_role, character: gm, guild: delivery.deliveriable, name: 'gm' }
