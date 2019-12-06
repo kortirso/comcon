@@ -14,7 +14,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
       end
 
       it 'and sets flash message with error' do
-        expect(request.flash[:error]).to eq 'Access Error'
+        expect(request.flash[:error]).to eq 'Access is forbidden'
       end
     end
 

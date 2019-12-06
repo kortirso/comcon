@@ -31,7 +31,7 @@ RSpec.describe GuildsController, type: :controller do
         it 'renders error template' do
           get :show, params: { locale: 'en', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -83,7 +83,7 @@ RSpec.describe GuildsController, type: :controller do
         it 'renders error template' do
           get :edit, params: { locale: 'en', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -117,7 +117,7 @@ RSpec.describe GuildsController, type: :controller do
         it 'renders error template' do
           get :management, params: { locale: 'en', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -151,7 +151,7 @@ RSpec.describe GuildsController, type: :controller do
         it 'renders error template' do
           get :statics, params: { locale: 'en', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -185,7 +185,7 @@ RSpec.describe GuildsController, type: :controller do
         it 'renders error template' do
           get :notifications, params: { locale: 'en', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 

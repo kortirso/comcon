@@ -33,12 +33,12 @@ class CharactersController < ApplicationController
 
   def find_character_by_slug
     @character = Character.find_by(slug: params[:id])
-    render_error('Object is not found') if @character.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
   end
 
   def find_character
     @character = Character.where(user: Current.user).find_by(id: params[:id])
-    render_error('Object is not found') if @character.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
   end
 
   def find_character_professions

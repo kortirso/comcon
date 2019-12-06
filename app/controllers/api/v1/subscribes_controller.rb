@@ -18,12 +18,12 @@ module Api
 
       def find_event
         @event = Event.find_by(id: params[:subscribe][:event_id])
-        render_error('Object is not found') if @event.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @event.nil?
       end
 
       def find_subscribe
         @subscribe = Subscribe.find_by(id: params[:id])
-        render_error('Object is not found') if @subscribe.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @subscribe.nil?
       end
 
       def perform_subscribe(options, status)

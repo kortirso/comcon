@@ -126,6 +126,9 @@ ru:
     passwords_different: Пароли не совпадают
     character_in_guild: Персонаж не может быть ГМом новой гильдии
     object_not_found: Объект не найден
+    forbidden: Доступ запрещен
+    not_confirmed: Электронная почта аккаунта не подтверждена
+    route_not_found: Маршрут не найден
     reset_password:
       sent_email: Мы отправили электронное письмо со ссылкой для сброса пароля
       created_new_password: Вы установили новый пароль, теперь можете входить
@@ -153,6 +156,7 @@ ru:
     sign_up: Регистрация
     settings: Настройки
     logout: Выход
+    back: Вернуться назад
   settings:
     label: Настройки
     personal: Личная информация

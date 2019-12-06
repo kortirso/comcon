@@ -19,7 +19,7 @@ module Users
 
     def provides_callback
       I18n.locale = session[:omniauth_login_locale] || I18n.default_locale
-      return redirect_to root_path, flash: { error: 'Access Error' } if request.env['omniauth.auth'].nil?
+      return redirect_to root_path, flash: { error: t('custom_errors.forbidden') } if request.env['omniauth.auth'].nil?
       return attach_oauth_to_account if external_services_tag_is_true?
       check_oauth
     end

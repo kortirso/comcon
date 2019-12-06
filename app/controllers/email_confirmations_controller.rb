@@ -15,11 +15,11 @@ class EmailConfirmationsController < ApplicationController
 
   def find_user
     @user = User.find_by(email: params[:email])
-    render_error('User is not found') if @user.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @user.nil?
   end
 
   def check_token
     result = ValidateUserEmail.call(user: @user, confirmation_token: params[:confirmation_token])
-    render_error(result.message) unless result.success?
+    render_error(result.message, 400) unless result.success?
   end
 end

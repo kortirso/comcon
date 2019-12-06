@@ -122,22 +122,22 @@ module Api
 
       def find_guild_by_slug
         @guild = Guild.find_by(slug: params[:id])
-        render_error('Object is not found') if @guild.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end
 
       def find_guild
         @guild = Guild.find_by(id: params[:id])
-        render_error('Object is not found') if @guild.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end
 
       def find_guild_character
         @character = @guild.characters.where.not(user_id: Current.user.id).find_by(id: params[:character_id])
-        render_error('Object is not found') if @character.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
 
       def find_user_character_in_guild
         @character = @guild.characters.where(user_id: Current.user.id).find_by(id: params[:character_id])
-        render_error('Object is not found') if @character.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
 
       def find_guild_characters

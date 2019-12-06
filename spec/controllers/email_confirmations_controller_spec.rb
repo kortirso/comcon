@@ -4,7 +4,7 @@ RSpec.describe EmailConfirmationsController, type: :controller do
       it 'renders shared#error' do
         get :index, params: { locale: 'ru', email: 'something@gmail.com' }
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/404'
       end
     end
 
@@ -14,7 +14,7 @@ RSpec.describe EmailConfirmationsController, type: :controller do
       it 'renders shared#error' do
         get :index, params: { locale: 'ru', email: user.email, confirmation_token: '' }
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/default'
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe EmailConfirmationsController, type: :controller do
         it 'renders shared#error' do
           get :index, params: { locale: 'ru', email: user.email, confirmation_token: 'something' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/default'
         end
       end
 

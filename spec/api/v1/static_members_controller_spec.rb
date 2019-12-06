@@ -13,8 +13,8 @@ RSpec.describe 'StaticMembers API' do
       context 'for unexisted static member' do
         before { delete '/api/v1/static_members/unexisted.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -29,12 +29,12 @@ RSpec.describe 'StaticMembers API' do
         context 'for unavailable static member' do
           before { delete "/api/v1/static_members/#{static_member.id}.json", params: { access_token: access_token } }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 403' do
+            expect(response.status).to eq 403
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)).to eq('error' => 'Forbidden')
+            expect(JSON.parse(response.body)).to eq('error' => 'Access is forbidden')
           end
         end
 

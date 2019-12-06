@@ -93,7 +93,7 @@ RSpec.describe WorldsController, type: :controller do
         it 'renders error template' do
           get :edit, params: { locale: 'ru', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -125,7 +125,7 @@ RSpec.describe WorldsController, type: :controller do
         it 'and renders error template' do
           request
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -187,7 +187,7 @@ RSpec.describe WorldsController, type: :controller do
         it 'and renders error template' do
           request
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 

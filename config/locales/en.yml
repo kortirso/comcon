@@ -115,6 +115,9 @@ en:
     passwords_different: Passwords are different
     character_in_guild: Character can't be GM of the new guild
     object_not_found: Object is not found
+    forbidden: Access is forbidden
+    not_confirmed: Account's email is not confirmed
+    route_not_found: Route is not exist
     reset_password:
       sent_email: We sent email with link for reset password page
       created_new_password: You created new password, now you can login
@@ -142,6 +145,7 @@ en:
     sign_up: Sign Up
     settings: Settings
     logout: Logout
+    back: Go back
   settings:
     label: Settings
     personal: Personal settings

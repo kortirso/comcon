@@ -15,7 +15,7 @@ RSpec.describe StaticInvitesController, type: :controller do
         it 'renders error page' do
           get :approve, params: { locale: 'en', id: 'unexisted' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -37,7 +37,7 @@ RSpec.describe StaticInvitesController, type: :controller do
           it 'and renders error page' do
             request
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/404'
           end
         end
 
@@ -89,7 +89,7 @@ RSpec.describe StaticInvitesController, type: :controller do
         it 'renders error page' do
           get :decline, params: { locale: 'en', id: 'unexisted' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -114,7 +114,7 @@ RSpec.describe StaticInvitesController, type: :controller do
           it 'and renders error page' do
             request
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/404'
           end
         end
 

@@ -29,7 +29,7 @@ RSpec.describe UsersController, type: :controller do
         it 'renders error template' do
           get :edit, params: { locale: 'ru', id: 999 }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -61,7 +61,7 @@ RSpec.describe UsersController, type: :controller do
         it 'and renders error template' do
           request
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -123,7 +123,7 @@ RSpec.describe UsersController, type: :controller do
         it 'and renders error template' do
           request
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -170,7 +170,7 @@ RSpec.describe UsersController, type: :controller do
       it 'and renders error template' do
         request
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/404'
       end
     end
 
@@ -187,7 +187,7 @@ RSpec.describe UsersController, type: :controller do
       it 'and renders error template' do
         request
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/default'
       end
     end
 
@@ -211,19 +211,19 @@ RSpec.describe UsersController, type: :controller do
   describe 'GET #new_password' do
     let!(:user) { create :user }
 
-    context 'for unexisted user' do
+    context 'without reset_password_token' do
       it 'render error' do
         get :new_password, params: { locale: 'ru' }
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/default'
       end
     end
 
-    context 'for existed user without token' do
+    context 'for unexisted user with token' do
       it 'render error' do
-        get :new_password, params: { locale: 'ru', email: 'something@gmail.com' }
+        get :new_password, params: { locale: 'ru', email: 'unexisted', reset_password_token: '123456' }
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/404'
       end
     end
 
@@ -231,7 +231,7 @@ RSpec.describe UsersController, type: :controller do
       it 'render error' do
         get :new_password, params: { locale: 'ru', email: user.email, reset_password_token: '123456' }
 
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/404'
       end
     end
 
@@ -258,7 +258,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'and render error' do
-        expect(response).to render_template 'shared/error'
+        expect(response).to render_template 'shared/404'
       end
     end
 
@@ -275,7 +275,7 @@ RSpec.describe UsersController, type: :controller do
         end
 
         it 'and render error' do
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 

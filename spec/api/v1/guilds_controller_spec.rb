@@ -58,8 +58,8 @@ RSpec.describe 'Guilds API' do
       context 'for unexisted guild' do
         before { get '/api/v1/guilds/unexisted.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -173,8 +173,8 @@ RSpec.describe 'Guilds API' do
       context 'for unexisted guild' do
         before { patch '/api/v1/guilds/unexisted.json', params: { access_token: access_token, guild: { name: '123', description: '123' } } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -276,8 +276,8 @@ RSpec.describe 'Guilds API' do
       context 'for unexisted guild' do
         before { get '/api/v1/guilds/999/characters.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -325,8 +325,8 @@ RSpec.describe 'Guilds API' do
       context 'for unexisted guild' do
         before { post '/api/v1/guilds/999/kick_character.json', params: { access_token: access_token, character_id: 999 } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -338,8 +338,8 @@ RSpec.describe 'Guilds API' do
         context 'for unexisted character' do
           before { post "/api/v1/guilds/#{guild.slug}/kick_character.json", params: { access_token: access_token, character_id: 999 } }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns error message' do
@@ -400,8 +400,8 @@ RSpec.describe 'Guilds API' do
       context 'for unexisted guild' do
         before { post '/api/v1/guilds/999/leave_character.json', params: { access_token: access_token, character_id: 999 } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -413,8 +413,8 @@ RSpec.describe 'Guilds API' do
         context 'for unexisted character' do
           before { post "/api/v1/guilds/#{guild.slug}/leave_character.json", params: { access_token: access_token, character_id: 999 } }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns error message' do
@@ -535,8 +535,8 @@ RSpec.describe 'Guilds API' do
       context 'for unexisted guild' do
         before { get '/api/v1/guilds/unexisted/characters_for_request.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do

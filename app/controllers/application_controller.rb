@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActionView::MissingTemplate, with: :invalid_request
 
   def catch_route_error
-    render_error('Route is not exist')
+    render_error(t('custom_errors.route_not_found'), 400)
   end
 
   private
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   def email_confirmed?
-    render_error('Your email is not confirmed') unless current_user.confirmed?
+    render_error(t('custom_errors.not_confirmed'), 401) unless current_user.confirmed?
   end
 
   def json_request?
@@ -60,19 +60,24 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    json_request? ? render_json_error('Forbidden') : render_html_error('Forbidden')
+    json_request? ? render_json_error(t('custom_errors.forbidden'), 403) : render_html_error(t('custom_errors.forbidden'), 403)
   end
 
-  def render_error(message = 'Error')
-    json_request? ? render_json_error(message) : render_html_error(message)
+  def render_error(message = 'Error', status = 400)
+    json_request? ? render_json_error(message, status) : render_html_error(message, status)
   end
 
-  def render_json_error(message = 'Error')
-    render json: { error: message }, status: 400
+  def render_json_error(message = 'Error', status = 400)
+    render json: { error: message }, status: status
   end
 
-  def render_html_error(message = 'Error')
-    flash.now[:danger] = message
-    render template: 'shared/error', status: 404
+  def render_html_error(message = 'Error', status = 400)
+    @message = message
+    case status
+      when 404 then render template: 'shared/404', status: 404
+      when 403 then render template: 'shared/403', status: 403
+      when 401 then render template: 'shared/401', status: 401
+      else render template: 'shared/default', status: 400
+    end
   end
 end

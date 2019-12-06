@@ -67,30 +67,30 @@ module Api
       def find_invite_creator
         if params[:guild_id].present?
           @invite_creator = Guild.find_by(id: params[:guild_id])
-          render_error('Object is not found') if @invite_creator.nil?
+          render_error(t('custom_errors.object_not_found'), 404) if @invite_creator.nil?
           @from_guild = 'true'
         elsif params[:character_id].present?
           @invite_creator = Character.where(user_id: Current.user.id, guild_id: nil).find_by(id: params[:character_id])
-          render_error('Object is not found') if @invite_creator.nil?
+          render_error(t('custom_errors.object_not_found'), 404) if @invite_creator.nil?
           @from_guild = 'false'
         else
-          render_error('Guild ID or Character ID must be presented')
+          render_error('Guild ID or Character ID must be presented', 400)
         end
       end
 
       def find_guild
         @guild = Guild.find_by(id: params[:guild_invite][:guild_id])
-        render_error('Object is not found') if @guild.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end
 
       def find_character
         @character = Character.find_by(id: params[:guild_invite][:character_id])
-        render_error('Object is not found') if @character.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
 
       def find_guild_invite
         @guild_invite = GuildInvite.find_by(id: params[:id])
-        render_error('Object is not found') if @guild_invite.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild_invite.nil?
       end
     end
   end

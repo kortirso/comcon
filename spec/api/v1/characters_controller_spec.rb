@@ -11,8 +11,8 @@ RSpec.describe 'Characters API' do
       context 'for unexisted character' do
         before { get '/api/v1/characters/unknown.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -143,8 +143,8 @@ RSpec.describe 'Characters API' do
       context 'for unexisted character' do
         before { patch '/api/v1/characters/unknown.json', params: { access_token: access_token, character: { name: '1' } } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -373,8 +373,8 @@ RSpec.describe 'Characters API' do
       context 'for unexisted character' do
         before { post '/api/v1/characters/unknown/upload_recipes.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -388,8 +388,8 @@ RSpec.describe 'Characters API' do
         context 'for unexisted profession' do
           before { post "/api/v1/characters/#{character.id}/upload_recipes.json", params: { access_token: access_token, profession_id: 'unexisted' } }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns error message' do

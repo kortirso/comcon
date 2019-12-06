@@ -72,8 +72,8 @@ RSpec.describe 'GuildRoles API' do
       context 'for unexisted guild role' do
         before { patch '/api/v1/guild_roles/unknown.json', params: { access_token: access_token, character: { name: '1' } } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -160,8 +160,8 @@ RSpec.describe 'GuildRoles API' do
         context 'in answer' do
           before { request }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns error message' do

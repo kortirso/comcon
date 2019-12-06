@@ -22,6 +22,6 @@ class EventsController < ApplicationController
 
   def find_event_by_slug
     @event = Event.find_by(slug: params[:id])
-    render_error('Object is not found') if @event.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @event.nil?
   end
 end

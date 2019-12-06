@@ -15,6 +15,6 @@ class StaticInvitesController < ApplicationController
 
   def find_static_invite
     @static_invite = Current.user.static_invites.find_by(id: params[:id])
-    render_error('Object is not found') if @static_invite.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @static_invite.nil?
   end
 end

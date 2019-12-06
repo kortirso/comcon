@@ -90,7 +90,7 @@ module Api
 
       def find_character
         @character = Current.user.characters.find_by(id: params[:id])
-        render_error('Object is not found') if @character.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
 
       def search_characters
@@ -111,7 +111,7 @@ module Api
 
       def find_profession
         @profession = Profession.recipeable.find_by(id: params[:profession_id])
-        render_error('Object is not found') if @profession.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @profession.nil?
       end
 
       def create_additional_structures_for_character(character)

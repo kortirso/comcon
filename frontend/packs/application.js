@@ -5,6 +5,8 @@ import "components/guest_page/guest_page";
 import "components/guest_navigation/guest_navigation";
 import "components/footer/footer";
 
+import "components/errors/errors";
+
 import "components/page/page";
 import "components/navigation/navigation";
 import "components/flashes/flashes";

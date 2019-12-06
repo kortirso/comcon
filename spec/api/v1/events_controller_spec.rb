@@ -88,8 +88,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { get '/api/v1/events/unexisted.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -218,8 +218,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { get '/api/v1/events/unexisted/edit.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -263,8 +263,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { patch '/api/v1/events/unexisted.json', params: { access_token: access_token, event: { name: '123' } } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -352,8 +352,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { delete '/api/v1/events/unexisted.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -403,8 +403,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { get '/api/v1/events/unexisted/subscribers.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -449,8 +449,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { get '/api/v1/events/unexisted/user_characters.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -550,8 +550,8 @@ RSpec.describe 'Events API' do
       context 'for unexisted event' do
         before { get '/api/v1/events/unexisted/characters_without_subscribe.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do

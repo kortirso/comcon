@@ -87,12 +87,12 @@ module Api
       def find_guild
         return unless params[:static][:staticable_type] == 'Guild'
         @guild = Guild.find_by(id: params[:static][:staticable_id])
-        render_error('Object is not found') if @guild.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end
 
       def find_static
         @static = Static.find_by(id: params[:id])
-        render_error('Object is not found') if @static.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @static.nil?
       end
 
       def find_user_guilds

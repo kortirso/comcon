@@ -23,8 +23,8 @@ RSpec.describe 'Subscribes API' do
         context 'in answer' do
           before { request }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns error message' do
@@ -79,8 +79,8 @@ RSpec.describe 'Subscribes API' do
       context 'for unexisted subscribe' do
         before { patch '/api/v1/subscribes/999.json', params: { subscribe: { status: 'approved' }, access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -101,12 +101,12 @@ RSpec.describe 'Subscribes API' do
         context 'in answer' do
           before { request }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 403' do
+            expect(response.status).to eq 403
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)).to eq('error' => 'Forbidden')
+            expect(JSON.parse(response.body)).to eq('error' => 'Access is forbidden')
           end
         end
       end

@@ -60,8 +60,8 @@ RSpec.describe 'Statics API' do
       context 'for unexisted static' do
         before { get '/api/v1/statics/unexisted.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -75,12 +75,12 @@ RSpec.describe 'Statics API' do
         context 'for unavailable static' do
           before { get "/api/v1/statics/#{static.id}.json", params: { access_token: access_token } }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 403' do
+            expect(response.status).to eq 403
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)).to eq('error' => 'Forbidden')
+            expect(JSON.parse(response.body)).to eq('error' => 'Access is forbidden')
           end
         end
 
@@ -128,8 +128,8 @@ RSpec.describe 'Statics API' do
         context 'in answer' do
           before { request }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns error message' do
@@ -229,8 +229,8 @@ RSpec.describe 'Statics API' do
       context 'for unexisted static' do
         before { patch '/api/v1/statics/unexisted.json', params: { access_token: access_token, static: { name: '123', description: '123' } } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -336,8 +336,8 @@ RSpec.describe 'Statics API' do
       context 'for unexisted static' do
         before { get '/api/v1/statics/unexisted/members.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -351,12 +351,12 @@ RSpec.describe 'Statics API' do
         context 'for unavailable static' do
           before { get "/api/v1/statics/#{static.id}/members.json", params: { access_token: access_token } }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 403' do
+            expect(response.status).to eq 403
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)).to eq('error' => 'Forbidden')
+            expect(JSON.parse(response.body)).to eq('error' => 'Access is forbidden')
           end
         end
 

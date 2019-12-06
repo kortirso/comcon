@@ -50,17 +50,17 @@ module Api
 
       def find_guild_role
         @guild_role = GuildRole.find_by(id: params[:id])
-        render_error('Object is not found') if @guild_role.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild_role.nil?
       end
 
       def find_guild
         @guild = params[:guild_role][:guild_id].present? ? Guild.find_by(id: params[:guild_role][:guild_id]) : @guild_role&.guild
-        render_error('Object is not found') if @guild.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end
 
       def find_character
         @character = params[:guild_role][:character_id].present? ? Character.find_by(id: params[:guild_role][:character_id]) : @guild_role&.character
-        render_error('Object is not found') if @character.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
     end
   end

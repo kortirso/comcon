@@ -13,7 +13,7 @@ RSpec.shared_examples_for 'Admin Auth' do
     it 'renders error page' do
       do_request
 
-      expect(response).to render_template 'shared/error'
+      expect(response).to render_template 'shared/403'
     end
   end
 end

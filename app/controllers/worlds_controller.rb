@@ -37,7 +37,7 @@ class WorldsController < ApplicationController
 
   def find_world
     @world = World.find_by(id: params[:id])
-    render_error('Object is not found') if @world.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @world.nil?
   end
 
   def world_params

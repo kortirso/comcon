@@ -33,7 +33,7 @@ RSpec.describe StaticsController, type: :controller do
         it 'renders error page' do
           get :show, params: { locale: 'en', id: 'unexisted' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -75,7 +75,7 @@ RSpec.describe StaticsController, type: :controller do
           it 'renders error page' do
             get :new, params: { locale: 'en', guild_id: 'unexisted' }
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/404'
           end
         end
 
@@ -86,7 +86,7 @@ RSpec.describe StaticsController, type: :controller do
             it 'renders error page' do
               get :new, params: { locale: 'en', guild_id: guild.id }
 
-              expect(response).to render_template 'shared/error'
+              expect(response).to render_template 'shared/403'
             end
           end
 
@@ -124,7 +124,7 @@ RSpec.describe StaticsController, type: :controller do
         it 'renders error page' do
           get :edit, params: { locale: 'en', id: 'unexisted' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -133,7 +133,7 @@ RSpec.describe StaticsController, type: :controller do
           it 'renders error page' do
             get :edit, params: { locale: 'en', id: static.slug }
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/403'
           end
         end
 
@@ -169,7 +169,7 @@ RSpec.describe StaticsController, type: :controller do
         it 'renders error page' do
           delete :destroy, params: { locale: 'en', id: 'unexisted' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -184,7 +184,7 @@ RSpec.describe StaticsController, type: :controller do
           it 'and renders error page' do
             request
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/403'
           end
         end
 
@@ -225,7 +225,7 @@ RSpec.describe StaticsController, type: :controller do
         it 'renders error page' do
           get :management, params: { locale: 'en', id: 'unexisted' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -234,7 +234,7 @@ RSpec.describe StaticsController, type: :controller do
           it 'renders error page' do
             get :management, params: { locale: 'en', id: static.slug }
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/403'
           end
         end
 

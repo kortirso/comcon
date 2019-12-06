@@ -21,7 +21,7 @@ module Api
 
       def find_deliveriable
         @deliveriable = params[:delivery][:deliveriable_type].constantize.find_by(id: params[:delivery][:deliveriable_id])
-        render_error('Object is not found') if @deliveriable.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @deliveriable.nil?
       end
 
       def delivery_params

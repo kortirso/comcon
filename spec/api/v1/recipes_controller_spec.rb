@@ -39,8 +39,8 @@ RSpec.describe 'Recipes API' do
       context 'for unexisted recipe' do
         before { get '/api/v1/recipes/unknown.json', params: { access_token: access_token } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do
@@ -140,8 +140,8 @@ RSpec.describe 'Recipes API' do
       context 'for unexisted recipe' do
         before { patch '/api/v1/recipes/unknown.json', params: { access_token: access_token, recipe: { name: '1' } } }
 
-        it 'returns status 400' do
-          expect(response.status).to eq 400
+        it 'returns status 404' do
+          expect(response.status).to eq 404
         end
 
         it 'and returns error message' do

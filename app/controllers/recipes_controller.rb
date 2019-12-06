@@ -17,6 +17,6 @@ class RecipesController < ApplicationController
 
   def find_recipe
     @recipe = Recipe.find_by(id: params[:id])
-    render_error('Object is not found') if @recipe.nil?
+    render_error(t('custom_errors.object_not_found'), 404) if @recipe.nil?
   end
 end

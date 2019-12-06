@@ -164,6 +164,12 @@ body {
       }
     }
 
+    &.alert-alert {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+
     @media screen and (max-width: 796px) {
       width: 100%;
     }

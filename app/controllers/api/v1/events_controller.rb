@@ -176,11 +176,11 @@ module Api
 
       def find_event
         @event = Event.find_by(id: params[:id])
-        render_error('Object is not found') if @event.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @event.nil?
       end
 
       def check_event
-        render_error('Event is not for static') if @event.eventable_type != 'Static'
+        render_error('Event is not for static', 400) if @event.eventable_type != 'Static'
       end
 
       def find_characters

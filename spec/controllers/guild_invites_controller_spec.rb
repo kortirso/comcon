@@ -12,7 +12,7 @@ RSpec.describe GuildInvitesController, type: :controller do
         it 'renders error page' do
           get :new, params: { locale: 'en' }
 
-          expect(response).to render_template 'shared/error'
+          expect(response).to render_template 'shared/404'
         end
       end
 
@@ -21,7 +21,7 @@ RSpec.describe GuildInvitesController, type: :controller do
           it 'renders error page' do
             get :new, params: { locale: 'en', character_id: 'unexisted' }
 
-            expect(response).to render_template 'shared/error'
+            expect(response).to render_template 'shared/404'
           end
         end
 
@@ -32,7 +32,7 @@ RSpec.describe GuildInvitesController, type: :controller do
             it 'renders error page' do
               get :new, params: { locale: 'en', character_id: character.id }
 
-              expect(response).to render_template 'shared/error'
+              expect(response).to render_template 'shared/404'
             end
           end
 
@@ -43,7 +43,7 @@ RSpec.describe GuildInvitesController, type: :controller do
             it 'renders error page' do
               get :new, params: { locale: 'en', character_id: character.id }
 
-              expect(response).to render_template 'shared/error'
+              expect(response).to render_template 'shared/404'
             end
           end
 

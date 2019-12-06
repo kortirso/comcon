@@ -1,0 +1,6 @@
+.error_page
+  .back_button
+    = link_to t('navigation.back'), url_for(:back)
+  .error_content
+    = image_tag(asset_pack_path('media/images/errors/401.png'))
+    p= @message

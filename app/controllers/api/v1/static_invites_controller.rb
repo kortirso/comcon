@@ -33,12 +33,12 @@ module Api
 
       def find_static
         @static = Static.find_by(id: params[:static_invite][:static_id])
-        render_error('Object is not found') if @static.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @static.nil?
       end
 
       def find_character
         @character = Character.find_by(id: params[:static_invite][:character_id])
-        render_error('Object is not found') if @character.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
 
       def check_static_member
@@ -47,7 +47,7 @@ module Api
 
       def find_static_invite
         @static_invite = StaticInvite.find_by(id: params[:id])
-        render_error('Object is not found') if @static_invite.nil?
+        render_error(t('custom_errors.object_not_found'), 404) if @static_invite.nil?
       end
 
       def create_static_member

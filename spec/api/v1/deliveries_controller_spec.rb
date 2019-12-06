@@ -21,8 +21,8 @@ RSpec.describe 'Deliveries API' do
         context 'in answer' do
           before { request }
 
-          it 'returns status 400' do
-            expect(response.status).to eq 400
+          it 'returns status 404' do
+            expect(response.status).to eq 404
           end
 
           it 'and returns errors' do
