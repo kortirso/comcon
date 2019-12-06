@@ -8,12 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - new error pages
 - new icons
-- remove guild invite notifications from user that lost gm role
+- remove guild invite notifications from user that lost gm role (if there are no gm role in any other guild)
 
 ### Modified
 - generate token after expiration
 - redirecting after deleting
 - remove capitalize for guild name
+- send guild invite notifications if only delivery exists in guild's settings
 
 ## [0.9.7] - 2019-12-05
 ### Added
