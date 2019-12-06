@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - generate token after expiration
 - redirecting after deleting
+- remove capitalize for guild name
 
 ## [0.9.7] - 2019-12-05
 ### Added

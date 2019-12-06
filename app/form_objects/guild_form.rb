@@ -17,7 +17,6 @@ class GuildForm
   attr_reader :guild
 
   def persist?
-    self.name = name.capitalize if name.present?
     self.world_fraction = id ? world_fraction : WorldFraction.find_by(world: world, fraction: fraction)
     return false unless valid?
     @guild = id ? Guild.find_by(id: id) : Guild.new
