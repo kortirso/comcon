@@ -3,4 +3,4 @@
   .inside_topbar
     .title= t('guild_invite.for_user', character_name: @character.full_name)
   main
-    = react_component('InviteFormForCharacter', character_id: @character.id, character_name: @character.full_name, fraction_id: @character.race.fraction_id, world_id: @character.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('InviteFormForCharacter', character_id: @character.id, character_name: @character.full_name, fraction_id: @character.race.fraction_id, world_id: @character.world_id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

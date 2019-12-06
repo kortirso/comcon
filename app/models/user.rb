@@ -2,6 +2,7 @@
 class User < ApplicationRecord
   include Personable
   include Deliveriable
+  include Tokenable
 
   devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 

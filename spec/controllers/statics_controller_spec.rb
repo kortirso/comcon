@@ -199,7 +199,7 @@ RSpec.describe StaticsController, type: :controller do
           it 'and redirects to guild management page' do
             request
 
-            expect(response).to redirect_to management_guild_en_path(guild.slug)
+            expect(response).to redirect_to statics_guild_en_path(guild.slug)
           end
         end
       end

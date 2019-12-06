@@ -3,4 +3,4 @@
   .inside_topbar
     .title= t('static.label')
   main
-    = react_component('StaticManagement', static_id: @static.id, fraction_id: @static.fraction_id, world_id: @static.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('StaticManagement', static_id: @static.id, fraction_id: @static.fraction_id, world_id: @static.world_id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

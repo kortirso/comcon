@@ -21,7 +21,7 @@ class StaticsController < ApplicationController
   def destroy
     authorize! @static, to: :edit?
     @static.destroy
-    redirect_to @static.staticable_type == 'Guild' ? management_guild_path(@static.staticable.slug) : statics_path
+    redirect_to @static.staticable_type == 'Guild' ? statics_guild_path(@static.staticable.slug) : statics_path
   end
 
   def management

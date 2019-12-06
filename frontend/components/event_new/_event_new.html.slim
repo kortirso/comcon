@@ -3,5 +3,5 @@
   .inside_topbar
     .title= t('events.creating')
   main
-    = react_component('EventForm', time_offset_value: Current.user.time_offset.value, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('EventForm', time_offset_value: Current.user.time_offset.value, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
     

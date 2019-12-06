@@ -3,4 +3,4 @@
   .inside_topbar
     .title= @character.full_name
   main
-    = react_component('CharacterForm', character_id: @character.id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('CharacterForm', character_id: @character.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

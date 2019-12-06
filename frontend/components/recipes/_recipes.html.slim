@@ -5,4 +5,4 @@
     .action
       = link_to t('recipes.add'), new_recipe_path, class: 'btn btn-primary btn-sm'
   main
-    = react_component('RecipesList', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('RecipesList', locale: I18n.locale.to_s, access_token: Current.user&.access_token)

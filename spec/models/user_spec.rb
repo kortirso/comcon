@@ -222,5 +222,45 @@ RSpec.describe User, type: :model do
         expect(user.has_characters_in_guild?(guild_id: guild2.id)).to eq true
       end
     end
+
+    describe '.generate_token' do
+      let!(:user) { create :user }
+
+      it 'updates token' do
+        expect { user.send(:generate_token) }.to change { user.token }.from(nil)
+      end
+
+      it 'and returns token' do
+        expect(user.send(:generate_token).is_a?(String)).to eq true
+      end
+    end
+
+    describe '.access_token' do
+      let!(:user) { create :user }
+
+      it 'returns user token if token is nil' do
+        expect(user.access_token).to eq user.token
+      end
+    end
+
+    context '.token_expired?' do
+      let!(:user) { create :user }
+
+      context 'for expired token' do
+        let(:token) { JwtService.new.json_response({ user: user }, (DateTime.now - 1.hour).to_i)[:access_token] }
+
+        it 'returns true' do
+          expect(user.send(:token_expired?, token)).to eq true
+        end
+      end
+
+      context 'for valid token' do
+        let(:token) { JwtService.new.json_response(user: user)[:access_token] }
+
+        it 'returns false' do
+          expect(user.send(:token_expired?, token)).to eq false
+        end
+      end
+    end
   end
 end

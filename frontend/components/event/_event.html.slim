@@ -13,4 +13,4 @@
         user_subscribed: Subscribe.where(event_id: @event.id, character_id: Current.user.characters.pluck(:id)).exists?,
         time_offset_value: Current.user.time_offset.value,
         locale: I18n.locale.to_s,
-        access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+        access_token: Current.user&.access_token)

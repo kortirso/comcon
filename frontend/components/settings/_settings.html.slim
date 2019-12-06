@@ -10,4 +10,4 @@
         li= link_to t('settings.notifications'), notifications_settings_path
   main
     .settings
-      = react_component('UserSettings', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+      = react_component('UserSettings', locale: I18n.locale.to_s, access_token: Current.user&.access_token)

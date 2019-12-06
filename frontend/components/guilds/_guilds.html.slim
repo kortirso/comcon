@@ -4,4 +4,4 @@
     .title= t('navigation.guilds')
     .action= link_to t('guilds.add'), new_guild_path, class: 'btn btn-primary btn-sm'
   main
-    = react_component('GuildsList', locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('GuildsList', locale: I18n.locale.to_s, access_token: Current.user&.access_token)

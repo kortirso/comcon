@@ -11,4 +11,4 @@
       = link_to t('management.edit_guild'), edit_guild_path(@guild.slug), class: 'btn btn-primary btn-sm'
   main
     .guild_management
-      = react_component('InviteFormForGuild', guild_id: @guild.id, guild_name: @guild.full_name, fraction_id: @guild.fraction_id, world_id: @guild.world_id, locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+      = react_component('InviteFormForGuild', guild_id: @guild.id, guild_name: @guild.full_name, fraction_id: @guild.fraction_id, world_id: @guild.world_id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

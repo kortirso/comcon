@@ -3,4 +3,4 @@
   .inside_topbar
     .title= @static.name
   main
-    = react_component('StaticForm', static_id: @static.id, guild_id: params[:guild_id], locale: I18n.locale.to_s, access_token: JwtService.new.json_response(user: Current.user)[:access_token])
+    = react_component('StaticForm', static_id: @static.id, guild_id: params[:guild_id], locale: I18n.locale.to_s, access_token: Current.user&.access_token)

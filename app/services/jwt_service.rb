@@ -17,6 +17,8 @@ class JwtService
   # decode token
   def decode(args = {})
     JWT.decode(args[:access_token], jwt_secret)[0]
+  rescue
+    nil
   end
 
   private
