@@ -20,7 +20,7 @@ class Character < ApplicationRecord
   has_many :owned_events, class_name: 'Event', foreign_key: 'owner_id', dependent: :destroy
 
   has_many :subscribes, dependent: :destroy
-  has_many :events, through: :subscribes
+  has_many :events, through: :subscribes, source: :subscribeable, source_type: 'Event'
 
   has_many :character_roles, dependent: :destroy
   has_many :roles, through: :character_roles

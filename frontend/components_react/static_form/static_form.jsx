@@ -5,6 +5,7 @@ import I18nData from './i18n_data.json'
 const $ = require("jquery")
 
 import ErrorView from '../error_view/error_view'
+import RaidPlanner from '../raid_planner/raid_planner'
 
 let strings = new LocalizedStrings(I18nData)
 
@@ -25,7 +26,8 @@ export default class StaticForm extends React.Component {
       description: '',
       staticId: props.static_id,
       privy: true,
-      errors: []
+      errors: [],
+      groupRoles: {},
     }
   }
 
@@ -39,7 +41,7 @@ export default class StaticForm extends React.Component {
       method: 'GET',
       url: `/api/v1/statics/form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({userCharacters: data.characters, currentCharacterId: this.state.currentGuildId === '0' ? data.characters[0].id : '0', userGuilds: data.guilds}, () => {
+        this.setState({userCharacters: data.characters, currentCharacterId: this.state.currentGuildId === '0' ? data.characters[0].id : '0', userGuilds: data.guilds, groupRoles: data.group_roles}, () => {
           this._getStatic()
         })
       }
@@ -53,7 +55,7 @@ export default class StaticForm extends React.Component {
       url: `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const object = data['static']
-        this.setState({name: object.name, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id.toString() : '0', privy: object.privy})
+        this.setState({name: object.name, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id.toString() : '0', privy: object.privy, groupRoles: object.group_role === null ? this.state.groupRoles : object.group_role})
       }
     })
   }
@@ -67,7 +69,7 @@ export default class StaticForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: url,
-      data: { static: { name: state.name, staticable_type: staticableType, staticable_id: staticableId, description: state.description, privy: state.privy } },
+      data: { static: { name: state.name, staticable_type: staticableType, staticable_id: staticableId, description: state.description, privy: state.privy, group_roles: state.groupRoles } },
       success: (data) => {
         if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
         else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/statics`)
@@ -85,7 +87,7 @@ export default class StaticForm extends React.Component {
     $.ajax({
       method: 'PATCH',
       url: url,
-      data: { static: { name: state.name, description: state.description, privy: state.privy } },
+      data: { static: { name: state.name, description: state.description, privy: state.privy, group_roles: state.groupRoles } },
       success: (data) => {
         if (data['static'].guild_slug === null) window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/statics`)
         else window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data['static'].guild_slug}/statics`)
@@ -119,8 +121,20 @@ export default class StaticForm extends React.Component {
   }
 
   _renderSubmitButton() {
-    if (this.state.staticId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
-    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
+    if (this.state.staticId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm with_top_margin" onClick={this._onCreate.bind(this)} />
+    return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm with_top_margin" onClick={this._onUpdate.bind(this)} />
+  }
+
+  _onChangeAmount(key, value) {
+    let groupRoles = this.state.groupRoles
+    groupRoles[key]["amount"] = value
+    this.setState({groupRoles: groupRoles})
+  }
+
+  _onChangeClassAmount(role, key, value) {
+    let groupRoles = this.state.groupRoles
+    groupRoles[role]["by_class"][key] = value
+    this.setState({groupRoles: groupRoles})
   }
 
   render() {
@@ -174,6 +188,11 @@ export default class StaticForm extends React.Component {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <RaidPlanner groupRoles={this.state.groupRoles} onChangeAmount={this._onChangeAmount.bind(this)} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
           </div>
         </div>
         {this._renderSubmitButton()}

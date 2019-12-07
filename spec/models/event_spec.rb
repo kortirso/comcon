@@ -85,7 +85,7 @@ RSpec.describe Event, type: :model do
         end
 
         context 'with unknown signing' do
-          let!(:subscribe) { create :subscribe, event: guild_event, character: character3, status: 1 }
+          let!(:subscribe) { create :subscribe, subscribeable: guild_event, character: character3, status: 1 }
 
           it 'returns []' do
             result = Event.where_user_subscribed(user)
@@ -95,7 +95,7 @@ RSpec.describe Event, type: :model do
         end
 
         context 'with signed' do
-          let!(:subscribe) { create :subscribe, event: guild_event, character: character3, status: 2 }
+          let!(:subscribe) { create :subscribe, subscribeable: guild_event, character: character3, status: 2 }
 
           it 'returns events where user characters at least signed' do
             result = Event.where_user_subscribed(user)

@@ -5,7 +5,7 @@ RSpec.describe Notifies::ComingSoonEvents, type: :service do
   let!(:delivery) { create :delivery, deliveriable: character.user, notification: notification }
   let!(:delivery_param) { create :delivery_param, delivery: delivery }
   let!(:identity) { create :identity, user: character.user }
-  let!(:subscribe) { create :subscribe, event: event, character: character, status: 2 }
+  let!(:subscribe) { create :subscribe, subscribeable: event, character: character, status: 2 }
 
   describe 'self.call' do
     it 'executes call for PerformDelivery' do

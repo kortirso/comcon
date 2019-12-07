@@ -10,6 +10,7 @@ RSpec.describe 'StaticInvites API' do
       let!(:character) { create :character, guild: guild, user: user }
       let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
       let!(:guild_static) { create :static, staticable: guild, fraction: character.race.fraction, world: character.world }
+      let!(:group_role) { create :group_role, groupable: guild_static }
       let!(:character_static) { create :static, staticable: character, fraction: character.race.fraction, world: character.world }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 

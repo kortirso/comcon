@@ -3,8 +3,9 @@ module Api
     class StaticsController < Api::V1::BaseController
       before_action :find_statics, only: %i[index]
       before_action :find_guild, only: %i[create]
-      before_action :find_static, only: %i[show update members]
+      before_action :find_static, only: %i[show update members subscribers leave_character]
       before_action :find_user_guilds, only: %i[form_values]
+      before_action :find_character, only: %i[leave_character]
 
       resource_description do
         short 'Static resources'
@@ -35,6 +36,7 @@ module Api
         static_form = StaticForm.new(static_params)
         if static_form.persist?
           static = static_form.static
+          CreateGroupRole.call(groupable: static, group_roles: group_role_params)
           CreateStaticMember.call(static: static, character: static.staticable) unless static.for_guild?
           render json: static, status: 201
         else
@@ -50,6 +52,7 @@ module Api
         authorize! @static, to: :edit?
         static_form = StaticForm.new(@static.attributes.merge(update_static_params))
         if static_form.persist?
+          UpdateGroupRole.call(group_role: @static.group_role, group_roles: group_role_params)
           render json: static_form.static, status: 200
         else
           render json: { errors: static_form.errors.full_messages }, status: 409
@@ -61,7 +64,8 @@ module Api
       def form_values
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds]
+          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
+          group_roles: GroupRole.default
         }, status: 200
       end
 
@@ -74,6 +78,25 @@ module Api
           members: ActiveModelSerializers::SerializableResource.new(@static.static_members.includes(character: %i[character_class guild world race]), each_serializer: StaticMemberSerializer).as_json[:static_members],
           invites: ActiveModelSerializers::SerializableResource.new(@static.static_invites, each_serializer: StaticInviteSerializer).as_json[:static_invites]
         }, status: 200
+      end
+
+      api :GET, '/v1/statics/:id/subscribers.json', 'Show static subscribers'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def subscribers
+        authorize! @static, to: :show?
+        render json: @static.subscribes.status_order.includes(character: %i[character_class guild]), status: 200
+      end
+
+      api :POST, '/v1/statics/:id/leave_character.json', 'Character leave from static'
+      param :id, String, required: true
+      param :character_id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Object is not found'
+      def leave_character
+        LeaveFromStatic.call(character: @character, static: @static)
+        UpdateStaticLeftValue.call(static: @static)
+        render json: { result: 'Character is left from static' }, status: 200
       end
 
       private
@@ -100,12 +123,21 @@ module Api
         @guilds = Guild.where(id: guild_ids).includes(:world)
       end
 
+      def find_character
+        @character = Current.user.characters.find_by(id: params[:character_id])
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
+      end
+
       def static_params
         params.require(:static).permit(:name, :description, :staticable_id, :staticable_type, :privy)
       end
 
       def update_static_params
         params.require(:static).permit(:name, :description, :privy)
+      end
+
+      def group_role_params
+        params.require(:static).permit(group_roles: {})
       end
     end
   end

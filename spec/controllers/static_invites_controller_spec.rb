@@ -10,6 +10,7 @@ RSpec.describe StaticInvitesController, type: :controller do
       let!(:character) { create :character, user: @current_user, guild: guild }
       let!(:other_character) { create :character, guild: guild, world: character.world, race: character.race }
       let!(:static) { create :static, staticable: guild, world: character.world, fraction: character.race.fraction }
+      let!(:group_role) { create :group_role, groupable: static }
 
       context 'for unexisted static invite' do
         it 'renders error page' do

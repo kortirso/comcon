@@ -4,4 +4,173 @@
       color: #212529;
     }
   }
+
+  .alternative_line_up {
+    margin-bottom: 2rem;
+
+    .main_roles, .dd {
+      margin-bottom: 0.5rem;
+    }
+
+    .main_roles {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .role_type {
+        width: 48%;
+      }
+    }
+
+    .role_type {
+      display: flex;
+      flex-direction: column;
+
+      h2 {
+        text-align: center;
+        font-size: 1.25rem;
+      }
+
+      .classes {
+        display: flex;
+        flex-direction: row;
+
+        .class_list {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          border: 1px solid #eee;
+
+          h3 {
+            text-align: center;
+            font-size: 0.8rem;
+            margin-bottom: 0;
+            padding: 0.25rem;
+          }
+
+          .subscribe {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 2px;
+
+            &:nth-last-of-type(1) {
+              border-bottom: none;
+            }
+
+            span {
+              font-size: 0.75rem;
+              line-height: 0.75rem;
+
+              &:nth-of-type(1) {
+                flex: 1;
+              }
+
+              &:nth-of-type(3) {
+                .btn-plus {
+                  width: 20px;
+                  height: 20px;
+                }
+              } 
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .approving_box {
+    position: fixed;
+    z-index: 1;
+    top: 30%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+
+    p {
+      margin: 0 0 0.5rem;
+    }
+
+    button {
+      display: block;
+      margin: 1rem auto 0;
+    }
+  }
+
+  .line_up {
+    table {
+      tbody {
+        tr {
+          &.empty_line {
+            td {
+              padding: 2px 0;
+            }
+          }
+
+          td {
+            button {
+              margin: 0;
+            }
+
+            .buttons {
+              display: flex;
+              flex-direction: row;
+
+              button {
+                margin-right: 5px;
+                padding: 2px 5px;
+              }
+            }
+
+            &.comment_box {
+              width: 159px;
+
+              p {
+                font-size: 0.75rem;
+                opacity: 0.5;
+                margin: 0;
+                max-width: 159px;
+                height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                &.user_comment {
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+
+              textarea {
+                width: 150px;
+                height: 46px;
+                font-size: 0.75rem;
+                resize: none;
+              }
+            }
+
+            .character_name {
+              display: flex;
+              flex-direction: row;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .btn-plus {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 3px;
+    background: #fff url(../../images/plus-minus.png);
+    background-position: 0 0;
+    background-size: cover;
+  }
 }

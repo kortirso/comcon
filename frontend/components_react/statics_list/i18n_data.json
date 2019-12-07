@@ -7,7 +7,8 @@
     "description": "Description",
     "owner": "Owner",
     "filterWorld": "Filter by realm",
-    "filterFraction": "Filter by fraction"
+    "filterFraction": "Filter by fraction",
+    "leftValues": "Need characters for roles"
   },
   "ru": {
     "none": "все",
@@ -17,6 +18,7 @@
     "description": "Описание",
     "owner": "Владелец",
     "filterWorld": "Фильтр по мирам",
-    "filterFraction": "Фильтр по фракциям"
+    "filterFraction": "Фильтр по фракциям",
+    "leftValues": "Необходимость в персонажах"
   }
 }

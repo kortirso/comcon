@@ -9,7 +9,7 @@ let strings = new LocalizedStrings(I18nData)
 $.ajaxSetup({
   headers:
   { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-});
+})
 
 export default class StaticsList extends React.Component {
   constructor(props) {
@@ -134,7 +134,28 @@ export default class StaticsList extends React.Component {
           <td className={object.fraction_name.en.toLowerCase()}>{object.name}</td>
           <td>{object.owner_name}</td>
           <td>{object.description}</td>
+          <td>{this._renderLeftValues(object)}</td>
         </tr>
+      )
+    })
+  }
+
+  _renderLeftValues(object) {
+    return ["tanks", "healers", "dd"].map((role) => {
+      const result = Object.entries(object.left_value[role].by_class).filter(([key, value]) => {
+        return value > 0
+      })
+      return this._renderLeftRoles(result, role)
+    })
+  }
+
+  _renderLeftRoles(values, role) {
+    return values.map((value, index) => {
+      return (
+        <span className={`left_value ${value[0]}`} key={index}>
+          <span className={`role ${role}`}></span>
+          <span className="amount">{value[1]}</span>
+        </span>
       )
     })
   }
@@ -165,6 +186,7 @@ export default class StaticsList extends React.Component {
               <th>{strings.name}</th>
               <th>{strings.owner}</th>
               <th>{strings.description}</th>
+              <th>{strings.leftValues}</th>
             </tr>
           </thead>
           <tbody>

@@ -1,3 +1,4 @@
+= javascript_pack_tag 'static'
 .inside
   .inside_topbar
     .title= @static.name
@@ -5,25 +6,4 @@
       - if Current.user.any_static_role?(@static)
         = link_to t('guild.management'), management_static_path(@static.slug), class: 'btn btn-sm btn-primary'
   main
-    .static
-      p= @static.description
-      table.table.table-sm
-        thead
-          tr
-            th= t('characters.name')
-            th= t('characters.role')
-            th= t('characters.level')
-            th= t('characters.guild')
-            - if Current.user.any_static_role?(@static)
-              th
-        tbody
-          - @static_characters.each do |character|
-            tr class="#{character[:character_class_name]['en']}"
-              td= link_to character[:name], character_path(character[:slug]), class: 'character_link'
-              td
-                .role_icons
-                  .role_icon class="#{character[:roles][0]['en']}"
-              td= character[:level]
-              td= character[:guild_name]
-              - if Current.user.any_static_role?(@static)
-                td
+    = react_component('Static', static_id: @static.id, static_description: @static.description, static_group_role: @static.group_role.value, static_fraction_name: @static.fraction.name['en'], manager: Current.user.any_static_role?(@static), current_user_id: Current.user&.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

@@ -1,10 +1,10 @@
 describe CreateGroupRole do
   let!(:event) { create :event }
-  let(:group_roles) { { tanks: { amount: 0 } } }
+  let(:group_roles) { GroupRole.default }
 
   describe '.call' do
     context 'for invalid params' do
-      let(:interactor) { described_class.call(groupable: event, group_roles: { 'group_roles' => '' }) }
+      let(:interactor) { described_class.call(groupable: event, group_roles: { 'group_roles' => {} }) }
 
       it 'fails' do
         expect(interactor).to be_a_failure

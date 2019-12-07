@@ -27,7 +27,7 @@ RSpec.describe GroupRoleForm, type: :service do
         end
       end
 
-      context 'for unexisted dungeon' do
+      context 'for unexisted groupable' do
         let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: { tanks: { amount: 0 } }) }
 
         it 'creates new group role' do
@@ -53,7 +53,7 @@ RSpec.describe GroupRoleForm, type: :service do
 
       context 'for existed group role' do
         context 'for invalid data' do
-          let(:service) { described_class.new(group_role.attributes.merge(value: '')) }
+          let(:service) { described_class.new(group_role.attributes.merge(value: '', left_value: '')) }
 
           it 'does not update group role' do
             service.persist?
@@ -64,7 +64,7 @@ RSpec.describe GroupRoleForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { described_class.new(group_role.attributes.merge(value: { tanks: { amount: 0 } })) }
+          let(:service) { described_class.new(group_role.attributes.merge(value: { tanks: { amount: 0 } }, left_value: { tanks: { amount: 0 } })) }
 
           it 'does not update dungeon' do
             service.persist?

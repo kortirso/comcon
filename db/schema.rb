@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_06_142516) do
+ActiveRecord::Schema.define(version: 2019_12_07_183825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -153,7 +153,9 @@ ActiveRecord::Schema.define(version: 2019_12_06_142516) do
     t.jsonb "value", default: {"dd"=>{"amount"=>0, "by_class"=>{}}, "tanks"=>{"amount"=>0, "by_class"=>{}}, "healers"=>{"amount"=>0, "by_class"=>{}}}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "left_value"
     t.index ["groupable_id", "groupable_type"], name: "index_group_roles_on_groupable_id_and_groupable_type"
+    t.index ["left_value"], name: "index_group_roles_on_left_value", using: :gin
     t.index ["value"], name: "index_group_roles_on_value", using: :gin
   end
 
@@ -288,14 +290,15 @@ ActiveRecord::Schema.define(version: 2019_12_06_142516) do
   end
 
   create_table "subscribes", force: :cascade do |t|
-    t.integer "event_id"
     t.integer "character_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "comment"
     t.integer "status", default: 2, null: false
     t.integer "for_role"
-    t.index ["event_id", "character_id"], name: "index_subscribes_on_event_id_and_character_id", unique: true
+    t.integer "subscribeable_id"
+    t.string "subscribeable_type"
+    t.index ["subscribeable_id", "subscribeable_type"], name: "index_subscribes_on_subscribeable_id_and_subscribeable_type"
   end
 
   create_table "time_offsets", force: :cascade do |t|

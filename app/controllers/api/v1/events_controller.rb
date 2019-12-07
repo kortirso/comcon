@@ -55,7 +55,7 @@ module Api
       def create
         event_form = EventForm.new(event_params)
         if event_form.persist?
-          CreateSubscribe.call(event: event_form.event, character: event_form.event.owner, status: 'signed')
+          CreateSubscribe.call(subscribeable: event_form.event, character: event_form.event.owner, status: 'signed')
           CreateGroupRole.call(groupable: event_form.event, group_roles: group_role_params)
           CreateEventNotificationJob.perform_now(event_id: event_form.event.id)
           render json: { event: EventEditSerializer.new(event_form.event) }, status: 201

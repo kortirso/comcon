@@ -414,7 +414,7 @@ RSpec.describe 'Events API' do
 
       context 'for existed event' do
         let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-        let!(:subscribe) { create :subscribe, event: world_event, character: character }
+        let!(:subscribe) { create :subscribe, subscribeable: world_event, character: character }
         before { get "/api/v1/events/#{world_event.id}/subscribers.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -578,7 +578,7 @@ RSpec.describe 'Events API' do
         let!(:character2) { create :character, user: user }
         let!(:static_member2) { create :static_member, character: character2, static: static }
         let!(:static_event) { create :event, eventable: static }
-        let!(:subscribe) { create :subscribe, event: static_event, character: character }
+        let!(:subscribe) { create :subscribe, subscribeable: static_event, character: character }
         before { get "/api/v1/events/#{static_event.id}/characters_without_subscribe.json", params: { access_token: access_token } }
 
         it 'returns status 200' do

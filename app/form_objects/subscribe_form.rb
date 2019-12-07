@@ -4,16 +4,19 @@ class SubscribeForm
   include Virtus.model
 
   attribute :id, Integer
-  attribute :event, Event
+  attribute :subscribeable_id, Integer
+  attribute :subscribeable_type, String
   attribute :character, Character
   attribute :status, Integer, default: 2
   attribute :comment, String, default: nil
   attribute :for_role, Integer, default: nil
 
-  validates :event, :character, :status, presence: true
+  validates :subscribeable_id, :subscribeable_type, :character, :status, presence: true
+  validates :subscribeable_type, inclusion: { in: %w[Event Static] }
   validates :status, inclusion: 0..4
   validates :for_role, inclusion: 0..2, allow_nil: true
   validates :comment, length: { maximum: 100 }, allow_nil: true
+  validate :subscribeable_exists?
 
   attr_reader :subscribe
 
@@ -30,6 +33,12 @@ class SubscribeForm
   end
 
   private
+
+  def subscribeable_exists?
+    return unless subscribeable_type.present?
+    return if subscribeable_type.constantize.where(id: subscribeable_id).exists?
+    errors[:subscribeable] << I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribeable.is_not_exist')
+  end
 
   def status_to_integer
     return status if status.is_a?(Integer)
