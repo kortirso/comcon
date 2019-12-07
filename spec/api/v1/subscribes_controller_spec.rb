@@ -88,63 +88,114 @@ RSpec.describe 'Subscribes API' do
         end
       end
 
-      context 'for invalid params' do
-        let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'approved' }, access_token: access_token } }
+      context 'for event subscribe' do
+        context 'for invalid params' do
+          let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'approved' }, access_token: access_token } }
 
-        it 'does not update subscribe' do
-          request
-          subscribe.reload
-
-          expect(subscribe.status).to_not eq 'approved'
-        end
-
-        context 'in answer' do
-          before { request }
-
-          it 'returns status 403' do
-            expect(response.status).to eq 403
-          end
-
-          it 'and returns error message' do
-            expect(JSON.parse(response.body)).to eq('error' => 'Access is forbidden')
-          end
-        end
-      end
-
-      context 'for valid params' do
-        context 'for comment' do
-          let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { comment: 'rejected' }, access_token: access_token } }
-
-          it 'updates subscribe' do
+          it 'does not update subscribe' do
             request
             subscribe.reload
 
-            expect(subscribe.comment).to eq 'rejected'
+            expect(subscribe.status).to_not eq 'approved'
           end
 
           context 'in answer' do
             before { request }
 
-            it 'returns status 200' do
-              expect(response.status).to eq 200
+            it 'returns status 403' do
+              expect(response.status).to eq 403
             end
 
-            %w[id status comment character].each do |attr|
-              it "and contains subscribe #{attr}" do
-                expect(response.body).to have_json_path("subscribe/#{attr}")
-              end
+            it 'and returns error message' do
+              expect(JSON.parse(response.body)).to eq('error' => 'Access is forbidden')
             end
           end
         end
 
-        context 'for status' do
-          let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'rejected' }, access_token: access_token } }
+        context 'for valid params' do
+          context 'for comment' do
+            let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { comment: 'rejected' }, access_token: access_token } }
+
+            it 'updates subscribe' do
+              request
+              subscribe.reload
+
+              expect(subscribe.comment).to eq 'rejected'
+            end
+
+            it 'and does not call UpdateStaticLeftValue' do
+              expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+
+              request
+            end
+
+            context 'in answer' do
+              before { request }
+
+              it 'returns status 200' do
+                expect(response.status).to eq 200
+              end
+
+              %w[id status comment character].each do |attr|
+                it "and contains subscribe #{attr}" do
+                  expect(response.body).to have_json_path("subscribe/#{attr}")
+                end
+              end
+            end
+          end
+
+          context 'for status' do
+            let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'rejected' }, access_token: access_token } }
+
+            it 'updates subscribe' do
+              request
+              subscribe.reload
+
+              expect(subscribe.status).to eq 'rejected'
+            end
+
+            it 'and does not call UpdateStaticLeftValue' do
+              expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+
+              request
+            end
+
+            context 'in answer' do
+              before { request }
+
+              it 'returns status 200' do
+                expect(response.status).to eq 200
+              end
+
+              %w[id status comment character].each do |attr|
+                it "and contains subscribe #{attr}" do
+                  expect(response.body).to have_json_path("subscribe/#{attr}")
+                end
+              end
+            end
+          end
+        end
+      end
+
+      context 'for static subscribe' do
+        let!(:static) { create :static, staticable: character }
+        let!(:group_role) { create :group_role, groupable: static }
+        let!(:subscribe) { create :subscribe, subscribeable: static, character: character, status: 'reserve' }
+
+        context 'for valid params' do
+          let(:request) { patch "/api/v1/subscribes/#{subscribe.id}.json", params: { subscribe: { status: 'approved' }, access_token: access_token } }
 
           it 'updates subscribe' do
             request
             subscribe.reload
 
-            expect(subscribe.status).to eq 'rejected'
+            expect(subscribe.status).to eq 'approved'
+          end
+
+          it 'calls UpdateStaticLeftValue' do
+            expect(UpdateStaticLeftValue).to receive(:call).and_call_original
+
+            request
           end
 
           context 'in answer' do

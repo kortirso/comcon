@@ -392,6 +392,7 @@ RSpec.describe 'Statics API' do
       let!(:user) { create :user }
       let!(:character) { create :character, user: user }
       let!(:static) { create :static, staticable: character }
+      let!(:group_role) { create :group_role, groupable: static }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'for unexisted static' do
@@ -425,6 +426,12 @@ RSpec.describe 'Statics API' do
           request
         end
 
+        it 'does not call UpdateStaticLeftValue' do
+          expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+
+          request
+        end
+
         context 'in answer' do
           before { request }
 
@@ -443,6 +450,12 @@ RSpec.describe 'Statics API' do
 
         it 'calls LeaveFromStatic' do
           expect(LeaveFromStatic).to receive(:call).and_call_original
+
+          request
+        end
+
+        it 'calls UpdateStaticLeftValue' do
+          expect(UpdateStaticLeftValue).to receive(:call).and_call_original
 
           request
         end

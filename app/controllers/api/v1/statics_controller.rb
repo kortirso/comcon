@@ -95,6 +95,7 @@ module Api
       error code: 404, desc: 'Object is not found'
       def leave_character
         LeaveFromStatic.call(character: @character, static: @static)
+        UpdateStaticLeftValue.call(static: @static)
         render json: { result: 'Character is left from static' }, status: 200
       end
 

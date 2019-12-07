@@ -29,6 +29,7 @@ module Api
       def perform_subscribe(options, status)
         subscribe_form = SubscribeForm.new(options)
         if subscribe_form.persist?
+          UpdateStaticLeftValue.call(static: subscribe_form.subscribe.subscribeable) if subscribe_form.subscribe.subscribeable_type == 'Static'
           render json: subscribe_form.subscribe, status: status
         else
           render json: { result: 'Failed' }, status: 409

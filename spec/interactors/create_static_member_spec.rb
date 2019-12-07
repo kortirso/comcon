@@ -1,6 +1,7 @@
 describe CreateStaticMember do
   let!(:character) { create :character }
   let!(:static) { create :static, world: character.world, fraction: character.race.fraction, staticable: character }
+  let!(:group_role) { create :group_role, groupable: static }
 
   describe '.call' do
     context 'for existed member' do
@@ -21,6 +22,18 @@ describe CreateStaticMember do
 
       it 'succeeds' do
         expect(interactor).to be_a_success
+      end
+
+      it 'and calls CreateSubscribe' do
+        expect(CreateSubscribe).to receive(:call).and_call_original
+
+        interactor
+      end
+
+      it 'and calls UpdateStaticLeftValue' do
+        expect(UpdateStaticLeftValue).to receive(:call).and_call_original
+
+        interactor
       end
 
       it 'and creates static member' do

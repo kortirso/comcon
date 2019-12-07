@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - alternative renderer for static members
 - leave from static
+- count left roles for static
 
 ### Modified
 - create/update group_roles for statics
