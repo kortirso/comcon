@@ -141,6 +141,7 @@ export default class StaticsList extends React.Component {
   }
 
   _renderLeftValues(object) {
+    if (object.left_value === null) return false
     return ["tanks", "healers", "dd"].map((role) => {
       const result = Object.entries(object.left_value[role].by_class).filter(([key, value]) => {
         return value > 0
