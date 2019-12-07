@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :subscribe do
-    association :event
+    association :subscribeable, factory: :event
     association :character
   end
 end

@@ -3,7 +3,7 @@ describe CreateSubscribe do
   let!(:event) { create :event, owner: character }
 
   describe '.call' do
-    let(:interactor) { CreateSubscribe.call(event: event, character: character, status: 'signed') }
+    let(:interactor) { CreateSubscribe.call(subscribeable: event, character: character, status: 'signed') }
 
     it 'succeeds' do
       expect(interactor).to be_a_success

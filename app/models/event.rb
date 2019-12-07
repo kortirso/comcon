@@ -3,6 +3,7 @@ require 'babosa'
 # Represents events
 class Event < ApplicationRecord
   include Groupable
+  include Subscribeable
   extend FriendlyId
 
   friendly_id :slug_candidates, use: :slugged
@@ -13,11 +14,10 @@ class Event < ApplicationRecord
   belongs_to :fraction
   belongs_to :world_fraction
 
-  has_many :subscribes, dependent: :destroy
   has_many :characters, through: :subscribes
   has_many :users, -> { distinct }, through: :characters, source: :user
 
-  has_many :signed_subscribes, -> { where status: %w[approved signed] }, class_name: 'Subscribe'
+  has_many :signed_subscribes, -> { where status: %w[approved signed] }, as: :subscribeable, class_name: 'Subscribe'
   has_many :signed_characters, through: :signed_subscribes, source: :character
   has_many :signed_users, -> { distinct }, through: :signed_characters, source: :user
 

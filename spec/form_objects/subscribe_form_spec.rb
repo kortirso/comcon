@@ -91,7 +91,7 @@ RSpec.describe SubscribeForm, type: :service do
     context 'for valid data' do
       let!(:event) { create :event }
       let!(:character) { create :character }
-      let(:service) { SubscribeForm.new(event: event, character: character, for_role: 'Healer') }
+      let(:service) { SubscribeForm.new(subscribeable_id: event.id, subscribeable_type: 'Event', character: character, for_role: 'Healer') }
 
       it 'creates new subscribe' do
         expect { service.persist? }.to change { Subscribe.count }.by(1)
@@ -120,7 +120,7 @@ RSpec.describe SubscribeForm, type: :service do
       end
 
       context 'for valid data' do
-        let(:service) { SubscribeForm.new(subscribe.attributes.merge(event: subscribe.event, character: subscribe.character, status: 'approved')) }
+        let(:service) { SubscribeForm.new(subscribe.attributes.merge(subscribeable_id: subscribe.subscribeable_id, subscribeable_type: 'Event', character: subscribe.character, status: 'approved')) }
 
         it 'updates subscribe' do
           service.persist?

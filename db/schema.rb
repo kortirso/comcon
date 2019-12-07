@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_07_073231) do
+ActiveRecord::Schema.define(version: 2019_12_07_115022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -288,14 +288,15 @@ ActiveRecord::Schema.define(version: 2019_12_07_073231) do
   end
 
   create_table "subscribes", force: :cascade do |t|
-    t.integer "event_id"
     t.integer "character_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "comment"
     t.integer "status", default: 2, null: false
     t.integer "for_role"
-    t.index ["event_id", "character_id"], name: "index_subscribes_on_event_id_and_character_id", unique: true
+    t.integer "subscribeable_id"
+    t.string "subscribeable_type"
+    t.index ["subscribeable_id", "subscribeable_type"], name: "index_subscribes_on_subscribeable_id_and_subscribeable_type"
   end
 
   create_table "time_offsets", force: :cascade do |t|

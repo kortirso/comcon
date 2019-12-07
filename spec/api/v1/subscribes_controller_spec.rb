@@ -14,7 +14,7 @@ RSpec.describe 'Subscribes API' do
       let!(:character_role) { create :character_role, character: character, role: role }
 
       context 'for invalid params' do
-        let(:request) { post '/api/v1/subscribes.json', params: { subscribe: { event_id: nil }, access_token: access_token } }
+        let(:request) { post '/api/v1/subscribes.json', params: { subscribe: { event_id: 'unexisted', subscribeable_type: 'Event' }, access_token: access_token } }
 
         it 'does not create new subscribe' do
           expect { request }.to_not change(Subscribe, :count)
@@ -34,7 +34,7 @@ RSpec.describe 'Subscribes API' do
       end
 
       context 'for valid params' do
-        let(:request) { post '/api/v1/subscribes.json', params: { subscribe: { event_id: event.id, character_id: character.id, status: 'signed' }, access_token: access_token } }
+        let(:request) { post '/api/v1/subscribes.json', params: { subscribe: { subscribeable_id: event.id, subscribeable_type: 'Event', character_id: character.id, status: 'signed' }, access_token: access_token } }
 
         it 'creates new subscribe' do
           expect { request }.to change { character.subscribes.count }.by(1)
@@ -47,7 +47,7 @@ RSpec.describe 'Subscribes API' do
             expect(response.status).to eq 201
           end
 
-          %w[id status comment character].each do |attr|
+          %w[id status comment character subscribeable_id subscribeable_type for_role].each do |attr|
             it "and contains subscribe #{attr}" do
               expect(response.body).to have_json_path("subscribe/#{attr}")
             end
@@ -57,7 +57,7 @@ RSpec.describe 'Subscribes API' do
     end
 
     def do_request(headers = {})
-      post '/api/v1/subscribes.json', params: { subscribe: { event_id: event.id, character_id: nil, status: 'signed' } }, headers: headers
+      post '/api/v1/subscribes.json', params: { subscribe: { subscribeable_id: event.id, subscribeable_type: 'Event', character_id: nil, status: 'signed' } }, headers: headers
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Subscribes API' do
       let!(:character) { create :character, user: user }
       let!(:role) { create :role, :tank }
       let!(:character_role) { create :character_role, character: character, role: role }
-      let!(:subscribe) { create :subscribe, event: event, character: character, status: 'signed' }
+      let!(:subscribe) { create :subscribe, subscribeable: event, character: character, status: 'signed' }
 
       context 'for unexisted subscribe' do
         before { patch '/api/v1/subscribes/999.json', params: { subscribe: { status: 'approved' }, access_token: access_token } }

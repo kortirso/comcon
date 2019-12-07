@@ -48,7 +48,7 @@ describe SubscribePolicy do
     context 'for simple user' do
       context 'for not user subscribe' do
         context 'world event' do
-          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: event }
+          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', subscribeable: event }
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
           it 'returns false' do
@@ -57,7 +57,7 @@ describe SubscribePolicy do
         end
 
         context 'guild event, without guild role, permitted status' do
-          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: guild_event }
+          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', subscribeable: guild_event }
           let(:policy) { described_class.new(subscribe, user: user, status: 'unknown') }
 
           it 'returns false' do
@@ -66,7 +66,7 @@ describe SubscribePolicy do
         end
 
         context 'guild event, without guild role, valid status' do
-          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: guild_event }
+          let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', subscribeable: guild_event }
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
           it 'returns false' do
@@ -75,7 +75,7 @@ describe SubscribePolicy do
         end
 
         context 'guild event, with rl guild role, valid status' do
-          let!(:subscribe) { create :subscribe, character: guild_character2, status: 'signed', event: guild_event }
+          let!(:subscribe) { create :subscribe, character: guild_character2, status: 'signed', subscribeable: guild_event }
           let!(:guild_role) { create :guild_role, guild: guild, character: guild_character1, name: 'rl' }
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
@@ -85,7 +85,7 @@ describe SubscribePolicy do
         end
 
         context 'guild event, with cl guild role, same classes, valid status' do
-          let!(:subscribe) { create :subscribe, character: guild_character2, status: 'signed', event: guild_event }
+          let!(:subscribe) { create :subscribe, character: guild_character2, status: 'signed', subscribeable: guild_event }
           let!(:guild_role) { create :guild_role, guild: guild, character: guild_character1, name: 'cl' }
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
@@ -95,7 +95,7 @@ describe SubscribePolicy do
         end
 
         context 'guild event, with cl guild role, different classes, valid status' do
-          let!(:subscribe) { create :subscribe, character: guild_character3, status: 'signed', event: guild_event }
+          let!(:subscribe) { create :subscribe, character: guild_character3, status: 'signed', subscribeable: guild_event }
           let!(:guild_role) { create :guild_role, guild: guild, character: guild_character1, name: 'cl' }
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
 
@@ -106,7 +106,7 @@ describe SubscribePolicy do
       end
 
       context 'for user subscribe' do
-        let!(:subscribe) { create :subscribe, character: user_character, status: 'signed', event: event }
+        let!(:subscribe) { create :subscribe, character: user_character, status: 'signed', subscribeable: event }
 
         context 'to approved' do
           let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
@@ -117,7 +117,7 @@ describe SubscribePolicy do
         end
 
         context 'to rejected, for closed event' do
-          let!(:closed_subscribe) { create :subscribe, character: user_character, status: 'signed', event: closed_event }
+          let!(:closed_subscribe) { create :subscribe, character: user_character, status: 'signed', subscribeable: closed_event }
           let(:policy) { described_class.new(closed_subscribe, user: user, status: 'rejected') }
 
           it 'returns false' do
@@ -137,7 +137,7 @@ describe SubscribePolicy do
 
     context 'for owner' do
       context 'for not owner subscribe' do
-        let!(:subscribe) { create :subscribe, character: user_character, status: 'signed', event: event }
+        let!(:subscribe) { create :subscribe, character: user_character, status: 'signed', subscribeable: event }
 
         context 'to approved' do
           let(:policy) { described_class.new(subscribe, user: owner, status: 'approved') }
@@ -157,7 +157,7 @@ describe SubscribePolicy do
       end
 
       context 'for owner subscribe' do
-        let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', event: event }
+        let!(:subscribe) { create :subscribe, character: owner_character, status: 'signed', subscribeable: event }
 
         context 'to approved' do
           let(:policy) { described_class.new(subscribe, user: owner, status: 'approved') }
