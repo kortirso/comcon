@@ -18,7 +18,9 @@
     "healers": "Healers",
     "dd": "Damage dealers",
     "alternative": "Display static by roles and classes",
-    "close": "Close"
+    "close": "Close",
+    "leave": "Leave",
+    "sure": "Are sure?"
   },
   "ru": {
     "name": "Имя",
@@ -39,6 +41,8 @@
     "healers": "Лекари",
     "dd": "Бойцы",
     "alternative": "Отображение статика по ролям и классам",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "leave": "Выйти",
+    "sure": "Вы уверены?"
   }
 }

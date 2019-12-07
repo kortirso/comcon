@@ -3,8 +3,9 @@ module Api
     class StaticsController < Api::V1::BaseController
       before_action :find_statics, only: %i[index]
       before_action :find_guild, only: %i[create]
-      before_action :find_static, only: %i[show update members subscribers]
+      before_action :find_static, only: %i[show update members subscribers leave_character]
       before_action :find_user_guilds, only: %i[form_values]
+      before_action :find_character, only: %i[leave_character]
 
       resource_description do
         short 'Static resources'
@@ -87,6 +88,16 @@ module Api
         render json: @static.subscribes.status_order.includes(character: %i[character_class guild]), status: 200
       end
 
+      api :POST, '/v1/statics/:id/leave_character.json', 'Character leave from static'
+      param :id, String, required: true
+      param :character_id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Object is not found'
+      def leave_character
+        LeaveFromStatic.call(character: @character, static: @static)
+        render json: { result: 'Character is left from static' }, status: 200
+      end
+
       private
 
       def find_statics
@@ -109,6 +120,11 @@ module Api
       def find_user_guilds
         guild_ids = Current.user.characters.includes(:guild_role).where('guild_roles.name = ? OR guild_roles.name = ?', 'gm', 'rl').references(:guild_role).pluck(:guild_id)
         @guilds = Guild.where(id: guild_ids).includes(:world)
+      end
+
+      def find_character
+        @character = Current.user.characters.find_by(id: params[:character_id])
+        render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
       end
 
       def static_params

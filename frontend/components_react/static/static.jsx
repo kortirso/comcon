@@ -86,6 +86,16 @@ export default class LineUp extends React.Component {
     })
   }
 
+  _onLeaveCharacter(character) {
+    $.ajax({
+      method: 'POST',
+      url: `/api/v1/statics/${this.props.static_id}/leave_character.json?access_token=${this.props.access_token}&character_id=${character.id}`,
+      success: (data) => {
+        window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/statics`
+      }
+    })
+  }
+
   _onSaveComment(subscribe, event) {
     if (event.key === 'Enter') {
       const nextCommentValue = this.state.commentValue
@@ -118,6 +128,7 @@ export default class LineUp extends React.Component {
           <td>
             <div className="buttons">
               {this.props.manager && <button className="btn-plus with_right_margin" onClick={() => this._showApprovingBox(subscribe, true)}></button>}
+              {this.props.current_user_id === subscribe.character.user_id && <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onLeaveCharacter.bind(this, subscribe.character)}>{strings.leave}</button>}
             </div>
           </td>
         </tr>

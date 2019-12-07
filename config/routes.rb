@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         get :form_values, on: :collection
         get :members, on: :member
         get :subscribers, on: :member
+        post :leave_character, on: :member
       end
       resources :static_invites, only: %i[create destroy]
       resources :static_members, only: %i[destroy]
