@@ -111,7 +111,7 @@ export default class LineUp extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/subscribes.json?access_token=${this.props.access_token}`,
-      data: { subscribe: { character_id: this.state.selectedCharacterForSign, event_id: this.props.event_id, status: status } },
+      data: { subscribe: { character_id: this.state.selectedCharacterForSign, subscribeable_id: this.props.event_id, subscribeable_type: 'Event', status: status } },
       success: (data) => {
         let subscribes = this.state.subscribes
         subscribes.push(data.subscribe)

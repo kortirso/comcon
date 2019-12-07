@@ -13,28 +13,50 @@ describe SubscribePolicy do
   let!(:guild_event) { create :event, eventable: guild }
 
   describe '#create?' do
-    context 'for invalid status' do
-      let(:policy) { described_class.new(event, user: user, status: 'approved') }
-
-      it 'returns false' do
-        expect(policy_access).to eq false
-      end
-    end
-
-    context 'for valid status' do
-      context 'for open event' do
-        let(:policy) { described_class.new(event, user: user, status: 'signed') }
-
-        it 'returns true' do
-          expect(policy_access).to eq true
-        end
-      end
-
-      context 'for closed event' do
-        let(:policy) { described_class.new(closed_event, user: user, status: 'signed') }
+    context 'for event' do
+      context 'for invalid status' do
+        let(:policy) { described_class.new(event, user: user, status: 'approved') }
 
         it 'returns false' do
           expect(policy_access).to eq false
+        end
+      end
+
+      context 'for valid status' do
+        context 'for open event' do
+          let(:policy) { described_class.new(event, user: user, status: 'signed') }
+
+          it 'returns true' do
+            expect(policy_access).to eq true
+          end
+        end
+
+        context 'for closed event' do
+          let(:policy) { described_class.new(closed_event, user: user, status: 'signed') }
+
+          it 'returns false' do
+            expect(policy_access).to eq false
+          end
+        end
+      end
+    end
+
+    context 'for static' do
+      let!(:static) { create :static, staticable: owner_character }
+
+      context 'for user without rights in static' do
+        let(:policy) { described_class.new(static, user: user, status: 'approved') }
+
+        it 'returns false' do
+          expect(policy_access).to eq false
+        end
+      end
+
+      context 'for user with rights in static' do
+        let(:policy) { described_class.new(static, user: owner, status: 'approved') }
+
+        it 'returns true' do
+          expect(policy_access).to eq true
         end
       end
     end
@@ -173,6 +195,27 @@ describe SubscribePolicy do
           it 'returns true' do
             expect(policy_access).to eq true
           end
+        end
+      end
+    end
+
+    context 'for static' do
+      let!(:static) { create :static, staticable: owner_character }
+      let!(:subscribe) { create :subscribe, character: user_character, status: 'reserve', subscribeable: static }
+
+      context 'for user without rights in static' do
+        let(:policy) { described_class.new(subscribe, user: user, status: 'approved') }
+
+        it 'returns false' do
+          expect(policy_access).to eq false
+        end
+      end
+
+      context 'for user with rights in static' do
+        let(:policy) { described_class.new(subscribe, user: owner, status: 'approved') }
+
+        it 'returns true' do
+          expect(policy_access).to eq true
         end
       end
     end

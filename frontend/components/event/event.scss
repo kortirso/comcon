@@ -214,23 +214,14 @@
     }
   }
 
-  .btn-plus, .btn-minus {
+  .btn-plus {
     width: 30px;
     height: 30px;
     padding: 0;
     border: none;
     border-radius: 3px;
-  }
-
-  .btn-plus {
     background: #fff url(../../images/plus-minus.png);
     background-position: 0 0;
-    background-size: cover;
-  }
-
-  .btn-minus {
-    background: #fff url(../../images/plus-minus.png);
-    background-position: -30px 0;
     background-size: cover;
   }
 }

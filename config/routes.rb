@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       resources :statics, only: %i[index show create update] do
         get :form_values, on: :collection
         get :members, on: :member
+        get :subscribers, on: :member
       end
       resources :static_invites, only: %i[create destroy]
       resources :static_members, only: %i[destroy]

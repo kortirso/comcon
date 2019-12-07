@@ -3,7 +3,7 @@ module Api
     class StaticsController < Api::V1::BaseController
       before_action :find_statics, only: %i[index]
       before_action :find_guild, only: %i[create]
-      before_action :find_static, only: %i[show update members]
+      before_action :find_static, only: %i[show update members subscribers]
       before_action :find_user_guilds, only: %i[form_values]
 
       resource_description do
@@ -77,6 +77,14 @@ module Api
           members: ActiveModelSerializers::SerializableResource.new(@static.static_members.includes(character: %i[character_class guild world race]), each_serializer: StaticMemberSerializer).as_json[:static_members],
           invites: ActiveModelSerializers::SerializableResource.new(@static.static_invites, each_serializer: StaticInviteSerializer).as_json[:static_invites]
         }, status: 200
+      end
+
+      api :GET, '/v1/statics/:id/subscribers.json', 'Show static subscribers'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      def subscribers
+        authorize! @static, to: :show?
+        render json: @static.subscribes.status_order.includes(character: %i[character_class guild]), status: 200
       end
 
       private

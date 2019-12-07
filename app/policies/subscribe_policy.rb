@@ -4,12 +4,12 @@ class SubscribePolicy < ApplicationPolicy
 
   def create?
     return %w[signed unknown rejected].include?(status) && record.is_open? if record.is_a?(Event)
-    record.is_a?(Static)
+    user.any_static_role?(record)
   end
 
   def update?
     return event_subscribe_update if record.subscribeable.is_a?(Event)
-    static_subscribe_update if record.subscribeable.is_a?(Static)
+    user.any_static_role?(record.subscribeable)
   end
 
   private
@@ -33,9 +33,5 @@ class SubscribePolicy < ApplicationPolicy
     # true if class leader and character is the same class
     return true if guild_role[0] == 'cl' && guild_role[1].include?(record.character.character_class.name['en'])
     false
-  end
-
-  def static_subscribe_update
-    true
   end
 end

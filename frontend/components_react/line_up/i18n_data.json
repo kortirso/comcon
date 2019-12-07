@@ -29,7 +29,7 @@
     "tanks": "Tanks",
     "healers": "Healers",
     "dd": "Damage dealers",
-    "alternative": "Alternative renderer",
+    "alternative": "Display event by roles and classes",
     "close": "Close",
     "hoursBeforeClose": "Hours before close registration for event",
     "notSubscribed": "Characters of static without subscribe"
@@ -64,7 +64,7 @@
     "tanks": "Танки",
     "healers": "Лекари",
     "dd": "Бойцы",
-    "alternative": "Альтернативное представление",
+    "alternative": "Отображение события по ролям и классам",
     "close": "Закрыть",
     "hoursBeforeClose": "Часов до закрытия регистрации на событие",
     "notSubscribed": "Персонажи статика, которые не подписались на событие"
