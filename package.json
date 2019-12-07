@@ -11,6 +11,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-localization": "^1.0.15",
+    "serialize-javascript": "^2.1.1",
     "webpacker-react": "^0.3.2"
   },
   "devDependencies": {
