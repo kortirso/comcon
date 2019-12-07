@@ -9,7 +9,7 @@ class GroupRoleForm
   attribute :groupable_type, String
 
   validates :value, :groupable_id, :groupable_type, presence: true
-  validates :groupable_type, inclusion: { in: %w[Event] }
+  validates :groupable_type, inclusion: { in: %w[Event Static] }
   validate :groupable_exists?
   validate :value_as_hash
 

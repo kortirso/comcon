@@ -2,6 +2,7 @@ require 'babosa'
 
 # Represents guild statics
 class Static < ApplicationRecord
+  include Groupable
   extend FriendlyId
 
   belongs_to :staticable, polymorphic: true

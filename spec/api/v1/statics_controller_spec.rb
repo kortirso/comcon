@@ -240,6 +240,7 @@ RSpec.describe 'Statics API' do
 
       context 'for existed static' do
         let!(:static) { create :static, staticable: guild }
+        let!(:group_role) { create :group_role, groupable: static }
 
         context 'for invalid params' do
           let(:request) { patch "/api/v1/statics/#{static.id}.json", params: { access_token: access_token, static: { name: '', description: '123' } } }

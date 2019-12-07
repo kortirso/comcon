@@ -35,6 +35,7 @@ module Api
         static_form = StaticForm.new(static_params)
         if static_form.persist?
           static = static_form.static
+          CreateGroupRole.call(groupable: static, group_roles: group_role_params)
           CreateStaticMember.call(static: static, character: static.staticable) unless static.for_guild?
           render json: static, status: 201
         else
@@ -50,6 +51,7 @@ module Api
         authorize! @static, to: :edit?
         static_form = StaticForm.new(@static.attributes.merge(update_static_params))
         if static_form.persist?
+          UpdateGroupRole.call(group_role: @static.group_role, group_roles: group_role_params)
           render json: static_form.static, status: 200
         else
           render json: { errors: static_form.errors.full_messages }, status: 409
@@ -61,7 +63,8 @@ module Api
       def form_values
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds]
+          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
+          group_roles: GroupRole.default
         }, status: 200
       end
 
@@ -106,6 +109,10 @@ module Api
 
       def update_static_params
         params.require(:static).permit(:name, :description, :privy)
+      end
+
+      def group_role_params
+        params.require(:static).permit(group_roles: {})
       end
     end
   end
