@@ -17,12 +17,21 @@
               tr
                 th= t('statics.name')
                 th= t('statics.description')
+                th= t('statics.privy')
+                th= t('statics.left_value')
                 th
             tbody
-              - @guild.statics.each do |static|
+              - @guild.statics.includes(:group_role).each do |static|
                 tr
                   td= link_to static.name, static
                   td= static.description
+                  td= static.privy? ? t('statics.private') : t('statics.public')
+                  td
+                    - ['tanks', 'healers', 'dd'].each do |role|
+                      - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
+                        span class="left_value #{key}"
+                          span class="role #{role}"
+                          span class="amount"= value
                   td
                     = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
                     = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'

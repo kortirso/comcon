@@ -249,6 +249,7 @@ en:
     existed: As member
     search: Search
     creating: Create new static
+    left_value: Need characters
   static:
     label: Static roster
   guild:

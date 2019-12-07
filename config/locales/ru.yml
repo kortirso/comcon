@@ -260,6 +260,7 @@ ru:
     existed: В составе
     search: Поиск
     creating: Добавить новый статик
+    left_value: Необходимы персонажи
   static:
     label: Состав статика
   guild:
