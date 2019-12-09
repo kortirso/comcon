@@ -45,7 +45,9 @@ export default class RaidPlanner extends React.Component {
 
   _renderRoleByClass(role, byClass) {
     return Object.entries(byClass).map(([key, value]) => {
-      return (
+      if (key === "paladin" && this.props.fractionName === "Horde") return false
+      else if (key === "shaman" && this.props.fractionName === "Alliance") return false
+      else return (
         <div className="role_by_class" key={key}>
           <span className={`${key}_class_icon class_icon`}></span>
           <input value={value === 0 ? '' : value} onChange={(event) => this.props.onChangeClassAmount(role, key, event.target.value)} />

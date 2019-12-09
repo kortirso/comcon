@@ -23,6 +23,7 @@ export default class StaticForm extends React.Component {
       userGuilds: [],
       currentCharacterId: '0',
       currentGuildId: props.guild_id !== null && props.static_id === undefined ? props.guild_id : '0',
+      fractionName: '',
       description: '',
       staticId: props.static_id,
       privy: true,
@@ -41,11 +42,18 @@ export default class StaticForm extends React.Component {
       method: 'GET',
       url: `/api/v1/statics/form_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({userCharacters: data.characters, currentCharacterId: this.state.currentGuildId === '0' ? data.characters[0].id : '0', userGuilds: data.guilds, groupRoles: data.group_roles}, () => {
+        this.setState({userCharacters: data.characters, fractionName: this._selectFractionFromOwner(data), currentCharacterId: this.state.currentGuildId === '0' ? data.characters[0].id : '0', userGuilds: data.guilds, groupRoles: data.group_roles}, () => {
           this._getStatic()
         })
       }
     })
+  }
+
+  _selectFractionFromOwner(data) {
+    if (this.state.currentGuildId === '0') return data.characters[0].fraction_name
+    return data.guilds.filter((guild) => {
+      return guild.id === parseInt(this.state.currentGuildId)
+    })[0].fraction_name.en
   }
 
   _getStatic() {
@@ -55,7 +63,7 @@ export default class StaticForm extends React.Component {
       url: `/api/v1/statics/${this.state.staticId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const object = data['static']
-        this.setState({name: object.name, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id.toString() : '0', privy: object.privy, groupRoles: object.group_role === null ? this.state.groupRoles : object.group_role})
+        this.setState({name: object.name, fractionName: object.fraction_name.en, description: object.description, currentCharacterId: object.staticable_type === 'Character' ? object.staticable_id : '0', currentGuildId: object.staticable_type === 'Guild' ? object.staticable_id.toString() : '0', privy: object.privy, groupRoles: object.group_role === null ? this.state.groupRoles : object.group_role})
       }
     })
   }
@@ -111,8 +119,13 @@ export default class StaticForm extends React.Component {
   }
 
   _onCharacterChange(event) {
-    if (event.target.value === '0') this.setState({currentCharacterId: '0'})
-    else this.setState({currentCharacterId: event.target.value, currentGuildId: '0'})
+    if (event.target.value === '0') this.setState({currentCharacterId: '0', fractionName: ''})
+    else {
+      const currentCharacter = this.state.userCharacters.filter((character) => {
+        return character.id === parseInt(event.target.value)
+      })[0]
+      this.setState({currentCharacterId: event.target.value, fractionName: currentCharacter.fraction_name, currentGuildId: '0'})
+    }
   }
 
   _onGuildChange(event) {
@@ -123,12 +136,6 @@ export default class StaticForm extends React.Component {
   _renderSubmitButton() {
     if (this.state.staticId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm with_top_margin" onClick={this._onCreate.bind(this)} />
     return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm with_top_margin" onClick={this._onUpdate.bind(this)} />
-  }
-
-  _onChangeAmount(key, value) {
-    let groupRoles = this.state.groupRoles
-    groupRoles[key]["amount"] = value
-    this.setState({groupRoles: groupRoles})
   }
 
   _onChangeClassAmount(role, key, value) {
@@ -192,7 +199,7 @@ export default class StaticForm extends React.Component {
         </div>
         <div className="row">
           <div className="col">
-            <RaidPlanner groupRoles={this.state.groupRoles} onChangeAmount={this._onChangeAmount.bind(this)} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
+            <RaidPlanner groupRoles={this.state.groupRoles} fractionName={this.state.fractionName} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
           </div>
         </div>
         {this._renderSubmitButton()}

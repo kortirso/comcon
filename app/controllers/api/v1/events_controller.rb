@@ -118,7 +118,7 @@ module Api
         render json: {
           worlds: @worlds_json,
           fractions: @fractions_json,
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
+          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
           guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:world), each_serializer: GuildBaseSerializer).as_json[:guilds],
           statics: Current.user.statics.pluck(:id, :name),
           dungeons: @dungeons_json
@@ -129,7 +129,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def event_form_values
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
+          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
           dungeons: @dungeons_json,
           statics: user_statics,
           group_roles: GroupRole.default

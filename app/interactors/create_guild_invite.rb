@@ -7,6 +7,7 @@ class CreateGuildInvite
   # context.character
   # context.from_guild
   def call
+    return if context.guild.nil?
     check_twinks
     return if context.guild_invite == { result: 'Approved' }
     guild_invite_form = GuildInviteForm.new(guild: context.guild, character: context.character, from_guild: ['true', true].include?(context.from_guild))

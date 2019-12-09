@@ -63,7 +63,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def form_values
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters, each_serializer: CharacterIndexSerializer).as_json[:characters],
+          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
           guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
           group_roles: GroupRole.default
         }, status: 200

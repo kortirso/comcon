@@ -23,6 +23,7 @@ export default class EventForm extends React.Component {
     this.state = {
       name: '',
       creatorId: '',
+      fractionName: '',
       userCharacters: [],
       eventableType: 'Guild',
       eventType: 'instance',
@@ -70,7 +71,7 @@ export default class EventForm extends React.Component {
         const currentStatics = data.statics.filter((staticItem) => {
           return staticItem.characters.includes(data.characters[0].id)
         })
-        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id), statics: data.statics, currentStatics: currentStatics, groupRoles: data.group_roles}, () => {
+        this.setState({userCharacters: data.characters, creatorId: data.characters[0].id, fractionName: data.characters[0].fraction_name, dungeons: data.dungeons, currentDungeons: currentDungeons, dungeonId: (currentDungeons.length === 0 ? '' : currentDungeons[0].id), statics: data.statics, currentStatics: currentStatics, groupRoles: data.group_roles}, () => {
           this._getEvent()
         })
       }
@@ -104,7 +105,7 @@ export default class EventForm extends React.Component {
             staticId = event.eventable_id
           }
         }
-        this.setState({name: event.name, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics, groupRoles: event.group_role === null ? this.state.groupRoles : event.group_role})
+        this.setState({name: event.name, fractionName: event.fraction_name.en, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics, groupRoles: event.group_role === null ? this.state.groupRoles : event.group_role})
       }
     })
   }
@@ -215,6 +216,9 @@ export default class EventForm extends React.Component {
 
   _onChangeCreator(event) {
     const creatorId = parseInt(event.target.value)
+    const currentCharacter = this.state.userCharacters.filter((character) => {
+      return character.id === creatorId
+    })[0]
     const currentStatics = this.state.statics.filter((staticItem) => {
       return staticItem.characters.includes(creatorId)
     })
@@ -228,7 +232,7 @@ export default class EventForm extends React.Component {
         staticId = currentStatics[0].id
       }
     }
-    this.setState({creatorId: event.target.value, currentStatics: currentStatics, staticId: staticId, eventableType: eventableType})
+    this.setState({creatorId: event.target.value, fractionName: currentCharacter.fraction_name, currentStatics: currentStatics, staticId: staticId, eventableType: eventableType})
   }
 
   _onChangeEventableType(event) {
@@ -236,12 +240,6 @@ export default class EventForm extends React.Component {
       if (this.state.eventableType === 'Static') this.setState({staticId: this.state.currentStatics[0].id})
       else this.setState({staticId: ''})
     })
-  }
-
-  _onChangeAmount(key, value) {
-    let groupRoles = this.state.groupRoles
-    groupRoles[key]["amount"] = value
-    this.setState({groupRoles: groupRoles})
   }
 
   _onChangeClassAmount(role, key, value) {
@@ -339,7 +337,7 @@ export default class EventForm extends React.Component {
         </div>
         <div className="row">
           <div className="col">
-            <RaidPlanner groupRoles={this.state.groupRoles} onChangeAmount={this._onChangeAmount.bind(this)} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
+            <RaidPlanner groupRoles={this.state.groupRoles} fractionName={this.state.fractionName} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
           </div>
         </div>
         {this._renderSubmitButton()}
