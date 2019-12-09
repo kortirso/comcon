@@ -9,7 +9,7 @@ class SubscribePolicy < ApplicationPolicy
 
   def update?
     return event_subscribe_update if record.subscribeable.is_a?(Event)
-    user.any_static_role?(record.subscribeable)
+    static_subscribe_update
   end
 
   private
@@ -33,5 +33,10 @@ class SubscribePolicy < ApplicationPolicy
     # true if class leader and character is the same class
     return true if guild_role[0] == 'cl' && guild_role[1].include?(record.character.character_class.name['en'])
     false
+  end
+
+  def static_subscribe_update
+    return true if status == :no_status_change
+    user.any_static_role?(record.subscribeable)
   end
 end
