@@ -92,7 +92,9 @@ export default class Guild extends React.Component {
         const characters = [... this.state.characters]
         const characterIndex = characters.indexOf(character)
         characters.splice(characterIndex, 1)
-        this.setState({characters: characters})
+        this.setState({characters: characters}, () => {
+          if (this.state.characters.length === 0) window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/guilds`
+        })
       }
     })
   }

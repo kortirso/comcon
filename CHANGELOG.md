@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - redirect after upload recipes for characters
 - make comment in static
 - craft bug based on old cache value for guilds
+- deleting guild when no members
 
 ## [0.9.9] - 2019-12-07
 ### Added

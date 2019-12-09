@@ -80,8 +80,7 @@ module Api
       error code: 400, desc: 'Object is not found'
       def kick_character
         authorize! @guild, to: :management?
-        @character.update(guild_id: nil)
-        RebuildGuildRoles.call(guild: @guild)
+        CharacterLeftFromGuild.call(guild: @guild, character: @character)
         render json: { result: 'Character is kicked from guild' }, status: 200
       end
 
@@ -91,8 +90,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 400, desc: 'Object is not found'
       def leave_character
-        @character.update(guild_id: nil)
-        RebuildGuildRoles.call(guild: @guild)
+        CharacterLeftFromGuild.call(guild: @guild, character: @character)
         render json: { result: 'Character is left from guild' }, status: 200
       end
 

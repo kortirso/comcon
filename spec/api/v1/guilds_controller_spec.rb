@@ -357,8 +357,8 @@ RSpec.describe 'Guilds API' do
             expect(character.guild_id).to eq nil
           end
 
-          it 'and calls RebuildGuildRoles' do
-            expect(RebuildGuildRoles).to receive(:call).and_call_original
+          it 'and calls CharacterLeftFromGuild' do
+            expect(CharacterLeftFromGuild).to receive(:call).and_call_original
 
             request
           end
@@ -432,8 +432,8 @@ RSpec.describe 'Guilds API' do
             expect(user_character.guild_id).to eq nil
           end
 
-          it 'and calls RebuildGuildRoles' do
-            expect(RebuildGuildRoles).to receive(:call).and_call_original
+          it 'and calls CharacterLeftFromGuild' do
+            expect(CharacterLeftFromGuild).to receive(:call).and_call_original
 
             request
           end
