@@ -523,7 +523,7 @@ RSpec.describe 'Guilds API' do
     end
   end
 
-  describe 'GET#shcharacters_for_requestow' do
+  describe 'GET#characters_for_request' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
     it_behaves_like 'API auth unconfirmed'

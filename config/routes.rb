@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         get :members, on: :member
         get :subscribers, on: :member
         post :leave_character, on: :member
+        get :search, on: :collection
       end
       resources :static_invites, only: %i[index create destroy]
       resources :static_members, only: %i[destroy]

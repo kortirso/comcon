@@ -6,6 +6,7 @@ module Api
       before_action :find_static, only: %i[show update members subscribers leave_character]
       before_action :find_user_guilds, only: %i[form_values]
       before_action :find_character, only: %i[leave_character]
+      before_action :search_statics, only: %i[search]
 
       resource_description do
         short 'Static resources'
@@ -99,6 +100,14 @@ module Api
         render json: { result: 'Character is left from static' }, status: 200
       end
 
+      api :GET, '/v1/statics/search.json', 'Search statics by name with params'
+      error code: 401, desc: 'Unauthorized'
+      def search
+        render json: {
+          statics: ActiveModelSerializers::SerializableResource.new(@statics, root: 'statics', each_serializer: StaticIndexSerializer).as_json[:statics]
+        }, status: 200
+      end
+
       private
 
       def find_statics
@@ -126,6 +135,16 @@ module Api
       def find_character
         @character = Current.user.characters.find_by(id: params[:character_id])
         render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
+      end
+
+      def search_statics
+        @statics = Static.search "*#{params[:query]}*", with: define_additional_search_params
+      end
+
+      def define_additional_search_params(with = {})
+        with[:world_id] = params[:world_id].to_i if params[:world_id].present?
+        with[:fraction_id] = params[:fraction_id].to_i if params[:fraction_id].present?
+        with
       end
 
       def static_params
