@@ -32,8 +32,7 @@ class GroupRoleForm
   private
 
   def remove_not_fraction_classes
-    fraction_name = @groupable.fraction.name['en']
-    if fraction_name == 'Alliance'
+    if @groupable.fraction.name['en'] == 'Alliance'
       value[:healers][:by_class][:shaman] = 0
       value[:dd][:by_class][:shaman] = 0
     else
