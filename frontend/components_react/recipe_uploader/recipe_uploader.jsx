@@ -30,7 +30,7 @@ export default class RecipeUploader extends React.Component {
       url: `/api/v1/characters/${this.props.character_id}/upload_recipes.json?access_token=${this.props.access_token}`,
       data: { profession_id: this.props.profession_id, value: this.state.value },
       success: (data) => {
-        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters/${this.props.character_id}/recipes`)
+        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters/${this.props.character_slug}/recipes`)
       },
       error: () => {
         this.setState({value: 'Recipes are not uploaded'})
