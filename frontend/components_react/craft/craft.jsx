@@ -46,6 +46,8 @@ export default class Craft extends React.Component {
         const professions = data.professions.filter((profession) => {
           return profession.recipeable
         })
+        console.log('initial data')
+        console.log(data)
         this.setState({worlds: data.worlds, fractions: data.fractions, guilds: data.guilds, currentGuilds: data.guilds, professions: professions})
       }
     })
@@ -72,12 +74,15 @@ export default class Craft extends React.Component {
     if (state.world !== '0') filters['world_id'] = state.world
     if (state.guild !== '0') filters['guild_id'] = state.guild
     if (state.fraction !== '0') filters['fraction_id'] = state.fraction
+    console.log('filters')
+    console.log(filters)
     const crafters = state.crafters.filter(function(event) {
       for (var key in filters) {
         if (event[key] === undefined || event[key] != filters[key]) return false
       }
       return true
     })
+    console.log(crafters)
     this.setState({currentCrafters: crafters})
   }
 
@@ -267,24 +272,34 @@ export default class Craft extends React.Component {
   }
 
   _onChangeWorld(event) {
+    console.log('change_world')
+    console.log(event.target.value)
     this.setState({world: event.target.value}, () => {
       this._onChangeGuild('0')
     })
   }
 
   _onChangeFraction(event) {
+    console.log('change_fraction')
+    console.log(event.target.value)
     this.setState({fraction: event.target.value}, () => {
       this._onChangeGuild('0')
     })
   }
 
   _onChangeGuild(event) {
+    console.log('change_fraction')
+    console.log(event)
     const guild = event.target === undefined ? event : event.target.value
+    console.log(guild)
     this.setState({guild: guild}, () => {
+      console.log(this.state.guild)
       if (this.state.guild !== '0') {
         const currentGuild = this.state.guilds.filter((guild) => {
           return guild.id === parseInt(this.state.guild)
         })[0]
+        console.log('change_guild')
+        console.log(currentGuild)
         this.setState({world: currentGuild.world_id, fraction: currentGuild.fraction_id}, () => {
           this._setCurrentGuild()
         })
@@ -299,6 +314,8 @@ export default class Craft extends React.Component {
       else if (this.state.fraction === '0' && this.state.world !== '0') return guild.world_id === parseInt(this.state.world)
       else return true
     })
+    console.log('after_guild_filter')
+    console.log(currentGuilds)
     this.setState({currentGuilds: currentGuilds}, () => {
       this._filterCrafters()
     })
