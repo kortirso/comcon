@@ -309,10 +309,22 @@ export default class Craft extends React.Component {
 
   _setCurrentGuild() {
     const currentGuilds = this.state.guilds.filter((guild) => {
-      if (this.state.fraction !== '0' && this.state.world !== '0') return guild.fraction_id === parseInt(this.state.fraction) && guild.world_id === parseInt(this.state.world)
-      else if (this.state.fraction !== '0' && this.state.world === '0') return guild.fraction_id === parseInt(this.state.fraction)
-      else if (this.state.fraction === '0' && this.state.world !== '0') return guild.world_id === parseInt(this.state.world)
-      else return true
+      console.log('filtering')
+      console.log(guild)
+      console.log(this.state.fraction === '0')
+      console.log(this.state.fraction !== '0')
+      console.log(this.state.world === '0')
+      console.log(this.state.world !== '0')
+      if (this.state.fraction !== '0' && this.state.world !== '0') {
+        console.log((guild.fraction_id === parseInt(this.state.fraction) && guild.world_id === parseInt(this.state.world)))
+        return (guild.fraction_id === parseInt(this.state.fraction) && guild.world_id === parseInt(this.state.world))
+      } else if (this.state.fraction !== '0' && this.state.world === '0') {
+        console.log(guild.fraction_id === parseInt(this.state.fraction))
+        return guild.fraction_id === parseInt(this.state.fraction)
+      } else if (this.state.fraction === '0' && this.state.world !== '0') {
+        console.log(guild.world_id === parseInt(this.state.world))
+        return guild.world_id === parseInt(this.state.world)
+      } else return true
     })
     console.log('after_guild_filter')
     console.log(currentGuilds)
