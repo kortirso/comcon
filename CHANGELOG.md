@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - redirect after upload recipes for characters
 - make comment in static
-- add debug logs to craft page
+- craft bug based on old cache value for guilds
 
 ## [0.9.9] - 2019-12-07
 ### Added
