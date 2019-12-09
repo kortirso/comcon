@@ -1,4 +1,31 @@
 RSpec.describe GroupRoleForm, type: :service do
+  let(:alliance_group_roles) do
+    {
+      tanks: {
+        by_class: { warrior: 2, paladin: 0, druid: 2 }
+      },
+      healers: {
+        by_class: { paladin: 2, druid: 1, priest: 3, shaman: 3 }
+      },
+      dd: {
+        by_class: { warrior: 2, warlock: 5, druid: 0, hunter: 0, rogue: 0, priest: 0, shaman: 0, mage: 5, paladin: 2 }
+      }
+    }
+  end
+  let(:horde_group_roles) do
+    {
+      tanks: {
+        by_class: { warrior: 2, paladin: 2, druid: 2 }
+      },
+      healers: {
+        by_class: { paladin: 2, druid: 1, priest: 3, shaman: 0 }
+      },
+      dd: {
+        by_class: { warrior: 2, warlock: 5, druid: 0, hunter: 0, rogue: 0, priest: 0, shaman: 0, mage: 5, paladin: 2 }
+      }
+    }
+  end
+
   describe '.persist?' do
     context 'for invalid data' do
       let(:service) { described_class.new(groupable_id: '', groupable_type: 'Event', value: {}) }
@@ -28,7 +55,7 @@ RSpec.describe GroupRoleForm, type: :service do
       end
 
       context 'for unexisted groupable' do
-        let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: { tanks: { amount: 0 } }) }
+        let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: GroupRole.default) }
 
         it 'creates new group role' do
           expect { service.persist? }.to change { GroupRole.count }.by(1)
@@ -36,6 +63,44 @@ RSpec.describe GroupRoleForm, type: :service do
 
         it 'and returns true' do
           expect(service.persist?).to eq true
+        end
+      end
+
+      context 'for alliance' do
+        let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: alliance_group_roles) }
+
+        it 'creates new group role' do
+          expect { service.persist? }.to change { GroupRole.count }.by(1)
+        end
+
+        it 'and returns true' do
+          expect(service.persist?).to eq true
+        end
+
+        it 'and reset shamans' do
+          service.persist?
+
+          expect(GroupRole.last.value['healers']['by_class']['shaman']).to eq 0
+        end
+      end
+
+      context 'for horde' do
+        let!(:horde) { create :fraction, :horde }
+        let!(:event) { create :event, fraction: horde }
+        let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: alliance_group_roles) }
+
+        it 'creates new group role' do
+          expect { service.persist? }.to change { GroupRole.count }.by(1)
+        end
+
+        it 'and returns true' do
+          expect(service.persist?).to eq true
+        end
+
+        it 'and reset shamans' do
+          service.persist?
+
+          expect(GroupRole.last.value['tanks']['by_class']['paladin']).to eq 0
         end
       end
     end
@@ -64,13 +129,13 @@ RSpec.describe GroupRoleForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { described_class.new(group_role.attributes.merge(value: { tanks: { amount: 0 } }, left_value: { tanks: { amount: 0 } })) }
+          let(:service) { described_class.new(group_role.attributes.merge(value: GroupRole.default, left_value: GroupRole.default)) }
 
           it 'does not update dungeon' do
             service.persist?
             group_role.reload
 
-            expect(group_role.value).to eq('tanks' => { 'amount' => 0 })
+            expect(group_role.value.is_a?(Hash)).to eq true
           end
         end
       end

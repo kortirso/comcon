@@ -21,6 +21,7 @@ class GroupRoleForm
     self.value = (value.is_a?(Hash) || id ? rebuild_keys_to_integers(value) : GroupRole.default)
     self.left_value = id ? rebuild_keys_to_integers(left_value) : GroupRole.default
     return false unless valid?
+    remove_not_fraction_classes
     @group_role = id ? GroupRole.find_by(id: id) : GroupRole.new
     return false if @group_role.nil?
     @group_role.attributes = attributes.except(:id)
@@ -30,9 +31,22 @@ class GroupRoleForm
 
   private
 
+  def remove_not_fraction_classes
+    fraction_name = @groupable.fraction.name['en']
+    if fraction_name == 'Alliance'
+      value[:healers][:by_class][:shaman] = 0
+      value[:dd][:by_class][:shaman] = 0
+    else
+      value[:tanks][:by_class][:paladin] = 0
+      value[:healers][:by_class][:paladin] = 0
+      value[:dd][:by_class][:paladin] = 0
+    end
+  end
+
   def groupable_exists?
     return if groupable_type.nil?
-    return if groupable_type.constantize.where(id: groupable_id).exists?
+    @groupable = groupable_type.constantize.find_by(id: groupable_id)
+    return if @groupable.present?
     errors[:groupable] << 'is not exists'
   end
 
