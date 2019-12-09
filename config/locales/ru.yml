@@ -225,6 +225,8 @@ ru:
     level: Уровень
     guild: Гильдия
     find_guild: Найти гильдию
+    statics: Статики
+    find_static: Найти статик
   character_form:
     creating: Добавить нового персонажа
   select:
@@ -267,6 +269,8 @@ ru:
     management: Управление
   guild_invite:
     for_user: '%{character_name}, поиск гильдии'
+  static_invite:
+    for_user: '%{character_name}, поиск статика'
   notifications:
     title: Уведомления
     add: Создать уведомление

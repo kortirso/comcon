@@ -214,6 +214,8 @@ en:
     level: Level
     guild: Guild
     find_guild: Find guild
+    statics: Statics
+    find_static: Find static
   character_form:
     creating: Create new character
   select:
@@ -256,6 +258,8 @@ en:
     management: Management
   guild_invite:
     for_user: '%{character_name}, search for guild'
+  static_invite:
+    for_user: '%{character_name}, search for static'
   notifications:
     title: Notifications
     add: Add notification

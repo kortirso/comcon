@@ -1,0 +1,36 @@
+{
+  "en": {
+    "name": "Name",
+    "nameLabel": "Search static by name (minimum 3 symbols)",
+    "invite": "Request",
+    "noCharacters": "No statics",
+    "forCharacter": "Search static for your character",
+    "requestsLabel": "Existed requests to static",
+    "noRequests": "No requests",
+    "deleteRequest": "Delete",
+    "invitesLabel": "Existed invites from statics",
+    "noInvites": "No invites",
+    "approveInvite": "Approve",
+    "declineInvite": "Decline",
+    "status": "Status",
+    "send": "Sent",
+    "declined": "Declined"
+  },
+  "ru": {
+    "name": "Название",
+    "nameLabel": "Поиск статиков по названию (минимум 3 символа)",
+    "invite": "Запрос",
+    "noCharacters": "Статики не найдены",
+    "forCharacter": "Поиск статика для вашего персонажа",
+    "requestsLabel": "Отправленные запросы на вступление",
+    "noRequests": "Нет запросов",
+    "deleteRequest": "Удалить",
+    "invitesLabel": "Полученные запросы на вступление",
+    "noInvites": "Нет приглашений",
+    "approveInvite": "Принять",
+    "declineInvite": "Отменить",
+    "status": "Статус",
+    "send": "Отправлен",
+    "declined": "Отклонен"
+  }
+}

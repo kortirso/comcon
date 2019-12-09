@@ -12,6 +12,7 @@
             th= t('characters.character_class')
             th= t('characters.level')
             th= t('characters.guild')
+            th= t('characters.statics')
             th= t('characters.world')
             th
         tbody
@@ -26,6 +27,7 @@
                   = link_to character.guild.name, guild_path(id: character.guild.slug)
                 - else
                   = link_to t('characters.find_guild'), new_guild_invite_path(character_id: character.id), class: 'find_guild'
+              td= link_to t('characters.find_static'), new_static_invite_path(character_id: character.id), class: 'find_guild'
               td= character.world.full_name
               td
                 = link_to t('buttons.recipes'), recipes_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'

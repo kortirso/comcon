@@ -1,0 +1,6 @@
+= javascript_pack_tag 'static_invite_form_for_character'
+.inside
+  .inside_topbar
+    .title= t('static_invite.for_user', character_name: @character.full_name)
+  main
+    = react_component('StaticInviteFormForCharacter', character_id: @character.id, fraction_id: @character.race.fraction_id, world_id: @character.world_id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
