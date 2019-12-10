@@ -32,7 +32,8 @@
     "alternative": "Display event by roles and classes",
     "close": "Close",
     "hoursBeforeClose": "Hours before close registration for event",
-    "notSubscribed": "Characters of static without subscribe"
+    "notSubscribed": "Characters of static without subscribe",
+    "operations": "Operations"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -67,6 +68,7 @@
     "alternative": "Отображение события по ролям и классам",
     "close": "Закрыть",
     "hoursBeforeClose": "Часов до закрытия регистрации на событие",
-    "notSubscribed": "Персонажи статика, которые не подписались на событие"
+    "notSubscribed": "Персонажи статика, которые не подписались на событие",
+    "operations": "Операции"
   }
 }

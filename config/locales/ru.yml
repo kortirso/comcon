@@ -265,6 +265,7 @@ ru:
     search: Поиск
     creating: Добавить новый статик
     left_value: Необходимы персонажи
+    operations: Операции
   static:
     label: Состав статика
   guild:
@@ -275,6 +276,8 @@ ru:
   static_invite:
     title: Поиск статика
     no_characters: Для поиска статика привяжите персонажа к учетной записи
+  event_new:
+    no_characters: Для создания события привяжите персонажа к учетной записи
   notifications:
     title: Уведомления
     add: Создать уведомление
@@ -292,6 +295,7 @@ ru:
   restore_password:
     title: Сброс пароля
     submit: Выслать email с кодом подтверждения
+  operations: Операции
   mailer:
     user:
       confirmation_email:

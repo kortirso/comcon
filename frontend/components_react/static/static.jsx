@@ -410,7 +410,7 @@ export default class LineUp extends React.Component {
                   <th>{strings.guild}</th>
                   <th>{strings.status}</th>
                   <th>{strings.comment}</th>
-                  <th></th>
+                  <th>{strings.operations}</th>
                 </tr>
               </thead>
               <tbody>

@@ -127,6 +127,25 @@ export default class StaticsList extends React.Component {
     })
   }
 
+  _renderAllStatics() {
+    if (this.state.filteredStatics.length === 0) return <p>{strings.noStatics}</p>
+    return (
+      <table className="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>{strings.name}</th>
+            <th>{strings.owner}</th>
+            <th>{strings.description}</th>
+            <th>{strings.leftValues}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this._renderStatics()}
+        </tbody>
+      </table>
+    )
+  }
+
   _renderStatics() {
     return this.state.filteredStatics.map((object) => {
       return (
@@ -181,19 +200,7 @@ export default class StaticsList extends React.Component {
     return (
       <div className="statics">
         {this._renderFilters()}
-        <table className="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>{strings.name}</th>
-              <th>{strings.owner}</th>
-              <th>{strings.description}</th>
-              <th>{strings.leftValues}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this._renderStatics()}
-          </tbody>
-        </table>
+        {this._renderAllStatics()}
       </div>
     )
   }

@@ -111,7 +111,7 @@ module Api
       private
 
       def find_statics
-        @statics = Static.not_privy.order(name: :asc).includes(:fraction, staticable: :world)
+        @statics = Static.not_privy.order(name: :asc).includes(:fraction, :group_role, staticable: :world)
         @statics = @statics.where(world_id: params[:world_id]) if params[:world_id].present?
         @statics = @statics.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
       end

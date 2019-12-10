@@ -20,7 +20,7 @@
                   th= t('statics.description')
                   th= t('statics.owner')
                   th= t('statics.invited_character')
-                  th
+                  th= t('statics.operations')
               tbody
                 - @user_static_invites.includes(:character, static: :staticable).each do |invite|
                   tr
@@ -41,7 +41,7 @@
                 th= t('statics.owner')
                 th= t('statics.privy')
                 th= t('statics.left_value')
-                th
+                th= t('statics.operations')
             tbody
               - @user_statics.includes(:group_role, staticable: :world).each do |static|
                 tr

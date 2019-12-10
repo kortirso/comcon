@@ -166,7 +166,7 @@ export default class Guild extends React.Component {
               <th>{strings.race}</th>
               <th>{strings.level}</th>
               <th>{strings.guildRole}</th>
-              <th></th>
+              <th>{strings.operations}</th>
             </tr>
           </thead>
           <tbody>

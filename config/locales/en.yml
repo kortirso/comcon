@@ -254,6 +254,7 @@ en:
     search: Search
     creating: Create new static
     left_value: Need characters
+    operations: Operations
   static:
     label: Static roster
   guild:
@@ -264,6 +265,8 @@ en:
   static_invite:
     title: Search for static
     no_characters: For searching static you need to attach new character to your account
+  event_new:
+    no_characters: For creating event you need to attach new character to your account
   notifications:
     title: Notifications
     add: Add notification
@@ -278,6 +281,10 @@ en:
     add: Create guild
     creating: Create new guild
     no_characters: For creating guild you need to attach new character to your account
+  restore_password:
+    title: Reset password
+    submit: Send email with confirmation link
+  operations: Operations
   mailer:
     user:
       confirmation_email:

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - clear paladin/shaman roles in group_role values for opposite fraction
 - one search statis page for all user characters
 - one search guilds page for all user characters
+- all views for errors, bugs and n+1
 
 ### Fixed
 - remove empty guild roles

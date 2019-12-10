@@ -48,7 +48,7 @@ class User < ApplicationRecord
   end
 
   def guild_static_ids_as_guild_leader(guild_static_ids = [])
-    characters.where.not(guild_id: nil).each do |character|
+    characters.where.not(guild_id: nil).includes(:guild).each do |character|
       next unless any_role?(character.guild_id, 'gm', 'rl', 'cl')
       guild_static_ids << character.guild.statics.pluck(:id)
     end

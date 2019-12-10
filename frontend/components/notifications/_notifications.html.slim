@@ -12,22 +12,23 @@
   main
     .settings
       p= t('user_notifications.p_1')
-      table.table.table-striped.table-sm
-        thead
-          tr
-            th= t('notifications.event')
-            th= t('notifications.delivery_param')
-            th= t('notifications.delivery_value')
-            th
-        tbody
-          - Current.user.notifications.each do |notification|
-            - notification.deliveries.where(deliveriable_id: Current.user.id, deliveriable_type: 'User').each do |delivery|
-              tr
-                td= notification.name[I18n.locale.to_s]
-                td= delivery.delivery_type
-                td.delivery_param
-                  - if delivery.delivery_param.present?
-                    - delivery.delivery_param.params.each do |key, value|
-                      span= "#{key}: #{value}"
-                td
-                  = link_to t('buttons.delete'), delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+      - if Current.user.notifications.size.positive?
+        table.table.table-striped.table-sm
+          thead
+            tr
+              th= t('notifications.event')
+              th= t('notifications.delivery_param')
+              th= t('notifications.delivery_value')
+              th
+          tbody
+            - Current.user.notifications.each do |notification|
+              - notification.deliveries.where(deliveriable_id: Current.user.id, deliveriable_type: 'User').each do |delivery|
+                tr
+                  td= notification.name[I18n.locale.to_s]
+                  td= delivery.delivery_type
+                  td.delivery_param
+                    - if delivery.delivery_param.present?
+                      - delivery.delivery_param.params.each do |key, value|
+                        span= "#{key}: #{value}"
+                  td
+                    = link_to t('buttons.delete'), delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
