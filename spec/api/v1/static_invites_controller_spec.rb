@@ -160,8 +160,8 @@ RSpec.describe 'StaticInvites API' do
         end
       end
 
-      context 'for guild static' do
-        let(:request) { post '/api/v1/static_invites.json', params: { access_token: access_token, static_invite: { static_id: guild_static.id, character_id: character.id } } }
+      context 'from static' do
+        let(:request) { post '/api/v1/static_invites.json', params: { access_token: access_token, static_invite: { static_id: guild_static.id, character_id: character.id, from_static: 'true' } } }
 
         context 'for existed static member' do
           let!(:static_member) { create :static_member, static: guild_static, character: character }
@@ -218,8 +218,8 @@ RSpec.describe 'StaticInvites API' do
         end
       end
 
-      context 'for character static' do
-        let(:request) { post '/api/v1/static_invites.json', params: { access_token: access_token, static_invite: { static_id: character_static.id, character_id: character.id } } }
+      context 'from character' do
+        let(:request) { post '/api/v1/static_invites.json', params: { access_token: access_token, static_invite: { static_id: character_static.id, character_id: character.id, from_static: 'false' } } }
 
         context 'for existed static invite' do
           let!(:static_member) { create :static_member, static: character_static, character: character }
@@ -332,6 +332,124 @@ RSpec.describe 'StaticInvites API' do
 
     def do_request(headers = {})
       delete '/api/v1/static_invites/unexisted.json', headers: headers
+    end
+  end
+
+  describe 'POST#approve' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let!(:guild) { create :guild }
+      let!(:character) { create :character, guild: guild, user: user }
+      let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+      let!(:guild_static) { create :static, staticable: guild, fraction: character.race.fraction, world: character.world }
+      let!(:group_role) { create :group_role, groupable: guild_static }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted static invite' do
+        let(:request) { post '/api/v1/static_invites/unexisted/approve.json', params: { access_token: access_token } }
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 404' do
+            expect(response.status).to eq 404
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+          end
+        end
+      end
+
+      context 'for existed static invite' do
+        let!(:static_invite) { create :static_invite, static: guild_static, from_static: false }
+        let(:request) { post "/api/v1/static_invites/#{static_invite.id}/approve.json", params: { access_token: access_token } }
+
+        it 'calls ApproveStaticInvite' do
+          expect(ApproveStaticInvite).to receive(:call).and_call_original
+
+          request
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 200' do
+            expect(response.status).to eq 200
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('result' => 'Character is added to the static')
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      post '/api/v1/static_invites/unexisted/approve.json', headers: headers
+    end
+  end
+
+  describe 'POST#decline' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let!(:guild) { create :guild }
+      let!(:character) { create :character, guild: guild, user: user }
+      let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+      let!(:guild_static) { create :static, staticable: guild, fraction: character.race.fraction, world: character.world }
+      let!(:group_role) { create :group_role, groupable: guild_static }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted static invite' do
+        let(:request) { post '/api/v1/static_invites/unexisted/decline.json', params: { access_token: access_token } }
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 404' do
+            expect(response.status).to eq 404
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+          end
+        end
+      end
+
+      context 'for existed static invite' do
+        let!(:static_invite) { create :static_invite, static: guild_static, from_static: false }
+        let(:request) { post "/api/v1/static_invites/#{static_invite.id}/decline.json", params: { access_token: access_token } }
+
+        it 'calls UpdateStaticInvite' do
+          expect(UpdateStaticInvite).to receive(:call).and_call_original
+
+          request
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 200' do
+            expect(response.status).to eq 200
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('result' => 'Static invite is declined')
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      post '/api/v1/static_invites/unexisted/decline.json', headers: headers
     end
   end
 end

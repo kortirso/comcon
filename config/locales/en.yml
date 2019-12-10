@@ -259,7 +259,7 @@ en:
   guild_invite:
     for_user: '%{character_name}, search for guild'
   static_invite:
-    for_user: '%{character_name}, search for static'
+    title: Search for static
   notifications:
     title: Notifications
     add: Add notification

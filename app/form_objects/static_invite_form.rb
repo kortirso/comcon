@@ -4,12 +4,14 @@ class StaticInviteForm
   include Virtus.model
 
   attribute :id, Integer
+  attribute :from_static, Boolean, default: false
   attribute :static, Static
   attribute :character, Character
   attribute :status, Integer, default: 0
 
   validates :status, :static, :character, presence: true
   validates :status, inclusion: 0..2
+  validate :exists?
   validate :status_value
   validate :same_world?
   validate :same_fraction?
@@ -18,7 +20,6 @@ class StaticInviteForm
 
   def persist?
     return false unless valid?
-    return false if exists?
     @static_invite = id ? StaticInvite.find_by(id: id) : StaticInvite.new
     return false if @static_invite.nil?
     @static_invite.attributes = attributes.except(:id)
@@ -30,7 +31,8 @@ class StaticInviteForm
 
   def exists?
     static_invites = id.nil? ? StaticInvite.all : StaticInvite.where.not(id: id)
-    static_invites.where(static: static, character: character).exists?
+    return unless static_invites.where(static: static, character: character, from_static: from_static).exists?
+    errors[:static_invite] << 'already exists'
   end
 
   def status_value

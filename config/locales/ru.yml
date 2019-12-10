@@ -270,7 +270,7 @@ ru:
   guild_invite:
     for_user: '%{character_name}, поиск гильдии'
   static_invite:
-    for_user: '%{character_name}, поиск статика'
+    title: Поиск статика
   notifications:
     title: Уведомления
     add: Создать уведомление

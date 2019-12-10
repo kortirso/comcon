@@ -5,7 +5,7 @@ module Api
       before_action :find_static, only: %i[create]
       before_action :find_character, only: %i[create]
       before_action :check_static_member, only: %i[create]
-      before_action :find_static_invite, only: %i[destroy]
+      before_action :find_static_invite, only: %i[destroy approve decline]
 
       resource_description do
         short 'StaticInvite resources'
@@ -23,7 +23,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def create
-        authorize! @static, to: :edit?
+        authorize! params[:static_invite][:from_static], with: StaticInvitePolicy, to: :index?, context: { static: @static, character: @character }
         if @static.for_guild? && @character.guild_id == @static.staticable_id
           create_static_member
         else
@@ -32,9 +32,29 @@ module Api
       end
 
       def destroy
-        authorize! @static_invite.static, to: :edit?
+        authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :index?, context: { static: @static_invite.static, character: @static_invite.character }
         @static_invite.destroy
         render json: { result: 'Static invite is destroyed' }, status: 200
+      end
+
+      api :POST, '/v1/static_invites/:id/approve.json', 'Approve static invite'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Object is not found'
+      def approve
+        authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
+        ApproveStaticInvite.call(static_invite: @static_invite, static: @static_invite.static, character: @static_invite.character, status: 2)
+        render json: { result: 'Character is added to the static' }, status: 200
+      end
+
+      api :POST, '/v1/static_invites/:id/decline.json', 'Decline static invite'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Object is not found'
+      def decline
+        authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
+        UpdateStaticInvite.call(static_invite: @static_invite, status: 1)
+        render json: { result: 'Static invite is declined' }, status: 200
       end
 
       private
@@ -84,7 +104,7 @@ module Api
       end
 
       def create_static_invite
-        static_invite_form = StaticInviteForm.new(static: @static, character: @character, status: 0)
+        static_invite_form = StaticInviteForm.new(static: @static, character: @character, status: 0, from_static: params[:static_invite][:from_static])
         if static_invite_form.persist?
           render json: {
             invite: StaticInviteSerializer.new(static_invite_form.static_invite)

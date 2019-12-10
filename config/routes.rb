@@ -44,7 +44,10 @@ Rails.application.routes.draw do
         post :leave_character, on: :member
         get :search, on: :collection
       end
-      resources :static_invites, only: %i[index create destroy]
+      resources :static_invites, only: %i[index create destroy] do
+        post :approve, on: :member
+        post :decline, on: :member
+      end
       resources :static_members, only: %i[destroy]
       resources :notifications, only: %i[index]
       resources :deliveries, only: %i[create]
@@ -87,7 +90,8 @@ Rails.application.routes.draw do
       get :management, on: :member
       get :search, on: :collection
     end
-    resources :static_invites, only: %i[new] do
+    resources :static_invites, only: %i[] do
+      get :find, on: :collection
       get :approve, on: :member
       get :decline, on: :member
     end

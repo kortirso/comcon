@@ -14,7 +14,8 @@
     "declineInvite": "Decline",
     "status": "Status",
     "send": "Sent",
-    "declined": "Declined"
+    "declined": "Declined",
+    "characters": "User characters"
   },
   "ru": {
     "name": "Название",
@@ -31,6 +32,7 @@
     "declineInvite": "Отменить",
     "status": "Статус",
     "send": "Отправлен",
-    "declined": "Отклонен"
+    "declined": "Отклонен",
+    "characters": "Персонажи пользователя"
   }
 }

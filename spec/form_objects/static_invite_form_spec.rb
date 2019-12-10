@@ -18,7 +18,7 @@ RSpec.describe StaticInviteForm, type: :service do
 
       context 'for existed static invite' do
         let!(:static_invite) { create :static_invite, static: static, character: character }
-        let(:service) { StaticInviteForm.new(static: static, character: character) }
+        let(:service) { StaticInviteForm.new(static: static, character: character, from_static: static_invite.from_static) }
 
         it 'does not create new static invite' do
           expect { service.persist? }.to_not change(StaticInvite, :count)
