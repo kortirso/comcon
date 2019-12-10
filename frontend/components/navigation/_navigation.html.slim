@@ -5,7 +5,7 @@ nav.navigation.navbar-light
   .collapse.navbar-collapse
     ul.navigation_block
       li
-        = link_to_if request.fullpath =~ /^\/characters/ || request.fullpath =~ /^\/ru\/characters/ || request.fullpath =~ /^\/guild_invites/ || request.fullpath =~ /^\/ru\/guild_invites/, t('navigation.characters'), characters_path, class: 'active' do
+        = link_to_if request.fullpath =~ /^\/characters/ || request.fullpath =~ /^\/ru\/characters/ || request.fullpath =~ /^\/guild_invites/ || request.fullpath =~ /^\/ru\/guild_invites/ || request.fullpath =~ /^\/static_invites/ || request.fullpath =~ /^\/ru\/static_invites/, t('navigation.characters'), characters_path, class: 'active' do
           = link_to t('navigation.characters'), characters_path
       li
         = link_to_if request.fullpath =~ /^\/guilds/ || request.fullpath =~ /^\/ru\/guilds/, t('navigation.guilds'), guilds_path, class: 'active' do

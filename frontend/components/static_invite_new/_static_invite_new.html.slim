@@ -1,6 +1,10 @@
-= javascript_pack_tag 'static_invite_form_for_character'
 .inside
   .inside_topbar
     .title= t('static_invite.title')
   main
-    = react_component('StaticInviteFormForCharacter', user_characters: @user_characters, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
+    - if @user_characters.empty?
+      div
+        p= t('static_invite.no_characters')
+    - else
+      = javascript_pack_tag 'static_invite_form_for_character'
+      = react_component('StaticInviteFormForCharacter', user_characters: @user_characters, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

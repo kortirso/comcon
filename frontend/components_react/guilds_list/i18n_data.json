@@ -5,7 +5,8 @@
     "world": "Realm",
     "description": "Description",
     "filterWorld": "Filter by realm",
-    "filterFraction": "Filter by fraction"
+    "filterFraction": "Filter by fraction",
+    "noGuilds": "There are no guilds matched filters"
   },
   "ru": {
     "none": "все",
@@ -13,6 +14,7 @@
     "world": "Игровой Мир",
     "description": "Описание",
     "filterWorld": "Фильтр по мирам",
-    "filterFraction": "Фильтр по фракциям"
+    "filterFraction": "Фильтр по фракциям",
+    "noGuilds": "Нет гильдий подходящих под выбранный фильтр"
   }
 }

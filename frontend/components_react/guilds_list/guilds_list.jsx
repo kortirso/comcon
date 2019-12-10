@@ -128,6 +128,24 @@ export default class GuildsList extends React.Component {
     })
   }
 
+  _renderAllGuilds() {
+    if (this.state.filteredGuilds.length === 0) return <p>{strings.noGuilds}</p>
+    return (
+      <table className="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>{strings.name}</th>
+            <th>{strings.world}</th>
+            <th>{strings.description}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this._renderGuilds()}
+        </tbody>
+      </table>
+    )
+  }
+
   _renderGuilds() {
     return this.state.filteredGuilds.map((guild) => {
       return (
@@ -162,18 +180,7 @@ export default class GuildsList extends React.Component {
     return (
       <div className="guilds">
         {this._renderFilters()}
-        <table className="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>{strings.name}</th>
-              <th>{strings.world}</th>
-              <th>{strings.description}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this._renderGuilds()}
-          </tbody>
-        </table>
+        {this._renderAllGuilds()}
       </div>
     )
   }

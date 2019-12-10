@@ -216,6 +216,8 @@ en:
     find_guild: Find guild
     statics: Statics
     find_static: Find static
+    operations: Operations
+    no_characters: For viewing characters you need to attach new character to your account
   character_form:
     creating: Create new character
   select:
@@ -257,9 +259,11 @@ en:
   guild:
     management: Management
   guild_invite:
-    for_user: '%{character_name}, search for guild'
+    title: Search for guild
+    no_characters: For searching guild you need to attach new character to your account
   static_invite:
     title: Search for static
+    no_characters: For searching static you need to attach new character to your account
   notifications:
     title: Notifications
     add: Add notification

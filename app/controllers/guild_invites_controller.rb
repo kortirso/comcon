@@ -1,12 +1,11 @@
 class GuildInvitesController < ApplicationController
-  before_action :find_character, only: %i[new]
+  before_action :find_character, only: %i[find]
 
-  def new; end
+  def find; end
 
   private
 
   def find_character
-    @character = Character.where(user_id: Current.user.id, guild_id: nil).find_by(id: params[:character_id])
-    render_error(t('custom_errors.object_not_found'), 404) if @character.nil?
+    @user_characters = ActiveModelSerializers::SerializableResource.new(Character.where(user: Current.user, guild_id: nil).includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters]
   end
 end

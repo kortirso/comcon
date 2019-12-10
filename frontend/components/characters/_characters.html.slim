@@ -4,31 +4,33 @@
     .action= link_to t('characters.add'), new_character_path, class: 'btn btn-primary btn-sm'
   main
     .characters
-      = link_to t('characters.find_static'), find_static_invites_path, class: 'btn btn-primary btn-sm with_bottom_margin'
-      table.table.table-striped.table-sm
-        thead
-          tr
-            th= t('characters.name')
-            th= t('characters.race')
-            th= t('characters.character_class')
-            th= t('characters.level')
-            th= t('characters.guild')
-            th= t('characters.world')
-            th
-        tbody
-          - @characters.each do |character|
+      - if @characters.size.positive?
+        = link_to t('characters.find_guild'), find_guild_invites_path, class: 'btn btn-primary btn-sm with_bottom_margin with_right_margin'
+        = link_to t('characters.find_static'), find_static_invites_path, class: 'btn btn-primary btn-sm with_bottom_margin'
+        table.table.table-striped.table-sm
+          thead
             tr
-              td= character.name
-              td= character.race.name[I18n.locale.to_s]
-              td= character.character_class.name[I18n.locale.to_s]
-              td= character.level
-              td class="#{character.race.fraction.name['en'].downcase}"
-                - if character.guild_id.present?
-                  = link_to character.guild.name, guild_path(id: character.guild.slug)
-                - else
-                  = link_to t('characters.find_guild'), new_guild_invite_path(character_id: character.id), class: 'find_guild'
-              td= character.world.full_name
-              td
-                = link_to t('buttons.recipes'), recipes_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'
-                = link_to t('buttons.edit'), edit_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'
-                = link_to t('buttons.delete'), character_path(character.id), method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+              th= t('characters.name')
+              th= t('characters.race')
+              th= t('characters.character_class')
+              th= t('characters.level')
+              th= t('characters.guild')
+              th= t('characters.world')
+              th= t('characters.operations')
+          tbody
+            - @characters.each do |character|
+              tr
+                td= character.name
+                td= character.race.name[I18n.locale.to_s]
+                td= character.character_class.name[I18n.locale.to_s]
+                td= character.level
+                td class="#{character.race.fraction.name['en'].downcase}"
+                  - if character.guild_id.present?
+                    = link_to character.guild.name, guild_path(id: character.guild.slug)
+                td= character.world.full_name
+                td
+                  = link_to t('buttons.recipes'), recipes_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'
+                  = link_to t('buttons.edit'), edit_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'
+                  = link_to t('buttons.delete'), character_path(character.id), method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+      - else
+        p= t('characters.no_characters')

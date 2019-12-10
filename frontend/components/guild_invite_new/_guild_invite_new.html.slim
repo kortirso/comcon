@@ -1,6 +1,10 @@
-= javascript_pack_tag 'invite_form_for_character'
 .inside
   .inside_topbar
-    .title= t('guild_invite.for_user', character_name: @character.full_name)
+    .title= t('guild_invite.title')
   main
-    = react_component('InviteFormForCharacter', character_id: @character.id, character_name: @character.full_name, fraction_id: @character.race.fraction_id, world_id: @character.world_id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
+    - if @user_characters.empty?
+      div
+        p= t('guild_invite.no_characters')
+    - else
+      = javascript_pack_tag 'invite_form_for_character'
+      = react_component('InviteFormForCharacter', user_characters: @user_characters, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

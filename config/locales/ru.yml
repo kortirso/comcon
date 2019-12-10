@@ -227,6 +227,8 @@ ru:
     find_guild: Найти гильдию
     statics: Статики
     find_static: Найти статик
+    operations: Операции
+    no_characters: Для просмотра персонажей привяжите персонажа к учетной записи
   character_form:
     creating: Добавить нового персонажа
   select:
@@ -268,9 +270,11 @@ ru:
   guild:
     management: Управление
   guild_invite:
-    for_user: '%{character_name}, поиск гильдии'
+    title: Поиск гильдии
+    no_characters: Для поиска гильдии привяжите персонажа к учетной записи
   static_invite:
     title: Поиск статика
+    no_characters: Для поиска статика привяжите персонажа к учетной записи
   notifications:
     title: Уведомления
     add: Создать уведомление

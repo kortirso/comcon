@@ -14,21 +14,25 @@ $.ajaxSetup({
 })
 
 export default class InviteFormForCharacter extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.typingTimeout = 0
     this.state = {
       query: '',
       searchedGuilds: [],
       errors: [],
       userRequests: [],
-      guildInvites: []
+      guildInvites: [],
+      characters: props.user_characters,
+      characterId: props.user_characters.length === 0 ? null : props.user_characters[0].id,
+      worldId: props.user_characters.length === 0 ? null : props.user_characters[0].world_id,
+      staticId: props.user_characters.length === 0 ? null : props.user_characters[0].static_id
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
-    this._getGuildInvites()
+    if (this.state.characterId !== null) this._getGuildInvites()
   }
 
   componentWillUnmount() {
@@ -38,7 +42,7 @@ export default class InviteFormForCharacter extends React.Component {
   _getGuildInvites() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}&character_id=${this.props.character_id}`,
+      url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}&character_id=${this.state.characterId}`,
       success: (data) => {
         const userRequests = data.guild_invites.filter((guildInvite) => {
           return !guildInvite.from_guild
@@ -54,7 +58,7 @@ export default class InviteFormForCharacter extends React.Component {
   _searchGuilds() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/guilds/search.json?access_token=${this.props.access_token}&query=${this.state.query}&world_id=${this.props.world_id}&fraction_id=${this.props.fraction_id}`,
+      url: `/api/v1/guilds/search.json?access_token=${this.props.access_token}&query=${this.state.query}&world_id=${this.state.worldId}&fraction_id=${this.state.fractionId}`,
       success: (data) => {
         this.setState({searchedGuilds: data.guilds})
       }
@@ -65,7 +69,7 @@ export default class InviteFormForCharacter extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/guild_invites.json?access_token=${this.props.access_token}`,
-      data: { guild_invite: { guild_id: guild.id, character_id: this.props.character_id, from_guild: false } },
+      data: { guild_invite: { guild_id: guild.id, character_id: this.state.characterId, from_guild: false } },
       success: (data) => {
         if (data.result !== undefined && data.result === "Approved") window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/characters`
         else {
@@ -221,25 +225,57 @@ export default class InviteFormForCharacter extends React.Component {
     })
   }
 
+  _renderCharacters() {
+    return this.state.characters.map((character) => {
+      return <option value={character.id} key={character.id}>{character.name}</option>
+    })
+  }
+
+  _onChangeCharacter(event) {
+    const currentCharacter = this.state.characters.filter((character) => {
+      return character.id === parseInt(event.target.value)
+    })[0]
+    this.setState({characterId: event.target.value, worldId: currentCharacter.world_id, fractionId: currentCharacter.fraction_id}, () => {
+      this._getGuildInvites()
+    })
+  }
+
+  _returnSearchForm() {
+    if (this.state.characters.length === 0) return false
+    return (
+      <div className="row">
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
+        <div className="form-group search col-md-6">
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="character_id">{strings.characters}</label>
+                <select className="form-control form-control-sm" id="character_id" onChange={this._onChangeCharacter.bind(this)} value={this.state.characterId}>
+                  {this._renderCharacters()}
+                </select>
+              </div>
+            </div>
+          </div>
+          <h3>{strings.label}</h3>
+          <input placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
+          {this._renderSearchedGuilds()}
+        </div>
+        <div className="form-group invites col-md-6">
+          <h3>{strings.requestsLabel}</h3>
+          {this._renderUserRequests()}
+          <h3>{strings.invitesLabel}</h3>
+          {this._renderGuildInvites()}
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="invite_form_for_character">
-        <div className="row">
-          <div className="form-group search col-md-6">
-            {this.state.errors.length > 0 &&
-              <ErrorView errors={this.state.errors} />
-            }
-            <h3>{strings.label}</h3>
-            <input placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
-            {this._renderSearchedGuilds()}
-          </div>
-          <div className="form-group invites col-md-6">
-            <h3>{strings.requestsLabel}</h3>
-            {this._renderUserRequests()}
-            <h3>{strings.invitesLabel}</h3>
-            {this._renderGuildInvites()}
-          </div>
-        </div>
+        {this._returnSearchForm()}
       </div>
     )
   }

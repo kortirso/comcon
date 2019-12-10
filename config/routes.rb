@@ -96,7 +96,9 @@ Rails.application.routes.draw do
       get :decline, on: :member
     end
     resources :deliveries, only: %i[new destroy]
-    resources :guild_invites, only: %i[new]
+    resources :guild_invites, only: %i[] do
+      get :find, on: :collection
+    end
     resources :settings, only: %i[index] do
       get :password, on: :collection
       get :external_services, on: :collection
