@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - render static invites for characters
 - search for statics
+- donate page
 
 ### Modified
 - clear paladin/shaman roles in group_role values for opposite fraction

@@ -338,6 +338,18 @@ body {
       }
     }
   }
+
+  .global_page {
+    height: 100vh;
+    padding: 1rem;
+    background: $light-grey;
+
+    .inside {
+      height: 100%;
+      padding: 1rem;
+      background: #fff;
+    }
+  }
 }
 
 * {

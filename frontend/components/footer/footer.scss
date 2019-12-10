@@ -1,11 +1,31 @@
 footer {
-  justify-content: space-between;
+  font-size: 0.8rem;
+
+  .flex {
+    justify-content: space-between;
+  }
 
   .footer_block {
-    width: 48%;
+    flex: 1;
+
+    a {
+      color: #212529;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
 
     &:nth-of-type(2) {
+      text-align: center;
+    }
+
+    &:nth-of-type(3) {
       text-align: right;
+    }
+
+    p {
+      margin-bottom: 0.25rem;
     }
   }
 }

@@ -106,6 +106,8 @@ Rails.application.routes.draw do
     end
     resources :email_confirmations, only: %i[index]
 
+    get :donate, to: 'welcome#donate', as: :donate
+
     root to: 'welcome#index'
   end
 end

@@ -146,6 +146,7 @@ en:
     settings: Settings
     logout: Logout
     back: Go back
+    donate: Donate
   settings:
     label: Settings
     personal: Personal settings
@@ -285,6 +286,10 @@ en:
     title: Reset password
     submit: Send email with confirmation link
   operations: Operations
+  donate:
+    p_1: Guild Hall is a non-profit, completely free project.
+    p_2: Each registered user has the same opportunities to use content.
+    p_3: If suddenly you somehow liked the project and you want to financially help the creators of Guild Hall, then this is possible through the Yandex.Money service.
   mailer:
     user:
       confirmation_email:
