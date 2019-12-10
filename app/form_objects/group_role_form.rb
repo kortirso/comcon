@@ -19,7 +19,7 @@ class GroupRoleForm
 
   def persist?
     self.value = (value.is_a?(Hash) || id ? rebuild_keys_to_integers(value) : GroupRole.default)
-    self.left_value = id ? rebuild_keys_to_integers(left_value) : GroupRole.default
+    self.left_value = (id ? rebuild_keys_to_integers(left_value) : value)
     return false unless valid?
     remove_not_fraction_classes
     @group_role = id ? GroupRole.find_by(id: id) : GroupRole.new
@@ -33,12 +33,12 @@ class GroupRoleForm
 
   def remove_not_fraction_classes
     if @groupable.fraction.name['en'] == 'Alliance'
-      value[:healers][:by_class][:shaman] = 0
-      value[:dd][:by_class][:shaman] = 0
+      value['healers']['by_class']['shaman'] = 0
+      value['dd']['by_class']['shaman'] = 0
     else
-      value[:tanks][:by_class][:paladin] = 0
-      value[:healers][:by_class][:paladin] = 0
-      value[:dd][:by_class][:paladin] = 0
+      value['tanks']['by_class']['paladin'] = 0
+      value['healers']['by_class']['paladin'] = 0
+      value['dd']['by_class']['paladin'] = 0
     end
   end
 

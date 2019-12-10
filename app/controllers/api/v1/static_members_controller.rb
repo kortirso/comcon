@@ -11,7 +11,7 @@ module Api
       def destroy
         authorize! @static_member.static, to: :edit?
         @static_member.destroy
-        UpdateStaticLeftValue.call(static: @static_member.static)
+        UpdateStaticLeftValue.call(group_role: @static_member.static.group_role)
         render json: { result: 'Static member is destroyed' }, status: 200
       end
 

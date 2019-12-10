@@ -96,10 +96,26 @@ body {
 
   .alliance {
     color: $alliance;
+
+    a {
+      color: $alliance;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   .horde {
     color: $horde;
+
+    a {
+      color: $horde;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   .Druid {

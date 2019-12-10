@@ -15,7 +15,8 @@
     "status": "Status",
     "send": "Sent",
     "declined": "Declined",
-    "characters": "User characters"
+    "characters": "User characters",
+    "operations": "Operations"
   },
   "ru": {
     "name": "Название",
@@ -33,6 +34,7 @@
     "status": "Статус",
     "send": "Отправлен",
     "declined": "Отклонен",
-    "characters": "Персонажи пользователя"
+    "characters": "Персонажи пользователя",
+    "operations": "Операции"
   }
 }

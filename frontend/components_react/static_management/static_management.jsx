@@ -2,6 +2,8 @@ import React from "react"
 import LocalizedStrings from 'react-localization'
 import I18nData from './i18n_data.json'
 
+import ErrorView from '../error_view/error_view'
+
 const $ = require("jquery")
 
 let strings = new LocalizedStrings(I18nData)
@@ -16,39 +18,35 @@ export default class StaticManagement extends React.Component {
     super()
     this.typingTimeout = 0
     this.state = {
-      members: [],
-      memberIds: [],
-      invites: [],
-      inviteIds: [],
       query: '',
-      searchedCharacters: []
+      searchedCharacters: [],
+      errors: [],
+      staticInvites: [],
+      userRequests: []
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
-    this._getStaticMembers()
+    this._getStaticInvites()
   }
 
   componentWillUnmount() {
     if (this.typingTimeout) clearTimeout(this.typingTimeout)
   }
 
-  _getStaticMembers() {
+  _getStaticInvites() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/statics/${this.props.static_id}/members.json?access_token=${this.props.access_token}`,
+      url: `/api/v1/static_invites.json?access_token=${this.props.access_token}&static_id=${this.props.static_id}`,
       success: (data) => {
-        const memberIds = data.members.map((member) => {
-          return member.character.id
+        const userRequests = data.static_invites.filter((staticInvite) => {
+          return !staticInvite.from_static && staticInvite.status !== 'declined'
         })
-        const invites = data.invites.filter((invite) => {
-          return ['send', 'declined'].includes(invite.status)
+        const staticInvites = data.static_invites.filter((staticInvite) => {
+          return staticInvite.from_static
         })
-        const inviteIds = invites.map((invite) => {
-          return invite.character.id
-        })
-        this.setState({members: data.members, memberIds: memberIds, invites: invites, inviteIds: inviteIds})
+        this.setState({userRequests: userRequests, staticInvites: staticInvites})
       }
     })
   }
@@ -58,10 +56,7 @@ export default class StaticManagement extends React.Component {
       method: 'GET',
       url: `/api/v1/characters/search.json?access_token=${this.props.access_token}&query=${this.state.query}&world_id=${this.props.world_id}&fraction_id=${this.props.fraction_id}`,
       success: (data) => {
-        const characters = data.characters.filter((character) => {
-          return !this.state.memberIds.includes(character.id) && !this.state.inviteIds.includes(character.id)
-        })
-        this.setState({searchedCharacters: characters})
+        this.setState({searchedCharacters: data.characters})
       }
     })
   }
@@ -70,23 +65,17 @@ export default class StaticManagement extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/static_invites.json?access_token=${this.props.access_token}`,
-      data: { static_invite: { static_id: this.props.static_id, character_id: character.id } },
+      data: { static_invite: { static_id: this.props.static_id, character_id: character.id, from_static: true } },
       success: (data) => {
         const searchedCharacters = [... this.state.searchedCharacters]
         const searchedCharacterIndex = searchedCharacters.indexOf(character)
         searchedCharacters.splice(searchedCharacterIndex, 1)
         if (data.member !== undefined) {
-          let members = this.state.members
-          members.push(data.member)
-          let memberIds = this.state.memberIds
-          memberIds.push(data.member.id)
-          this.setState({members: members, memberIds: memberIds, searchedCharacters: searchedCharacters})
+          this.setState({searchedCharacters: searchedCharacters})
         } else if (data.invite !== undefined) {
-          let invites = this.state.invites
-          invites.push(data.invite)
-          let inviteIds = this.state.inviteIds
-          inviteIds.push(data.invite.character.id)
-          this.setState({invites: invites, inviteIds: inviteIds, searchedCharacters: searchedCharacters})
+          let staticInvites = this.state.staticInvites
+          staticInvites.push(data.invite)
+          this.setState({staticInvites: staticInvites, searchedCharacters: searchedCharacters})
         }
       }
     })
@@ -97,29 +86,24 @@ export default class StaticManagement extends React.Component {
       method: 'DELETE',
       url: `/api/v1/static_invites/${invite.id}.json?access_token=${this.props.access_token}`,
       success: () => {
-        const invites = [... this.state.invites]
-        const inviteIndex = invites.indexOf(invite)
-        invites.splice(inviteIndex, 1)
-        const inviteIds = [... this.state.inviteIds]
-        const inviteIdIndex = inviteIds.indexOf(invite.id)
-        inviteIds.splice(inviteIdIndex, 1)
-        this.setState({invites: invites, inviteIds: inviteIds})
+        const staticInvites = [... this.state.staticInvites]
+        const inviteIndex = staticInvites.indexOf(invite)
+        staticInvites.splice(inviteIndex, 1)
+        this.setState({staticInvites: staticInvites})
       }
     })
   }
 
-  _onDeleteStaticMember(member) {
+  _onSubmitRequest(request, endpoint) {
     $.ajax({
-      method: 'DELETE',
-      url: `/api/v1/static_members/${member.id}.json?access_token=${this.props.access_token}`,
-      success: () => {
-        const members = [... this.state.members]
-        const memberIndex = members.indexOf(member)
-        members.splice(memberIndex, 1)
-        const memberIds = [... this.state.memberIds]
-        const memberIdIndex = memberIds.indexOf(member.character.id)
-        memberIds.splice(memberIdIndex, 1)
-        this.setState({members: members, memberIds: memberIds})
+      method: 'POST',
+      url: `/api/v1/static_invites/${request.id}/${endpoint}.json?access_token=${this.props.access_token}`,
+      data: {},
+      success: (data) => {
+        const requests = [... this.state.requests]
+        const requestIndex = requests.indexOf(request)
+        requests.splice(requestIndex, 1)
+        this.setState({requests: requests})
       }
     })
   }
@@ -135,8 +119,46 @@ export default class StaticManagement extends React.Component {
     })
   }
 
+  _renderRequests() {
+    if (this.state.userRequests.length > 0) {
+      return (
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              <th>{strings.name}</th>
+              <th>{strings.level}</th>
+              <th>{strings.guild}</th>
+              <th>{strings.status}</th>
+              <th>{strings.operations}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this._renderUserRequestsResult()}
+          </tbody>
+        </table>
+      )
+    } else return <p>{strings.noRequests}</p>
+  }
+
+  _renderUserRequestsResult() {
+    return this.state.userRequests.map((request) => {
+      return (
+        <tr className={request.character.character_class_name.en} key={request.id}>
+          <td>{request.character.name}</td>
+          <td>{request.character.level}</td>
+          <td>{request.character.guild_name}</td>
+          <td>{strings[request.status]}</td>
+          <td>
+            <input type="submit" name="commit" value={strings.approveRequest} className="btn btn-primary btn-sm with_right_margin" onClick={this._onSubmitRequest.bind(this, request, 'approve')} />
+            <input type="submit" name="commit" value={strings.declineRequest} className="btn btn-primary btn-sm" onClick={this._onSubmitRequest.bind(this, request, 'decline')} />
+          </td>
+        </tr>
+      )
+    })
+  }
+
   _renderInvites() {
-    if (this.state.invites.length === 0) return <p>{strings.noInvites}</p>
+    if (this.state.staticInvites.length === 0) return <p>{strings.noInvites}</p>
     else {
       return (
         <table className="table table-sm">
@@ -145,7 +167,8 @@ export default class StaticManagement extends React.Component {
               <th>{strings.name}</th>
               <th>{strings.level}</th>
               <th>{strings.guild}</th>
-              <th></th>
+              <th>{strings.status}</th>
+              <th>{strings.operations}</th>
             </tr>
           </thead>
           <tbody>
@@ -157,12 +180,13 @@ export default class StaticManagement extends React.Component {
   }
 
   _renderInvitesResults() {
-    return this.state.invites.map((invite) => {
+    return this.state.staticInvites.map((invite) => {
       return (
         <tr className={invite.character.character_class_name.en} key={invite.id}>
           <td>{invite.character.name}</td>
           <td>{invite.character.level}</td>
           <td>{invite.character.guild_name}</td>
+          <td>{strings[invite.status]}</td>
           <td>
             {invite.status === 'declined' &&
               <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
@@ -208,39 +232,12 @@ export default class StaticManagement extends React.Component {
     })
   }
 
-  _renderStaticMembers() {
-    return this.state.members.map((member) => {
-      return (
-        <tr className={member.character.character_class_name.en} key={member.id}>
-          <td>{member.character.name}</td>
-          <td>{member.character.level}</td>
-          <td>{member.character.guild_name}</td>
-          <td>
-            <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onDeleteStaticMember.bind(this, member)}>{strings.deleteInvite}</button>
-          </td>
-        </tr>
-      )
-    })
-  }
-
   render() {
     return (
       <div className="static_management">
-        <div className="members">
-          <table className="table table-sm">
-            <thead>
-              <tr>
-                <th>{strings.name}</th>
-                <th>{strings.level}</th>
-                <th>{strings.guild}</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {this._renderStaticMembers()}
-            </tbody>
-          </table>
-        </div>
+        {this.state.errors.length > 0 &&
+          <ErrorView errors={this.state.errors} />
+        }
         <div className="row">
           <div className="form-group search col-md-6">
             <h3>{strings.search}</h3>
@@ -250,6 +247,8 @@ export default class StaticManagement extends React.Component {
           <div className="form-group invites col-md-6">
             <h3>{strings.invites}</h3>
             {this._renderInvites()}
+            <h3>{strings.requests}</h3>
+            {this._renderRequests()}
           </div>
         </div>
       </div>

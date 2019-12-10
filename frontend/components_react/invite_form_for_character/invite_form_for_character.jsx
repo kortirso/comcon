@@ -26,7 +26,7 @@ export default class InviteFormForCharacter extends React.Component {
       characters: props.user_characters,
       characterId: props.user_characters.length === 0 ? null : props.user_characters[0].id,
       worldId: props.user_characters.length === 0 ? null : props.user_characters[0].world_id,
-      staticId: props.user_characters.length === 0 ? null : props.user_characters[0].static_id
+      fractionId: props.user_characters.length === 0 ? null : props.user_characters[0].fraction_id
     }
   }
 

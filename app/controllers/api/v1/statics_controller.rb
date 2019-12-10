@@ -96,7 +96,7 @@ module Api
       error code: 404, desc: 'Object is not found'
       def leave_character
         LeaveFromStatic.call(character: @character, static: @static)
-        UpdateStaticLeftValue.call(static: @static)
+        UpdateStaticLeftValue.call(group_role: @static.group_role)
         render json: { result: 'Character is left from static' }, status: 200
       end
 
@@ -129,7 +129,7 @@ module Api
 
       def find_user_guilds
         guild_ids = Current.user.characters.includes(:guild_role).where('guild_roles.name = ? OR guild_roles.name = ?', 'gm', 'rl').references(:guild_role).pluck(:guild_id)
-        @guilds = Guild.where(id: guild_ids).includes(:world)
+        @guilds = Guild.where(id: guild_ids).includes(:world, :fraction)
       end
 
       def find_character

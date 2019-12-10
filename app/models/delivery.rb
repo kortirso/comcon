@@ -6,7 +6,7 @@ class Delivery < ApplicationRecord
     discord_message: 2
   }
 
-  belongs_to :deliveriable, polymorphic: true
+  belongs_to :deliveriable, polymorphic: true, touch: true
   belongs_to :notification
 
   has_one :delivery_param, dependent: :destroy

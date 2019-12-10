@@ -18,7 +18,7 @@
                 th= t('notifications.event')
                 th= t('notifications.delivery_param')
                 th= t('notifications.delivery_value')
-                th
+                th= t('operations')
             tbody
               - @guild.notifications.each do |notification|
                 - notification.deliveries.includes(:delivery_param).where(deliveriable_id: @guild.id, deliveriable_type: 'Guild').each do |delivery|

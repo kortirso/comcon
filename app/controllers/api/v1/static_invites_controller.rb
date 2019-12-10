@@ -12,7 +12,7 @@ module Api
         formats ['json']
       end
 
-      api :GET, '/v1/guild_invites.json', 'Get list of static_invites for static or character'
+      api :GET, '/v1/static_invites.json', 'Get list of static_invites for static or character'
       error code: 401, desc: 'Unauthorized'
       def index
         authorize! @from_static, with: StaticInvitePolicy, context: { static: @invite_creator, character: @invite_creator }

@@ -3,14 +3,14 @@ describe UpdateGroupRole do
   let!(:group_role) { create :group_role, groupable: static }
   let(:group_roles) do
     {
-      tanks: {
-        by_class: { warrior: 2, paladin: 0, druid: 2 }
+      'tanks' => {
+        'by_class' => { 'warrior' => 2, 'paladin' => 0, 'druid' => 2 }
       },
-      healers: {
-        by_class: { paladin: 2, druid: 1, priest: 3, shaman: 0 }
+      'healers' => {
+        'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 0 }
       },
-      dd: {
-        by_class: { warrior: 2, warlock: 5, druid: 0, hunter: 0, rogue: 0, priest: 0, shaman: 0, mage: 5, paladin: 2 }
+      'dd' => {
+        'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 0 }
       }
     }
   end

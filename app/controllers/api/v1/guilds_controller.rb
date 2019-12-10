@@ -158,7 +158,7 @@ module Api
       end
 
       def find_user_characters_for_guild
-        @user_characters = Current.user.characters.where(guild_id: nil)
+        @user_characters = Current.user.characters.where(guild_id: nil).includes(race: :fraction)
       end
 
       def guild_params

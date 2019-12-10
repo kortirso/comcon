@@ -19,7 +19,7 @@
                 th= t('statics.description')
                 th= t('statics.privy')
                 th= t('statics.left_value')
-                th
+                th= t('operations')
             tbody
               - @guild.statics.includes(:group_role).each do |static|
                 tr

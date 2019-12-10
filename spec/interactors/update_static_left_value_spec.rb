@@ -2,21 +2,21 @@ describe UpdateStaticLeftValue do
   let!(:static) { create :static, :guild }
   let(:value) do
     {
-      tanks: {
-        by_class: { warrior: 2, paladin: 0, druid: 2 }
+      'tanks' => {
+        'by_class' => { 'warrior' => 2, 'paladin' => 0, 'druid' => 2 }
       },
-      healers: {
-        by_class: { paladin: 2, druid: 1, priest: 3, shaman: 0 }
+      'healers' => {
+        'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 0 }
       },
-      dd: {
-        by_class: { warrior: 2, warlock: 5, druid: 0, hunter: 0, rogue: 0, priest: 0, shaman: 0, mage: 5, paladin: 2 }
+      'dd' => {
+        'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 2 }
       }
     }
   end
   let!(:group_role) { create :group_role, groupable: static, value: value }
 
   describe '.call' do
-    let(:interactor) { described_class.call(static: static) }
+    let(:interactor) { described_class.call(group_role: group_role) }
 
     context 'without subscribes' do
       it 'succeeds' do

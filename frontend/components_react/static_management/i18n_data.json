@@ -10,7 +10,15 @@
     "noInvites": "No invites",
     "invite": "Invite",
     "deleteInvite": "Delete",
-    "sure": "Are you sure?"
+    "sure": "Are you sure?",
+    "status": "Status",
+    "operations": "Operations",
+    "send": "Sent",
+    "declined": "Declined",
+    "approveRequest": "Approve",
+    "declineRequest": "Decline",
+    "requests": "Requests to static",
+    "noRequests": "No requests"
   },
   "ru": {
     "name": "Имя",
@@ -20,9 +28,17 @@
     "search": "Поиск персонажей",
     "nameLabel": "Поиск персонажа по имени или названию гильдии (минимум 3 символа)",
     "noCharacters": "Персонажи не найдены",
-    "noInvites": "Инвайтов в статик нет",
-    "invite": "Инвайт",
+    "noInvites": "Приглашений в статик нет",
+    "invite": "Пригласить",
     "deleteInvite": "Удалить",
-    "sure": "Вы уверены?"
+    "sure": "Вы уверены?",
+    "status": "Статус",
+    "operations": "Операции",
+    "send": "Отправлен",
+    "declined": "Отклонен",
+    "approveRequest": "Принять",
+    "declineRequest": "Отклонить",
+    "requests": "Запросы в статик",
+    "noRequests": "Нет запросов"
   }
 }

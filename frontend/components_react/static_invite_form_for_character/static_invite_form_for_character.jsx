@@ -152,7 +152,7 @@ export default class StaticInviteFormForCharacter extends React.Component {
             <tr>
               <th>{strings.name}</th>
               <th>{strings.status}</th>
-              <th></th>
+              <th>{strings.operations}</th>
             </tr>
           </thead>
           <tbody>
@@ -185,7 +185,7 @@ export default class StaticInviteFormForCharacter extends React.Component {
             <tr>
               <th>{strings.name}</th>
               <th>{strings.status}</th>
-              <th></th>
+              <th>{strings.operations}</th>
             </tr>
           </thead>
           <tbody>
