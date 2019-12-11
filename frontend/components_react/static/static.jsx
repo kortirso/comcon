@@ -96,6 +96,19 @@ export default class LineUp extends React.Component {
     })
   }
 
+  _kickCharacter(subscribe) {
+    $.ajax({
+      method: 'POST',
+      url: `/api/v1/statics/${this.props.static_id}/kick_character.json?access_token=${this.props.access_token}&character_id=${subscribe.character.id}`,
+      success: (data) => {
+        const subscribes = [... this.state.subscribes]
+        const eventIndex = subscribes.indexOf(subscribe)
+        subscribes.splice(eventIndex, 1)
+        this.setState({subscribes: subscribes})
+      }
+    })
+  }
+
   _onSaveComment(subscribe, event) {
     if (event.key === 'Enter') {
       const nextCommentValue = this.state.commentValue
@@ -128,6 +141,7 @@ export default class LineUp extends React.Component {
           <td>
             <div className="buttons">
               {this.props.manager && <button className="btn-plus with_right_margin" onClick={() => this._showApprovingBox(subscribe, true)}></button>}
+              {this.props.manager && <button className="btn btn-primary btn-sm with_right_margin" onClick={() => this._kickCharacter(subscribe)}>{strings.kick}</button>}
               {this.props.current_user_id === subscribe.character.user_id && <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onLeaveCharacter.bind(this, subscribe.character)}>{strings.leave}</button>}
             </div>
           </td>

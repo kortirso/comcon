@@ -21,7 +21,8 @@
     "close": "Close",
     "leave": "Leave",
     "sure": "Are sure?",
-    "operations": "Operations"
+    "operations": "Operations",
+    "kick": "Kick"
   },
   "ru": {
     "name": "Имя",
@@ -45,6 +46,7 @@
     "close": "Закрыть",
     "leave": "Выйти",
     "sure": "Вы уверены?",
-    "operations": "Операции"
+    "operations": "Операции",
+    "kick": "Исключить"
   }
 }

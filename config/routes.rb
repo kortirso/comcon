@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         get :form_values, on: :collection
         get :members, on: :member
         get :subscribers, on: :member
+        post :kick_character, on: :member
         post :leave_character, on: :member
         get :search, on: :collection
       end
