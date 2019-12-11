@@ -29,6 +29,8 @@ class Guild < ApplicationRecord
   has_many :guild_invites, dependent: :destroy
   has_many :character_invitations, through: :guild_invites, source: :character
 
+  has_many :banks, dependent: :destroy
+
   def self.cache_key(guilds)
     {
       serializer: 'guilds',

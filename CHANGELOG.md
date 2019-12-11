@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - kick character from static
 - banker guild role
 - guild bank page
+- Bank model
 
 ### Modified
 - allow for only owner to change subscribe status after closed registration
