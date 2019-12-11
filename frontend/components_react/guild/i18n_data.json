@@ -13,7 +13,8 @@
     "deleteButton": "Kick",
     "leave": "Leave",
     "sure": "Are sure?",
-    "operations": "Operations"
+    "operations": "Operations",
+    "bank": "Show guild bank"
   },
   "ru": {
     "name": "Имя персонажа",
@@ -29,6 +30,7 @@
     "deleteButton": "Исключить",
     "leave": "Выйти",
     "sure": "Вы уверены?",
-    "operations": "Операции"
+    "operations": "Операции",
+    "bank": "Посмотреть банк гильдии"
   }
 }

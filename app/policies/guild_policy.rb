@@ -7,4 +7,8 @@ class GuildPolicy < ApplicationPolicy
   def management?
     user.any_role?(record.id, 'gm', 'rl')
   end
+
+  def bank?
+    user.has_characters_in_guild?(guild_id: record.id)
+  end
 end

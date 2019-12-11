@@ -1,0 +1,8 @@
+.inside
+  .inside_topbar
+    .title= "#{@guild.full_name}, #{t('guild_bank.title')}"
+    .action
+      - if Current.user.any_role?(@guild.id, 'gm', 'ba')
+        = link_to t('guild_bank.import'), '#', class: 'btn btn-sm btn-primary'
+  main
+    div

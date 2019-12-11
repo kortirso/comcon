@@ -85,6 +85,7 @@ Rails.application.routes.draw do
       get :management, on: :member
       get :statics, on: :member
       get :notifications, on: :member
+      get :bank, on: :member
     end
     resources :craft, only: %i[index]
     resources :statics, except: %i[create update] do

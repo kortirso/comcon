@@ -129,6 +129,10 @@ export default class Guild extends React.Component {
     window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/characters/${characterSlug}`
   }
 
+  _goToBank() {
+    window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/guilds/${this.props.guild_slug}/bank`
+  }
+
   _renderManageButtons(character) {
     if (!this.props.current_user_character_ids.includes(character.id) && (this.props.is_admin || this.props.is_gm)) {
       return (
@@ -158,6 +162,9 @@ export default class Guild extends React.Component {
   render() {
     return (
       <div className="characters">
+        {this.props.in_guild &&
+          <button className="btn btn-primary btn-sm" onClick={() => this._goToBank()}>{strings.bank}</button>
+        }
         <table className="table table-sm">
           <thead>
             <tr>
