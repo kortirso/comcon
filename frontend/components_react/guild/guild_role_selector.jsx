@@ -29,6 +29,7 @@ export default class GuildRoleSelector extends React.Component {
         }
         <option value='rl' key='2'>{strings.rl}</option>
         <option value='cl' key='3'>{strings.cl}</option>
+        <option value='ba' key='4'>{strings.ba}</option>
       </select>
     )
   }
