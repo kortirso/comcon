@@ -396,41 +396,6 @@ export default class LineUp extends React.Component {
     else return role
   }
 
-  _renderClassList(roleName, characterClassName) {
-    let subscribes = this.state.subscribes.filter((subscribe) => {
-      if (!["signed", "reserve", "approved"].includes(subscribe.status)) return false
-      else if (subscribe.character.character_class_name.en !== characterClassName) return false
-      else if (subscribe.for_role !== null && subscribe.for_role !== roleName) return false
-      else if (subscribe.for_role === null && this._transformRole(subscribe.character.roles[0].en) !== roleName) return false
-      else return true
-    })
-    subscribes.sort((a, b) => this._sortCharacterAlternative(a, b))
-    return subscribes.map((subscribe, index) => {
-      return (
-        <div className="subscribe" key={index}>
-          <span>{subscribe.character.name}</span>
-          <span>{strings[subscribe.status]}</span>
-          {this._checkAdminButton(subscribe.character, subscribe.status) &&
-            <span>{this._renderAdminButton(subscribe)}</span>
-          }
-        </div>
-      )
-    })
-  }
-
-  _sortCharacterAlternative(a, b) {
-    if (statusValues[a.status] > statusValues[b.status]) return -1
-    else if (statusValues[a.status] < statusValues[b.status]) return 1
-    else {
-      if (a.character.level > b.character.level) return -1
-      else if (a.character.level < b.character.level) return 1
-      else {
-        if (a.character.name <= b.character.name) return -1
-        else return 1
-      }
-    }
-  }
-
   _renderModal() {
     if (!this.state.showApprovingBox) return false
     return (
@@ -471,6 +436,54 @@ export default class LineUp extends React.Component {
     )
   }
 
+  _renderClassList(roleName, characterClassName, needAmount) {
+    let onlyApproved = 0
+    let subscribes = this.state.subscribes.filter((subscribe) => {
+      if (!["signed", "reserve", "approved"].includes(subscribe.status)) return false
+      else if (subscribe.character.character_class_name.en !== characterClassName) return false
+      else if (subscribe.for_role !== null && subscribe.for_role !== roleName) return false
+      else if (subscribe.for_role === null && this._transformRole(subscribe.character.roles[0].en) !== roleName) return false
+      else {
+        if (subscribe.status !== "signed") onlyApproved += 1
+        return true
+      }
+    })
+    subscribes.sort((a, b) => this._sortCharacterAlternative(a, b))
+    return (
+      <div className="class_list">
+        <h3 className={characterClassName}>{onlyApproved} / {needAmount}</h3>
+        {this._renderAlternativeSubscribes(subscribes)}
+      </div>
+    )
+  }
+
+  _sortCharacterAlternative(a, b) {
+    if (statusValues[a.status] > statusValues[b.status]) return -1
+    else if (statusValues[a.status] < statusValues[b.status]) return 1
+    else {
+      if (a.character.level > b.character.level) return -1
+      else if (a.character.level < b.character.level) return 1
+      else {
+        if (a.character.name <= b.character.name) return -1
+        else return 1
+      }
+    }
+  }
+
+  _renderAlternativeSubscribes(subscribes) {
+    return subscribes.map((subscribe, index) => {
+      return (
+        <div className="subscribe" key={index}>
+          <span>{subscribe.character.name}</span>
+          <span>{strings[subscribe.status]}</span>
+          {this._checkAdminButton(subscribe.character, subscribe.status) &&
+            <span>{this._renderAdminButton(subscribe)}</span>
+          }
+        </div>
+      )
+    })
+  }
+
   render() {
     const eventInfo = this.state.eventInfo
     return (
@@ -505,45 +518,18 @@ export default class LineUp extends React.Component {
               <div className="role_type">
                 <h2>{strings.tanks}</h2>
                 <div className="classes">
-                  <div className="class_list">
-                    <h3 className="Warrior">{eventInfo.group_role.tanks.by_class.warrior}</h3>
-                    {this._renderClassList("Tank", "Warrior")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Druid">{eventInfo.group_role.tanks.by_class.druid}</h3>
-                    {this._renderClassList("Tank", "Druid")}
-                  </div>
-                  {eventInfo.fraction_name.en === 'Alliance' &&
-                    <div className="class_list">
-                      <h3 className="Paladin">{eventInfo.group_role.tanks.by_class.paladin}</h3>
-                      {this._renderClassList("Tank", "Paladin")}
-                    </div>
-                  }
+                  {this._renderClassList("Tank", "Warrior", eventInfo.group_role.tanks.by_class.warrior)}
+                  {this._renderClassList("Tank", "Druid", eventInfo.group_role.tanks.by_class.druid)}
+                  {eventInfo.fraction_name.en === 'Alliance' && this._renderClassList("Tank", "Paladin", eventInfo.group_role.tanks.by_class.paladin)}
                 </div>
               </div>
               <div className="role_type">
                 <h2>{strings.healers}</h2>
                 <div className="classes">
-                  {eventInfo.fraction_name.en === 'Horde' &&
-                    <div className="class_list">
-                      <h3 className="Shaman">{eventInfo.group_role.healers.by_class.shaman}</h3>
-                      {this._renderClassList("Healer", "Shaman")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Druid">{eventInfo.group_role.healers.by_class.druid}</h3>
-                    {this._renderClassList("Healer", "Druid")}
-                  </div>
-                  {eventInfo.fraction_name.en === 'Alliance' &&
-                    <div className="class_list">
-                      <h3 className="Paladin">{eventInfo.group_role.healers.by_class.paladin}</h3>
-                      {this._renderClassList("Healer", "Paladin")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Priest">{eventInfo.group_role.healers.by_class.priest}</h3>
-                    {this._renderClassList("Healer", "Priest")}
-                  </div>
+                  {this._renderClassList("Healer", "Druid", eventInfo.group_role.healers.by_class.druid)}
+                  {this._renderClassList("Healer", "Priest", eventInfo.group_role.healers.by_class.priest)}
+                  {eventInfo.fraction_name.en === 'Horde' && this._renderClassList("Healer", "Shaman", eventInfo.group_role.healers.by_class.shaman)}
+                  {eventInfo.fraction_name.en === 'Alliance' && this._renderClassList("Healer", "Paladin", eventInfo.group_role.healers.by_class.paladin)}
                 </div>
               </div>
             </div>
@@ -551,46 +537,15 @@ export default class LineUp extends React.Component {
               <div className="role_type">
                 <h2>{strings.dd}</h2>
                 <div className="classes">
-                  <div className="class_list">
-                    <h3 className="Warrior">{eventInfo.group_role.dd.by_class.warrior}</h3>
-                    {this._renderClassList("Dd", "Warrior")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Druid">{eventInfo.group_role.dd.by_class.druid}</h3>
-                    {this._renderClassList("Dd", "Druid")}
-                  </div>
-                  {eventInfo.fraction_name.en === 'Alliance' &&
-                    <div className="class_list">
-                      <h3 className="Paladin">{eventInfo.group_role.dd.by_class.paladin}</h3>
-                      {this._renderClassList("Dd", "Paladin")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Priest">{eventInfo.group_role.dd.by_class.priest}</h3>
-                    {this._renderClassList("Dd", "Priest")}
-                  </div>
-                  {eventInfo.fraction_name.en === 'Horde' &&
-                    <div className="class_list">
-                      <h3 className="Shaman">{eventInfo.group_role.dd.by_class.shaman}</h3>
-                      {this._renderClassList("Dd", "Shaman")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Warlock">{eventInfo.group_role.dd.by_class.warlock}</h3>
-                    {this._renderClassList("Dd", "Warlock")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Mage">{eventInfo.group_role.dd.by_class.mage}</h3>
-                    {this._renderClassList("Dd", "Mage")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Hunter">{eventInfo.group_role.dd.by_class.hunter}</h3>
-                    {this._renderClassList("Dd", "Hunter")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Rogue">{eventInfo.group_role.dd.by_class.rogue}</h3>
-                    {this._renderClassList("Dd", "Rogue")}
-                  </div>
+                  {this._renderClassList("Dd", "Warrior", eventInfo.group_role.dd.by_class.warrior)}
+                  {this._renderClassList("Dd", "Druid", eventInfo.group_role.dd.by_class.druid)}
+                  {eventInfo.fraction_name.en === 'Alliance' && this._renderClassList("Dd", "Paladin", eventInfo.group_role.dd.by_class.paladin)}
+                  {this._renderClassList("Dd", "Priest", eventInfo.group_role.dd.by_class.priest)}
+                  {eventInfo.fraction_name.en === 'Horde' && this._renderClassList("Dd", "Shaman", eventInfo.group_role.dd.by_class.shaman)}
+                  {this._renderClassList("Dd", "Warlock", eventInfo.group_role.dd.by_class.warlock)}
+                  {this._renderClassList("Dd", "Hunter", eventInfo.group_role.dd.by_class.hunter)}
+                  {this._renderClassList("Dd", "Mage", eventInfo.group_role.dd.by_class.mage)}
+                  {this._renderClassList("Dd", "Rogue", eventInfo.group_role.dd.by_class.rogue)}
                 </div>
               </div>
             </div>

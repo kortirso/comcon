@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Modified
 - allow for only owner to change subscribe status after closed registration
+- for alternative renderer show current amount / need amount
 
 ## [1.0.0] - 2019-12-10
 ### Added

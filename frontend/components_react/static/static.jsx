@@ -236,40 +236,6 @@ export default class LineUp extends React.Component {
     else return role
   }
 
-  _renderClassList(roleName, characterClassName) {
-    let subscribes = this.state.subscribes.filter((subscribe) => {
-      if (subscribe.character.character_class_name.en !== characterClassName) return false
-      else if (subscribe.for_role !== null && subscribe.for_role !== roleName) return false
-      else if (subscribe.for_role === null && this._transformRole(subscribe.character.roles[0].en) !== roleName) return false
-      else return true
-    })
-    subscribes.sort((a, b) => this._sortCharacterAlternative(a, b))
-    return subscribes.map((subscribe, index) => {
-      return (
-        <div className="subscribe" key={index}>
-          <span>{subscribe.character.name}</span>
-          <span>{strings[subscribe.status]}</span>
-          {this.props.manager &&
-            <span><button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
-          }
-        </div>
-      )
-    })
-  }
-
-  _sortCharacterAlternative(a, b) {
-    if (statusValues[a.status] > statusValues[b.status]) return -1
-    else if (statusValues[a.status] < statusValues[b.status]) return 1
-    else {
-      if (a.character.level > b.character.level) return -1
-      else if (a.character.level < b.character.level) return 1
-      else {
-        if (a.character.name <= b.character.name) return -1
-        else return 1
-      }
-    }
-  }
-
   _renderModal() {
     if (!this.state.showApprovingBox) return false
     return (
@@ -305,6 +271,53 @@ export default class LineUp extends React.Component {
     )
   }
 
+  _renderClassList(roleName, characterClassName, needAmount) {
+    let onlyApproved = 0
+    let subscribes = this.state.subscribes.filter((subscribe) => {
+      if (subscribe.character.character_class_name.en !== characterClassName) return false
+      else if (subscribe.for_role !== null && subscribe.for_role !== roleName) return false
+      else if (subscribe.for_role === null && this._transformRole(subscribe.character.roles[0].en) !== roleName) return false
+      else {
+        if (subscribe.status === "approved") onlyApproved += 1
+        return true
+      }
+    })
+    subscribes.sort((a, b) => this._sortCharacterAlternative(a, b))
+    return (
+      <div className="class_list">
+        <h3 className={characterClassName}>{onlyApproved} / {needAmount}</h3>
+        {this._renderAlternativeSubscribes(subscribes)}
+      </div>
+    )
+  }
+
+  _sortCharacterAlternative(a, b) {
+    if (statusValues[a.status] > statusValues[b.status]) return -1
+    else if (statusValues[a.status] < statusValues[b.status]) return 1
+    else {
+      if (a.character.level > b.character.level) return -1
+      else if (a.character.level < b.character.level) return 1
+      else {
+        if (a.character.name <= b.character.name) return -1
+        else return 1
+      }
+    }
+  }
+
+  _renderAlternativeSubscribes(subscribes) {
+    return subscribes.map((subscribe, index) => {
+      return (
+        <div className="subscribe" key={index}>
+          <span>{subscribe.character.name}</span>
+          <span>{strings[subscribe.status]}</span>
+          {this.props.manager &&
+            <span><button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
+          }
+        </div>
+      )
+    })
+  }
+
   render() {
     return (
       <div className="static">
@@ -322,45 +335,18 @@ export default class LineUp extends React.Component {
               <div className="role_type">
                 <h2>{strings.tanks}</h2>
                 <div className="classes">
-                  <div className="class_list">
-                    <h3 className="Warrior">{this.props.static_group_role.tanks.by_class.warrior}</h3>
-                    {this._renderClassList("Tank", "Warrior")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Druid">{this.props.static_group_role.tanks.by_class.druid}</h3>
-                    {this._renderClassList("Tank", "Druid")}
-                  </div>
-                  {this.props.static_fraction_name === 'Alliance' &&
-                    <div className="class_list">
-                      <h3 className="Paladin">{this.props.static_group_role.tanks.by_class.paladin}</h3>
-                      {this._renderClassList("Tank", "Paladin")}
-                    </div>
-                  }
+                  {this._renderClassList("Tank", "Warrior", this.props.static_group_role.tanks.by_class.warrior)}
+                  {this._renderClassList("Tank", "Druid", this.props.static_group_role.tanks.by_class.druid)}
+                  {this.props.static_fraction_name === 'Alliance' && this._renderClassList("Tank", "Paladin", this.props.static_group_role.tanks.by_class.paladin)}
                 </div>
               </div>
               <div className="role_type">
                 <h2>{strings.healers}</h2>
                 <div className="classes">
-                  {this.props.static_fraction_name === 'Horde' &&
-                    <div className="class_list">
-                      <h3 className="Shaman">{this.props.static_group_role.healers.by_class.shaman}</h3>
-                      {this._renderClassList("Healer", "Shaman")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Druid">{this.props.static_group_role.healers.by_class.druid}</h3>
-                    {this._renderClassList("Healer", "Druid")}
-                  </div>
-                  {this.props.static_fraction_name === 'Alliance' &&
-                    <div className="class_list">
-                      <h3 className="Paladin">{this.props.static_group_role.healers.by_class.paladin}</h3>
-                      {this._renderClassList("Healer", "Paladin")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Priest">{this.props.static_group_role.healers.by_class.priest}</h3>
-                    {this._renderClassList("Healer", "Priest")}
-                  </div>
+                  {this._renderClassList("Healer", "Druid", this.props.static_group_role.healers.by_class.druid)}
+                  {this._renderClassList("Healer", "Priest", this.props.static_group_role.healers.by_class.priest)}
+                  {this.props.static_fraction_name === 'Horde' && this._renderClassList("Healer", "Shaman", this.props.static_group_role.healers.by_class.shaman)}
+                  {this.props.static_fraction_name === 'Alliance' && this._renderClassList("Healer", "Paladin", this.props.static_group_role.healers.by_class.paladin)}
                 </div>
               </div>
             </div>
@@ -368,46 +354,15 @@ export default class LineUp extends React.Component {
               <div className="role_type">
                 <h2>{strings.dd}</h2>
                 <div className="classes">
-                  <div className="class_list">
-                    <h3 className="Warrior">{this.props.static_group_role.dd.by_class.warrior}</h3>
-                    {this._renderClassList("Dd", "Warrior")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Druid">{this.props.static_group_role.dd.by_class.druid}</h3>
-                    {this._renderClassList("Dd", "Druid")}
-                  </div>
-                  {this.props.static_fraction_name === 'Alliance' &&
-                    <div className="class_list">
-                      <h3 className="Paladin">{this.props.static_group_role.dd.by_class.paladin}</h3>
-                      {this._renderClassList("Dd", "Paladin")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Priest">{this.props.static_group_role.dd.by_class.priest}</h3>
-                    {this._renderClassList("Dd", "Priest")}
-                  </div>
-                  {this.props.static_fraction_name === 'Horde' &&
-                    <div className="class_list">
-                      <h3 className="Shaman">{this.props.static_group_role.dd.by_class.shaman}</h3>
-                      {this._renderClassList("Dd", "Shaman")}
-                    </div>
-                  }
-                  <div className="class_list">
-                    <h3 className="Warlock">{this.props.static_group_role.dd.by_class.warlock}</h3>
-                    {this._renderClassList("Dd", "Warlock")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Mage">{this.props.static_group_role.dd.by_class.mage}</h3>
-                    {this._renderClassList("Dd", "Mage")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Hunter">{this.props.static_group_role.dd.by_class.hunter}</h3>
-                    {this._renderClassList("Dd", "Hunter")}
-                  </div>
-                  <div className="class_list">
-                    <h3 className="Rogue">{this.props.static_group_role.dd.by_class.rogue}</h3>
-                    {this._renderClassList("Dd", "Rogue")}
-                  </div>
+                  {this._renderClassList("Dd", "Warrior", this.props.static_group_role.dd.by_class.warrior)}
+                  {this._renderClassList("Dd", "Druid", this.props.static_group_role.dd.by_class.druid)}
+                  {this.props.static_fraction_name === 'Alliance' && this._renderClassList("Dd", "Paladin", this.props.static_group_role.dd.by_class.paladin)}
+                  {this._renderClassList("Dd", "Priest", this.props.static_group_role.dd.by_class.priest)}
+                  {this.props.static_fraction_name === 'Horde' && this._renderClassList("Dd", "Shaman", this.props.static_group_role.dd.by_class.shaman)}
+                  {this._renderClassList("Dd", "Warlock", this.props.static_group_role.dd.by_class.warlock)}
+                  {this._renderClassList("Dd", "Hunter", this.props.static_group_role.dd.by_class.hunter)}
+                  {this._renderClassList("Dd", "Mage", this.props.static_group_role.dd.by_class.mage)}
+                  {this._renderClassList("Dd", "Rogue", this.props.static_group_role.dd.by_class.rogue)}
                 </div>
               </div>
             </div>
