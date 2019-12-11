@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_204321) do
+ActiveRecord::Schema.define(version: 2019_12_11_212856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  create_table "bank_cells", force: :cascade do |t|
+    t.integer "bank_id"
+    t.integer "item_uid"
+    t.integer "amount", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_id", "item_uid"], name: "index_bank_cells_on_bank_id_and_item_uid", unique: true
+  end
 
   create_table "banks", force: :cascade do |t|
     t.integer "guild_id"

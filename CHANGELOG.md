@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - guild bank page
 - Bank model
 - api endpoint for import bank data
+- BankCell model
 
 ### Modified
 - allow for only owner to change subscribe status after closed registration
