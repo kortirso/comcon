@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - banker guild role
 - guild bank page
 - Bank model
+- api endpoint for import bank data
 
 ### Modified
 - allow for only owner to change subscribe status after closed registration
