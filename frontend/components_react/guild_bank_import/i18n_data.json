@@ -1,0 +1,14 @@
+{
+  "en": {
+    "title": "Import data",
+    "import": "Import",
+    "placeholder": "Data from Classic Guild Bank addon",
+    "import_button": "bank import"
+  },
+  "ru": {
+    "title": "Импортировать данные",
+    "import": "Импортировать",
+    "placeholder": "Данные из аддона Classic Guild Bank",
+    "import_button": "Импорт данных банка"
+  }
+}
