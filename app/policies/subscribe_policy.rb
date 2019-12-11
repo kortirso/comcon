@@ -16,22 +16,18 @@ class SubscribePolicy < ApplicationPolicy
 
   def event_subscribe_update
     event = record.subscribeable
+    guild_role = event.guild_role_of_user(user.id)
     return true if status == :no_status_change
-    # true if raid owner
+    # true if raid leader
+    return true if !guild_role.nil? && guild_role[0] == 'rl' && %w[approved signed reserve].include?(status)
+    # true if class leader and character is the same class
+    return true if !guild_role.nil? && guild_role[0] == 'cl' && guild_role[1].include?(record.character.character_class.name['en']) && %w[approved signed reserve].include?(status)
+    # true if event owner and only apporoving status
     return true if event.owner.user == user && %w[approved signed reserve].include?(status)
     # false if event is closed
     return false unless event.is_open?
-    # true if own character
+    # true if own character and only signed status
     return true if record.character.user == user && %w[signed unknown rejected].include?(status)
-    # false if not approving status
-    return false unless %w[approved signed reserve].include?(status)
-    # false if no guild role
-    guild_role = event.guild_role_of_user(user.id)
-    return false if guild_role.nil?
-    # true if raid leader
-    return true if guild_role[0] == 'rl'
-    # true if class leader and character is the same class
-    return true if guild_role[0] == 'cl' && guild_role[1].include?(record.character.character_class.name['en'])
     false
   end
 

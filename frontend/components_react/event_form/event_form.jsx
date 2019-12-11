@@ -105,7 +105,7 @@ export default class EventForm extends React.Component {
             staticId = event.eventable_id
           }
         }
-        this.setState({name: event.name, fractionName: event.fraction_name.en, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics, groupRoles: event.group_role === null ? this.state.groupRoles : event.group_role})
+        this.setState({name: event.name, hoursBeforeClose: event.hours_before_close, fractionName: event.fraction_name.en, description: event.description, creatorId: event.owner_id, dungeonId: (event.dungeon_id === null ? '' : event.dungeon_id), eventType: event.event_type, eventableType: eventableType, startTime: Number(startTime) / 1000, staticId: staticId, currentStatics: currentStatics, groupRoles: event.group_role === null ? this.state.groupRoles : event.group_role})
       }
     })
   }

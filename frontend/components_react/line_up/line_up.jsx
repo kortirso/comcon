@@ -237,7 +237,7 @@ export default class LineUp extends React.Component {
           <td>
             <div className="buttons">
               {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe)}
-              {this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
+              {this.props.event_is_open && this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
             </div>
           </td>
         </tr>
@@ -485,6 +485,9 @@ export default class LineUp extends React.Component {
             <p>{strings.owner} - {eventInfo.owner_name}</p>
             <p>{eventInfo.description}</p>
             <p>{strings.hoursBeforeClose} - {this.props.hours_before_close}</p>
+            {!this.props.event_is_open &&
+              <p className="event_closed">{strings.closed}</p>
+            }
             {this._renderRLBlock()}
           </div>
         }
