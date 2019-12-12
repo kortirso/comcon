@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - BankCell model
 - creating/updating/deleting bank cells from addon data
 - GameItem models
+- Parser for bank data
+- render bank cells
 
 ## [1.0.1] - 2019-12-11
 ### Added

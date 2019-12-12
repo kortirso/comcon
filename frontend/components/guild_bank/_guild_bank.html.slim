@@ -7,3 +7,5 @@
         = react_component('GuildBankImport', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
   main
     div
+      = javascript_pack_tag 'guild_bank'
+      = react_component('GuildBank', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

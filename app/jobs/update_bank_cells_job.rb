@@ -6,5 +6,6 @@ class UpdateBankCellsJob < ApplicationJob
     bank = Bank.find_by(id: bank_id)
     return if bank.nil?
     UpdateBankCellsService.new(bank: bank).call(cells_info: cells_info)
+    GetGameItemsForBankCells.new.call
   end
 end

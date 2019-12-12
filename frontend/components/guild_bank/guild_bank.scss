@@ -5,3 +5,44 @@
     padding: 0.25rem;
   }
 }
+
+.banks {
+  .bank {
+    .bank_cells {
+      display: flex;
+      flex-direction: row;
+
+      .bank_cell {
+        width: 54px;
+        height: 54px;
+        overflow: hidden;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+        margin-right: 2px;
+        position: relative;
+
+        a {
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+
+          img {
+            width: 50px;
+            height: 50px;
+          }
+        }
+
+        .bank_cell_amount {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: #000;
+          color: #fff;
+          padding: 2px 4px;
+          font-size: 1rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}

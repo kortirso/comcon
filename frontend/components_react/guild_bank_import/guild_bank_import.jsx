@@ -14,6 +14,7 @@ export default class GuildBankImport extends React.Component {
     super()
     this.state = {
       showModal: false,
+      data: '',
       errors: [],
       alert: ''
     }
@@ -21,6 +22,20 @@ export default class GuildBankImport extends React.Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
+  }
+
+  _importBankData() {
+    $.ajax({
+      method: 'POST',
+      url: `/api/v1/guilds/${this.props.guild_id}/import_bank.json?access_token=${this.props.access_token}`,
+      data: { bank_data: this.state.data },
+      success: (data) => {
+        this.setState({showModal: false, alert: data.result})
+      },
+      error: (data) => {
+        this.setState({errors: data.responseJSON.errors})
+      }
+    })
   }
 
   render() {
@@ -43,10 +58,10 @@ export default class GuildBankImport extends React.Component {
                 </button>
               </div>
               <div className="modal-body">
-                <textarea className="form-control from-control-sm" placeholder={strings.placeholder} />
+                <textarea className="form-control from-control-sm" placeholder={strings.placeholder} value={this.state.data} onChange={(event) => this.setState({data: event.target.value})} />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => console.log(1)}>{strings.import}</button>
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => this._importBankData()}>{strings.import}</button>
               </div>
             </div>
           </div>
