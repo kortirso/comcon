@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_212856) do
+ActiveRecord::Schema.define(version: 2019_12_12_165631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -163,6 +163,44 @@ ActiveRecord::Schema.define(version: 2019_12_11_212856) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_fractions_on_name", using: :gin
+  end
+
+  create_table "game_item_categories", force: :cascade do |t|
+    t.integer "uid"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.index ["name"], name: "index_game_item_categories_on_name", using: :gin
+    t.index ["uid"], name: "index_game_item_categories_on_uid"
+  end
+
+  create_table "game_item_qualities", force: :cascade do |t|
+    t.integer "uid"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.index ["name"], name: "index_game_item_qualities_on_name", using: :gin
+    t.index ["uid"], name: "index_game_item_qualities_on_uid"
+  end
+
+  create_table "game_item_subcategories", force: :cascade do |t|
+    t.integer "uid"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.index ["name"], name: "index_game_item_subcategories_on_name", using: :gin
+    t.index ["uid"], name: "index_game_item_subcategories_on_uid"
+  end
+
+  create_table "game_items", force: :cascade do |t|
+    t.integer "item_uid"
+    t.integer "game_item_category_id"
+    t.integer "game_item_subcategory_id"
+    t.integer "game_item_quality_id"
+    t.integer "level"
+    t.string "icon_name"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_item_category_id"], name: "index_game_items_on_game_item_category_id"
+    t.index ["game_item_quality_id"], name: "index_game_items_on_game_item_quality_id"
+    t.index ["game_item_subcategory_id"], name: "index_game_items_on_game_item_subcategory_id"
+    t.index ["item_uid"], name: "index_game_items_on_item_uid"
+    t.index ["name"], name: "index_game_items_on_name", using: :gin
   end
 
   create_table "group_roles", force: :cascade do |t|
