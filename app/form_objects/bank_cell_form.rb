@@ -7,6 +7,7 @@ class BankCellForm
   attribute :item_uid, Integer
   attribute :amount, Integer, default: 1
   attribute :bank, Bank
+  attribute :game_item, GameItem
 
   validates :item_uid, :amount, :bank, presence: true
   validates :amount, numericality: { greater_than: 0 }

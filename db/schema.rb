@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_165631) do
+ActiveRecord::Schema.define(version: 2019_12_12_195139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -22,7 +22,9 @@ ActiveRecord::Schema.define(version: 2019_12_12_165631) do
     t.integer "amount", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "game_item_id"
     t.index ["bank_id", "item_uid"], name: "index_bank_cells_on_bank_id_and_item_uid", unique: true
+    t.index ["game_item_id"], name: "index_bank_cells_on_game_item_id"
   end
 
   create_table "banks", force: :cascade do |t|

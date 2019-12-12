@@ -38,9 +38,10 @@ class UpdateBankCellsService
   def handle_cell_item(item_uid:, amount:)
     params =
       if existed_bank_cell_item_uids.include?(item_uid)
-        BankCell.find_by(bank_id: bank.id, item_uid: item_uid).attributes.merge(bank: bank, amount: amount)
+        bank_cell = BankCell.find_by(bank_id: bank.id, item_uid: item_uid)
+        bank_cell.attributes.merge(bank: bank, amount: amount, game_item: bank_cell.game_item)
       else
-        { bank: bank, item_uid: item_uid, amount: amount }
+        { bank: bank, item_uid: item_uid, amount: amount, game_item: GameItem.find_by(item_uid: item_uid) }
       end
     BankCellForm.new(params).persist?
   end
