@@ -3,7 +3,7 @@ module Api
     class GuildsController < Api::V1::BaseController
       before_action :find_guilds, only: %i[index]
       before_action :find_guild_by_slug, only: %i[characters kick_character leave_character]
-      before_action :find_guild, only: %i[show update characters_for_request]
+      before_action :find_guild, only: %i[show update characters_for_request import_bank bank]
       before_action :find_guild_character, only: %i[kick_character]
       before_action :find_user_character_in_guild, only: %i[leave_character]
       before_action :find_guild_characters, only: %i[characters]
@@ -107,6 +107,33 @@ module Api
       def characters_for_request
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters_for_request, each_serializer: CharacterIndexSerializer).as_json[:characters]
+        }, status: 200
+      end
+
+      api :POST, '/v1/guilds/:id/import_bank.json', 'Import bank'
+      param :id, String, required: true
+      param :data, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 400, desc: 'Object is not found'
+      def import_bank
+        authorize! @guild, to: :bank_management?
+        result = ImportGuildBankData.call(guild: @guild, bank_data: params[:bank_data])
+        if result.success?
+          render json: { result: 'Bank data is importing' }, status: 200
+        else
+          render json: { result: 'Invalid bank data' }, status: 409
+        end
+      end
+
+      api :GET, '/v1/guilds/:id/bank.json', 'Get guild bank'
+      param :id, String, required: true
+      param :data, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 400, desc: 'Object is not found'
+      def bank
+        authorize! @guild, to: :bank?
+        render json: {
+          banks: ActiveModelSerializers::SerializableResource.new(@guild.banks.includes(bank_cells: [game_item: %i[game_item_quality game_item_category game_item_subcategory]]), each_serializer: BankSerializer).as_json[:banks]
         }, status: 200
       end
 

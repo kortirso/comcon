@@ -1,0 +1,11 @@
+.inside
+  .inside_topbar
+    .title= "#{@guild.full_name}, #{t('guild_bank.title')}"
+    .action
+      - if Current.user.any_role?(@guild.id, 'gm', 'ba')
+        = javascript_pack_tag 'guild_bank_import'
+        = react_component('GuildBankImport', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
+  main
+    div
+      = javascript_pack_tag 'guild_bank'
+      = react_component('GuildBank', guild_id: @guild.id, user_characters: Current.user.characters.where(guild_id: @guild.id).pluck(:id, :name), banker: Current.user.any_role?(@guild.id, 'gm', 'ba'), locale: I18n.locale.to_s, access_token: Current.user&.access_token)

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Added
+- banker guild role
+- guild bank page
+- Bank model
+- api endpoint for import bank data
+- BankCell model
+- creating/updating/deleting bank cells from addon data
+- GameItem models
+- Parser for bank data
+- render bank cells
+- BankRequest model
+- creating bank requests
+- render bank requests
+- declining for bank requests
+- approving for bank requests
+
 ## [1.0.1] - 2019-12-11
 ### Added
 - kick character from static

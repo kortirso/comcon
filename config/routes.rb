@@ -11,6 +11,8 @@ Rails.application.routes.draw do
         get :search, on: :collection
         get :form_values, on: :collection
         get :characters_for_request, on: :member
+        post :import_bank, on: :member
+        get :bank, on: :member
       end
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]
@@ -60,6 +62,10 @@ Rails.application.routes.draw do
         patch :update_settings, on: :collection
         patch :update_password, on: :collection
       end
+      resources :bank_requests, only: %i[index create] do
+        post :decline, on: :member
+        post :approve, on: :member
+      end
     end
   end
 
@@ -85,6 +91,7 @@ Rails.application.routes.draw do
       get :management, on: :member
       get :statics, on: :member
       get :notifications, on: :member
+      get :bank, on: :member
     end
     resources :craft, only: %i[index]
     resources :statics, except: %i[create update] do

@@ -9,7 +9,7 @@ class GuildRoleForm
   attribute :character, Character
 
   validates :name, :guild, :character, presence: true
-  validates :name, inclusion: { in: %w[gm rl cl] }
+  validates :name, inclusion: { in: %w[gm rl cl ba] }
   validate :character_in_guild?
   validate :guild_role_exists?
 

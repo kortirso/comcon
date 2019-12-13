@@ -9,10 +9,12 @@
     "gm": "GM",
     "rl": "RL",
     "cl": "CL",
+    "ba": "Banker",
     "deleteButton": "Kick",
     "leave": "Leave",
     "sure": "Are sure?",
-    "operations": "Operations"
+    "operations": "Operations",
+    "bank": "Show guild bank"
   },
   "ru": {
     "name": "Имя персонажа",
@@ -24,9 +26,11 @@
     "gm": "ГМ",
     "rl": "РЛ",
     "cl": "КЛ",
+    "ba": "Банкир",
     "deleteButton": "Исключить",
     "leave": "Выйти",
     "sure": "Вы уверены?",
-    "operations": "Операции"
+    "operations": "Операции",
+    "bank": "Посмотреть банк гильдии"
   }
 }

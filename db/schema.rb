@@ -10,11 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_073947) do
+ActiveRecord::Schema.define(version: 2019_12_13_133826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  create_table "bank_cells", force: :cascade do |t|
+    t.integer "bank_id"
+    t.integer "item_uid"
+    t.integer "amount", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "game_item_id"
+    t.index ["bank_id", "item_uid"], name: "index_bank_cells_on_bank_id_and_item_uid", unique: true
+    t.index ["game_item_id"], name: "index_bank_cells_on_game_item_id"
+  end
+
+  create_table "bank_requests", force: :cascade do |t|
+    t.integer "bank_id"
+    t.integer "game_item_id"
+    t.integer "character_id"
+    t.integer "requested_amount"
+    t.integer "provided_amount"
+    t.string "character_name"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_id"], name: "index_bank_requests_on_bank_id"
+    t.index ["character_id"], name: "index_bank_requests_on_character_id"
+    t.index ["game_item_id"], name: "index_bank_requests_on_game_item_id"
+  end
+
+  create_table "banks", force: :cascade do |t|
+    t.integer "guild_id"
+    t.string "name"
+    t.integer "coins", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guild_id"], name: "index_banks_on_guild_id"
+  end
 
   create_table "character_classes", force: :cascade do |t|
     t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
@@ -145,6 +180,44 @@ ActiveRecord::Schema.define(version: 2019_12_10_073947) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_fractions_on_name", using: :gin
+  end
+
+  create_table "game_item_categories", force: :cascade do |t|
+    t.integer "uid"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.index ["name"], name: "index_game_item_categories_on_name", using: :gin
+    t.index ["uid"], name: "index_game_item_categories_on_uid"
+  end
+
+  create_table "game_item_qualities", force: :cascade do |t|
+    t.integer "uid"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.index ["name"], name: "index_game_item_qualities_on_name", using: :gin
+    t.index ["uid"], name: "index_game_item_qualities_on_uid"
+  end
+
+  create_table "game_item_subcategories", force: :cascade do |t|
+    t.integer "uid"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.index ["name"], name: "index_game_item_subcategories_on_name", using: :gin
+    t.index ["uid"], name: "index_game_item_subcategories_on_uid"
+  end
+
+  create_table "game_items", force: :cascade do |t|
+    t.integer "item_uid"
+    t.integer "game_item_category_id"
+    t.integer "game_item_subcategory_id"
+    t.integer "game_item_quality_id"
+    t.integer "level"
+    t.string "icon_name"
+    t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_item_category_id"], name: "index_game_items_on_game_item_category_id"
+    t.index ["game_item_quality_id"], name: "index_game_items_on_game_item_quality_id"
+    t.index ["game_item_subcategory_id"], name: "index_game_items_on_game_item_subcategory_id"
+    t.index ["item_uid"], name: "index_game_items_on_item_uid"
+    t.index ["name"], name: "index_game_items_on_name", using: :gin
   end
 
   create_table "group_roles", force: :cascade do |t|

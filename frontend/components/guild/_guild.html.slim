@@ -10,4 +10,4 @@
     #guild
       p= @guild.description
       = react_component('RequestToGuild', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
-      = react_component('Guild', guild_slug: @guild.slug, guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token, is_admin: Current.user.is_admin?, is_gm: Current.user.any_role?(@guild.id, 'gm'), current_user_character_ids: @user_characters.pluck(:id))
+      = react_component('Guild', in_guild: Current.user.has_characters_in_guild?(guild_id: @guild.id), guild_slug: @guild.slug, guild_id: @guild.id, is_admin: Current.user.is_admin?, is_gm: Current.user.any_role?(@guild.id, 'gm'), locale: I18n.locale.to_s, access_token: Current.user&.access_token, current_user_character_ids: @user_characters.pluck(:id))

@@ -330,11 +330,11 @@ export default class LineUp extends React.Component {
   }
 
   _renderAdminButton(subscribe) {
-    return <button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, true)}></button>
+    return <button className="btn-plus" onClick={() => this._showApprovingBox(subscribe, true)}></button>
   }
 
   _renderUserButton(subscribe) {
-    return <button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, false)}></button>
+    return <button className="btn-plus" onClick={() => this._showApprovingBox(subscribe, false)}></button>
   }
 
   _showApprovingBox(subscribe, forAdmin) {

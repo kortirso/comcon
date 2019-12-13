@@ -86,4 +86,26 @@ describe GuildPolicy do
       policy.management?
     end
   end
+
+  describe '#bank?' do
+    context 'for admin' do
+      let(:policy) { described_class.new(guild3, user: admin) }
+
+      it 'returns false' do
+        expect(policy_access).to eq false
+      end
+    end
+
+    context 'if user has character in guild' do
+      let(:policy) { described_class.new(guild1, user: user) }
+
+      it 'returns true' do
+        expect(policy_access).to eq true
+      end
+    end
+
+    def policy_access
+      policy.bank?
+    end
+  end
 end
