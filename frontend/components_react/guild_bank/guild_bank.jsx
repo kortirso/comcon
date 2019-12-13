@@ -34,12 +34,19 @@ export default class GuildBank extends React.Component {
     else return 'ru.'
   }
 
+  _calcCoins(coins) {
+    const gold = parseInt(coins / 10000)
+    coins -= gold * 10000
+    const silver = parseInt(coins / 100)
+    coins -= silver * 100
+    return `g${gold} s${silver} c${coins}`
+  }
+
   _renderBanks() {
     return this.state.banks.map((bank, index) => {
       return (
         <div className="bank" key={index}>
-          <h3>{bank.name}</h3>
-          <p className="coins">{bank.coins}</p>
+          <h3>{bank.name}, <span className="bank_coins">{this._calcCoins(bank.coins)}</span></h3>
           <div className="bank_cells">
             {this._renderBankCells(bank.bank_cells)}
           </div>

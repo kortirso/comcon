@@ -1,7 +1,8 @@
+# upload game items
 class GetGameItemsForBankCells
   attr_reader :item_uids
 
-  def initialize()
+  def initialize
     @item_uids = BankCell.empty.pluck(:item_uid)
   end
 
@@ -13,7 +14,7 @@ class GetGameItemsForBankCells
       game_item_subcategory_params = { uid: nil, name: { 'en' => '', 'ru' => '' } }
       game_item_params = { item_uid: item_uid, name: { 'en' => '', 'ru' => '' }, level: nil, icon_name: '' }
 
-      ['en', 'ru'].each do |locale|
+      %w[en ru].each do |locale|
         prefix = locale == 'en' ? '' : 'ru.'
 
         response = HTTParty.get("https://#{prefix}classic.wowhead.com/item=#{item_uid}&xml", format: :plain)
@@ -48,10 +49,11 @@ class GetGameItemsForBankCells
   private
 
   def find_object(params:, object_type:, object_class:, object_form_class:)
-    object = object_class.find_by(uid: params[:uid])
+    object = object_class.find_by(uid: params[:uid], name: params[:name])
     return object unless object.nil?
     object_form = object_form_class.new(params)
     object = object_form[object_type] if object_form.persist?
+    object
   end
 
   def find_game_item(params:)
@@ -59,5 +61,6 @@ class GetGameItemsForBankCells
     return object unless object.nil?
     object_form = GameItemForm.new(params)
     object = object_form.game_item if object_form.persist?
+    object
   end
 end

@@ -11,7 +11,7 @@ class GameItemForm
   attribute :game_item_category, GameItemCategory
   attribute :game_item_subcategory, GameItemSubcategory
 
-  validates :item_uid, :level, :icon_name, :game_item_quality, :game_item_category, :game_item_subcategory, presence: true
+  validates :item_uid, :level, :icon_name, :game_item_quality, :game_item_category, presence: true
   validate :name_as_hash
 
   attr_reader :game_item

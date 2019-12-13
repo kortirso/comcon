@@ -133,7 +133,7 @@ module Api
       def bank
         authorize! @guild, to: :bank?
         render json: {
-          banks: ActiveModelSerializers::SerializableResource.new(@guild.banks.includes(bank_cells: [game_item: [:game_item_quality, :game_item_category, :game_item_subcategory]]), each_serializer: BankSerializer).as_json[:banks]
+          banks: ActiveModelSerializers::SerializableResource.new(@guild.banks.includes(bank_cells: [game_item: %i[game_item_quality game_item_category game_item_subcategory]]), each_serializer: BankSerializer).as_json[:banks]
         }, status: 200
       end
 
