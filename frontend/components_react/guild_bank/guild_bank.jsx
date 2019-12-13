@@ -220,7 +220,9 @@ export default class GuildBank extends React.Component {
               <th>{strings.name}</th>
               <th>{strings.itemName}</th>
               <th>{strings.amount}</th>
-              <th></th>
+              <th>
+                {this.props.banker && strings.give}
+              </th>
               <th></th>
             </tr>
           </thead>
@@ -241,7 +243,7 @@ export default class GuildBank extends React.Component {
           <td>{request.requested_amount}</td>
           <td>
             {this.props.banker &&
-              <input className={`form-control form-control-sm provided_amount provided_amount_${request.id}`} />
+              <input className={`form-control form-control-sm provided_amount provided_amount_${request.id}`} defaultValue={request.requested_amount} />
             }
           </td>
           <td>

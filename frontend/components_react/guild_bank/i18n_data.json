@@ -9,7 +9,8 @@
     "requestsTitle": "Bank requests",
     "name": "Character's name",
     "itemName": "Item's name",
-    "amount": "Requested amount"
+    "amount": "Requested",
+    "give": "You gave"
   },
   "ru": {
     "character": "Для персонажа",
@@ -21,6 +22,7 @@
     "requestsTitle": "Запросы в банк",
     "name": "Имя персонажа",
     "itemName": "Название предмета",
-    "amount": "Количество"
+    "amount": "Кол-во",
+    "give": "Вы отдали"
   }
 }

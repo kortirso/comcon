@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - BankRequest model
 - creating bank requests
 - render bank requests
+- declining for bank requests
 
 ## [1.0.1] - 2019-12-11
 ### Added

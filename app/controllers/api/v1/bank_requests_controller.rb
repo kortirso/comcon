@@ -5,6 +5,7 @@ module Api
       before_action :find_bank, only: %i[create]
       before_action :find_character, only: %i[create]
       before_action :find_game_item, only: %i[create]
+      before_action :find_bank_request, only: %i[decline]
 
       resource_description do
         short 'BankRequests resources'
@@ -31,6 +32,15 @@ module Api
         end
       end
 
+      api :POST, '/v1/bank_requests/:id/decline.json', 'Decline bank request'
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Not found'
+      def decline
+        authorize! @bank_request.bank.guild, to: :bank?
+        @bank_request.decline
+        render json: { result: 'Bank request is declined' }, status: 200
+      end
+
       private
 
       def find_guild
@@ -51,6 +61,11 @@ module Api
       def find_game_item
         @game_item = GameItem.find_by(id: params[:bank_request][:game_item_id])
         render_error(t('custom_errors.object_not_found'), 404) if @game_item.nil?
+      end
+
+      def find_bank_request
+        @bank_request = BankRequest.find_by(id: params[:id])
+        render_error(t('custom_errors.object_not_found'), 404) if @bank_request.nil?
       end
 
       def bank_request_params

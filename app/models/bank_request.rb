@@ -7,4 +7,8 @@ class BankRequest < ApplicationRecord
   belongs_to :character, optional: true
 
   scope :sent, -> { where status: 0 }
+
+  def decline
+    update(status: 1)
+  end
 end
