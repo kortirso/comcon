@@ -53,4 +53,17 @@
       }
     }
   }
+
+  .new_bank_request {
+    margin-bottom: 2rem;
+
+    .fields {
+      display: flex;
+      flex-direction: row;
+
+      .form-group {
+        margin-right: 1rem;
+      }
+    }
+  }
 }

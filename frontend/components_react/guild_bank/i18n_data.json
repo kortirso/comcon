@@ -1,6 +1,18 @@
 {
   "en": {
+    "character": "For character",
+    "bank": "From bank",
+    "items": "Item",
+    "requestedAmount": "Requested amount",
+    "newRequestForm": "New bank request form",
+    "start": "Make request"
   },
   "ru": {
+    "character": "Для персонажа",
+    "bank": "Из банка",
+    "items": "Предмет",
+    "requestedAmount": "Необходимое кол-во",
+    "newRequestForm": "Форма запроса предметов",
+    "start": "Оформить заявку"
   }
 }
