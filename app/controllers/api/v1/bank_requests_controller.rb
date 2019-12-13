@@ -1,6 +1,7 @@
 module Api
   module V1
     class BankRequestsController < Api::V1::BaseController
+      before_action :find_guild, only: %i[index]
       before_action :find_bank, only: %i[create]
       before_action :find_character, only: %i[create]
       before_action :find_game_item, only: %i[create]
@@ -8,6 +9,13 @@ module Api
       resource_description do
         short 'BankRequests resources'
         formats ['json']
+      end
+
+      api :GET, '/v1/bank_requests.json', 'Get bank requests'
+      error code: 401, desc: 'Unauthorized'
+      def index
+        authorize! @guild, to: :bank?
+        render json: @guild.bank_requests.sent.order(id: :asc).includes(:character, :bank, :game_item), status: 200
       end
 
       api :POST, '/v1/bank_requests.json', 'Create bank request'
@@ -24,6 +32,11 @@ module Api
       end
 
       private
+
+      def find_guild
+        @guild = Guild.find_by(id: params[:guild_id])
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
+      end
 
       def find_bank
         @bank = Bank.find_by(id: params[:bank_request][:bank_id])

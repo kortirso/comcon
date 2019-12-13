@@ -62,7 +62,7 @@ Rails.application.routes.draw do
         patch :update_settings, on: :collection
         patch :update_password, on: :collection
       end
-      resources :bank_requests, only: %i[create]
+      resources :bank_requests, only: %i[index create]
     end
   end
 

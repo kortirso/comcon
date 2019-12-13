@@ -8,47 +8,81 @@
 
 .banks {
   .bank {
-    h3 {
-      margin-bottom: 1rem;
+    .bank_requests {
+      .provided_amount {
+        width: 40px;
+      }
 
-      .bank_coins {
-        font-size: 1rem;
+      .btn-plus, .btn-minus {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: none;
+        border-radius: 3px;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .btn-plus {
+        background: #fff url(../../images/plus-minus.png);
+        background-position: 0 0;
+        background-size: cover;
+      }
+
+      .btn-minus {
+        background: #fff url(../../images/plus-minus.png);
+        background-position: -30px 0;
+        background-size: cover;
       }
     }
 
-    .bank_cells {
-      display: flex;
-      flex-direction: row;
+    .bank_info {
+      h3 {
+        margin-bottom: 1rem;
 
-      .bank_cell {
-        width: 54px;
-        height: 54px;
-        overflow: hidden;
-        border-radius: 5px;
-        border: 2px solid #ccc;
-        margin-right: 2px;
-        position: relative;
+        .bank_coins {
+          font-size: 1rem;
+        }
+      }
 
-        a {
-          display: inline-block;
-          width: 50px;
-          height: 50px;
+      .bank_cells {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
 
-          img {
+        .bank_cell {
+          width: 54px;
+          height: 54px;
+          overflow: hidden;
+          border-radius: 5px;
+          border: 2px solid #ccc;
+          margin-right: 2px;
+          margin-bottom: 2px;
+          position: relative;
+
+          a {
+            display: inline-block;
             width: 50px;
             height: 50px;
-          }
-        }
 
-        .bank_cell_amount {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          background: #000;
-          color: #fff;
-          padding: 2px 4px;
-          font-size: 1rem;
-          line-height: 1;
+            img {
+              width: 50px;
+              height: 50px;
+            }
+          }
+
+          .bank_cell_amount {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #000;
+            color: #fff;
+            padding: 2px 4px;
+            font-size: 1rem;
+            line-height: 1;
+          }
         }
       }
     }

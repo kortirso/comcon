@@ -5,7 +5,11 @@
     "items": "Item",
     "requestedAmount": "Requested amount",
     "newRequestForm": "New bank request form",
-    "start": "Make request"
+    "start": "Make request",
+    "requestsTitle": "Bank requests",
+    "name": "Character's name",
+    "itemName": "Item's name",
+    "amount": "Requested amount"
   },
   "ru": {
     "character": "Для персонажа",
@@ -13,6 +17,10 @@
     "items": "Предмет",
     "requestedAmount": "Необходимое кол-во",
     "newRequestForm": "Форма запроса предметов",
-    "start": "Оформить заявку"
+    "start": "Оформить заявку",
+    "requestsTitle": "Запросы в банк",
+    "name": "Имя персонажа",
+    "itemName": "Название предмета",
+    "amount": "Количество"
   }
 }

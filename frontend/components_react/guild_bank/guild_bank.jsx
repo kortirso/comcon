@@ -21,7 +21,8 @@ export default class GuildBank extends React.Component {
       currentGameItemId: '0',
       requestedAmount: 0,
       errors: [],
-      alert: ''
+      alert: '',
+      bankRequests: []
     }
   }
 
@@ -42,7 +43,20 @@ export default class GuildBank extends React.Component {
             game_items: this._modifyGameItems(bank.bank_cells)
           }
         })
-        this.setState({banks: data.banks, itemsForRequest: itemsForRequest})
+        this.setState({banks: data.banks, itemsForRequest: itemsForRequest}, () => {
+          this._getBankRequests()
+        })
+      }
+    })
+  }
+
+  _getBankRequests() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/bank_requests.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
+      success: (data) => {
+        console.log(data)
+        this.setState({bankRequests: data.bank_requests})
       }
     })
   }
@@ -162,10 +176,15 @@ export default class GuildBank extends React.Component {
   _renderBanks() {
     return this.state.banks.map((bank, index) => {
       return (
-        <div className="bank" key={index}>
-          <h3>{bank.name}, <span className="bank_coins">{this._calcCoins(bank.coins)}</span></h3>
-          <div className="bank_cells">
-            {this._renderBankCells(bank.bank_cells)}
+        <div className="bank row" key={index}>
+          <div className="bank_info col-md-6">
+            <h3>{bank.name}, <span className="bank_coins">{this._calcCoins(bank.coins)}</span></h3>
+            <div className="bank_cells">
+              {this._renderBankCells(bank.bank_cells)}
+            </div>
+          </div>
+          <div className="bank_requests col-md-6">
+            {this._renderBankRequests(bank.name)}
           </div>
         </div>
       )
@@ -183,6 +202,53 @@ export default class GuildBank extends React.Component {
           }
           <span className="bank_cell_amount">{bankCell.amount}</span>
         </div>
+      )
+    })
+  }
+
+  _renderBankRequests(bankName) {
+    const filtered = this.state.bankRequests.filter((request) => {
+      return request.bank_name === bankName
+    })
+    if (filtered.length === 0) return false
+    return (
+      <div>
+        <h4>{strings.requestsTitle}</h4>
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              <th>{strings.name}</th>
+              <th>{strings.itemName}</th>
+              <th>{strings.amount}</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this._renderRequests(filtered)}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  _renderRequests(filtered) {
+    return filtered.map((request) => {
+      return (
+        <tr key={request.id}>
+          <td>{request.character_name}</td>
+          <td>{request.game_item_name[this.props.locale]}</td>
+          <td>{request.requested_amount}</td>
+          <td>
+            {this.props.banker &&
+              <input className={`form-control form-control-sm provided_amount provided_amount_${request.id}`} />
+            }
+          </td>
+          <td>
+            {this.props.banker && <button className="btn-minus"></button>}
+            {this.props.banker && <button className="btn-plus"></button>}
+          </td>
+        </tr>
       )
     })
   }

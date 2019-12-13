@@ -5,4 +5,6 @@ class BankRequest < ApplicationRecord
   belongs_to :bank
   belongs_to :game_item
   belongs_to :character, optional: true
+
+  scope :sent, -> { where status: 0 }
 end
