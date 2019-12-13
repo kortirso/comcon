@@ -41,6 +41,8 @@ class Character < ApplicationRecord
   has_many :guild_invites, dependent: :destroy
   has_many :guild_invitations, through: :guild_invites, source: :guild
 
+  has_many :bank_requests, dependent: :nullify
+
   has_one :guild_role, dependent: :destroy
 
   def full_name
