@@ -55,7 +55,6 @@ export default class GuildBank extends React.Component {
       method: 'GET',
       url: `/api/v1/bank_requests.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
       success: (data) => {
-        console.log(data)
         this.setState({bankRequests: data.bank_requests})
       }
     })
@@ -68,10 +67,51 @@ export default class GuildBank extends React.Component {
       url: `/api/v1/bank_requests.json?access_token=${this.props.access_token}`,
       data: { bank_request: { bank_id: state.currentBankId, character_id: state.currentCharacterId, game_item_id: state.currentGameItemId, requested_amount: state.requestedAmount } },
       success: (data) => {
-        this.setState({alert: 'Bank request is created', errors: [], currentGameItemId: '0', requestedAmount: 0})
+        let bankRequests = this.state.bankRequests
+        bankRequests.push(data.bank_request)
+        this.setState({alert: '', errors: [], currentGameItemId: '0', requestedAmount: 0, bankRequests: bankRequests})
       },
       error: (data) => {
         this.setState({errors: data.responseJSON.errors})
+      }
+    })
+  }
+
+  _onDeclineRequest(request) {
+    $.ajax({
+      method: 'POST',
+      url: `/api/v1/bank_requests/${request.id}/decline.json?access_token=${this.props.access_token}`,
+      data: {},
+      success: () => {
+        let bankRequests = this.state.bankRequests
+        const bankRequestIndex = bankRequests.indexOf(request)
+        bankRequests.splice(bankRequestIndex, 1)
+        this.setState({alert: '', errors: [], bankRequests: bankRequests})
+      }
+    })
+  }
+
+  _onApproveRequest(request) {
+    $.ajax({
+      method: 'POST',
+      url: `/api/v1/bank_requests/${request.id}/approve.json?access_token=${this.props.access_token}`,
+      data: { provided_amount: $(`.provided_amount_${request.id}`).val() },
+      success: (data) => {
+        let bankRequests = this.state.bankRequests
+        const bankRequestIndex = bankRequests.indexOf(request)
+        bankRequests.splice(bankRequestIndex, 1)
+        const currentBank = this.state.banks.filter((bank) => {
+          return bank.name === request.bank_name
+        })[0]
+        const currentBankIndex = this.state.banks.indexOf(currentBank)
+        const currenctBankCell = this.state.banks[currentBankIndex].bank_cells.filter((bank_cell) => {
+          return bank_cell.id === data.bank_cell.id
+        })[0]
+        const currentBankCellIndex = this.state.banks[currentBankIndex].bank_cells.indexOf(currenctBankCell)
+        let banks = this.state.banks
+        if (data.bank_cell.amount > 0) banks[currentBankIndex].bank_cells[currentBankCellIndex].amount = data.bank_cell.amount
+        else banks[currentBankIndex].bank_cells.splice(currentBankCellIndex, 1)
+        this.setState({alert: '', errors: [], bankRequests: bankRequests, banks: banks})
       }
     })
   }
@@ -247,8 +287,8 @@ export default class GuildBank extends React.Component {
             }
           </td>
           <td>
-            {this.props.banker && <button className="btn-minus"></button>}
-            {this.props.banker && <button className="btn-plus"></button>}
+            {this.props.banker && <button className="btn-minus" onClick={this._onDeclineRequest.bind(this, request)}></button>}
+            {this.props.banker && <button className="btn-plus" onClick={this._onApproveRequest.bind(this, request)}></button>}
           </td>
         </tr>
       )

@@ -242,4 +242,72 @@ RSpec.describe 'BankRequests API' do
       post "/api/v1/bank_requests/#{bank_request.id}/decline.json", headers: headers
     end
   end
+
+  describe 'POST#approve' do
+    let!(:user) { create :user }
+    let!(:guild) { create :guild }
+    let!(:character) { create :character, user: user, guild: guild }
+    let!(:bank) { create :bank, guild: guild }
+    let!(:game_item) { create :game_item }
+    let!(:bank_cell) { create :bank_cell, bank: bank, game_item: game_item, amount: 10 }
+    let!(:bank_request) { create :bank_request, bank: bank, game_item: game_item, requested_amount: 1 }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'with valid user token in params' do
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted bank request' do
+        let(:request) { post '/api/v1/bank_requests/unexisted/approve.json', params: { access_token: access_token } }
+
+        it 'does not call ApproveBankRequest' do
+          expect(ApproveBankRequest).to_not receive(:call).and_call_original
+
+          request
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 404' do
+            expect(response.status).to eq 404
+          end
+
+          it 'and returns errors' do
+            expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+          end
+        end
+      end
+
+      context 'for existed bank request' do
+        let(:request) { post "/api/v1/bank_requests/#{bank_request.id}/approve.json", params: { access_token: access_token } }
+
+        it 'calls ApproveBankRequest' do
+          expect(ApproveBankRequest).to receive(:call).and_call_original
+
+          request
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 200' do
+            expect(response.status).to eq 200
+          end
+
+          %w[id amount item_uid game_item].each do |attr|
+            it "and contains bank cell #{attr}" do
+              expect(response.body).to have_json_path("bank_cell/#{attr}")
+            end
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      post "/api/v1/bank_requests/#{bank_request.id}/approve.json", headers: headers
+    end
+  end
 end

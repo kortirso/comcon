@@ -5,7 +5,7 @@ module Api
       before_action :find_bank, only: %i[create]
       before_action :find_character, only: %i[create]
       before_action :find_game_item, only: %i[create]
-      before_action :find_bank_request, only: %i[decline]
+      before_action :find_bank_request, only: %i[decline approve]
 
       resource_description do
         short 'BankRequests resources'
@@ -39,6 +39,20 @@ module Api
         authorize! @bank_request.bank.guild, to: :bank?
         @bank_request.decline
         render json: { result: 'Bank request is declined' }, status: 200
+      end
+
+      api :POST, '/v1/bank_requests/:id/approve.json', 'Approve bank request'
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Not found'
+      def approve
+        authorize! @bank_request.bank.guild, to: :bank?
+        result = ApproveBankRequest.call(bank_request: @bank_request, provided_amount: params[:provided_amount])
+        if result.success?
+          result.bank_cell.destroy if result.bank_cell.amount.zero?
+          render json: result.bank_cell, status: 200
+        else
+          render json: { result: result.message }, status: 409
+        end
       end
 
       private

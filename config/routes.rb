@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       end
       resources :bank_requests, only: %i[index create] do
         post :decline, on: :member
+        post :approve, on: :member
       end
     end
   end
