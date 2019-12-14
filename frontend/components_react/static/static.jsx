@@ -140,7 +140,7 @@ export default class LineUp extends React.Component {
           <td className="comment_box">{this._renderComment(subscribe)}</td>
           <td>
             <div className="buttons">
-              {this.props.manager && <button className="btn-plus with_right_margin" onClick={() => this._showApprovingBox(subscribe, true)}></button>}
+              {this.props.manager && <button className="btn btn-icon btn-edit with_right_margin" onClick={() => this._showApprovingBox(subscribe, true)}></button>}
               {this.props.manager && <button className="btn btn-icon btn-delete with_right_margin" onClick={() => this._kickCharacter(subscribe)}></button>}
               {this.props.current_user_id === subscribe.character.user_id && <button data-confirm={strings.sure} className="btn btn-icon btn-exit" onClick={this._onLeaveCharacter.bind(this, subscribe.character)}></button>}
             </div>
@@ -311,7 +311,7 @@ export default class LineUp extends React.Component {
           <span>{subscribe.character.name}</span>
           <span className={`status_icon ${subscribe.status} small`}></span>
           {this.props.manager &&
-            <span><button className={`btn-plus small`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
+            <span><button className={`btn btn-icon btn-edit small`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
           }
         </div>
       )

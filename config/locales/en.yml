@@ -193,7 +193,6 @@ en:
     zone_title: Realm's zone
   buttons:
     sure: Are you sure?
-    edit: Edit
     create: Create
     update: Update
     recipes: Recipes

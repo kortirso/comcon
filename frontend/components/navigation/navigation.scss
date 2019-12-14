@@ -81,6 +81,14 @@ nav.navigation {
               background-position: 0 -75px;
               background-size: 225px;
             }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: 0 -100px;
+                background-size: 225px;
+              }
+            }
           }
 
           &.guilds {
@@ -88,6 +96,14 @@ nav.navigation {
               background: url(../../images/all_icons.png);
               background-position: -25px -75px;
               background-size: 225px;
+            }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -25px -100px;
+                background-size: 225px;
+              }
             }
           }
 
@@ -97,6 +113,14 @@ nav.navigation {
               background-position: -50px -75px;
               background-size: 225px;
             }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -50px -100px;
+                background-size: 225px;
+              }
+            }
           }
 
           &.events {
@@ -104,6 +128,14 @@ nav.navigation {
               background: url(../../images/all_icons.png);
               background-position: -75px -75px;
               background-size: 225px;
+            }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -75px -100px;
+                background-size: 225px;
+              }
             }
           }
 
@@ -113,6 +145,14 @@ nav.navigation {
               background-position: -175px -50px;
               background-size: 225px;
             }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -175px -125px;
+                background-size: 225px;
+              }
+            }
           }
 
           &.worlds {
@@ -120,6 +160,14 @@ nav.navigation {
               background: url(../../images/all_icons.png);
               background-position: -100px -75px;
               background-size: 225px;
+            }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -100px -100px;
+                background-size: 225px;
+              }
             }
           }
 
@@ -129,6 +177,14 @@ nav.navigation {
               background-position: -125px -75px;
               background-size: 225px;
             }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -125px -100px;
+                background-size: 225px;
+              }
+            }
           }
 
           &.recipes {
@@ -137,6 +193,14 @@ nav.navigation {
               background-position: -175px -75px;
               background-size: 225px;
             }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -175px -100px;
+                background-size: 225px;
+              }
+            }
           }
 
           &.settings {
@@ -144,6 +208,14 @@ nav.navigation {
               background: url(../../images/all_icons.png);
               background-position: -150px -75px;
               background-size: 225px;
+            }
+
+            &.active {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -150px -100px;
+                background-size: 225px;
+              }
             }
           }
 

@@ -30,7 +30,7 @@
                 td= character.world.full_name
                 td
                   = link_to t('buttons.recipes'), recipes_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'
-                  = link_to t('buttons.edit'), edit_character_path(character.slug), class: 'btn btn-primary btn-sm with_right_margin'
+                  = link_to '', edit_character_path(character.slug), class: 'btn btn-icon btn-edit with_right_margin'
                   = link_to '', character_path(character.id), method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete'
       - else
         p= t('characters.no_characters')

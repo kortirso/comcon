@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - show event info better
 - footer
 - rename operations to actions
+- icons
 
 ## [1.1.0] - 2019-12-13
 ### Added

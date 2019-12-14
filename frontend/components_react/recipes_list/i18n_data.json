@@ -4,15 +4,13 @@
     "filterProfession": "Filter by profession",
     "profession": "Profession",
     "name": "Links",
-    "skill": "Name",
-    "edit": "Edit"
+    "skill": "Name"
   },
   "ru": {
     "all": "все",
     "filterProfession": "Фильтр по профессии",
     "profession": "Профессия",
     "name": "Название",
-    "skill": "Уровень навыка",
-    "edit": "Изменить"
+    "skill": "Уровень навыка"
   }
 }

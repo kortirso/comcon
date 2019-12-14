@@ -287,8 +287,8 @@ export default class GuildBank extends React.Component {
             }
           </td>
           <td>
-            {this.props.banker && <button className="btn-plus" onClick={this._onApproveRequest.bind(this, request)}></button>}
-            {this.props.banker && <button className="btn-minus" onClick={this._onDeclineRequest.bind(this, request)}></button>}
+            {this.props.banker && <button className="btn btn-icon btn-add" onClick={this._onApproveRequest.bind(this, request)}></button>}
+            {this.props.banker && <button className="btn btn-icon btn-delete" onClick={this._onDeclineRequest.bind(this, request)}></button>}
           </td>
         </tr>
       )
