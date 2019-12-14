@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - navigation icons
 - support in telegram
 - request to static at static page
+- favicon
 
 ### Modified
 - delete icon
