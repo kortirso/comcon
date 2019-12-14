@@ -3,12 +3,14 @@
     "title": "Import data",
     "import": "Import",
     "placeholder": "Data from Classic Guild Bank addon",
-    "import_button": "bank import"
+    "importButton": "Bank import",
+    "importResult": "Data will be imported in a few minutes"
   },
   "ru": {
     "title": "Импортировать данные",
     "import": "Импортировать",
     "placeholder": "Данные из аддона Classic Guild Bank",
-    "import_button": "Импорт данных банка"
+    "importButton": "Импорт данных банка",
+    "importResult": "Данные будут импортированы в течение нескольких минут"
   }
 }
