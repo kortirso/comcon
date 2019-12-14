@@ -1,10 +1,9 @@
 footer
   .container
-    .flex
+    .flex class="#{'reverse-column' if inner}"
       .footer_block
+        = link_to t('navigation.donate'), donate_path
+      .locale_block
         p Guild-Hall 1.1.0
-      .footer_block
-        p= link_to t('navigation.donate'), donate_path
-      .footer_block
         - I18n.available_locales.each do |locale|
           = link_to '', change_locale(locale), class: "flag flag_#{locale}"

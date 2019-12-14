@@ -16,10 +16,15 @@ nav.navigation {
 
   footer {
     position: absolute;
-    bottom: 0;
+    bottom: 1rem;
     left: 0;
     width: 100%;
     min-width: 100%;
+    margin-bottom: 0;
+
+    .footer_block {
+      margin-bottom: 0.25rem;
+    }
   }
 
   .topbar {
@@ -185,7 +190,7 @@ nav.navigation {
     position: sticky;
     height: 100vh;
     width: 300px;
-    padding: 0 0 2rem;
+    padding: 0;
 
     .navigation_block {
       width: 300px;

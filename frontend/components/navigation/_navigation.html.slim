@@ -37,4 +37,4 @@ nav.navigation.navbar-light class="#{'collapsed' if cookies[:guildHallCollapsedM
         = link_to_if request.fullpath =~ /^\/settings/ || request.fullpath =~ /^\/ru\/settings/, t('navigation.settings'), settings_path, class: 'nav_icon settings active' do
           = link_to t('navigation.settings'), settings_path, class: 'nav_icon settings'
       li= link_to t('navigation.logout'), destroy_user_session_path, method: :delete, class: 'nav_icon exit'
-    = render 'components/footer/footer'
+    = render 'components/footer/footer', inner: true
