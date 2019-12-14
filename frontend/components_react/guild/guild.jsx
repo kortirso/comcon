@@ -138,13 +138,13 @@ export default class Guild extends React.Component {
       return (
         <td className="management_buttons">
           <GuildRoleSelector character={character} isAdmin={this.props.is_admin} isGmm={this.props.is_gm} locale={this.props.locale} onChangeGuildRole={this._onChangeGuildRole.bind(this)} />
-          <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onKickCharacter.bind(this, character)}>{strings.deleteButton}</button>
+          <button data-confirm={strings.sure} className="btn btn-icon btn-delete" onClick={this._onKickCharacter.bind(this, character)}></button>
         </td>
       )
     } else if (this.props.current_user_character_ids.includes(character.id)) {
       return (
         <td className="management_buttons">
-          <button data-confirm={strings.sure} className="btn btn-primary btn-sm" onClick={this._onLeaveCharacter.bind(this, character)}>{strings.leave}</button>
+          <button data-confirm={strings.sure} className="btn btn-icon btn-exit" onClick={this._onLeaveCharacter.bind(this, character)}></button>
         </td>
       )
     } else return <td></td>

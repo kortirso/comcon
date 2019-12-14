@@ -10,10 +10,8 @@
     "rl": "RL",
     "cl": "CL",
     "ba": "Banker",
-    "deleteButton": "Kick",
-    "leave": "Leave",
     "sure": "Are sure?",
-    "operations": "Operations",
+    "operations": "Actions",
     "bank": "Show guild bank"
   },
   "ru": {
@@ -27,10 +25,8 @@
     "rl": "РЛ",
     "cl": "КЛ",
     "ba": "Банкир",
-    "deleteButton": "Исключить",
-    "leave": "Выйти",
     "sure": "Вы уверены?",
-    "operations": "Операции",
+    "operations": "Действия",
     "bank": "Посмотреть банк гильдии"
   }
 }

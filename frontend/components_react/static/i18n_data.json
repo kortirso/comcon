@@ -19,10 +19,8 @@
     "dd": "Damage dealers",
     "alternative": "Display static by roles and classes",
     "close": "Close",
-    "leave": "Leave",
     "sure": "Are sure?",
-    "operations": "Operations",
-    "kick": "Kick"
+    "operations": "Actions"
   },
   "ru": {
     "name": "Имя",
@@ -44,9 +42,7 @@
     "dd": "Бойцы",
     "alternative": "Отображение статика по ролям и классам",
     "close": "Закрыть",
-    "leave": "Выйти",
     "sure": "Вы уверены?",
-    "operations": "Операции",
-    "kick": "Исключить"
+    "operations": "Действия"
   }
 }

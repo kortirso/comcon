@@ -157,6 +157,18 @@
       background-size: 180px;
     }
   }
+
+  &.btn-exit {
+    background: url(../images/all_icons.png);
+    background-position: -224px -56px;
+    background-size: 252px;
+
+    &.small {
+      background: url(../images/all_icons.png);
+      background-position: -160px -40px;
+      background-size: 180px;
+    }
+  }
 }
 
 .btn-plus, .btn-minus {
