@@ -1,0 +1,12 @@
+{
+  "en": {
+    "characters": "Your characters available for this static",
+    "create": "Send request",
+    "success": "Request to static is sent"
+  },
+  "ru": {
+    "characters": "Ваши персонажи подходящие для этого статика",
+    "create": "Отправить запрос",
+    "success": "Запрос в статик отправлен"
+  }
+}

@@ -46,6 +46,7 @@ Rails.application.routes.draw do
         post :kick_character, on: :member
         post :leave_character, on: :member
         get :search, on: :collection
+        get :characters_for_request, on: :member
       end
       resources :static_invites, only: %i[index create destroy] do
         post :approve, on: :member

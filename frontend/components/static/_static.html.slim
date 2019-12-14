@@ -1,3 +1,4 @@
+= javascript_pack_tag 'request_to_static'
 = javascript_pack_tag 'static'
 .inside
   .inside_topbar
@@ -6,4 +7,6 @@
       - if Current.user.any_static_role?(@static)
         = link_to t('guild.management'), management_static_path(@static.slug), class: 'btn btn-sm btn-primary'
   main
-    = react_component('Static', static_id: @static.id, static_description: @static.description, static_group_role: @static.group_role.value, static_fraction_name: @static.fraction.name['en'], manager: Current.user.any_static_role?(@static), current_user_id: Current.user&.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
+    div
+      = react_component('RequestToStatic', static_id: @static.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
+      = react_component('Static', static_id: @static.id, static_description: @static.description, static_group_role: @static.group_role.value, static_fraction_name: @static.fraction.name['en'], manager: Current.user.any_static_role?(@static), current_user_id: Current.user&.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

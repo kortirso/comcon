@@ -3,11 +3,12 @@ module Api
     class StaticsController < Api::V1::BaseController
       before_action :find_statics, only: %i[index]
       before_action :find_guild, only: %i[create]
-      before_action :find_static, only: %i[show update members subscribers leave_character kick_character]
+      before_action :find_static, only: %i[show update members subscribers leave_character kick_character characters_for_request]
       before_action :find_user_guilds, only: %i[form_values]
       before_action :find_character, only: %i[leave_character]
       before_action :find_static_character, only: %i[kick_character]
       before_action :search_statics, only: %i[search]
+      before_action :find_characters_for_request, only: %i[characters_for_request]
 
       resource_description do
         short 'Static resources'
@@ -121,6 +122,14 @@ module Api
         }, status: 200
       end
 
+      api :GET, '/v1/statics/:id/characters_for_request.json', 'Get list of characters for request to static'
+      error code: 401, desc: 'Unauthorized'
+      def characters_for_request
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@characters_for_request, each_serializer: CharacterIndexSerializer).as_json[:characters]
+        }, status: 200
+      end
+
       private
 
       def find_statics
@@ -163,6 +172,12 @@ module Api
         with[:world_id] = params[:world_id].to_i if params[:world_id].present?
         with[:fraction_id] = params[:fraction_id].to_i if params[:fraction_id].present?
         with
+      end
+
+      def find_characters_for_request
+        existed_static_invite_ids = StaticInvite.where(static_id: @static.id).pluck(:character_id)
+        existed_static_member_ids = StaticMember.where(static_id: @static.id).pluck(:character_id)
+        @characters_for_request = Current.user.characters.where(world_fraction_id: @static.world_fraction_id).where.not(id: existed_static_invite_ids).where.not(id: existed_static_member_ids).includes(race: :fraction)
       end
 
       def static_params
