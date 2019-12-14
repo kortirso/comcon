@@ -217,7 +217,7 @@ en:
     find_guild: Find guild
     statics: Statics
     find_static: Find static
-    operations: Operations
+    operations: Actions
     no_characters: For viewing characters you need to attach new character to your account
   character_form:
     creating: Create new character
@@ -255,7 +255,7 @@ en:
     search: Search
     creating: Create new static
     left_value: Need characters
-    operations: Operations
+    operations: Actions
   static:
     label: Static roster
   guild:
@@ -285,7 +285,7 @@ en:
   restore_password:
     title: Reset password
     submit: Send email with confirmation link
-  operations: Operations
+  operations: Actions
   donate:
     p_1: Guild Hall is a non-profit, completely free project.
     p_2: Each registered user has the same opportunities to use content.

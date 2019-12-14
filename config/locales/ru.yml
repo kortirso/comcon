@@ -228,7 +228,7 @@ ru:
     find_guild: Найти гильдию
     statics: Статики
     find_static: Найти статик
-    operations: Операции
+    operations: Действия
     no_characters: Для просмотра персонажей привяжите персонажа к учетной записи
   character_form:
     creating: Добавить нового персонажа
@@ -266,7 +266,7 @@ ru:
     search: Поиск
     creating: Добавить новый статик
     left_value: Необходимы персонажи
-    operations: Операции
+    operations: Действия
   static:
     label: Состав статика
   guild:
@@ -296,7 +296,7 @@ ru:
   restore_password:
     title: Сброс пароля
     submit: Выслать email с кодом подтверждения
-  operations: Операции
+  operations: Действия
   donate:
     p_1: Guild Hall - некоммерческий полностью бесплатный проект.
     p_2: Каждый зарегистрированный пользователь имеет одинаковые возможности использования контента.
