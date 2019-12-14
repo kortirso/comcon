@@ -170,7 +170,7 @@ export default class StaticInviteFormForCharacter extends React.Component {
           <td>{request.static_name}</td>
           <td>{strings[request.status]}</td>
           <td>
-            <input type="submit" name="commit" value={strings.deleteRequest} className="btn btn-primary btn-sm" onClick={this._onDeleteRequest.bind(this, request)} />
+            <a className="btn btn-icon btn-delete" onClick={this._onDeleteRequest.bind(this, request)}></a>
           </td>
         </tr>
       )

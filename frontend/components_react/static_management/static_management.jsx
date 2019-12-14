@@ -189,7 +189,7 @@ export default class StaticManagement extends React.Component {
           <td>{strings[invite.status]}</td>
           <td>
             {invite.status === 'declined' &&
-              <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
+              <a className="btn btn-icon btn-delete" onClick={this._onDeleteInvite.bind(this, invite)}></a>
             }
           </td>
         </tr>

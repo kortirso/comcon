@@ -28,14 +28,9 @@ export default class GuildBankImport extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v1/guilds/${this.props.guild_id}/import_bank.json?access_token=${this.props.access_token}`,
-      data: { bank_data: this.state.data },
-      success: (data) => {
-        this.setState({showModal: false, alert: data.result})
-      },
-      error: (data) => {
-        this.setState({errors: data.responseJSON.errors})
-      }
+      data: { bank_data: this.state.data }
     })
+    this.setState({showModal: false, alert: strings.importResult})
   }
 
   render() {
@@ -47,7 +42,7 @@ export default class GuildBankImport extends React.Component {
         {this.state.alert !== '' &&
           <Alert type="success" value={this.state.alert} />
         }
-        <button className="btn btn-primary btn-sm" onClick={() => this.setState({showModal: true})}>{strings.import_button}</button>
+        <button className="btn btn-primary btn-sm" onClick={() => this.setState({showModal: true})}>{strings.importButton}</button>
         <div className={`modal fade ${this.state.showModal ? 'show' : ''}`} id="guild_data_import" tabIndex="-1" role="dialog" aria-labelledby="guild_data_import_label" aria-hidden="true" onClick={() => this.setState({showModal: false})}>
           <div className="modal-dialog" role="document" onClick={(e) => { e.stopPropagation() }}>
             <div className="modal-content">

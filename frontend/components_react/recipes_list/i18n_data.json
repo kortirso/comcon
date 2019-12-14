@@ -5,8 +5,7 @@
     "profession": "Profession",
     "name": "Links",
     "skill": "Name",
-    "edit": "Edit",
-    "deleteButton": "Delete"
+    "edit": "Edit"
   },
   "ru": {
     "all": "все",
@@ -14,7 +13,6 @@
     "profession": "Профессия",
     "name": "Название",
     "skill": "Уровень навыка",
-    "edit": "Изменить",
-    "deleteButton": "Удалить"
+    "edit": "Изменить"
   }
 }

@@ -193,7 +193,6 @@ en:
   buttons:
     sure: Are you sure?
     edit: Edit
-    delete: Delete
     create: Create
     update: Update
     recipes: Recipes
