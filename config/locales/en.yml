@@ -147,6 +147,7 @@ en:
     logout: Logout
     back: Go back
     donate: Donate
+    support: Support
   settings:
     label: Settings
     personal: Personal settings
