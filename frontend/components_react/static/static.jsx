@@ -309,7 +309,7 @@ export default class LineUp extends React.Component {
       return (
         <div className="subscribe" key={index}>
           <span>{subscribe.character.name}</span>
-          <span>{strings[subscribe.status]}</span>
+          <span className={`status_icon ${subscribe.status} small`}></span>
           {this.props.manager &&
             <span><button className={`btn-plus small`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
           }

@@ -130,6 +130,35 @@
   }
 }
 
+.btn-icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+
+  &.small {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.btn-delete {
+    background: url(../images/all_icons.png);
+    background-position: -168px -56px;
+    background-size: 252px;
+
+    &.small {
+      background: url(../images/all_icons.png);
+      background-position: -120px -40px;
+      background-size: 180px;
+    }
+  }
+}
+
 .btn-plus, .btn-minus {
   width: 30px;
   height: 30px;
@@ -168,5 +197,58 @@
     background: #fff url(../images/all_icons.png);
     background-position: -160px -20px;
     background-size: 180px;
+  }
+}
+
+.status_icon {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+
+  &.small {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.approved {
+    background: #fff url(../images/all_icons.png);
+    background-position: 0 -60px;
+    background-size: 270px;
+
+    &.small {
+      background: #fff url(../images/all_icons.png);
+      background-position: 0 -40px;
+      background-size: 180px;
+    }
+  }
+
+  &.reserve {
+    background: #fff url(../images/all_icons.png);
+    background-position: -30px -60px;
+    background-size: 270px;
+
+    &.small {
+      background: #fff url(../images/all_icons.png);
+      background-position: -20px -40px;
+      background-size: 180px;
+    }
+  }
+
+  &.signed {
+    background: #fff url(../images/all_icons.png);
+    background-position: -60px -60px;
+    background-size: 270px;
+
+    &.small {
+      background: #fff url(../images/all_icons.png);
+      background-position: -40px -40px;
+      background-size: 180px;
+    }
   }
 }

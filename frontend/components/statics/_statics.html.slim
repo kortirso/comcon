@@ -58,6 +58,6 @@
                   td
                     - if Current.user.any_static_role?(static)
                       = link_to t('buttons.edit'), edit_static_path(static.slug), class: 'btn btn-primary btn-sm with_right_margin'
-                      = link_to t('buttons.delete'), static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-primary btn-sm'
+                      = link_to '', static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete'
       - else
         p= t('statics.no_characters')

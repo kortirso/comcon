@@ -171,7 +171,7 @@ export default class InviteFormForGuild extends React.Component {
           <td>{invite.character.level}</td>
           <td>{strings[invite.status]}</td>
           <td>
-            <input type="submit" name="commit" value={strings.deleteInvite} className="btn btn-primary btn-sm" onClick={this._onDeleteInvite.bind(this, invite)} />
+            <a className="btn btn-icon btn-delete" onClick={this._onDeleteInvite.bind(this, invite)}></a>
           </td>
         </tr>
       )

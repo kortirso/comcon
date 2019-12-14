@@ -475,7 +475,7 @@ export default class LineUp extends React.Component {
       return (
         <div className="subscribe" key={index}>
           <span>{subscribe.character.name}</span>
-          <span>{strings[subscribe.status]}</span>
+          <span className={`status_icon ${subscribe.status} small`}></span>
           {this._checkAdminButton(subscribe.character, subscribe.status) &&
             <span>{this._renderAdminButton(subscribe, 'small')}</span>
           }
