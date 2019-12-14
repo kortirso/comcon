@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - delete icon
 - close import windows for bank immediately
+- show event info better
 
 ## [1.1.0] - 2019-12-13
 ### Added

@@ -168,7 +168,7 @@ export default class LineUp extends React.Component {
       return (
         strings.formatString(strings.worldEvent, {
           worldName: eventInfo.eventable_name,
-          fraction: eventInfo.fraction_name
+          fraction: eventInfo.fraction_name[this.props.locale]
         })
       )
     } else if (eventInfo.eventable_type === 'Guild') {
@@ -496,7 +496,7 @@ export default class LineUp extends React.Component {
             </div>
             <p>{this._renderAccess(eventInfo)}</p>
             <p>{strings.owner} - {eventInfo.owner_name}</p>
-            <p>{eventInfo.description}</p>
+            <p className="event_closed">{eventInfo.description}</p>
             <p>{strings.hoursBeforeClose} - {this.props.hours_before_close}</p>
             {!this.props.event_is_open &&
               <p className="event_closed">{strings.closed}</p>
