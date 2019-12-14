@@ -1,9 +1,18 @@
 @import '../../init/variables.scss';
 
 nav.navigation {
-  position: absolute;
-  width: 100%;
   z-index: 1;
+  transition: .2s;
+
+  &.collapsed {
+    width: 55px;
+    transition: .2s;
+    overflow: hidden;
+
+    footer {
+      display: none;
+    }
+  }
 
   footer {
     position: absolute;
@@ -16,6 +25,9 @@ nav.navigation {
   .topbar {
     height: 45px;
     background: $white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .collapse {
@@ -32,7 +44,7 @@ nav.navigation {
         display: flex;
         align-items: center;
         height: 50px;
-        padding-left: 40px;
+        padding-left: 55px;
         color: $middle-grey;
         font-weight: 600;
         text-transform: uppercase;
@@ -46,6 +58,98 @@ nav.navigation {
         &.active {
           color: #ff0000;
         }
+
+        &.nav_icon {
+          position: relative;
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            left: 15px;
+          }
+
+          &.characters {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: 0 -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.guilds {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -25px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.statics {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -50px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.events {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -75px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.crafters {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -175px -50px;
+              background-size: 225px;
+            }
+          }
+
+          &.worlds {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -100px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.users {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -125px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.recipes {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -175px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.settings {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -150px -75px;
+              background-size: 225px;
+            }
+          }
+
+          &.exit {
+            &:before {
+              background: url(../../images/all_icons.png);
+              background-position: -200px -50px;
+              background-size: 225px;
+            }
+          }
+        }
       }
     }
   }
@@ -54,18 +158,19 @@ nav.navigation {
     border-bottom: 2px solid rgba(0, 0, 0, .05);
 
     .topbar {
-      text-align: right;
-      display: flex;
       flex-direction: row-reverse;
-      align-items: center;
 
-      button {
+      button.small-icon {
         padding: 0;
         border: none;
 
         &:focus {
           outline: none;
         }
+      }
+
+      button.shorter-icon {
+        display: none
       }
     }
 
@@ -82,9 +187,23 @@ nav.navigation {
     width: 300px;
     padding: 0 0 2rem;
 
+    .navigation_block {
+      width: 300px;
+    }
+
     .topbar {
-      button {
+      button.small-icon {
         display: none;
+      }
+
+      button.shorter-icon {
+        padding: 0;
+        border: none;
+        width: 55px;
+
+        &:focus {
+          outline: none;
+        }
       }
     }
 
