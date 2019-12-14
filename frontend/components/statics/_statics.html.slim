@@ -52,7 +52,7 @@
                   td
                     - ['tanks', 'healers', 'dd'].each do |role|
                       - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
-                        span class="left_value #{key}"
+                        span class="left_value class_icon #{key}"
                           span class="role #{role}"
                           span class="amount"= value
                   td

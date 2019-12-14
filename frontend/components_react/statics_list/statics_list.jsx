@@ -172,7 +172,7 @@ export default class StaticsList extends React.Component {
   _renderLeftRoles(values, role) {
     return values.map((value, index) => {
       return (
-        <span className={`left_value ${value[0]}`} key={index}>
+        <span className={`left_value class_icon ${value[0]}`} key={index}>
           <span className={`role ${role}`}></span>
           <span className="amount">{value[1]}</span>
         </span>

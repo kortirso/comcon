@@ -236,7 +236,7 @@ export default class LineUp extends React.Component {
           <td className="comment_box">{this._renderComment(subscribe)}</td>
           <td>
             <div className="buttons">
-              {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe)}
+              {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe, '')}
               {this.props.event_is_open && this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
             </div>
           </td>
@@ -329,8 +329,8 @@ export default class LineUp extends React.Component {
     else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1].includes(character.character_class_name.en)
   }
 
-  _renderAdminButton(subscribe) {
-    return <button className="btn-plus" onClick={() => this._showApprovingBox(subscribe, true)}></button>
+  _renderAdminButton(subscribe, size) {
+    return <button className={`btn-plus ${size}`} onClick={() => this._showApprovingBox(subscribe, true)}></button>
   }
 
   _renderUserButton(subscribe) {
@@ -477,7 +477,7 @@ export default class LineUp extends React.Component {
           <span>{subscribe.character.name}</span>
           <span>{strings[subscribe.status]}</span>
           {this._checkAdminButton(subscribe.character, subscribe.status) &&
-            <span>{this._renderAdminButton(subscribe)}</span>
+            <span>{this._renderAdminButton(subscribe, 'small')}</span>
           }
         </div>
       )

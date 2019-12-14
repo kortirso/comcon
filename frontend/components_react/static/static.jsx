@@ -311,7 +311,7 @@ export default class LineUp extends React.Component {
           <span>{subscribe.character.name}</span>
           <span>{strings[subscribe.status]}</span>
           {this.props.manager &&
-            <span><button className={`btn-plus`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
+            <span><button className={`btn-plus small`} onClick={() => this._showApprovingBox(subscribe, true)}></button></span>
           }
         </div>
       )

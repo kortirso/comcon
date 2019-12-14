@@ -10,7 +10,7 @@
     "name": "Character's name",
     "itemName": "Item's name",
     "amount": "Requested",
-    "give": "You gave"
+    "give": "Give"
   },
   "ru": {
     "character": "Для персонажа",
@@ -23,6 +23,6 @@
     "name": "Имя персонажа",
     "itemName": "Название предмета",
     "amount": "Кол-во",
-    "give": "Вы отдали"
+    "give": "Отдать"
   }
 }
