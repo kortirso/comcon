@@ -7,4 +7,4 @@ footer
       .locale_block
         p Guild-Hall 1.1.1
         - I18n.available_locales.each do |locale|
-          = link_to '', change_locale(locale), class: "flag flag_#{locale}"
+          = link_to '', change_locale(locale), class: "flag flag_#{locale}", aria: { label: 'Change locale' }

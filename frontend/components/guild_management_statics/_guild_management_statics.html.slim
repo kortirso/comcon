@@ -33,5 +33,5 @@
                           span class="role #{role}"
                           span class="amount"= value
                   td
-                    = link_to '', edit_static_path(static.slug), class: 'btn btn-icon btn-edit with_right_margin'
-                    = link_to '', static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete'
+                    = link_to '', edit_static_path(static.slug), class: 'btn btn-icon btn-edit with_right_margin', aria: { label: 'Edit button' }
+                    = link_to '', static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete', aria: { label: 'Delete button' }

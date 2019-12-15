@@ -31,4 +31,4 @@
                       - delivery.delivery_param.params.each do |key, value|
                         span= "#{key}: #{value}"
                   td
-                    = link_to '', delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete'
+                    = link_to '', delivery, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete', aria: { label: 'Delete button' }

@@ -106,8 +106,8 @@ export default class RecipesList extends React.Component {
           <td><a href={recipe.links[this.props.locale]}>{recipe.name[this.props.locale]}</a></td>
           <td>{recipe.skill}</td>
           <td>
-            <a className="btn btn-icon btn-edit with_right_margin" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}/edit`}></a>
-            <a data-confirm="Are you sure?" className="btn btn-icon btn-delete" rel="nofollow" data-method="delete" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}`}></a>
+            <a className="btn btn-icon btn-edit with_right_margin" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}/edit`} aria-label="Edit button"></a>
+            <a data-confirm="Are you sure?" className="btn btn-icon btn-delete" rel="nofollow" data-method="delete" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}`} aria-label="Delete button"></a>
           </td>
         </tr>
       )

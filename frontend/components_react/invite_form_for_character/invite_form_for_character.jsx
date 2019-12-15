@@ -173,7 +173,7 @@ export default class InviteFormForCharacter extends React.Component {
           <td>{request.guild.name} - {request.guild.world_name}</td>
           <td>{strings[request.status]}</td>
           <td>
-            <a className="btn btn-icon btn-delete" onClick={this._onDeleteRequest.bind(this, request)}></a>
+            <a className="btn btn-icon btn-delete" onClick={this._onDeleteRequest.bind(this, request)} aria-label="Delete button"></a>
           </td>
         </tr>
       )

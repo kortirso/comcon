@@ -170,7 +170,7 @@ export default class StaticInviteFormForCharacter extends React.Component {
           <td>{request.static_name}</td>
           <td>{strings[request.status]}</td>
           <td>
-            <a className="btn btn-icon btn-delete" onClick={this._onDeleteRequest.bind(this, request)}></a>
+            <a className="btn btn-icon btn-delete" onClick={this._onDeleteRequest.bind(this, request)} aria-label="Delete button"></a>
           </td>
         </tr>
       )

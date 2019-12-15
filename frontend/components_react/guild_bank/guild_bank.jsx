@@ -236,7 +236,7 @@ export default class GuildBank extends React.Component {
       return (
         <div className="bank_cell" key={index}>
           {bankCell.game_item !== null &&
-            <a href={`https://${this._checkLocale()}classic.wowhead.com/item=${bankCell.item_uid}`} onClick={(event) => event.preventDefault()}>
+            <a href={`https://${this._checkLocale()}classic.wowhead.com/item=${bankCell.item_uid}`} onClick={(event) => event.preventDefault()} aria-label="Item">
               <img src={`https://wow.zamimg.com/images/wow/icons/large/${bankCell.game_item.icon_name}.jpg`} alt="" />
             </a>
           }
@@ -287,8 +287,8 @@ export default class GuildBank extends React.Component {
             }
           </td>
           <td>
-            {this.props.banker && <button className="btn btn-icon btn-add" onClick={this._onApproveRequest.bind(this, request)}></button>}
-            {this.props.banker && <button className="btn btn-icon btn-delete" onClick={this._onDeclineRequest.bind(this, request)}></button>}
+            {this.props.banker && <button className="btn btn-icon btn-add" onClick={this._onApproveRequest.bind(this, request)} aria-label="Add button"></button>}
+            {this.props.banker && <button className="btn btn-icon btn-delete" onClick={this._onDeclineRequest.bind(this, request)} aria-label="Delete button"></button>}
           </td>
         </tr>
       )
