@@ -217,8 +217,8 @@ export default class EventCalendar extends React.Component {
   _renderAccessTypeFilter() {
     return (
       <div className="filter access_type">
-        <p>{strings.filterAccess}</p>
-        <select className="form-control form-control-sm" onChange={this._onChangeAccessType.bind(this)} value={this.state.accessType}>
+        <label htmlFor="filter_access_type">{strings.filterAccess}</label>
+        <select id="filter_access_type" className="form-control form-control-sm" onChange={this._onChangeAccessType.bind(this)} value={this.state.accessType}>
           <option value='none'>{strings.none}</option>
           <option value='World'>{strings.onlyWorlds}</option>
           <option value='Guild'>{strings.onlyGuilds}</option>
@@ -233,8 +233,8 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter world">
-          <p>{strings.filterWorld}</p>
-          <select className="form-control form-control-sm" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
+          <label htmlFor="filter_world">{strings.filterWorld}</label>
+          <select id="filter_world" className="form-control form-control-sm" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderWorldsList()}
           </select>
@@ -254,8 +254,8 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter guild">
-          <p>{strings.filterGuild}</p>
-          <select className="form-control form-control-sm" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
+          <label htmlFor="filter_guild">{strings.filterGuild}</label>
+          <select id="filter_guild" className="form-control form-control-sm" onChange={this._onChangeGuild.bind(this)} value={this.state.guild}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderGuildsList()}
           </select>
@@ -275,8 +275,8 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter static">
-          <p>{strings.filterStatic}</p>
-          <select className="form-control form-control-sm" onChange={this._onChangeStatic.bind(this)} value={this.state.currentStatic}>
+          <label htmlFor="filter_static">{strings.filterStatic}</label>
+          <select id="filter_static" className="form-control form-control-sm" onChange={this._onChangeStatic.bind(this)} value={this.state.currentStatic}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderStaticsList()}
           </select>
@@ -296,8 +296,8 @@ export default class EventCalendar extends React.Component {
     else {
       return (
         <div className="filter fraction">
-          <p>{strings.filterFraction}</p>
-          <select className="form-control form-control-sm" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
+          <label htmlFor="filter_fraction">{strings.filterFraction}</label>
+          <select id="filter_fraction" className="form-control form-control-sm" onChange={this._onChangeFraction.bind(this)} value={this.state.fraction}>
             <option value='none' key='0'>{strings.none}</option>
             {this._renderFractionsList()}
           </select>
@@ -315,8 +315,8 @@ export default class EventCalendar extends React.Component {
   _renderDungeonFilter() {
     return (
       <div className="filter dungeon">
-        <p>{strings.filterDungeon}</p>
-        <select className="form-control form-control-sm" onChange={this._onChangeDungeon.bind(this)} value={this.state.dungeon}>
+        <label htmlFor="filter_dungeon">{strings.filterDungeon}</label>
+        <select id="filter_dungeon" className="form-control form-control-sm" onChange={this._onChangeDungeon.bind(this)} value={this.state.dungeon}>
           <option value='none' key='0'>{strings.none}</option>
           {this._renderDungeonsList()}
         </select>
@@ -333,8 +333,8 @@ export default class EventCalendar extends React.Component {
   _renderCharacterFilter() {
     return (
       <div className="filter character">
-        <p>{strings.filterCharacter}</p>
-        <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind(this)} value={this.state.character}>
+        <label htmlFor="filter_character">{strings.filterCharacter}</label>
+        <select id="filter_character" className="form-control form-control-sm" onChange={this._onChangeCharacter.bind(this)} value={this.state.character}>
           <option value='none' key='0'>{strings.none}</option>
           {this._renderCharactersList()}
         </select>
@@ -351,8 +351,8 @@ export default class EventCalendar extends React.Component {
   _renderSubscribeFilter() {
     return (
       <div className="filter subscribe">
-        <p>{strings.filterSubscribe}</p>
-        <select className="form-control form-control-sm" onChange={this._onChangeSubscribe.bind(this)} value={this.state.subscribe}>
+        <label htmlFor="filter_subscribe">{strings.filterSubscribe}</label>
+        <select id="filter_subscribe" className="form-control form-control-sm" onChange={this._onChangeSubscribe.bind(this)} value={this.state.subscribe}>
           <option value='none' key='0'>{strings.none}</option>
           <option value='all' key='1'>{strings.withSubscription}</option>
         </select>

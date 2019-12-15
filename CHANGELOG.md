@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - load wowhead only for need pages
 - aria-label for links without text
 - noreferrer for external links
+- labels for form elements
 
 ## [1.1.1] - 2019-12-14
 ### Added

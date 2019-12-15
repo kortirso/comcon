@@ -365,6 +365,7 @@ export default class LineUp extends React.Component {
         {(this.props.is_owner || this.props.guild_role !== null) &&
           <div className="copy_raid">
             <button className="btn btn-primary btn-sm" onClick={this._copyRaid.bind(this)}>{strings.copy}</button>
+            <label htmlFor="copyRaid">Copy raid</label>
             <textarea type="text" id="copyRaid" defaultValue={this._renderSubscribeCharacters(approvedSubscribes)} />
           </div>
         }

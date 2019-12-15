@@ -73,6 +73,10 @@
     display: flex;
     flex-direction: row;
 
+    label {
+      opacity: 0;
+    }
+
     textarea {
       opacity: 0;
       font-size: 10px;
