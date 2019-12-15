@@ -1,4 +1,7 @@
 ru:
+  meta:
+    keywords: world of warcraft, classic, гильдия, управление, банки, статики, крафтеры, лфг, события
+    description: GuildHall - управление гильдией для WoW Classic
   activemodel:
     attributes:
       character_form:

@@ -1,4 +1,7 @@
 en:
+  meta:
+    keywords: world of warcraft, classic, guild, management, banks, statics, crafters, lfg, events
+    description: GuildHall - guild management for WoW Classic
   activemodel:
     attributes:
       character_form:

@@ -4,6 +4,16 @@ html lang='en'
     title Guild-Hall
     meta charset='utf-8'
     meta name='viewport' content='width=device-width, initial-scale=1'
+    meta name='Keywords' content= t('meta.keywords')
+    meta name='Description' content= t('meta.description')
+    meta property='og:title' content='GuildHall - guild management for WoW Classic'
+    meta property='og:description' content='Guild management for WoW Classic'
+    meta property='og:type' content='WebService'
+    meta property='og:url' content='https://guild-hall.org'
+    meta property='og:image' content='https://guild-hall.org/image.jpg'
+    meta itemprop='name' content='GuildHall - guild management for WoW Classic'
+    meta itemprop='description' content='Guild management for WoW Classic'
+    meta itemprop='image' content='https://guild-hall.org/image.jpg'
     - if @wowhead
       script src='https://wow.zamimg.com/widgets/power.js'
     = stylesheet_pack_tag 'application', media: 'all'
