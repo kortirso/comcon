@@ -4,6 +4,7 @@ class CharactersController < ApplicationController
   before_action :find_character_by_slug, only: %i[show edit recipes]
   before_action :find_character, only: %i[destroy update_recipes]
   before_action :find_character_professions, only: %i[show recipes]
+  before_action :allow_wowhead_script, only: %i[show]
 
   def index; end
 

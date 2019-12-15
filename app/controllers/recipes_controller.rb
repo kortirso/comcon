@@ -1,6 +1,7 @@
 class RecipesController < ApplicationController
   before_action :is_admin?
   before_action :find_recipe, only: %i[edit destroy]
+  before_action :allow_wowhead_script, only: %i[index]
 
   def index; end
 

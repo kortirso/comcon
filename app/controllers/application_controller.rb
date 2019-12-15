@@ -51,6 +51,10 @@ class ApplicationController < ActionController::Base
     I18n.locale = params[:locale]
   end
 
+  def allow_wowhead_script
+    @wowhead = true
+  end
+
   def email_confirmed?
     render_error(t('custom_errors.not_confirmed'), 401) unless current_user.confirmed?
   end
