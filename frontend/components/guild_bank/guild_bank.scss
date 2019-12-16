@@ -7,6 +7,18 @@
 }
 
 .banks {
+  .filters {
+    margin-bottom: 1rem;
+
+    .form-group {
+      margin-bottom: 0.5rem;
+
+      label {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
   .bank {
     margin-bottom: 2rem;
 
@@ -39,6 +51,10 @@
           margin-right: 2px;
           margin-bottom: 2px;
           position: relative;
+
+          &.hidden {
+            opacity: 0.3;
+          }
 
           a {
             display: inline-block;

@@ -9,8 +9,8 @@ class BankCellSerializer < ActiveModel::Serializer
       level: object.game_item.level,
       icon_name: object.game_item.icon_name,
       quality: object.game_item.game_item_quality.name,
-      category: object.game_item.game_item_category.name,
-      subcategory: object.game_item.game_item_subcategory&.name
+      category: object.game_item.game_item_category_id,
+      subcategory: object.game_item.game_item_subcategory_id
     }
   end
 end

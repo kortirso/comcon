@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      resources :game_item_categories, only: %i[index]
       resources :races, only: %i[index]
       resources :character_classes, only: %i[index]
       resources :worlds, only: %i[index]

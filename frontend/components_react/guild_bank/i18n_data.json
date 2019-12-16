@@ -10,7 +10,11 @@
     "name": "Character's name",
     "itemName": "Item's name",
     "amount": "Requested",
-    "give": "Give"
+    "give": "Give",
+    "filters": "Filters",
+    "searchName": "Search",
+    "gameItemCategory": "Category",
+    "gameItemSubcategory": "Subcategory"
   },
   "ru": {
     "character": "Для персонажа",
@@ -23,6 +27,10 @@
     "name": "Имя персонажа",
     "itemName": "Название предмета",
     "amount": "Кол-во",
-    "give": "Отдать"
+    "give": "Отдать",
+    "filters": "Фильтры",
+    "searchName": "Поиск по названию",
+    "gameItemCategory": "Категория",
+    "gameItemSubcategory": "Подкатегория"
   }
 }

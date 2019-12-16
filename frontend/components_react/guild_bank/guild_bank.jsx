@@ -22,7 +22,11 @@ export default class GuildBank extends React.Component {
       requestedAmount: 0,
       errors: [],
       alert: '',
-      bankRequests: []
+      bankRequests: [],
+      categories: {},
+      searchName: '',
+      currentGameItemCategoryId: '0',
+      currentGameItemSubcategoryId: '0'
     }
   }
 
@@ -50,12 +54,35 @@ export default class GuildBank extends React.Component {
     })
   }
 
+  _modifyGameItems(bankCells) {
+    return bankCells.map((bankCell) => {
+      if (bankCell.game_item === null) return null
+      return {
+        id: bankCell.game_item.id,
+        name: bankCell.game_item.name,
+        amount: bankCell.amount
+      }
+    })
+  }
+
   _getBankRequests() {
     $.ajax({
       method: 'GET',
       url: `/api/v1/bank_requests.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
       success: (data) => {
-        this.setState({bankRequests: data.bank_requests})
+        this.setState({bankRequests: data.bank_requests}, () => {
+          this._getGameItemCategories()
+        })
+      }
+    })
+  }
+
+  _getGameItemCategories() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/game_item_categories.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        this.setState({categories: data})
       }
     })
   }
@@ -116,17 +143,6 @@ export default class GuildBank extends React.Component {
     })
   }
 
-  _modifyGameItems(bankCells) {
-    return bankCells.map((bankCell) => {
-      if (bankCell.game_item === null) return null
-      return {
-        id: bankCell.game_item.id,
-        name: bankCell.game_item.name,
-        amount: bankCell.amount
-      }
-    })
-  }
-
   _checkLocale() {
     if (this.props.locale === 'en') return ''
     else return 'ru.'
@@ -138,6 +154,54 @@ export default class GuildBank extends React.Component {
     const silver = parseInt(coins / 100)
     coins -= silver * 100
     return `g${gold} s${silver} c${coins}`
+  }
+
+  _renderFilters() {
+    return (
+      <div className="filters">
+        <div className="form-group">
+          <label htmlFor="search_name">{strings.searchName}</label>
+          <input className="form-control form-control-sm" id="search_name" onChange={(event) => this.setState({searchName: event.target.value})} value={this.state.searchName} />
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="game_item_category_id">{strings.gameItemCategory}</label>
+              <select className="form-control form-control-sm" id="game_item_category_id" onChange={this._onChangeGameItemCategory.bind(this)} value={this.state.currentGameItemCategoryId}>
+                <option value="0"></option>
+                {this._renderGameItemCategories()}
+              </select>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="game_item_subcategory_id">{strings.gameItemSubcategory}</label>
+              <select className="form-control form-control-sm" id="game_item_subcategory_id" onChange={(event) => this.setState({currentGameItemSubcategoryId: event.target.value})} value={this.state.currentGameItemSubcategoryId} disabled={this.state.currentGameItemCategoryId === '0'}>
+                <option value="0"></option>
+                {this._renderGameItemSubcategories()}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  _renderGameItemCategories() {
+    return Object.entries(this.state.categories).map(([key, value]) => {
+      return <option value={key} key={key}>{value.name[this.props.locale]}</option>
+    })
+  }
+
+  _renderGameItemSubcategories() {
+    if (this.state.currentGameItemCategoryId === '0') return null
+    return Object.entries(this.state.categories[this.state.currentGameItemCategoryId].subcategories).map(([key, value]) => {
+      return <option value={key} key={key}>{value.name[this.props.locale]}</option>
+    })
+  }
+
+  _onChangeGameItemCategory(event) {
+    this.setState({currentGameItemCategoryId: event.target.value, currentGameItemSubcategoryId: '0'})
   }
 
   _renderBankRequestForm() {
@@ -234,7 +298,7 @@ export default class GuildBank extends React.Component {
   _renderBankCells(bankCells) {
     return bankCells.map((bankCell, index) => {
       return (
-        <div className="bank_cell" key={index}>
+        <div className={this._defineFilterOn(bankCell)} key={index}>
           {bankCell.game_item !== null &&
             <a href={`https://${this._checkLocale()}classic.wowhead.com/item=${bankCell.item_uid}`} onClick={(event) => event.preventDefault()} aria-label="Item">
               <img src={`https://wow.zamimg.com/images/wow/icons/large/${bankCell.game_item.icon_name}.jpg`} alt="" />
@@ -244,6 +308,21 @@ export default class GuildBank extends React.Component {
         </div>
       )
     })
+  }
+
+  _defineFilterOn(bankCell) {
+    let result = "bank_cell"
+    if (bankCell.game_item === null) return result
+    if (this.state.searchName !== '' && bankCell.game_item.name.en.toLowerCase().indexOf(this.state.searchName.toLowerCase()) === -1 && bankCell.game_item.name.ru.toLowerCase().indexOf(this.state.searchName.toLowerCase()) === -1) return result + " hidden"
+
+    if (this.state.currentGameItemCategoryId === '0') return result
+
+    if (this.state.currentGameItemSubcategoryId === '0') {
+      if (bankCell.game_item.category !== parseInt(this.state.currentGameItemCategoryId)) result += " hidden"
+    } else {
+      if (bankCell.game_item.category !== parseInt(this.state.currentGameItemCategoryId) || bankCell.game_item.subcategory !== parseInt(this.state.currentGameItemSubcategoryId)) result += " hidden"
+    }
+    return result
   }
 
   _renderBankRequests(bankName) {
@@ -304,8 +383,16 @@ export default class GuildBank extends React.Component {
         {this.state.alert !== '' &&
           <Alert type="success" value={this.state.alert} />
         }
-        <h4>{strings.newRequestForm}</h4>
-        {this._renderBankRequestForm()}
+        <div className="row">
+          <div className="col-md-6">
+            <h4>{strings.filters}</h4>
+            {this._renderFilters()}
+          </div>
+          <div className="col-md-6">
+            <h4>{strings.newRequestForm}</h4>
+            {this._renderBankRequestForm()}
+          </div>
+        </div>
         {this._renderBanks()}
       </div>
     )
