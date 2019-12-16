@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - guild bank users notifications about new bank requests
 
+### Modofied
+- guild tabs navigation
+
 ## [1.1.2] - 2019-12-15
 ### Added
 - meta information

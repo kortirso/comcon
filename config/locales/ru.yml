@@ -273,6 +273,8 @@ ru:
     label: Состав статика
   guild:
     management: Управление
+    roster: Состав
+    bank: Банк
   guild_invite:
     title: Поиск гильдии
     no_characters: Для поиска гильдии привяжите персонажа к учетной записи

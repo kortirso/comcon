@@ -262,6 +262,8 @@ en:
     label: Static roster
   guild:
     management: Management
+    roster: Roster
+    bank: Bank
   guild_invite:
     title: Search for guild
     no_characters: For searching guild you need to attach new character to your account

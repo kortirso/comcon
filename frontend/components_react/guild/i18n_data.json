@@ -11,8 +11,7 @@
     "cl": "CL",
     "ba": "Banker",
     "sure": "Are sure?",
-    "operations": "Actions",
-    "bank": "Show guild bank"
+    "operations": "Actions"
   },
   "ru": {
     "name": "Имя персонажа",
@@ -26,7 +25,6 @@
     "cl": "КЛ",
     "ba": "Банкир",
     "sure": "Вы уверены?",
-    "operations": "Действия",
-    "bank": "Посмотреть банк гильдии"
+    "operations": "Действия"
   }
 }

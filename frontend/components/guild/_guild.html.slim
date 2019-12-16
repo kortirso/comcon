@@ -3,11 +3,17 @@
 .inside
   .inside_topbar
     .title= @guild.full_name
-    .action
-      - if Current.user.any_role?(@guild.id, 'gm', 'rl')
-        = link_to t('guild.management'), management_guild_path(@guild.slug), class: 'btn btn-sm btn-primary'
+    .tabs
+      ul
+        li= link_to t('guild.roster'), guild_path(@guild.slug), class: 'active'
+        - if Current.user.has_characters_in_guild?(guild_id: @guild.id)
+          li= link_to t('guild.bank'), bank_guild_path(@guild.slug)
+        - if Current.user.any_role?(@guild.id, 'gm', 'rl')
+          li= link_to t('guild.management'), management_guild_path(@guild.slug)
+          li= link_to t('navigation.statics'), statics_guild_path(@guild.slug)
+          li= link_to t('notifications.title'), notifications_guild_path(@guild.slug)
   main
     #guild
       p= @guild.description
       = react_component('RequestToGuild', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
-      = react_component('Guild', in_guild: Current.user.has_characters_in_guild?(guild_id: @guild.id), guild_slug: @guild.slug, guild_id: @guild.id, is_admin: Current.user.is_admin?, is_gm: Current.user.any_role?(@guild.id, 'gm'), locale: I18n.locale.to_s, access_token: Current.user&.access_token, current_user_character_ids: @user_characters.pluck(:id))
+      = react_component('Guild', guild_slug: @guild.slug, guild_id: @guild.id, is_admin: Current.user.is_admin?, is_gm: Current.user.any_role?(@guild.id, 'gm'), locale: I18n.locale.to_s, access_token: Current.user&.access_token, current_user_character_ids: @user_characters.pluck(:id))
