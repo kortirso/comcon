@@ -1,5 +1,5 @@
 module Notifies
-  # Notificate about coming soon events
+  # Notificate about creating guild request
   class CreateGuildRequest < Notify
     def call(guild_invite:)
       notification = Notification.find_by(event: 'guild_request_creation', status: 1)

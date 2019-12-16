@@ -17,6 +17,7 @@ class Notification < ApplicationRecord
       when 'event_start_soon' then event_start_soon_content(event: event_object)
       when 'guild_static_event_creation' then guild_static_event_creation_content(event: event_object)
       when 'guild_request_creation' then guild_request_creation_content(guild_invite: event_object)
+      when 'bank_request_creation' then bank_request_creation_content(bank_request: event_object)
     end
   end
 
@@ -42,6 +43,10 @@ class Notification < ApplicationRecord
 
   def guild_request_creation_content(guild_invite:)
     "Создан запрос на вступление в гильдию \"#{guild_invite.guild.full_name}\" от #{guild_invite.character.name}, для просмотра запросов посетите портал гильдии по адресу https://guild-hall.org/ru/guilds/#{guild_invite.guild.slug}/management"
+  end
+
+  def bank_request_creation_content(bank_request:)
+    "Создан банковский запрос в гильдии \"#{bank_request.bank.guild.full_name}\" от #{bank_request.character_name}, для просмотра запроса посетите портал гильдии по адресу https://guild-hall.org/ru/guilds/#{bank_request.bank.guild.slug}/bank"
   end
 
   def render_start_time(event:)

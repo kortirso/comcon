@@ -23,6 +23,10 @@ class Guild < ApplicationRecord
   has_many :characters_with_head_role, through: :head_guild_roles, source: :character
   has_many :head_users, -> { distinct }, through: :characters_with_head_role, source: :user
 
+  has_many :banker_guild_roles, -> { where(name: 'gm').or(where(name: 'ba')) }, class_name: 'GuildRole'
+  has_many :characters_with_banker_role, through: :banker_guild_roles, source: :character
+  has_many :bank_users, -> { distinct }, through: :characters_with_banker_role, source: :user
+
   has_many :leader_guild_roles, -> { where(name: 'rl').or(where(name: 'cl')) }, class_name: 'GuildRole'
   has_many :characters_with_leader_role, through: :leader_guild_roles, source: :character
 

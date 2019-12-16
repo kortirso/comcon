@@ -51,7 +51,7 @@ class DeliveryParamForm
     return if delivery.nil?
     return if delivery.notification.nil?
     if delivery.deliveriable_type == 'Guild' && params['channel_id'].empty?
-      return if delivery.notification.event == 'guild_request_creation'
+      return if %w[guild_request_creation bank_request_creation].include?(delivery.notification.event)
       errors[:params] << I18n.t('activemodel.errors.models.delivery_param_form.attributes.params.channel_id_is_empty')
     end
   end

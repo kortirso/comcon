@@ -85,7 +85,7 @@ export default class DeliveryForm extends React.Component {
     const notification = this.state.notifications.filter((notification) => {
       return notification.id === parseInt(event.target.value)
     })[0]
-    if (notification.event === "guild_request_creation") {
+    if (notification.event === "guild_request_creation" || notification.event === "bank_request_creation") {
       this.setState({notificationId: event.target.value, deliveryType: 2, guildRequestCreation: true})
     } else this.setState({notificationId: event.target.value, guildRequestCreation: false})
   }

@@ -154,6 +154,12 @@ RSpec.describe 'BankRequests API' do
       context 'for valid params' do
         let(:request) { post '/api/v1/bank_requests.json', params: { access_token: access_token, bank_request: { bank_id: bank.id, character_id: character.id, game_item_id: game_item.id, requested_amount: 5 } } }
 
+        it 'calls CreateBankRequestJob' do
+          expect(CreateBankRequestJob).to receive(:perform_now).and_call_original
+
+          request
+        end
+
         it 'and creates new bank request' do
           expect { request }.to change { bank.bank_requests.count }.by(1)
         end
