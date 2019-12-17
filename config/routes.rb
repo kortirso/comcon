@@ -64,7 +64,7 @@ Rails.application.routes.draw do
         patch :update_settings, on: :collection
         patch :update_password, on: :collection
       end
-      resources :bank_requests, only: %i[index create] do
+      resources :bank_requests, only: %i[index create destroy] do
         post :decline, on: :member
         post :approve, on: :member
       end

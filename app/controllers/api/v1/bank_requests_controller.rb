@@ -5,7 +5,7 @@ module Api
       before_action :find_bank, only: %i[create]
       before_action :find_character, only: %i[create]
       before_action :find_game_item, only: %i[create]
-      before_action :find_bank_request, only: %i[decline approve]
+      before_action :find_bank_request, only: %i[decline approve destroy]
 
       resource_description do
         short 'BankRequests resources'
@@ -54,6 +54,12 @@ module Api
         else
           render json: { result: result.message }, status: 409
         end
+      end
+
+      def destroy
+        authorize! @bank_request, to: :destroy?
+        @bank_request.destroy
+        render json: { result: 'Bank request is destroyed' }, status: 200
       end
 
       private

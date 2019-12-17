@@ -10,8 +10,11 @@ import Alert from '../alert/alert'
 let strings = new LocalizedStrings(I18nData)
 
 export default class GuildBank extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    const userCharacterNames = props.user_characters.map((character) => {
+      return character[1]
+    })
     this.state = {
       banks: [],
       itemsForRequest: [],
@@ -26,7 +29,8 @@ export default class GuildBank extends React.Component {
       categories: {},
       searchName: '',
       currentGameItemCategoryId: '0',
-      currentGameItemSubcategoryId: '0'
+      currentGameItemSubcategoryId: '0',
+      userCharacterNames: userCharacterNames
     }
   }
 
@@ -70,6 +74,7 @@ export default class GuildBank extends React.Component {
       method: 'GET',
       url: `/api/v1/bank_requests.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
       success: (data) => {
+        console.log(data.bank_requests)
         this.setState({bankRequests: data.bank_requests}, () => {
           this._getGameItemCategories()
         })
@@ -109,6 +114,19 @@ export default class GuildBank extends React.Component {
       method: 'POST',
       url: `/api/v1/bank_requests/${request.id}/decline.json?access_token=${this.props.access_token}`,
       data: {},
+      success: () => {
+        let bankRequests = this.state.bankRequests
+        const bankRequestIndex = bankRequests.indexOf(request)
+        bankRequests.splice(bankRequestIndex, 1)
+        this.setState({alert: '', errors: [], bankRequests: bankRequests})
+      }
+    })
+  }
+
+  _onDeleteRequest(request) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/v1/bank_requests/${request.id}.json?access_token=${this.props.access_token}`,
       success: () => {
         let bankRequests = this.state.bankRequests
         const bankRequestIndex = bankRequests.indexOf(request)
@@ -367,7 +385,8 @@ export default class GuildBank extends React.Component {
           </td>
           <td>
             {this.props.banker && <button className="btn btn-icon btn-add" onClick={this._onApproveRequest.bind(this, request)} aria-label="Add button"></button>}
-            {this.props.banker && <button className="btn btn-icon btn-delete" onClick={this._onDeclineRequest.bind(this, request)} aria-label="Delete button"></button>}
+            {this.state.userCharacterNames.includes(request.character_name) && <button className="btn btn-icon btn-delete" onClick={this._onDeleteRequest.bind(this, request)} aria-label="Delete button"></button>}
+            {!this.state.userCharacterNames.includes(request.character_name) && this.props.banker && <button className="btn btn-icon btn-delete" onClick={this._onDeclineRequest.bind(this, request)} aria-label="Delete button"></button>}
           </td>
         </tr>
       )

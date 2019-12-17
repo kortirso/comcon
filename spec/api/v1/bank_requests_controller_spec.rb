@@ -316,4 +316,58 @@ RSpec.describe 'BankRequests API' do
       post "/api/v1/bank_requests/#{bank_request.id}/approve.json", headers: headers
     end
   end
+
+  describe 'DELETE#destroy' do
+    let!(:user) { create :user }
+    let!(:guild) { create :guild }
+    let!(:character) { create :character, user: user, guild: guild }
+    let!(:bank) { create :bank, guild: guild }
+    let!(:game_item) { create :game_item }
+    let!(:bank_cell) { create :bank_cell, bank: bank, game_item: game_item, amount: 10 }
+    let!(:bank_request) { create :bank_request, bank: bank, game_item: game_item, requested_amount: 1, character: character }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for unexisted bank request' do
+        before { delete '/api/v1/bank_requests/unexisted.json', params: { access_token: access_token } }
+
+        it 'returns status 404' do
+          expect(response.status).to eq 404
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed bank request' do
+        let(:request) { delete "/api/v1/bank_requests/#{bank_request.id}.json", params: { access_token: access_token } }
+
+        it 'deletes bank request' do
+          expect { request }.to change { BankRequest.count }.by(-1)
+        end
+
+        context 'in answer' do
+          before { request }
+
+          it 'returns status 200' do
+            expect(response.status).to eq 200
+          end
+
+          it 'and returns error message' do
+            expect(JSON.parse(response.body)).to eq('result' => 'Bank request is destroyed')
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      delete "/api/v1/bank_requests/#{bank_request.id}.json", headers: headers
+    end
+  end
 end
