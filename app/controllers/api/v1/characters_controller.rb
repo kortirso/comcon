@@ -12,7 +12,9 @@ module Api
       before_action :get_dungeons_from_cache, only: %i[default_values]
       before_action :get_professions_from_cache, only: %i[default_values]
       before_action :search_characters, only: %i[search]
-      before_action :find_profession, only: %i[upload_recipes]
+      before_action :find_profession, only: %i[upload_recipes unknown_recipes]
+      before_action :find_guild, only: %i[unknown_recipes]
+      before_action :find_unknown_recipes, only: %i[unknown_recipes]
 
       resource_description do
         short 'Character resources'
@@ -86,6 +88,14 @@ module Api
         render json: { result: 'Recipes are not uploaded' }, status: 409
       end
 
+      api :GET, '/v1/characters/unknown_recipes.json', 'Get list of unknown recipes for characters of specific fraction and realm'
+      error code: 401, desc: 'Unauthorized'
+      def unknown_recipes
+        render json: {
+          recipes: ActiveModelSerializers::SerializableResource.new(@recipes, each_serializer: RecipeSerializer).as_json[:recipes]
+        }, status: 200
+      end
+
       private
 
       def find_character
@@ -112,6 +122,18 @@ module Api
       def find_profession
         @profession = Profession.recipeable.find_by(id: params[:profession_id])
         render_error(t('custom_errors.object_not_found'), 404) if @profession.nil?
+      end
+
+      def find_guild
+        @guild = Guild.find_by(id: params[:guild_id])
+        render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
+      end
+
+      def find_unknown_recipes
+        character_ids = Current.user.characters.where(world_fraction_id: @guild.world_fraction_id).pluck(:id)
+        return render_error(t('custom_errors.object_not_found'), 404) if character_ids.empty?
+        know_recipe_ids = CharacterRecipe.joins(:character_profession).where(character_professions: { character_id: character_ids, profession_id: @profession.id }).pluck(:recipe_id)
+        @recipes = Recipe.where(profession_id: @profession.id).where.not(id: know_recipe_ids)
       end
 
       def create_additional_structures_for_character(character)

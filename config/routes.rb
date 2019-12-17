@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      resources :banks, only: %i[] do
+        get :filter_values, on: :collection
+      end
       resources :game_item_categories, only: %i[index]
       resources :races, only: %i[index]
       resources :character_classes, only: %i[index]
@@ -22,6 +25,7 @@ Rails.application.routes.draw do
         get :default_values, on: :collection
         get :search, on: :collection
         post :upload_recipes, on: :member
+        get :unknown_recipes, on: :collection
       end
       resources :events, except: %i[new] do
         get :subscribers, on: :member

@@ -24,9 +24,12 @@ export default class GuildBank extends React.Component {
       alert: '',
       bankRequests: [],
       categories: {},
+      professions: [],
       searchName: '',
       currentGameItemCategoryId: '0',
-      currentGameItemSubcategoryId: '0'
+      currentGameItemSubcategoryId: '0',
+      currentProfessionId: '0',
+      unknownRecipeNames: []
     }
   }
 
@@ -40,6 +43,7 @@ export default class GuildBank extends React.Component {
       method: 'GET',
       url: `/api/v1/guilds/${this.props.guild_id}/bank.json?access_token=${this.props.access_token}`,
       success: (data) => {
+        console.log(data)
         const itemsForRequest = data.banks.map((bank) => {
           return {
             id: bank.id,
@@ -80,11 +84,31 @@ export default class GuildBank extends React.Component {
   _getGameItemCategories() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/game_item_categories.json?access_token=${this.props.access_token}`,
+      url: `/api/v1/banks/filter_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({categories: data})
+        const professions = data.professions.filter((prof) => {
+          return prof.recipeable
+        })
+        this.setState({categories: data.game_item_categories, professions: professions})
       }
     })
+  }
+
+  _onChangeProfession(event) {
+    const value = event.target.value
+    if (value === '0') this.setState({currentProfessionId: '0', unknownRecipeNames: []})
+    else {
+      $.ajax({
+        method: 'GET',
+        url: `/api/v1/characters/unknown_recipes.json?access_token=${this.props.access_token}&profession_id=${event.target.value}&guild_id=${this.props.guild_id}`,
+        success: (data) => {
+          const recipes = data.recipes.map((recipe) => {
+            return recipe.name.en
+          })
+          this.setState({currentProfessionId: value, searchName: '', currentGameItemCategoryId: '0', currentGameItemSubcategoryId: '0', unknownRecipeNames: recipes})
+        }
+      })
+    }
   }
 
   _makeRequest() {
@@ -161,24 +185,33 @@ export default class GuildBank extends React.Component {
       <div className="filters">
         <div className="form-group">
           <label htmlFor="search_name">{strings.searchName}</label>
-          <input className="form-control form-control-sm" id="search_name" onChange={(event) => this.setState({searchName: event.target.value})} value={this.state.searchName} />
+          <input className="form-control form-control-sm" id="search_name" onChange={(event) => this.setState({searchName: event.target.value})} value={this.state.searchName} disabled={this.state.currentProfessionId !== '0'} />
         </div>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="form-group">
               <label htmlFor="game_item_category_id">{strings.gameItemCategory}</label>
-              <select className="form-control form-control-sm" id="game_item_category_id" onChange={this._onChangeGameItemCategory.bind(this)} value={this.state.currentGameItemCategoryId}>
+              <select className="form-control form-control-sm" id="game_item_category_id" onChange={this._onChangeGameItemCategory.bind(this)} value={this.state.currentGameItemCategoryId} disabled={this.state.currentProfessionId !== '0'}>
                 <option value="0"></option>
                 {this._renderGameItemCategories()}
               </select>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="form-group">
               <label htmlFor="game_item_subcategory_id">{strings.gameItemSubcategory}</label>
-              <select className="form-control form-control-sm" id="game_item_subcategory_id" onChange={(event) => this.setState({currentGameItemSubcategoryId: event.target.value})} value={this.state.currentGameItemSubcategoryId} disabled={this.state.currentGameItemCategoryId === '0'}>
+              <select className="form-control form-control-sm" id="game_item_subcategory_id" onChange={(event) => this.setState({currentGameItemSubcategoryId: event.target.value})} value={this.state.currentGameItemSubcategoryId} disabled={this.state.currentGameItemCategoryId === '0' || this.state.currentProfessionId !== '0'}>
                 <option value="0"></option>
                 {this._renderGameItemSubcategories()}
+              </select>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="form-group">
+              <label htmlFor="profession_id">{strings.profession}</label>
+              <select className="form-control form-control-sm" id="profession_id" onChange={this._onChangeProfession.bind(this)} value={this.state.currentProfessionId}>
+                <option value="0"></option>
+                {this._renderProfessions()}
               </select>
             </div>
           </div>
@@ -197,6 +230,12 @@ export default class GuildBank extends React.Component {
     if (this.state.currentGameItemCategoryId === '0') return null
     return Object.entries(this.state.categories[this.state.currentGameItemCategoryId].subcategories).map(([key, value]) => {
       return <option value={key} key={key}>{value.name[this.props.locale]}</option>
+    })
+  }
+
+  _renderProfessions() {
+    return this.state.professions.map((prof, index) => {
+      return <option value={prof.id} key={index}>{prof.name[this.props.locale]}</option>
     })
   }
 
@@ -313,14 +352,19 @@ export default class GuildBank extends React.Component {
   _defineFilterOn(bankCell) {
     let result = "bank_cell"
     if (bankCell.game_item === null) return result
-    if (this.state.searchName !== '' && bankCell.game_item.name.en.toLowerCase().indexOf(this.state.searchName.toLowerCase()) === -1 && bankCell.game_item.name.ru.toLowerCase().indexOf(this.state.searchName.toLowerCase()) === -1) return result + " hidden"
 
-    if (this.state.currentGameItemCategoryId === '0') return result
-
-    if (this.state.currentGameItemSubcategoryId === '0') {
-      if (bankCell.game_item.category !== parseInt(this.state.currentGameItemCategoryId)) result += " hidden"
+    if (this.state.currentProfessionId !== '0') {
+      if (!this.state.unknownRecipeNames.includes(bankCell.game_item.name.en)) return result + " hidden"
     } else {
-      if (bankCell.game_item.category !== parseInt(this.state.currentGameItemCategoryId) || bankCell.game_item.subcategory !== parseInt(this.state.currentGameItemSubcategoryId)) result += " hidden"
+      if (this.state.searchName !== '' && bankCell.game_item.name.en.toLowerCase().indexOf(this.state.searchName.toLowerCase()) === -1 && bankCell.game_item.name.ru.toLowerCase().indexOf(this.state.searchName.toLowerCase()) === -1) return result + " hidden"
+
+      if (this.state.currentGameItemCategoryId === '0') return result
+
+      if (this.state.currentGameItemSubcategoryId === '0') {
+        if (bankCell.game_item.category !== parseInt(this.state.currentGameItemCategoryId)) result += " hidden"
+      } else {
+        if (bankCell.game_item.category !== parseInt(this.state.currentGameItemCategoryId) || bankCell.game_item.subcategory !== parseInt(this.state.currentGameItemSubcategoryId)) result += " hidden"
+      }
     }
     return result
   }
