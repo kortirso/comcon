@@ -4,7 +4,7 @@ class ChangeTimeOffset < ActiveRecord::Migration[5.2]
     add_column :time_offsets, :timeable_type, :string
     add_index :time_offsets, [:timeable_id, :timeable_type]
 
-    TimeOffset.each do |time_offset|
+    TimeOffset.all.each do |time_offset|
       time_offset.update(timeable_id: time_offset.user_id, timeable_type: 'User')
     end
 
