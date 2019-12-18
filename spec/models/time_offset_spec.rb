@@ -1,5 +1,5 @@
 RSpec.describe TimeOffset, type: :model do
-  it { should belong_to :user }
+  it { should belong_to :timeable }
 
   it 'factory should be valid' do
     time_offset = build :time_offset

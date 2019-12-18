@@ -20,6 +20,7 @@ RSpec.describe Guild, type: :model do
   it { should have_many(:guild_invites).dependent(:destroy) }
   it { should have_many(:character_invitations).through(:guild_invites).source(:character) }
   it { should have_many(:banks).dependent(:destroy) }
+  it { should have_one(:time_offset).dependent(:destroy) }
 
   it 'factory should be valid' do
     guild = create :guild

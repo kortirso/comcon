@@ -6,7 +6,8 @@
     "description": "Description",
     "filterWorld": "Filter by realm",
     "filterFraction": "Filter by fraction",
-    "noGuilds": "There are no guilds matched filters"
+    "noGuilds": "There are no guilds matched filters",
+    "timeZone": "Time zone"
   },
   "ru": {
     "none": "все",
@@ -15,6 +16,7 @@
     "description": "Описание",
     "filterWorld": "Фильтр по мирам",
     "filterFraction": "Фильтр по фракциям",
-    "noGuilds": "Нет гильдий подходящих под выбранный фильтр"
+    "noGuilds": "Нет гильдий подходящих под выбранный фильтр",
+    "timeZone": "Часовой пояс"
   }
 }

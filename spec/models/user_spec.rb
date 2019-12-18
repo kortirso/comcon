@@ -41,6 +41,12 @@ RSpec.describe User, type: :model do
   end
 
   describe 'methods' do
+    describe '.create_time_offset' do
+      it 'creates time_offset' do
+        expect { create :user }.to change { TimeOffset.count }.by(1)
+      end
+    end
+
     describe '.confirmed?' do
       it 'returns false for user with unconfirmed email' do
         user = create :user, :unconfirmed

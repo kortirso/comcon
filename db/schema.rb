@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_201223) do
+ActiveRecord::Schema.define(version: 2019_12_18_203954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -378,11 +378,12 @@ ActiveRecord::Schema.define(version: 2019_12_18_201223) do
   end
 
   create_table "time_offsets", force: :cascade do |t|
-    t.integer "user_id"
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_time_offsets_on_user_id"
+    t.integer "timeable_id"
+    t.string "timeable_type"
+    t.index ["timeable_id", "timeable_type"], name: "index_time_offsets_on_timeable_id_and_timeable_type"
   end
 
   create_table "users", force: :cascade do |t|

@@ -5,6 +5,7 @@ class Guild < ApplicationRecord
   include Eventable
   include Staticable
   include Deliveriable
+  include Timeable
   extend FriendlyId
 
   friendly_id :slug_candidates, use: :slugged

@@ -1,5 +1,5 @@
 class GuildIndexSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :slug, :fraction_id, :fraction_name, :world_id, :world_name, :locale
+  attributes :id, :name, :description, :slug, :fraction_id, :fraction_name, :world_id, :world_name, :locale, :time_offset_value
 
   def description
     object.description.truncate(200)
@@ -11,5 +11,9 @@ class GuildIndexSerializer < ActiveModel::Serializer
 
   def world_name
     object.world.full_name
+  end
+
+  def time_offset_value
+    object.time_offset&.value
   end
 end

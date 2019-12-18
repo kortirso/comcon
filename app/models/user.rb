@@ -3,6 +3,7 @@ class User < ApplicationRecord
   include Personable
   include Deliveriable
   include Tokenable
+  include Timeable
 
   devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 
@@ -13,7 +14,6 @@ class User < ApplicationRecord
   has_many :static_members, through: :characters
   has_many :world_fractions, through: :characters
   has_many :identities, dependent: :destroy
-  has_one :time_offset, dependent: :destroy
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
 
@@ -93,8 +93,7 @@ class User < ApplicationRecord
 
   def create_time_offset
     return unless time_offset.nil?
-    time_offset_form = TimeOffsetForm.new(user: self, value: nil)
-    time_offset_form.persist?
+    TimeOffset.create(timeable: self, value: nil)
   end
 
   def send_confirmation_token

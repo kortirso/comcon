@@ -8,7 +8,8 @@
     "update": "Update",
     "newGuild": "Create new guild",
     "updateGuild": "Update guild",
-    "locale": "Locale"
+    "locale": "Locale",
+    "timeZone": "Time zone"
   },
   "ru": {
     "name": "Название",
@@ -19,6 +20,7 @@
     "update": "Обновить",
     "newGuild": "Создать новую гильдию",
     "updateGuild": "Обновить гильдию",
-    "locale": "Локаль"
+    "locale": "Локаль",
+    "timeZone": "Часовой пояс"
   }
 }

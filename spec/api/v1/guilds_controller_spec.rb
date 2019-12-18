@@ -133,6 +133,12 @@ RSpec.describe 'Guilds API' do
           request
         end
 
+        it 'and calls CreateTimeOffset' do
+          expect(CreateTimeOffset).to receive(:call).and_call_original
+
+          request
+        end
+
         it 'and creates new guild' do
           expect { request }.to change { Guild.count }.by(1)
         end
@@ -209,7 +215,13 @@ RSpec.describe 'Guilds API' do
         context 'for valid params' do
           let(:request) { patch "/api/v1/guilds/#{guild.id}.json", params: { access_token: access_token, guild: { name: '321', description: '123' } } }
 
-          it 'updates guild' do
+          it 'calls UpdateTimeOffset' do
+            expect(UpdateTimeOffset).to receive(:call).and_call_original
+
+            request
+          end
+
+          it 'and updates guild' do
             request
             guild.reload
 

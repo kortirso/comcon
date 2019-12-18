@@ -76,7 +76,7 @@ export default class UserSettings extends React.Component {
         <div className="row">
           <div className="col-md-4">
             <h3>{strings.timeZone}</h3>
-            <select className="form-control form-control-sm time_offset" id="event_character_id" onChange={this._onChangeTimeOffset.bind(this)} value={this.state.timeOffset.value}>
+            <select className="form-control form-control-sm time_offset" id="time_offset" onChange={this._onChangeTimeOffset.bind(this)} value={this.state.timeOffset.value}>
               <option value='' key='20'>{strings.browser}</option>
               {this._renderTimeOffsets()}
             </select>

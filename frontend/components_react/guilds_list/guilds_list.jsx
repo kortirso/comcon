@@ -137,6 +137,7 @@ export default class GuildsList extends React.Component {
             <th>{strings.name}</th>
             <th>{strings.world}</th>
             <th>{strings.description}</th>
+            <th>{strings.timeZone}</th>
           </tr>
         </thead>
         <tbody>
@@ -155,6 +156,7 @@ export default class GuildsList extends React.Component {
           <td>
             <p>{guild.description}</p>
           </td>
+          <td>{guild.time_offset_value > 0 ? `+${guild.time_offset_value}` : guild.time_offset_value}</td>
         </tr>
       )
     })

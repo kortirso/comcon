@@ -35,8 +35,8 @@ RSpec.describe 'UserSettings API' do
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let(:request) { patch '/api/v1/user_settings/update_settings.json', params: { access_token: access_token, user_settings: { time_offset: { id: 1, value: '' } } } }
 
-      it 'calls UpdateUserTimeOffset' do
-        expect(UpdateUserTimeOffset).to receive(:call).and_call_original
+      it 'calls UpdateTimeOffset' do
+        expect(UpdateTimeOffset).to receive(:call).and_call_original
 
         request
       end

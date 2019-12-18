@@ -1,4 +1,4 @@
-# Represents time offsets for users
+# Represents time offsets for users/guilds
 class TimeOffset < ApplicationRecord
-  belongs_to :user
+  belongs_to :timeable, polymorphic: true
 end

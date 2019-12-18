@@ -37,6 +37,7 @@ module Api
       def create
         result = CreateNewGuild.call(guild_params: guild_params, owner_id: params[:guild][:owner_id], user: Current.user, name: 'gm')
         if result.success?
+          CreateTimeOffset.call(timeable: result.guild, value: params[:guild][:time_offset])
           render json: { guild: GuildShowSerializer.new(result.guild) }, status: 201
         else
           render json: { errors: result.message }, status: 409
@@ -49,6 +50,7 @@ module Api
       def update
         guild_form = GuildForm.new(@guild.attributes.merge(guild_params.merge(world: @guild.world, fraction: @guild.fraction, world_fraction: @guild.world_fraction)))
         if guild_form.persist?
+          UpdateTimeOffset.call(timeable: @guild, value: params[:guild][:time_offset])
           render json: { guild: GuildShowSerializer.new(guild_form.guild) }, status: 200
         else
           render json: { errors: guild_form.errors.full_messages }, status: 409
@@ -140,7 +142,7 @@ module Api
       private
 
       def find_guilds
-        @guilds = Guild.includes(:fraction, :world).order('worlds.name asc').order(name: :asc, id: :asc).references(:world)
+        @guilds = Guild.includes(:fraction, :world, :time_offset).order('worlds.name asc').order(name: :asc, id: :asc).references(:world)
         @guilds = @guilds.where(world_id: params[:world_id]) if params[:world_id].present?
         @guilds = @guilds.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
       end

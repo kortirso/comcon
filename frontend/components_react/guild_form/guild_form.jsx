@@ -23,7 +23,8 @@ export default class GuildForm extends React.Component {
       userCharacters: [],
       currentCharacterId: '0',
       errors: [],
-      locale: props.locale
+      locale: props.locale,
+      timeOffset: '0'
     }
   }
 
@@ -54,7 +55,7 @@ export default class GuildForm extends React.Component {
       url: `/api/v1/guilds/${this.state.guildId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const guild = data.guild
-        this.setState({name: guild.name, description: guild.description, locale: guild.locale})
+        this.setState({name: guild.name, description: guild.description, locale: guild.locale, timeOffset: guild.time_offset_value })
       }
     })
   }
@@ -66,7 +67,7 @@ export default class GuildForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: url,
-      data: { guild: { name: state.name, description: state.description, owner_id: state.currentCharacterId, locale: state.locale } },
+      data: { guild: { name: state.name, description: state.description, owner_id: state.currentCharacterId, locale: state.locale, time_offset: state.timeOffset } },
       success: (data) => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds`)
       },
@@ -83,7 +84,7 @@ export default class GuildForm extends React.Component {
     $.ajax({
       method: 'PATCH',
       url: url,
-      data: { guild: { name: state.name, description: state.description, locale: state.locale } },
+      data: { guild: { name: state.name, description: state.description, locale: state.locale, time_offset: state.timeOffset } },
       success: (data) => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data.guild.slug}/management`)
       },
@@ -102,6 +103,14 @@ export default class GuildForm extends React.Component {
   _renderSubmitButton() {
     if (this.state.guildId === undefined) return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
     return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
+  }
+
+  _renderTimeOffsets() {
+    let timeOffsets = []
+    for (let i = -12; i < 13; i++) {
+      timeOffsets.push(<option value={i} key={i}>GMT {i > 0 ? `+${i}` : i}</option>)
+    }
+    return timeOffsets
   }
 
   render() {
@@ -128,12 +137,20 @@ export default class GuildForm extends React.Component {
               </div>
             </div>
           }
-          <div className="col-md-6 col-xl-4">
+          <div className="col-md-6 col-xl-2">
             <div className="form-group">
               <label htmlFor="locale">{strings.locale}</label>
               <select className="form-control form-control-sm" id="locale" onChange={(event) => this.setState({locale: event.target.value})} value={this.state.locale}>
                 <option value='en'>EN</option>
                 <option value='ru'>RU</option>
+              </select>
+            </div>
+          </div>
+          <div className="col-md-6 col-xl-2">
+            <div className="form-group">
+              <label htmlFor="time_offset">{strings.timeZone}</label>
+              <select className="form-control form-control-sm" id="time_offset" onChange={(event) => this.setState({timeOffset: event.target.value})} value={this.state.timeOffset}>
+                {this._renderTimeOffsets()}
               </select>
             </div>
           </div>
