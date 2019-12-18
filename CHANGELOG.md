@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - deleting for bank requests
 - filters statics by character main_role
 
+### Modified
+- real time indexes
+
 ## [1.1.3] - 2019-12-16
 ### Added
 - guild bank users notifications about new bank requests

@@ -45,6 +45,8 @@ class Character < ApplicationRecord
 
   has_one :guild_role, dependent: :destroy
 
+  after_save ThinkingSphinx::RealTime.callback_for(:character)
+
   def full_name
     "#{name} - #{world.full_name}"
   end

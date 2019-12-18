@@ -5,6 +5,8 @@ class Recipe < ApplicationRecord
   has_many :character_recipes, dependent: :destroy
   has_many :character_profession, through: :character_recipes
 
+  after_save ThinkingSphinx::RealTime.callback_for(:recipe)
+
   def self.cache_key(recipes)
     {
       serializer: 'recipes',

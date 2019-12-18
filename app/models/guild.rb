@@ -36,6 +36,8 @@ class Guild < ApplicationRecord
   has_many :banks, dependent: :destroy
   has_many :bank_requests, -> { distinct }, through: :banks
 
+  after_save ThinkingSphinx::RealTime.callback_for(:guild)
+
   def self.cache_key(guilds)
     {
       serializer: 'guilds',
