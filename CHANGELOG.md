@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - deleting for bank requests
+- filters statics by character main_role
 
 ## [1.1.3] - 2019-12-16
 ### Added

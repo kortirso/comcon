@@ -6,6 +6,7 @@ module Api
       include Concerns::DungeonCacher
       include Concerns::ProfessionCacher
 
+      before_action :find_characters, only: %i[index]
       before_action :find_character, only: %i[show update upload_recipes]
       before_action :get_races_from_cache, only: %i[default_values]
       before_action :get_worlds_from_cache, only: %i[default_values]
@@ -17,6 +18,14 @@ module Api
       resource_description do
         short 'Character resources'
         formats ['json']
+      end
+
+      api :GET, '/v1/characters.json', 'Get user characters'
+      error code: 401, desc: 'Unauthorized'
+      def index
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@characters, each_serializer: CharacterIndexSerializer).as_json[:characters]
+        }, status: 200
       end
 
       api :GET, '/v1/characters/:id.json', 'Show character info'
@@ -87,6 +96,10 @@ module Api
       end
 
       private
+
+      def find_characters
+        @characters = Current.user.characters.includes(race: :fraction)
+      end
 
       def find_character
         @character = Current.user.characters.find_by(id: params[:id])

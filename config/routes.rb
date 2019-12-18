@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       resources :roles, only: %i[index]
       resources :dungeons, only: %i[index]
       resources :fractions, only: %i[index]
-      resources :characters, only: %i[show create update] do
+      resources :characters, only: %i[index show create update] do
         get :default_values, on: :collection
         get :search, on: :collection
         post :upload_recipes, on: :member

@@ -39,6 +39,17 @@ RSpec.describe 'Statics API' do
           expect(response.status).to eq 200
         end
       end
+
+      context 'with character param' do
+        let!(:character) { create :character, user: user }
+        let!(:character_role) { create :character_role, character: character, main: true }
+        let!(:group_role) { create :group_role, groupable: static }
+        before { get '/api/v1/statics.json', params: { access_token: access_token, world_id: static.world_id, fraction_id: static.fraction_id, character_id: character.id } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+      end
     end
 
     def do_request(headers = {})

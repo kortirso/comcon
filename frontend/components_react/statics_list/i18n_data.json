@@ -8,6 +8,7 @@
     "owner": "Owner",
     "filterWorld": "Filter by realm",
     "filterFraction": "Filter by fraction",
+    "filterCharacter": "Static for character",
     "leftValues": "Need characters for roles",
     "noStatics": "There are no statics matched filters"
   },
@@ -20,6 +21,7 @@
     "owner": "Владелец",
     "filterWorld": "Фильтр по мирам",
     "filterFraction": "Фильтр по фракциям",
+    "filterCharacter": "Подходящий статик для персонажа",
     "leftValues": "Необходимость в персонажах",
     "noStatics": "Нет статиков подходящих под выбранный фильтр"
   }

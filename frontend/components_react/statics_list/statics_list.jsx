@@ -20,7 +20,10 @@ export default class StaticsList extends React.Component {
       statics: [],
       filteredStatics: [],
       fraction: '0',
-      world: '0'
+      world: '0',
+      characters: [],
+      character: '0',
+      staticsForCharacter: []
     }
   }
 
@@ -50,7 +53,19 @@ export default class StaticsList extends React.Component {
       method: 'GET',
       url: `/api/v1/worlds.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({worlds: data.worlds})
+        this.setState({worlds: data.worlds}, () => {
+          this._getUserCharacters()
+        })
+      }
+    })
+  }
+
+  _getUserCharacters() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/characters.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        this.setState({characters: data.characters})
       }
     })
   }
@@ -64,6 +79,17 @@ export default class StaticsList extends React.Component {
         this.setState({statics: data.statics}, () => {
           this._filterStatics()
         })
+      }
+    })
+  }
+
+  _getStaticsForCharacter() {
+    const url = `/api/v1/statics.json?access_token=${this.props.access_token}&character_id=${this.state.character}&world_id=${this.state.world}&fraction_id=${this.state.fraction}`
+    $.ajax({
+      method: 'GET',
+      url: url,
+      success: (data) => {
+        this.setState({staticsForCharacter: data.statics})
       }
     })
   }
@@ -87,6 +113,7 @@ export default class StaticsList extends React.Component {
       <div className="filters">
         {this._renderWorldFilter()}
         {this._renderFractionFilter()}
+        {this._renderCharacterFilter()}
       </div>
     )
   }
@@ -127,8 +154,27 @@ export default class StaticsList extends React.Component {
     })
   }
 
+  _renderCharacterFilter() {
+    return (
+      <div className="filter character">
+        <p>{strings.filterCharacter}</p>
+        <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind(this)} value={this.state.character}>
+          <option value='0' key='0'>{strings.none}</option>
+          {this._renderCharactersList()}
+        </select>
+      </div>
+    )
+  }
+
+  _renderCharactersList() {
+    return this.state.characters.map((character) => {
+      return <option value={character.id} key={character.id}>{character.name}</option>
+    })
+  }
+
   _renderAllStatics() {
-    if (this.state.filteredStatics.length === 0) return <p>{strings.noStatics}</p>
+    const statics = this.state.character === '0' ? this.state.filteredStatics : this.state.staticsForCharacter
+    if (statics.length === 0) return <p>{strings.noStatics}</p>
     return (
       <table className="table table-striped table-sm">
         <thead>
@@ -140,14 +186,14 @@ export default class StaticsList extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this._renderStatics()}
+          {this._renderStatics(statics)}
         </tbody>
       </table>
     )
   }
 
-  _renderStatics() {
-    return this.state.filteredStatics.map((object) => {
+  _renderStatics(statics) {
+    return statics.map((object) => {
       return (
         <tr className="static_link" onClick={this._goToStatic.bind(this, object.slug)} key={object.id}>
           <td className={object.fraction_name.en.toLowerCase()}>{object.name}</td>
@@ -181,15 +227,30 @@ export default class StaticsList extends React.Component {
   }
 
   _onChangeWorld(event) {
-    this.setState({world: event.target.value}, () => {
+    this.setState({world: event.target.value, character: '0'}, () => {
       this._filterStatics()
     })
   }
 
   _onChangeFraction(event) {
-    this.setState({fraction: event.target.value}, () => {
+    this.setState({fraction: event.target.value, character: '0'}, () => {
       this._filterStatics()
     })
+  }
+
+  _onChangeCharacter(event) {
+    if (event.target.value === '0') {
+      this.setState({character: '0', staticsForCharacter: []}, () => {
+        this._filterStatics()
+      })
+    } else {
+      const character = this.state.characters.filter((character) => {
+        return character.id === parseInt(event.target.value)
+      })[0]
+      this.setState({character: event.target.value, world: character.world_id, fraction: character.fraction_id}, () => {
+        this._getStaticsForCharacter()
+      })
+    }
   }
 
   _goToStatic(staticSlug) {

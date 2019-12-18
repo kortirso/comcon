@@ -19,7 +19,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         render json: {
-          statics: ActiveModelSerializers::SerializableResource.new(@statics, each_serializer: StaticSerializer).as_json[:statics]
+          statics: ActiveModelSerializers::SerializableResource.new(@statics, root: 'statics', each_serializer: StaticSerializer).as_json[:statics]
         }, status: 200
       end
 
@@ -136,6 +136,24 @@ module Api
         @statics = Static.not_privy.order(name: :asc).includes(:fraction, :group_role, staticable: :world)
         @statics = @statics.where(world_id: params[:world_id]) if params[:world_id].present?
         @statics = @statics.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
+        if params[:character_id].present?
+          character = Current.user.characters.find_by(id: params[:character_id])
+          if character.present?
+            @statics = @statics.includes(:group_role).select { |static| static.group_role.value[main_role(character)]['by_class'][class_name(character)].positive? }
+          end
+        end
+      end
+
+      def main_role(character)
+        case character.main_roles[0].name['en']
+          when 'Tank' then 'tanks'
+          when 'Healer' then 'healers'
+          else 'dd'
+        end
+      end
+
+      def class_name(character)
+        character.character_class.name['en'].downcase
       end
 
       def find_guild
