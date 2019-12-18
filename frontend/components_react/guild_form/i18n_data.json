@@ -7,7 +7,8 @@
     "create": "Create",
     "update": "Update",
     "newGuild": "Create new guild",
-    "updateGuild": "Update guild"
+    "updateGuild": "Update guild",
+    "locale": "Locale"
   },
   "ru": {
     "name": "Название",
@@ -17,6 +18,7 @@
     "create": "Создать",
     "update": "Обновить",
     "newGuild": "Создать новую гильдию",
-    "updateGuild": "Обновить гильдию"
+    "updateGuild": "Обновить гильдию",
+    "locale": "Локаль"
   }
 }

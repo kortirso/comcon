@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_212059) do
+ActiveRecord::Schema.define(version: 2019_12_18_201223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -261,6 +261,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_212059) do
     t.string "slug"
     t.integer "world_fraction_id"
     t.text "description", default: "", null: false
+    t.string "locale", default: "ru", null: false
     t.index ["fraction_id"], name: "index_guilds_on_fraction_id"
     t.index ["name"], name: "index_guilds_on_name"
     t.index ["slug"], name: "index_guilds_on_slug", unique: true

@@ -6,6 +6,7 @@ class GuildForm
   attribute :id, Integer
   attribute :name, String
   attribute :description, String, default: ''
+  attribute :locale, String, default: 'ru'
   attribute :world, World
   attribute :fraction, Fraction
   attribute :world_fraction, WorldFraction

@@ -1,5 +1,5 @@
 class GuildIndexSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :slug, :fraction_id, :fraction_name, :world_id, :world_name
+  attributes :id, :name, :description, :slug, :fraction_id, :fraction_name, :world_id, :world_name, :locale
 
   def description
     object.description.truncate(200)

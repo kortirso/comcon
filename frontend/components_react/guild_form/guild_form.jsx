@@ -22,7 +22,8 @@ export default class GuildForm extends React.Component {
       description: '',
       userCharacters: [],
       currentCharacterId: '0',
-      errors: []
+      errors: [],
+      locale: props.locale
     }
   }
 
@@ -52,7 +53,8 @@ export default class GuildForm extends React.Component {
       method: 'GET',
       url: `/api/v1/guilds/${this.state.guildId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({name: data.guild.name, description: data.guild.description})
+        const guild = data.guild
+        this.setState({name: guild.name, description: guild.description, locale: guild.locale})
       }
     })
   }
@@ -64,7 +66,7 @@ export default class GuildForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: url,
-      data: { guild: { name: state.name, description: state.description, owner_id: state.currentCharacterId } },
+      data: { guild: { name: state.name, description: state.description, owner_id: state.currentCharacterId, locale: state.locale } },
       success: (data) => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds`)
       },
@@ -81,7 +83,7 @@ export default class GuildForm extends React.Component {
     $.ajax({
       method: 'PATCH',
       url: url,
-      data: { guild: { name: state.name, description: state.description } },
+      data: { guild: { name: state.name, description: state.description, locale: state.locale } },
       success: (data) => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${data.guild.slug}/management`)
       },
@@ -115,8 +117,8 @@ export default class GuildForm extends React.Component {
               <input required="required" placeholder={strings.nameLabel} className="form-control form-control-sm" type="text" id="guild_name" value={this.state.name} onChange={(event) => this.setState({name: event.target.value})} />
             </div>
           </div>
-          <div className="col-md-6 col-xl-4">
-            {this.state.guildId === undefined &&
+          {this.state.guildId === undefined &&
+            <div className="col-md-6 col-xl-4">
               <div className="form-group">
                 <label htmlFor="guild_owner_id">{strings.characterOwner}</label>
                 <select className="form-control form-control-sm" id="guild_owner_id" onChange={(event) => this.setState({currentCharacterId: event.target.value})} value={this.state.currentCharacterId}>
@@ -124,7 +126,16 @@ export default class GuildForm extends React.Component {
                   {this._renderUserCharacters()}
                 </select>
               </div>
-            }
+            </div>
+          }
+          <div className="col-md-6 col-xl-4">
+            <div className="form-group">
+              <label htmlFor="locale">{strings.locale}</label>
+              <select className="form-control form-control-sm" id="locale" onChange={(event) => this.setState({locale: event.target.value})} value={this.state.locale}>
+                <option value='en'>EN</option>
+                <option value='ru'>RU</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="row">

@@ -189,7 +189,7 @@ module Api
       end
 
       def guild_params
-        params.require(:guild).permit(:name, :description)
+        params.require(:guild).permit(:name, :description, :locale)
       end
     end
   end
