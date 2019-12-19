@@ -74,7 +74,6 @@ export default class GuildBank extends React.Component {
       method: 'GET',
       url: `/api/v1/bank_requests.json?access_token=${this.props.access_token}&guild_id=${this.props.guild_id}`,
       success: (data) => {
-        console.log(data.bank_requests)
         this.setState({bankRequests: data.bank_requests}, () => {
           this._getGameItemCategories()
         })
