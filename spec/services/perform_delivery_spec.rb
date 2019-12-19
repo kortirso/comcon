@@ -1,5 +1,6 @@
 RSpec.describe PerformDelivery, type: :service do
   let!(:guild) { create :guild }
+  let!(:time_offset) { create :time_offset, timeable: guild }
   let!(:guild_event) { create :event, eventable: guild }
   let!(:notification) { create :notification, event: 'guild_event_creation', status: 0 }
   let!(:delivery1) { create :delivery, deliveriable: guild, notification: notification, delivery_type: 0 }

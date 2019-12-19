@@ -1,6 +1,7 @@
 RSpec.describe Notifies::CreateEvent, type: :service do
   let!(:character) { create :character }
   let!(:guild) { create :guild, world: character.world, fraction: character.race.fraction, world_fraction: character.world_fraction }
+  let!(:time_offset) { create :time_offset, timeable: guild }
   let!(:guild_event) { create :event, eventable: guild }
   let!(:guild_notification) { create :notification, event: 'guild_event_creation', status: 0 }
   let!(:user_notification) { create :notification, event: 'guild_event_creation', status: 1 }

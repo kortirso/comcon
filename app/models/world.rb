@@ -17,4 +17,9 @@ class World < ApplicationRecord
   def full_name
     "#{name} (#{zone})"
   end
+
+  def locale
+    return zone.downcase if %w[RU EN].include?(zone)
+    'en'
+  end
 end

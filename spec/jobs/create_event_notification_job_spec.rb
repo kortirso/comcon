@@ -1,5 +1,6 @@
 RSpec.describe CreateEventNotificationJob, type: :job do
   let!(:guild) { create :guild }
+  let!(:time_offset) { create :time_offset, timeable: guild }
   let!(:event) { create :event, eventable: guild }
   let!(:guild_notification) { create :notification, event: 'guild_event_creation', status: 0 }
   let!(:user_notification) { create :notification, event: 'guild_event_creation', status: 1 }

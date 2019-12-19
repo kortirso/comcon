@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - locale to guilds
 - time_offset to guilds
 - repeatable event creation
+- translations for notifications
 
 ### Fixed
 - using left_value for searching statics with character

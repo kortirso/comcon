@@ -33,6 +33,18 @@ class Static < ApplicationRecord
     staticable_type == 'Guild'
   end
 
+  def time_offset_value
+    return staticable.time_offset.value if staticable_type == 'Guild'
+    user_time_offset = staticable.user.time_offset.value
+    return 0 if user_time_offset.nil?
+    user_time_offset
+  end
+
+  def locale
+    return staticable.locale if staticable_type == 'Guild'
+    staticable.world.locale
+  end
+
   private
 
   def slug_candidates

@@ -19,5 +19,31 @@ RSpec.describe World, type: :model do
         expect(world.full_name).to eq "#{world.name} (#{world.zone})"
       end
     end
+
+    context '.locale' do
+      context 'for ru zone' do
+        let!(:world) { create :world, zone: 'RU' }
+
+        it 'returns ru' do
+          expect(world.locale).to eq 'ru'
+        end
+      end
+
+      context 'for en zone' do
+        let!(:world) { create :world, zone: 'EN' }
+
+        it 'returns en' do
+          expect(world.locale).to eq 'en'
+        end
+      end
+
+      context 'for other zone' do
+        let!(:world) { create :world, zone: 'DA' }
+
+        it 'returns en' do
+          expect(world.locale).to eq 'en'
+        end
+      end
+    end
   end
 end

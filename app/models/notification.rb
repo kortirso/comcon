@@ -24,34 +24,50 @@ class Notification < ApplicationRecord
   private
 
   def guild_event_creation_content(event:)
-    content = "Создано событие для гильдии - \"#{event.name}\" от #{event.owner.full_name}, "
-    content += "место проведения - #{event.dungeon.name['ru']}, " unless event.dungeon_id.nil?
-    content + "время начала (по мск) - #{render_start_time(event: event)}, для ознакомления с событием посетите портал гильдии по адресу https://guild-hall.org/ru/events/#{event.slug}"
+    locale = event.eventable.locale
+    I18n.locale = locale
+    content = "#{I18n.t('notification.guild_event_creation_content.title')} - \"#{event.name}\" #{I18n.t('notification.from')} #{event.owner.full_name}, "
+    content += "#{I18n.t('notification.place')} - #{event.dungeon.name[locale]}, " unless event.dungeon_id.nil?
+    content + "#{I18n.t('notification.start_time')} - #{render_start_time(event: event)}, #{I18n.t('notification.visit')} https://guild-hall.org/#{locale_for_url(locale: locale)}events/#{event.slug}"
   end
 
   def event_start_soon_content(event:)
-    content = "Скоро начнется событие \"#{event.name}\" от #{event.owner.full_name}, "
-    content += "место проведения - #{event.dungeon.name['ru']}, " unless event.dungeon_id.nil?
-    content + "время начала (по мск) - #{render_start_time(event: event)}, для ознакомления с событием посетите портал гильдии по адресу https://guild-hall.org/ru/events/#{event.slug}"
+    locale = event.eventable.locale
+    I18n.locale = locale
+    content = "#{I18n.t('notification.event_start_soon_content.title')} \"#{event.name}\" #{I18n.t('notification.from')} #{event.owner.full_name}, "
+    content += "#{I18n.t('notification.place')} - #{event.dungeon.name[locale]}, " unless event.dungeon_id.nil?
+    content + "#{I18n.t('notification.start_time')} - #{render_start_time(event: event)}, #{I18n.t('notification.visit')} https://guild-hall.org/#{locale_for_url(locale: locale)}events/#{event.slug}"
   end
 
   def guild_static_event_creation_content(event:)
-    content = "Создано событие для статика \"#{event.eventable.name}\" - \"#{event.name}\" от #{event.owner.full_name}, "
-    content += "место проведения - #{event.dungeon.name['ru']}, " unless event.dungeon_id.nil?
-    content + "время начала (по мск) - #{render_start_time(event: event)}, для ознакомления с событием посетите портал гильдии по адресу https://guild-hall.org/ru/events/#{event.slug}"
+    locale = event.eventable.locale
+    I18n.locale = locale
+    content = "#{I18n.t('notification.guild_static_event_creation_content.title')} \"#{event.eventable.name}\" - \"#{event.name}\" #{I18n.t('notification.from')} #{event.owner.full_name}, "
+    content += "#{I18n.t('notification.place')} - #{event.dungeon.name[locale]}, " unless event.dungeon_id.nil?
+    content + "#{I18n.t('notification.start_time')} - #{render_start_time(event: event)}, #{I18n.t('notification.visit')} https://guild-hall.org/#{locale_for_url(locale: locale)}events/#{event.slug}"
   end
 
   def guild_request_creation_content(guild_invite:)
-    "Создан запрос на вступление в гильдию \"#{guild_invite.guild.full_name}\" от #{guild_invite.character.name}, для просмотра запросов посетите портал гильдии по адресу https://guild-hall.org/ru/guilds/#{guild_invite.guild.slug}/management"
+    locale = guild_invite.guild.locale
+    I18n.locale = locale
+    "#{I18n.t('notification.guild_request_creation_content.title')} \"#{guild_invite.guild.full_name}\" #{I18n.t('notification.from')} #{guild_invite.character.name}, #{I18n.t('notification.requests')} https://guild-hall.org/#{locale_for_url(locale: locale)}guilds/#{guild_invite.guild.slug}/management"
   end
 
   def bank_request_creation_content(bank_request:)
-    "Создан банковский запрос в гильдии \"#{bank_request.bank.guild.full_name}\" от #{bank_request.character_name}, для просмотра запроса посетите портал гильдии по адресу https://guild-hall.org/ru/guilds/#{bank_request.bank.guild.slug}/bank"
+    locale = bank_request.bank.guild.locale
+    I18n.locale = locale
+    "#{I18n.t('notification.bank_request_creation_content.title')} \"#{bank_request.bank.guild.full_name}\" #{I18n.t('notification.from')} #{bank_request.character_name}, #{I18n.t('notification.requests')} https://guild-hall.org/#{locale_for_url(locale: locale)}guilds/#{bank_request.bank.guild.slug}/bank"
+  end
+
+  def locale_for_url(locale:)
+    return "#{locale}/" if locale != 'en'
+    ''
   end
 
   def render_start_time(event:)
+    time_offset = event_time_offset(event: event)
     start_time = event.start_time
-    start_time_hours = start_time.strftime('%H').to_i + 3
+    start_time_hours = start_time.strftime('%H').to_i + time_offset
     days = 0
     if start_time_hours < 10
       start_time_hours = "0#{start_time_hours}"
@@ -59,6 +75,18 @@ class Notification < ApplicationRecord
       start_time_hours = "0#{start_time_hours - 24}"
       days = ' (+1)'
     end
-    "#{start_time.strftime('%-d.%-m.%Y')} #{start_time_hours}:#{start_time.strftime('%M')}#{days if days != 0}"
+    "#{start_time.strftime('%-d.%-m.%Y')} #{start_time_hours}:#{start_time.strftime('%M')}#{days if days != 0}  (GMT #{time_offset_value(time_offset)})"
+  end
+
+  def time_offset_value(time_offset)
+    time_offset.positive? ? "+#{time_offset}" : time_offset
+  end
+
+  def event_time_offset(event:)
+    case event.eventable_type
+      when 'Guild' then (event.eventable.time_offset.value || 0)
+      when 'Static' then event.eventable.staticable.time_offset_value
+      else 0
+    end
   end
 end

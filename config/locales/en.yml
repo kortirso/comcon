@@ -297,6 +297,22 @@ en:
   guild_bank:
     title: Bank
     import: Data import
+  notification:
+    from: from
+    start_time: start time
+    visit: to view the event, visit the guild portal at
+    requests: to view requests, visit the guild portal at
+    place: location
+    guild_event_creation_content:
+      title: Event created for guild
+    event_start_soon_content:
+      title: Event coming soon
+    guild_static_event_creation_content:
+      title: Event created for static
+    guild_request_creation_content:
+      title: Guild membership request created
+    bank_request_creation_content:
+      title: Guild bank request created
   mailer:
     user:
       confirmation_email:

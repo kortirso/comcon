@@ -308,6 +308,22 @@ ru:
   guild_bank:
     title: Банк
     import: Импорт данных
+  notification:
+    from: от
+    start_time: время начала
+    visit: для ознакомления с событием посетите портал гильдии по адресу
+    requests: для просмотра запросов посетите портал гильдии по адресу
+    place: место проведения
+    guild_event_creation_content:
+      title: Создано событие для гильдии
+    event_start_soon_content:
+      title: Скоро начнется событие
+    guild_static_event_creation_content:
+      title: Создано событие для статика
+    guild_request_creation_content:
+      title: Создан запрос на вступление в гильдию
+    bank_request_creation_content:
+      title: Создан банковский запрос в гильдии
   mailer:
     user:
       confirmation_email:
