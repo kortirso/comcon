@@ -52,6 +52,6 @@ class UpdateBankCellsService
       next if cell_item_uids.include?(item_uid)
       result_ids.push(item_uid)
     end
-    BankCell.where(id: result_ids).destroy_all
+    BankCell.where(item_uid: result_ids).destroy_all
   end
 end
