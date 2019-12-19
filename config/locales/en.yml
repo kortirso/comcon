@@ -4,6 +4,9 @@ en:
     description: GuildHall - guild management for WoW Classic
   activemodel:
     attributes:
+      subscribe_form:
+        subscribeable: Subscribeable
+        subscribe: Subscribe
       character_form:
         character: Character
         character_class: Character class
@@ -37,6 +40,12 @@ en:
         eventable_id: Event ownership
     errors:
       models:
+        subscribe_form:
+          attributes:
+            subscribeable:
+              is_not_exist: is not exists
+            subscribe:
+              is_exist: already exists
         character_form:
           attributes:
             character:

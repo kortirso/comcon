@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - using left_value for searching statics with character
 - bug with not-deleting bank cells
+- bug with double subscribe for event
 
 ## [1.1.4] - 2019-12-18
 ### Added

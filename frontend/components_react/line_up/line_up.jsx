@@ -108,9 +108,11 @@ export default class LineUp extends React.Component {
   }
 
   onCreateSubscribe(status) {
+    let url = `/api/v1/subscribes.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
     $.ajax({
       method: 'POST',
-      url: `/api/v1/subscribes.json?access_token=${this.props.access_token}`,
+      url: url,
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, subscribeable_id: this.props.event_id, subscribeable_type: 'Event', status: status } },
       success: (data) => {
         let subscribes = this.state.subscribes

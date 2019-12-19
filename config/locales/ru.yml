@@ -4,6 +4,9 @@ ru:
     description: GuildHall - управление гильдией для WoW Classic
   activemodel:
     attributes:
+      subscribe_form:
+        subscribeable: Подписываемый объект
+        subscribe: Подписка
       character_form:
         character: Персонаж
         character_class: Класс персонажа
@@ -37,6 +40,12 @@ ru:
         eventable_id: Объект владения
     errors:
       models:
+        subscribe_form:
+          attributes:
+            subscribeable:
+              is_not_exist: не существует
+            subscribe:
+              is_exist: уже создана
         character_form:
           attributes:
             character:

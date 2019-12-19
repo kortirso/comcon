@@ -88,6 +88,21 @@ RSpec.describe SubscribeForm, type: :service do
       end
     end
 
+    context 'for existed subscribe' do
+      let!(:event) { create :event }
+      let!(:character) { create :character }
+      let!(:subscribe) { create :subscribe, subscribeable: event, character: character }
+      let(:service) { SubscribeForm.new(subscribeable_id: event.id, subscribeable_type: 'Event', character: character, for_role: 'Healer') }
+
+      it 'does not create new subscribe' do
+        expect { service.persist? }.to_not change(Subscribe, :count)
+      end
+
+      it 'and returns false' do
+        expect(service.persist?).to eq false
+      end
+    end
+
     context 'for valid data' do
       let!(:event) { create :event }
       let!(:character) { create :character }

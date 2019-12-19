@@ -17,6 +17,7 @@ class SubscribeForm
   validates :for_role, inclusion: 0..2, allow_nil: true
   validates :comment, length: { maximum: 100 }, allow_nil: true
   validate :subscribeable_exists?
+  validate :subscribed?
 
   attr_reader :subscribe
 
@@ -38,6 +39,11 @@ class SubscribeForm
     return unless subscribeable_type.present?
     return if subscribeable_type.constantize.where(id: subscribeable_id).exists?
     errors[:subscribeable] << I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribeable.is_not_exist')
+  end
+
+  def subscribed?
+    return unless id.nil?
+    errors[:subscribe] << I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribe.is_exist') if Subscribe.where(subscribeable_id: subscribeable_id, subscribeable_type: subscribeable_type, character_id: character&.id).exists?
   end
 
   def status_to_integer
