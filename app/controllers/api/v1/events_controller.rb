@@ -53,15 +53,8 @@ module Api
       error code: 401, desc: 'Unauthorized'
       error code: 409, desc: 'Conflict'
       def create
-        event_form = EventForm.new(event_params)
-        if event_form.persist?
-          CreateSubscribe.call(subscribeable: event_form.event, character: event_form.event.owner, status: 'signed')
-          CreateGroupRole.call(groupable: event_form.event, group_roles: group_role_params)
-          CreateEventNotificationJob.perform_now(event_id: event_form.event.id)
-          render json: { event: EventEditSerializer.new(event_form.event) }, status: 201
-        else
-          render json: { errors: event_form.errors.full_messages }, status: 409
-        end
+        return create_many_events if params[:event][:repeat].to_i.positive?
+        create_one_event
       end
 
       api :GET, '/v1/events/:id/edit.json', 'Show event info for editing'
@@ -196,6 +189,31 @@ module Api
             'characters' => static.characters.where(user_id: Current.user.id).pluck(:id)
           }
         end
+      end
+
+      def create_many_events
+        default_event_params = event_params
+        (0..params[:event][:repeat].to_i).each do |index|
+          event_form = EventForm.new(default_event_params.merge(start_time: default_event_params[:start_time] + (params[:event][:repeat_days].to_i * index).days))
+          create_additional_objects_for_event(event_form.event) if event_form.persist?
+        end
+        render json: { result: 'Events are created' }, status: 201
+      end
+
+      def create_one_event
+        event_form = EventForm.new(event_params)
+        if event_form.persist?
+          create_additional_objects_for_event(event_form.event)
+          render json: { event: EventEditSerializer.new(event_form.event) }, status: 201
+        else
+          render json: { errors: event_form.errors.full_messages }, status: 409
+        end
+      end
+
+      def create_additional_objects_for_event(event)
+        CreateSubscribe.call(subscribeable: event, character: event.owner, status: 'signed')
+        CreateGroupRole.call(groupable: event, group_roles: group_role_params)
+        CreateEventNotificationJob.perform_now(event_id: event.id)
       end
 
       def event_params

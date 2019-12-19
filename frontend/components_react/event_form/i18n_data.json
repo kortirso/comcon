@@ -17,7 +17,9 @@
     "description": "Description",
     "startTime": "Start time",
     "hoursBeforeClose": "Hours before close",
-    "statics": "Statics"
+    "statics": "Statics",
+    "repeat": "Repeat n (times)",
+    "repeatDays": "Every n (days)"
   },
   "ru": {
     "name": "Название",
@@ -37,6 +39,8 @@
     "description": "Описание",
     "startTime": "Время начала",
     "hoursBeforeClose": "Часов до закрытия",
-    "statics": "Статики"
+    "statics": "Статики",
+    "repeat": "Повторить n (раз)",
+    "repeatDays": "Каждые n (дней)"
   }
 }

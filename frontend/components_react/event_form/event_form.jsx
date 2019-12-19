@@ -39,7 +39,9 @@ export default class EventForm extends React.Component {
       staticId: '',
       groupRoles: {},
       errors: [],
-      manualTime: false
+      manualTime: false,
+      repeat: '0',
+      repeatDays: '1'
     }
   }
 
@@ -134,7 +136,7 @@ export default class EventForm extends React.Component {
 
   _onCreate() {
     const state = this.state
-    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: this._checkManualTime(), description: state.description, group_roles: state.groupRoles } }
+    let data = { event: { name: state.name, owner_id: state.creatorId, eventable_type: state.eventableType, hours_before_close: (state.hoursBeforeClose ? parseInt(state.hoursBeforeClose) : 0), dungeon_id: state.dungeonId, start_time: this._checkManualTime(), description: state.description, group_roles: state.groupRoles, repeat: state.repeat, repeat_days: state.repeatDays } }
     if (state.eventableType === 'Static') data.event.eventable_id = state.staticId
     let url = `/api/v1/events.json?access_token=${this.props.access_token}`
     if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
@@ -334,6 +336,34 @@ export default class EventForm extends React.Component {
             <label htmlFor="event_description">{strings.description}</label>
             <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="event_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
           </div>
+          {this.state.eventId === undefined &&
+            <div className="col-sm-6">
+              <div className="row">
+                <div className="col">
+                  <label htmlFor="event_repeat">{strings.repeat}</label>
+                  <select className="form-control form-control-sm" id="event_repeat" onChange={(event) => this.setState({repeat: event.target.value})} value={this.state.repeat}>
+                    <option value='0'>0</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                  </select>
+                </div>
+                <div className="col">
+                  <label htmlFor="event_repeat_days">{strings.repeatDays}</label>
+                  <select className="form-control form-control-sm" id="event_repeat_days" onChange={(event) => this.setState({repeatDays: event.target.value})} value={this.state.repeatDays}>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          }
         </div>
         <div className="row">
           <div className="col">
