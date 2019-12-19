@@ -139,7 +139,7 @@ module Api
         if params[:character_id].present?
           character = Current.user.characters.find_by(id: params[:character_id])
           if character.present?
-            @statics = @statics.includes(:group_role).select { |static| static.group_role.value[main_role(character)]['by_class'][class_name(character)].positive? }
+            @statics = @statics.includes(:group_role).select { |static| static.group_role.left_value[main_role(character)]['by_class'][class_name(character)].positive? }
           end
         end
       end

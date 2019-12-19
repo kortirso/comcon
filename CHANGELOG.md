@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - locale to guilds
 - time_offset to guilds
 
+### Fixed
+- using left_value for searching statics with character
+
 ## [1.1.4] - 2019-12-18
 ### Added
 - deleting for bank requests
