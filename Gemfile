@@ -40,6 +40,9 @@ gem 'oj'
 gem 'oj_mimic_json'
 
 # Form objects
+gem 'dry-struct', '~> 1.2.0'
+gem 'dry-types', '~> 1.2.2'
+gem 'dry-validation', '~> 1.4.0'
 gem 'virtus'
 
 # Separate business logic
