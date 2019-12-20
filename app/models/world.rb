@@ -7,8 +7,9 @@ class World < ApplicationRecord
   has_many :statics, dependent: :destroy
   has_many :world_fractions, dependent: :destroy
 
-  def self.cache_key(worlds)
+  def self.cache_key(worlds, api)
     {
+      api: api,
       serializer: 'worlds',
       stat_record: worlds.maximum(:updated_at)
     }

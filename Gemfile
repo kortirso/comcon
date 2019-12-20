@@ -36,10 +36,14 @@ gem 'webpacker-react', '0.3.2'
 
 # Model Serializers
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'fast_jsonapi'
 gem 'oj'
 gem 'oj_mimic_json'
 
 # Form objects
+gem 'dry-struct', '~> 1.2.0'
+gem 'dry-types', '~> 1.2.2'
+gem 'dry-validation', '~> 1.4.0'
 gem 'virtus'
 
 # Separate business logic

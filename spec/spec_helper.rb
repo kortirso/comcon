@@ -4,6 +4,7 @@ SimpleCov.start 'rails' do
   add_group 'Services', 'app/services'
   add_group 'Serializers', 'app/serializers'
   add_group 'FormObjects', 'app/form_objects'
+  add_group 'Forms', 'app/dry_forms'
   add_group 'Policies', 'app/policies'
 end
 

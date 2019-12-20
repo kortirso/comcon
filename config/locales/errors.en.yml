@@ -1,0 +1,10 @@
+en:
+  dry_validation:
+    errors:
+      world:
+        is_exist: Realm with such params already exists
+        rules:
+          name:
+            filled?: Name can't be blank
+          zone:
+            filled?: Zone can't be blank

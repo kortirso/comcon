@@ -5,11 +5,11 @@ class CreateWorld
   # required context
   # context.world_params
   def call
-    world_form = WorldForm.new(context.world_params)
-    if world_form.persist?
+    world_form = WorldDryForm.new(context.world_params.merge(id: nil))
+    if world_form.save
       context.world = world_form.world
     else
-      context.fail!(message: world_form.errors.full_messages)
+      context.fail!(message: world_form.errors)
     end
   end
 

@@ -1,0 +1,10 @@
+ru:
+  dry_validation:
+    errors:
+      world:
+        is_exist: Игровой мир с такими параметрами уже существует
+        rules:
+          name:
+            filled?: Название не может быть пустым
+          zone:
+            filled?: Зона не может быть пустой
