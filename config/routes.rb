@@ -69,6 +69,10 @@ Rails.application.routes.draw do
         post :approve, on: :member
       end
     end
+
+    namespace :v2 do
+      resources :worlds, only: %i[index]
+    end
   end
 
   devise_for :users, skip: %i[session registration], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }

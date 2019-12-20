@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - dry-types, dry-struct, dry-validation for form objects
+- fast_jsonapi library for faster serialization
+- v2 endpoints
 
 ## [1.1.5] - 2019-12-19
 ### Added

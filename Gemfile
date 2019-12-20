@@ -36,6 +36,7 @@ gem 'webpacker-react', '0.3.2'
 
 # Model Serializers
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'fast_jsonapi'
 gem 'oj'
 gem 'oj_mimic_json'
 

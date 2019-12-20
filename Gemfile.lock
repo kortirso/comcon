@@ -161,6 +161,8 @@ GEM
       railties (>= 4.2.0)
     faraday (0.17.0)
       multipart-post (>= 1.2, < 3)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.11.1)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -442,6 +444,7 @@ DEPENDENCIES
   dry-types (~> 1.2.2)
   dry-validation (~> 1.4.0)
   factory_bot_rails
+  fast_jsonapi
   figaro
   foreman (= 0.84.0)
   friendly_id (~> 5.2.4)
