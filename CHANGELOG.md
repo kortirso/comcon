@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fast_jsonapi library for faster serialization
 - v2 endpoints
 
+### Modified
+- worlds#index and recipes#index endpoints to v2
+
 ## [1.1.5] - 2019-12-19
 ### Added
 - locale to guilds

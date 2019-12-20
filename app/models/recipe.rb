@@ -7,8 +7,9 @@ class Recipe < ApplicationRecord
 
   after_save ThinkingSphinx::RealTime.callback_for(:recipe)
 
-  def self.cache_key(recipes)
+  def self.cache_key(recipes, api)
     {
+      api: api,
       serializer: 'recipes',
       stat_record: recipes.maximum(:updated_at)
     }

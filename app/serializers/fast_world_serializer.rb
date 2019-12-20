@@ -1,5 +1,6 @@
 class FastWorldSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :id, :name, :zone
+  set_type :world
+  attributes :name, :zone
 end

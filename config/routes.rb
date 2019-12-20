@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :worlds, only: %i[index]
+      resources :recipes, only: %i[index]
     end
   end
 

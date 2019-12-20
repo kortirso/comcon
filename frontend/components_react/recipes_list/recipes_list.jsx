@@ -52,9 +52,9 @@ export default class RecipesList extends React.Component {
   _getRecipes() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/recipes.json?access_token=${this.props.access_token}`,
+      url: `/api/v2/recipes.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({recipes: data.recipes, currentRecipes: data.recipes})
+        this.setState({recipes: data.recipes.data, currentRecipes: data.recipes.data})
       }
     })
   }
@@ -92,7 +92,7 @@ export default class RecipesList extends React.Component {
   _defineCurrentRecipes(profession_id) {
     if (profession_id === 0) return this.state.recipes
     return this.state.recipes.filter((recipe) => {
-      return recipe.profession_id === profession_id
+      return recipe.attributes.profession_id === profession_id
     })
   }
 
@@ -101,10 +101,10 @@ export default class RecipesList extends React.Component {
       return (
         <tr key={recipe.id}>
           {this.state.profession === '0' &&
-            <td>{this.state.professionIds[recipe.profession_id]}</td>
+            <td>{this.state.professionIds[recipe.attributes.profession_id]}</td>
           }
-          <td><a href={recipe.links[this.props.locale]}>{recipe.name[this.props.locale]}</a></td>
-          <td>{recipe.skill}</td>
+          <td><a href={recipe.attributes.links[this.props.locale]}>{recipe.attributes.name[this.props.locale]}</a></td>
+          <td>{recipe.attributes.skill}</td>
           <td>
             <a className="btn btn-icon btn-edit with_right_margin" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}/edit`} aria-label="Edit button"></a>
             <a data-confirm="Are you sure?" className="btn btn-icon btn-delete" rel="nofollow" data-method="delete" href={`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/recipes/${recipe.id}`} aria-label="Delete button"></a>

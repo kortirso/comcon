@@ -15,7 +15,7 @@ RSpec.describe 'Worlds API' do
         expect(response.status).to eq 200
       end
 
-      %w[id name zone].each do |attr|
+      %w[name zone].each do |attr|
         it "and contains world #{attr}" do
           expect(response.body).to have_json_path("worlds/data/0/attributes/#{attr}")
         end

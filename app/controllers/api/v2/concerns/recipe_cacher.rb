@@ -1,5 +1,5 @@
 module Api
-  module V1
+  module V2
     module Concerns
       module RecipeCacher
         extend ActiveSupport::Concern
@@ -8,8 +8,8 @@ module Api
 
         def get_recipes_from_cache
           recipes = Recipe.order(profession_id: :desc, skill: :desc)
-          @recipes_json = Rails.cache.fetch(Recipe.cache_key(recipes, :v1)) do
-            ActiveModelSerializers::SerializableResource.new(recipes, each_serializer: RecipeSerializer).as_json[:recipes]
+          @recipes_json = Rails.cache.fetch(Recipe.cache_key(recipes, :v2)) do
+            FastRecipeSerializer.new(recipes).serializable_hash
           end
         end
       end
