@@ -19,8 +19,8 @@ class WorldsController < ApplicationController
   def edit; end
 
   def update
-    world_form = WorldForm.new(@world.attributes.merge(world_params))
-    return redirect_to worlds_path if world_form.persist?
+    world_form = WorldDryForm.new(@world.attributes.symbolize_keys.merge(world_params))
+    return redirect_to worlds_path if world_form.save
     render :edit
   end
 
@@ -41,6 +41,6 @@ class WorldsController < ApplicationController
   end
 
   def world_params
-    params.require(:world).permit(:name, :zone)
+    params.require(:world).permit(:name, :zone).to_h.symbolize_keys
   end
 end

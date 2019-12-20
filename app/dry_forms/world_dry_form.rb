@@ -1,4 +1,6 @@
+# Form object for World model
 class WorldDryForm < Dry::Struct
+  # Default types
   module Types
     include Dry::Types(default: :nominal)
   end
@@ -14,18 +16,13 @@ class WorldDryForm < Dry::Struct
     schema = WorldContract.new.call(attributes)
     @errors = schema.errors(locale: I18n.locale).to_h.values.flatten
     return false unless errors.empty?
-
     @world = attributes[:id] ? World.find_by(id: attributes[:id]) : World.new
-    if world.nil?
-      errors.push(I18n.t('dry_validation.errors.world.is_not_exist'))
-      return false
-    else
-      world.attributes = attributes.except(:id)
-      world.save
-    end
+    world.attributes = attributes.except(:id)
+    world.save
   end
 end
 
+# Validation class for World Form
 class WorldContract < Dry::Validation::Contract
   config.messages.namespace = :world
   config.messages.backend = :i18n

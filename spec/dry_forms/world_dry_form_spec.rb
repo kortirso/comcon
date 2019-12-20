@@ -62,11 +62,15 @@ RSpec.describe WorldDryForm, type: :service do
       let!(:world1) { create :world }
       let!(:world2) { create :world }
 
-      context 'for unexisted world' do
-        let(:service) { described_class.new(id: 999, name: '1', zone: '2') }
+      context 'for invalid data' do
+        let(:service) { described_class.new(id: world1.id, name: '', zone: '') }
 
-        it 'returns false' do
-          expect(service.save).to eq false
+        it 'does not update world' do
+          service.save
+          world1.reload
+
+          expect(world1.name).to_not eq ''
+          expect(world1.zone).to_not eq ''
         end
 
         it 'and form contains errors' do
@@ -76,62 +80,42 @@ RSpec.describe WorldDryForm, type: :service do
         end
       end
 
-      context 'for existed world' do
-        context 'for invalid data' do
-          let(:service) { described_class.new(id: world1.id, name: '', zone: '') }
+      context 'for existed data' do
+        let(:service) { described_class.new(id: world1.id, name: world2.name, zone: world2.zone) }
 
-          it 'does not update world' do
-            service.save
-            world1.reload
+        it 'does not update world' do
+          service.save
+          world1.reload
 
-            expect(world1.name).to_not eq ''
-            expect(world1.zone).to_not eq ''
-          end
-
-          it 'and form contains errors' do
-            service.save
-
-            expect(service.errors.size.positive?).to eq true
-          end
+          expect(world1.name).to_not eq world2.name
         end
 
-        context 'for existed data' do
-          let(:service) { described_class.new(id: world1.id, name: world2.name, zone: world2.zone) }
+        it 'and form contains errors' do
+          service.save
 
-          it 'does not update world' do
-            service.save
-            world1.reload
+          expect(service.errors.size.positive?).to eq true
+        end
+      end
 
-            expect(world1.name).to_not eq world2.name
-          end
+      context 'for valid data' do
+        let(:service) { described_class.new(id: world1.id, name: 'Хроми', zone: 'RU') }
 
-          it 'and form contains errors' do
-            service.save
+        it 'does not update world' do
+          service.save
+          world1.reload
 
-            expect(service.errors.size.positive?).to eq true
-          end
+          expect(world1.name).to eq 'Хроми'
+          expect(world1.zone).to eq 'RU'
         end
 
-        context 'for valid data' do
-          let(:service) { described_class.new(id: world1.id, name: 'Хроми', zone: 'RU') }
+        it 'and returns true' do
+          expect(service.save).to eq true
+        end
 
-          it 'does not update world' do
-            service.save
-            world1.reload
+        it 'and form contains updated world' do
+          service.save
 
-            expect(world1.name).to eq 'Хроми'
-            expect(world1.zone).to eq 'RU'
-          end
-
-          it 'and returns true' do
-            expect(service.save).to eq true
-          end
-
-          it 'and form contains updated world' do
-            service.save
-
-            expect(service.world.id).to eq world1.id
-          end
+          expect(service.world.id).to eq world1.id
         end
       end
     end
