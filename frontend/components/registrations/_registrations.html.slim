@@ -12,7 +12,11 @@
       .form-group
         = f.label :password_confirmation, t('registration.confirm')
         = f.password_field :password_confirmation, autocomplete: 'off', placeholder: t('registration.confirm'), class: 'form-control'
-      = f.submit t('buttons.create'), id: 'registration', class: 'btn btn-primary btn-sm'
+      p
+        = t('registration.agree')
+        = link_to t('registration.policy'), privacy_path
+        = t('registration.age')
+      = f.submit t('buttons.create'), id: 'registration', class: 'btn btn-primary'
       .form-group.other_services
         p= t('session.linking')
         = link_to image_tag(asset_pack_path('media/images/discord.png')), user_discord_omniauth_authorize_path, method: :post, title: "#{t('session.login_through')} Discord", class: 'icon_social'

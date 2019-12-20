@@ -8,6 +8,8 @@ class WelcomeController < ApplicationController
 
   def donate; end
 
+  def privacy; end
+
   private
 
   def set_external_services_tag

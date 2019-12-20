@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - dry-types, dry-struct, dry-validation for form objects
 - fast_jsonapi library for faster serialization
 - v2 endpoints
+- russian privacy policy
 
 ### Modified
 - worlds#index and recipes#index endpoints to v2

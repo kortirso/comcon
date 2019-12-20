@@ -234,7 +234,7 @@ body {
   }
 
   .global_page {
-    height: 100vh;
+    min-height: 100vh;
     padding: 1rem;
     background: $light-grey;
 
@@ -242,6 +242,21 @@ body {
       height: 100%;
       padding: 1rem;
       background: #fff;
+
+      &.privacy {
+        h1 {
+          font-size: 1.75rem;
+          margin-bottom: 1rem;
+        }
+
+        h2 {
+          font-size: 1.25rem;
+        }
+
+        .text {
+          margin-bottom: 1.5rem;
+        }
+      }
     }
   }
 }

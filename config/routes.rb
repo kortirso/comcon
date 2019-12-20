@@ -122,6 +122,7 @@ Rails.application.routes.draw do
     resources :email_confirmations, only: %i[index]
 
     get :donate, to: 'welcome#donate', as: :donate
+    get :privacy, to: 'welcome#privacy', as: :privacy
 
     root to: 'welcome#index'
   end

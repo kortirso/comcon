@@ -160,6 +160,7 @@ en:
     back: Go back
     donate: Donate
     support: Support
+    privacy: Privacy policy
   settings:
     label: Settings
     personal: Personal settings
@@ -181,6 +182,9 @@ en:
     your_password: Your password
     password_strong: Password must be at least 10 characters
     confirm: Confirm password
+    agree: 'By registering, you agree to '
+    policy: Privacy Policy
+    age: . You also acknowledge that you are 14 years old.
   session:
     hello: Welcome back!
     title: Sign In to your personal account

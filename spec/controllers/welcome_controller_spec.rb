@@ -14,4 +14,12 @@ RSpec.describe WelcomeController, type: :controller do
       expect(response).to render_template :donate
     end
   end
+
+  describe 'GET#privacy' do
+    it 'renders privacy template' do
+      get :privacy, params: { locale: 'en' }
+
+      expect(response).to render_template :privacy
+    end
+  end
 end
