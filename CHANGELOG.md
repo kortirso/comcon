@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - deleting subscribes for events
+- tooltips for navigation icons
 
 ### Modified
 - for not subscribed characters for event show only active static members
