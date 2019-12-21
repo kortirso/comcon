@@ -12,6 +12,11 @@ class SubscribePolicy < ApplicationPolicy
     static_subscribe_update
   end
 
+  def destroy?
+    return record.character.user_id == user.id if record.subscribeable.is_a?(Event)
+    false
+  end
+
   private
 
   def event_subscribe_update

@@ -34,7 +34,8 @@
     "hoursBeforeClose": "Hours before close registration for event",
     "notSubscribed": "Characters of static without subscribe",
     "operations": "Actions",
-    "closed": "Registration for event is closed, to change your status you need to ask creator of event"
+    "closed": "Registration for event is closed, to change your status you need to ask creator of event",
+    "sure": "Are you sure?"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -71,6 +72,7 @@
     "hoursBeforeClose": "Часов до закрытия регистрации на событие",
     "notSubscribed": "Персонажи статика, которые не подписались на событие",
     "operations": "Действия",
-    "closed": "Регистрация на событие закрыта, для изменения статуса обращайтесь к создателю события"
+    "closed": "Регистрация на событие закрыта, для изменения статуса обращайтесь к создателю события",
+    "sure": "Вы уверены?"
   }
 }

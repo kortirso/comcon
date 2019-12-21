@@ -224,4 +224,44 @@ describe SubscribePolicy do
       policy.update?
     end
   end
+
+  describe '#destroy?' do
+    context 'for event' do
+      let!(:subscribe1) { create :subscribe, subscribeable: event, character: user_character }
+      let!(:subscribe2) { create :subscribe, subscribeable: event, character: owner_character }
+
+      context 'for other subscribe' do
+        let(:policy) { described_class.new(subscribe2, user: user, status: :no_status_change) }
+
+        it 'returns false' do
+          expect(policy_access).to eq false
+        end
+      end
+
+      context 'for own subscribe' do
+        let(:policy) { described_class.new(subscribe1, user: user, status: :no_status_change) }
+
+        it 'returns true' do
+          expect(policy_access).to eq true
+        end
+      end
+    end
+
+    context 'for static' do
+      let!(:static) { create :static, staticable: user_character }
+      let!(:subscribe) { create :subscribe, subscribeable: static, character: user_character }
+
+      context 'for user with rights in static' do
+        let(:policy) { described_class.new(subscribe, user: user, status: :no_status_change) }
+
+        it 'returns false' do
+          expect(policy_access).to eq false
+        end
+      end
+    end
+
+    def policy_access
+      policy.destroy?
+    end
+  end
 end

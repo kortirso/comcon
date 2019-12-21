@@ -136,6 +136,19 @@ export default class LineUp extends React.Component {
     })
   }
 
+  _onDeleteSubscribe(subscribe) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/v2/subscribes/${subscribe.id}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const subscribes = [... this.state.subscribes]
+        const subscribeIndex = subscribes.indexOf(subscribe)
+        subscribes.splice(subscribeIndex, 1)
+        this.setState({subscribes: subscribes, showApprovingBox: false, approvingSubscribe: null, approvingRole: '', approvingStatus: ''})
+      }
+    })
+  }
+
   _onSaveComment(subscribe, event) {
     if (event.key === 'Enter') {
       const nextCommentValue = this.state.commentValue
@@ -240,6 +253,7 @@ export default class LineUp extends React.Component {
             <div className="buttons">
               {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe, '')}
               {this.props.event_is_open && this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
+              {this.props.current_user_id === subscribe.character.user_id && this._renderDeleteButton(subscribe)}
             </div>
           </td>
         </tr>
@@ -337,6 +351,10 @@ export default class LineUp extends React.Component {
 
   _renderUserButton(subscribe) {
     return <button className="btn btn-icon btn-edit" onClick={() => this._showApprovingBox(subscribe, false)} aria-label="Edit button"></button>
+  }
+
+  _renderDeleteButton(subscribe) {
+    return <button data-confirm={strings.sure} className="btn btn-icon btn-delete" onClick={() => this._onDeleteSubscribe(subscribe)} aria-label="Delete button"></button>
   }
 
   _showApprovingBox(subscribe, forAdmin) {
