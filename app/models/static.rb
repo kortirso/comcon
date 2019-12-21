@@ -15,6 +15,9 @@ class Static < ApplicationRecord
   has_many :characters, through: :static_members
   has_many :users, -> { distinct }, through: :characters, source: :user
 
+  has_many :signed_subscribes, -> { where status: 'approved' }, as: :subscribeable, class_name: 'Subscribe'
+  has_many :signed_characters, through: :signed_subscribes, source: :character
+
   has_many :static_invites, dependent: :destroy
   has_many :invited_characters, through: :static_invites, source: :static
 

@@ -195,7 +195,7 @@ module Api
       def find_characters_for_request
         existed_static_invite_ids = StaticInvite.where(static_id: @static.id).pluck(:character_id)
         existed_static_member_ids = StaticMember.where(static_id: @static.id).pluck(:character_id)
-        @characters_for_request = Current.user.characters.where(world_fraction_id: @static.world_fraction_id).where.not(id: existed_static_invite_ids).where.not(id: existed_static_member_ids).includes(race: :fraction)
+        @characters_for_request = Current.user.characters.where(world_fraction_id: @static.world_fraction_id).where.not(id: existed_static_invite_ids).where.not(id: existed_static_member_ids).includes(race: :fraction).order(id: :asc)
       end
 
       def static_params

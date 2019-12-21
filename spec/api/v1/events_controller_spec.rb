@@ -601,8 +601,10 @@ RSpec.describe 'Events API' do
       context 'for existed static event' do
         let!(:static) { create :static, :guild }
         let!(:static_member1) { create :static_member, character: character, static: static }
+        let!(:subscribe2) { create :subscribe, subscribeable: static, character: character, status: 'approved' }
         let!(:character2) { create :character, user: user }
         let!(:static_member2) { create :static_member, character: character2, static: static }
+        let!(:subscribe2) { create :subscribe, subscribeable: static, character: character2, status: 'approved' }
         let!(:static_event) { create :event, eventable: static }
         let!(:subscribe) { create :subscribe, subscribeable: static_event, character: character }
         before { get "/api/v1/events/#{static_event.id}/characters_without_subscribe.json", params: { access_token: access_token } }

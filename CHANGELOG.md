@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - deleting subscribes for events
 
+### Modified
+- for not subscribed characters for event show only active static members
+
 ## [1.1.6] - 2019-12-20
 ### Added
 - dry-types, dry-struct, dry-validation for form objects

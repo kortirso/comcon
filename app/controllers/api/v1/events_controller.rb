@@ -178,7 +178,7 @@ module Api
 
       def find_characters
         character_ids = @event.subscribes.pluck(:character_id)
-        @not_subscribed = @event.eventable.characters.where.not(id: character_ids)
+        @not_subscribed = @event.eventable.signed_characters.where.not(id: character_ids)
       end
 
       def user_statics

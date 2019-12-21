@@ -8,6 +8,8 @@ RSpec.describe Static, type: :model do
   it { should have_many(:static_invites).dependent(:destroy) }
   it { should have_many(:invited_characters).through(:static_invites).source(:static) }
   it { should have_many(:subscribes).dependent(:destroy) }
+  it { should have_many(:signed_subscribes).class_name('Subscribe') }
+  it { should have_many(:signed_characters).through(:signed_subscribes).source(:character) }
   it { should have_one(:group_role).dependent(:destroy) }
 
   it 'factory should be valid' do

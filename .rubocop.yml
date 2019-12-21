@@ -47,6 +47,7 @@ Style/Documentation:
   Exclude:
     - db/migrate/*.rb
     - app/serializers/**/*.rb
+    - app/serializers_fast/**/*.rb
     - app/controllers/**/*.rb
 
 Style/GuardClause:
