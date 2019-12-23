@@ -1,6 +1,10 @@
 @import '../../init/variables.scss';
 
 .character {
+  .character_transfers {
+    margin-bottom: 2rem;
+  }
+
   .character_recipes {
     .professions {
       .character_profession {

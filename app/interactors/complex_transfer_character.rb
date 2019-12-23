@@ -2,5 +2,5 @@
 class ComplexTransferCharacter
   include Interactor::Organizer
 
-  organize CreateCharacterRoles, ClearCharacterRoles
+  organize CreateCharacterRoles, CreateCharacterTransfer, ClearCharacterRoles
 end

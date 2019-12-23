@@ -245,6 +245,8 @@ en:
     title: Recipes
     new: Add recipe
     add: Add
+  character:
+    transfers: Transfers
   character_recipes:
     no_data: Your character does not have professions with recipes
     label: '%{character_name}, learned recipes'

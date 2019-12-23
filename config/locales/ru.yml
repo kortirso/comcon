@@ -256,6 +256,8 @@ ru:
     title: Рецепты
     new: Добавить новый рецепт
     add: Добавить рецепт
+  character:
+    transfers: Трансферы
   character_recipes:
     no_data: У вашего персонажа нет профессий с рецептами
     label: '%{character_name}, изученные рецепты'

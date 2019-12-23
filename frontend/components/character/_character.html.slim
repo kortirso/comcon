@@ -3,6 +3,23 @@
     .title= @character.name
   main
     .character
+      - if @character.character_transfers.size.positive?
+        .character_transfers
+          h3= t('character.transfers')
+          table.table.table-striped.table-sm
+            thead
+              tr
+                th= t('characters.name')
+                th= t('characters.world')
+                th= t('characters.race')
+                th= t('characters.character_class')
+            tbody
+              - @character.character_transfers.includes(:world, :race, :character_class).order(id: :asc).each do |character_transfer|
+                tr
+                  td= character_transfer.name
+                  td= character_transfer.world.full_name
+                  td= character_transfer.race.name[I18n.locale.to_s]
+                  td= character_transfer.character_class.name[I18n.locale.to_s]
       .character_recipes
         h3= t('character_recipes.recipes')
         .row.professions
