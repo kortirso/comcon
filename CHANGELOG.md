@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - character transfers
 
+### Modified
+- delete all static invites after approving one of them
+
 ## [1.1.7] - 2019-12-21
 ### Added
 - deleting subscribes for events

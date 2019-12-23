@@ -3,8 +3,9 @@ class DeleteStaticInvite
   include Interactor
 
   # required context
-  # context.static_invite
+  # context.static
+  # context.character
   def call
-    context.static_invite.destroy
+    StaticInvite.where(static: context.static, character: context.character).destroy_all
   end
 end

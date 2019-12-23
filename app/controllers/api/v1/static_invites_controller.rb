@@ -43,7 +43,7 @@ module Api
       error code: 404, desc: 'Object is not found'
       def approve
         authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
-        ApproveStaticInvite.call(static_invite: @static_invite, static: @static_invite.static, character: @static_invite.character, status: 2)
+        ApproveStaticInvite.call(static: @static_invite.static, character: @static_invite.character)
         render json: { result: 'Character is added to the static' }, status: 200
       end
 

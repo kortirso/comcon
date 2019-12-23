@@ -5,7 +5,7 @@ class StaticInvitesController < ApplicationController
   def find; end
 
   def approve
-    ApproveStaticInvite.call(static_invite: @static_invite, static: @static_invite.static, character: @static_invite.character, status: 2)
+    ApproveStaticInvite.call(static: @static_invite.static, character: @static_invite.character)
     redirect_to statics_path
   end
 
