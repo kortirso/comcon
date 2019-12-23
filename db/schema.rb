@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_203954) do
+ActiveRecord::Schema.define(version: 2019_12_23_203421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -81,6 +81,20 @@ ActiveRecord::Schema.define(version: 2019_12_18_203954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["character_id", "role_id"], name: "index_character_roles_on_character_id_and_role_id"
+  end
+
+  create_table "character_transfers", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "race_id"
+    t.integer "character_class_id"
+    t.integer "world_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_class_id"], name: "index_character_transfers_on_character_class_id"
+    t.index ["character_id"], name: "index_character_transfers_on_character_id"
+    t.index ["race_id"], name: "index_character_transfers_on_race_id"
+    t.index ["world_id"], name: "index_character_transfers_on_world_id"
   end
 
   create_table "characters", force: :cascade do |t|

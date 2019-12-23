@@ -1,0 +1,6 @@
+= javascript_pack_tag 'character_transfer_form'
+.inside
+  .inside_topbar
+    .title= t('navigation.character_transfer', character_name: @character.full_name)
+  main
+    = react_component('CharacterTransferForm', character_id: @character.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

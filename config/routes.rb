@@ -74,6 +74,9 @@ Rails.application.routes.draw do
       resources :worlds, only: %i[index]
       resources :recipes, only: %i[index]
       resources :subscribes, only: %i[destroy]
+      resources :characters, only: %i[] do
+        patch :transfer, on: :member
+      end
     end
   end
 
@@ -85,6 +88,7 @@ Rails.application.routes.draw do
     resources :characters, except: %i[create update] do
       get :recipes, on: :member
       post :update_recipes, on: :member
+      get :transfer, on: :member
     end
     resources :events, only: %i[index show new edit]
     resources :worlds, except: %i[show]
