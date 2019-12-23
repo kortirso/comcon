@@ -161,6 +161,7 @@ en:
     donate: Donate
     support: Support
     privacy: Privacy policy
+    character_transfer: Transfer for %{character_name}
   settings:
     label: Settings
     personal: Personal settings
@@ -214,6 +215,7 @@ en:
     recipes: Recipes
     accept: Accept
     decline: Decline
+    transfer: Transfer
   events:
     no_characters: For viewing events you need to attach new character to your account
     add: Create event

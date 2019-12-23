@@ -1,7 +1,7 @@
 class CharactersController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[update_recipes]
   before_action :find_characters, only: %i[index]
-  before_action :find_character_by_slug, only: %i[show edit recipes]
+  before_action :find_character_by_slug, only: %i[show edit recipes transfer]
   before_action :find_character, only: %i[destroy update_recipes]
   before_action :find_character_professions, only: %i[show recipes]
   before_action :allow_wowhead_script, only: %i[show]
@@ -24,6 +24,10 @@ class CharactersController < ApplicationController
   def update_recipes
     UpdateCharacterRecipes.call(character_id: @character.id, recipe_params: recipe_params)
     redirect_to characters_path
+  end
+
+  def transfer
+    authorize! @character, to: :update?
   end
 
   private

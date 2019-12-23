@@ -1,0 +1,24 @@
+{
+  "en": {
+    "name": "Name",
+    "nameLabel": "Character's name",
+    "race": "Race",
+    "characterClass": "Class",
+    "world": "World",
+    "mainRole": "Main role",
+    "otherRoles": "Other roles",
+    "update": "Update",
+    "warning": "Warning! Transfer will remove this character from guild and all statics"
+  },
+  "ru": {
+    "name": "Имя",
+    "nameLabel": "Имя персонажа",
+    "race": "Раса",
+    "characterClass": "Класс",
+    "world": "Игровой Мир",
+    "mainRole": "Главная роль",
+    "otherRoles": "Другие роли",
+    "update": "Обновить",
+    "warning": "Внимание! Трансфер этого персонажа приведет к исключению его из гильдии и всех статиков"
+  }
+}

@@ -172,6 +172,7 @@ ru:
     donate: Помочь проекту
     support: Техподдержка
     privacy: Политика конфиденциальности
+    character_transfer: Трансфер для персонажа %{character_name}
   settings:
     label: Настройки
     personal: Личная информация
@@ -225,6 +226,7 @@ ru:
     recipes: Рецепты
     accept: Принять
     decline: Отклонить
+    transfer: Трансфер
   events:
     no_characters: Для просмотра событий привяжите персонажа к учетной записи
     add: Добавить событие

@@ -209,4 +209,35 @@ RSpec.describe CharactersController, type: :controller do
       post :update_recipes, params: { locale: 'en', id: 999 }
     end
   end
+
+  describe 'GET#transfer' do
+    it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted character' do
+        it 'renders error template' do
+          get :transfer, params: { locale: 'en', id: 'unknown' }
+
+          expect(response).to render_template 'shared/404'
+        end
+      end
+
+      context 'for existed character' do
+        let!(:character) { create :character, user: @current_user }
+
+        it 'renders transfer template' do
+          get :transfer, params: { locale: 'en', id: character.slug }
+
+          expect(response).to render_template :transfer
+        end
+      end
+    end
+
+    def do_request
+      get :transfer, params: { locale: 'en', id: 'unknown' }
+    end
+  end
 end
