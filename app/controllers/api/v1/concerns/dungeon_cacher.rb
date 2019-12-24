@@ -8,7 +8,7 @@ module Api
 
         def get_dungeons_from_cache
           dungeons = Dungeon.order(id: :asc)
-          @dungeons_json = Rails.cache.fetch(Dungeon.cache_key(dungeons)) do
+          @dungeons_json = Rails.cache.fetch(Dungeon.cache_key(dungeons, :v1)) do
             ActiveModelSerializers::SerializableResource.new(dungeons, each_serializer: DungeonSerializer).as_json[:dungeons]
           end
         end

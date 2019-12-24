@@ -248,43 +248,102 @@
     height: 20px;
   }
 
+  &.extra_small {
+    width: 15px;
+    height: 15px;
+  }
+
   &:focus {
     outline: none;
   }
 
   &.approved {
-    background: #fff url(../images/all_icons.png);
+    background: url(../images/all_icons.png);
     background-position: 0 -60px;
     background-size: 270px;
 
     &.small {
-      background: #fff url(../images/all_icons.png);
+      background: url(../images/all_icons.png);
       background-position: 0 -40px;
       background-size: 180px;
+    }
+
+    &.extra_small {
+      background: url(../images/all_icons.png);
+      background-position: 0 -30px;
+      background-size: 135px;
     }
   }
 
   &.reserve {
-    background: #fff url(../images/all_icons.png);
+    background: url(../images/all_icons.png);
     background-position: -30px -60px;
     background-size: 270px;
 
     &.small {
-      background: #fff url(../images/all_icons.png);
+      background: url(../images/all_icons.png);
       background-position: -20px -40px;
       background-size: 180px;
+    }
+
+    &.extra_small {
+      background: url(../images/all_icons.png);
+      background-position: -15px -30px;
+      background-size: 135px;
     }
   }
 
   &.signed {
-    background: #fff url(../images/all_icons.png);
+    background: url(../images/all_icons.png);
     background-position: -60px -60px;
     background-size: 270px;
 
     &.small {
-      background: #fff url(../images/all_icons.png);
+      background: url(../images/all_icons.png);
       background-position: -40px -40px;
       background-size: 180px;
+    }
+
+    &.extra_small {
+      background: url(../images/all_icons.png);
+      background-position: -30px -30px;
+      background-size: 135px;
+    }
+  }
+
+  &.unknown {
+    background: url(../images/all_icons.png);
+    background-position: -90px -60px;
+    background-size: 270px;
+
+    &.small {
+      background: url(../images/all_icons.png);
+      background-position: -60px -40px;
+      background-size: 180px;
+    }
+
+    &.extra_small {
+      background: url(../images/all_icons.png);
+      background-position: -45px -30px;
+      background-size: 135px;
+    }
+  }
+
+  &.rejected {
+    background: url(../images/all_icons.png);
+    background-position: -120px -60px;
+    background-size: 270px;
+
+    &.small {
+      background: url(../images/all_icons.png);
+      background-position: -80px -40px;
+      background-size: 180px;
+    }
+
+    &.extra_small {
+      background: url(../images/all_icons.png);
+      background-position: -60px -30px;
+      background-size: 135px;
     }
   }
 }

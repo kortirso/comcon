@@ -77,6 +77,9 @@ Rails.application.routes.draw do
       resources :characters, only: %i[] do
         patch :transfer, on: :member
       end
+      resources :events, only: %i[index] do
+        get :filter_values, on: :collection
+      end
     end
   end
 

@@ -61,12 +61,12 @@ export default class EventCalendar extends React.Component {
     params.push(`year=${selectedDate.getFullYear()}`)
     params.push(`day=${selectedDate.getDate()}`)
     params.push(`days=28`)
-    const url = `/api/v1/events.json?access_token=${this.props.access_token}&` + params.join('&')
+    const url = `/api/v2/events.json?access_token=${this.props.access_token}&` + params.join('&')
     $.ajax({
       method: 'GET',
       url: url,
       success: (data) => {
-        this.setState({events: data.events}, () => {
+        this.setState({events: data.events.data}, () => {
           this._filterEvents()
         })
       }
@@ -84,7 +84,7 @@ export default class EventCalendar extends React.Component {
     if (state.dungeon !== 'none') filters['dungeon_id'] = state.dungeon
     const events = state.events.filter(function(event) {
       for (var key in filters) {
-        if (event[key] === undefined || event[key] != filters[key]) return false
+        if (event.attributes[key] === undefined || event.attributes[key] != filters[key]) return false
       }
       return true
     })
@@ -94,15 +94,15 @@ export default class EventCalendar extends React.Component {
   _getFilterValues() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/events/filter_values.json?access_token=${this.props.access_token}`,
+      url: `/api/v2/events/filter_values.json?access_token=${this.props.access_token}`,
       success: (data) => {
         let alliance
         let horde
-        data.fractions.forEach((fraction) => {
-          if (fraction.name.en === 'Horde') horde = fraction.id
-          else alliance = fraction.id
+        data.fractions.data.forEach((fraction) => {
+          if (fraction.attributes.name.en === 'Horde') horde = parseInt(fraction.id)
+          else alliance = parseInt(fraction.id)
         })
-        this.setState({worlds: data.worlds, fractions: data.fractions, alliance: alliance, horde: horde, guilds: data.guilds, characters: data.characters, dungeons: data.dungeons, statics: data.statics})
+        this.setState({worlds: data.worlds.data, fractions: data.fractions.data, alliance: alliance, horde: horde, guilds: data.guilds.data, characters: data.characters.data, dungeons: data.dungeons.data, statics: data.statics.data})
       }
     })
   }
@@ -143,7 +143,7 @@ export default class EventCalendar extends React.Component {
 
   _renderEvents(dateForDay) {
     const filtered = this.state.filteredEvents.filter((event) => {
-      return event.date == `${dateForDay.getDate()}.${dateForDay.getMonth() + 1}.${dateForDay.getFullYear()}`
+      return event.attributes.date == `${dateForDay.getDate()}.${dateForDay.getMonth() + 1}.${dateForDay.getFullYear()}`
     })
     if (filtered.length <= 5) {
       return filtered.map((event) => {
@@ -172,7 +172,7 @@ export default class EventCalendar extends React.Component {
 
   _renderEventString(event, withClick) {
     let days = '0'
-    let hours = event.time.hours - this.state.timeZoneOffsetMinutes / 60
+    let hours = event.attributes.time.hours - this.state.timeZoneOffsetMinutes / 60
     if (hours < 0) {
       hours += 24
       days = '-1'
@@ -180,11 +180,12 @@ export default class EventCalendar extends React.Component {
       hours -= 24
       days = '+1'
     }
-    const minutes = event.time.minutes
+    const minutes = event.attributes.time.minutes
     const eventTime = (hours < 10 ? `0${hours}` : `${hours}`) + ':' + (minutes < 10 ? `0${minutes}` : `${minutes}`) + this._renderOtherDays(days)
     return (
-      <a className={this._eventFractionClass(event.fraction_id)} key={event.id} onClick={this._onSelectEvent.bind(this, event, withClick)}>
-        <p className="name">{eventTime} - {event.name}</p>
+      <a className={this._eventFractionClass(event.attributes.fraction_id)} key={event.id} onClick={this._onSelectEvent.bind(this, event, withClick)}>
+        <p className="name">{eventTime} - {event.attributes.name}</p>
+        <span className={`status_icon extra_small ${event.attributes.status}`}></span>
       </a>
     )
   }
@@ -245,7 +246,7 @@ export default class EventCalendar extends React.Component {
 
   _renderWorldsList() {
     return this.state.worlds.map((world) => {
-      return <option value={world.id} key={world.id}>{world.name}</option>
+      return <option value={world.id} key={world.id}>{world.attributes.name}</option>
     })
   }
 
@@ -266,7 +267,7 @@ export default class EventCalendar extends React.Component {
 
   _renderGuildsList() {
     return this.state.guilds.map((guild) => {
-      return <option value={guild.id} key={guild.id}>{guild.full_name}</option>
+      return <option value={guild.id} key={guild.id}>{guild.attributes.full_name}</option>
     })
   }
 
@@ -287,7 +288,7 @@ export default class EventCalendar extends React.Component {
 
   _renderStaticsList() {
     return this.state.statics.map((currentStatic) => {
-      return <option value={currentStatic[0]} key={currentStatic[0]}>{currentStatic[1]}</option>
+      return <option value={currentStatic.id} key={currentStatic.id}>{currentStatic.attributes.name}</option>
     })
   }
 
@@ -308,7 +309,7 @@ export default class EventCalendar extends React.Component {
 
   _renderFractionsList() {
     return this.state.fractions.map((fraction) => {
-      return <option value={fraction.id} key={fraction.id}>{fraction.name[this.props.locale]}</option>
+      return <option value={fraction.id} key={fraction.id}>{fraction.attributes.name[this.props.locale]}</option>
     })
   }
 
@@ -326,7 +327,7 @@ export default class EventCalendar extends React.Component {
 
   _renderDungeonsList() {
     return this.state.dungeons.map((dungeon) => {
-      return <option value={dungeon.id} key={dungeon.id}>{dungeon.name[this.props.locale]}</option>
+      return <option value={dungeon.id} key={dungeon.id}>{dungeon.attributes.name[this.props.locale]}</option>
     })
   }
 
@@ -344,7 +345,7 @@ export default class EventCalendar extends React.Component {
 
   _renderCharactersList() {
     return this.state.characters.map((character) => {
-      return <option value={character.id} key={character.id}>{character.name}</option>
+      return <option value={character.id} key={character.id}>{character.attributes.name}</option>
     })
   }
 
@@ -427,7 +428,7 @@ export default class EventCalendar extends React.Component {
       const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.currentDayId + state.weekChanges * 7, 0, 0, 0)
       const currentDayString = `${selectedDate.getDate()}.${selectedDate.getMonth() + 1}.${selectedDate.getFullYear()}`
       const filtered = this.state.events.filter((event) => {
-        return event.date === currentDayString
+        return event.attributes.date === currentDayString
       })
       const events = filtered.map((event) => {
         return this._renderEventString(event, false)
@@ -456,7 +457,7 @@ export default class EventCalendar extends React.Component {
         return dungeon.id === currentEvent.dungeon_id
       })
       let days = '0'
-      let hours = currentEvent.time.hours - this.state.timeZoneOffsetMinutes / 60
+      let hours = currentEvent.attributes.time.hours - this.state.timeZoneOffsetMinutes / 60
       if (hours < 0) {
         hours += 24
         days = '-1'
@@ -464,23 +465,23 @@ export default class EventCalendar extends React.Component {
         hours -= 24
         days = '+1'
       }
-      const minutes = currentEvent.time.minutes
+      const minutes = currentEvent.attributes.time.minutes
       return (
         <div className="current-event-data">
-          <p className={'name ' + this._eventFractionClass(currentEvent.fraction_id)}>{currentEvent.name}</p>
+          <p className={'name ' + this._eventFractionClass(currentEvent.attributes.fraction_id)}>{currentEvent.attributes.name}</p>
           {currentDungeon.length !== 0 &&
             <p>{strings.place} - {currentDungeon[0].name[this.props.locale]}</p>
           }
-          <p>{strings.startTime} - {currentEvent.date} {strings.at} {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</p>
-          {currentEvent.description !== '' &&
-            <p>{currentEvent.description}</p>
+          <p>{strings.startTime} - {currentEvent.attributes.date} {strings.at} {hours < 10 ? `0${hours}` : hours}:{minutes < 10 ? `0${minutes}` : minutes}{this._renderOtherDays(days)}</p>
+          {currentEvent.attributes.description !== '' &&
+            <p>{currentEvent.attributes.description}</p>
           }
           <div className="buttons">
-            <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}`}>{strings.subscribed}</a>
-            {this.props.user_character_ids.includes(currentEvent.owner_id) &&
-              <a className="btn btn-icon btn-edit with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.slug}/edit`} aria-label="Edit button"></a>
+            <a className="btn btn-primary btn-sm with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.attributes.slug}`}>{strings.subscribed}</a>
+            {this.props.user_character_ids.includes(currentEvent.attributes.owner_id) &&
+              <a className="btn btn-icon btn-edit with_right_margin" href={`${this.props.locale === 'en' ? '' : '/' + this.props.locale}/events/${currentEvent.attributes.slug}/edit`} aria-label="Edit button"></a>
             }
-            {this.props.user_character_ids.includes(currentEvent.owner_id) &&
+            {this.props.user_character_ids.includes(currentEvent.attributes.owner_id) &&
               <button data-confirm={strings.sure} className="btn btn-icon btn-delete" onClick={this._onDeleteEvent.bind(this, currentEvent)} aria-label="Delete button"></button>
             }
           </div>
@@ -492,7 +493,7 @@ export default class EventCalendar extends React.Component {
   _onSelectEvent(event, withClick, e) {
     if (withClick) {
       e.stopPropagation()
-      window.location.href = `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events/${event.slug}`
+      window.location.href = `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/events/${event.attributes.slug}`
     } else {
       this.setState({currentEventId: event.id})
     }
