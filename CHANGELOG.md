@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - model Activity
+- ActivityDryForm
 
 ## [1.1.9] - 2019-12-24
 ### Modified
