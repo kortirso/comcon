@@ -1,0 +1,6 @@
+= javascript_pack_tag 'activity_form'
+.inside
+  .inside_topbar
+    .title= t('activities.add')
+  main
+    = react_component('ActivityForm', guild_id: @guild.id, guild_slug: @guild.slug, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

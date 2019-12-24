@@ -300,6 +300,8 @@ en:
     edit_guild: Edit guild
     create_invite: Guild invite management
     statics: Statics
+  activities:
+    add: Create activity
   guilds:
     add: Create guild
     creating: Create new guild

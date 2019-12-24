@@ -8,3 +8,11 @@ ru:
             filled?: Название не может быть пустым
           zone:
             filled?: Зона не может быть пустой
+      activity:
+        rules:
+          title:
+            filled?: Заголовок не может быть пустым
+          description:
+            filled?: Описание не может быть пустой
+          guild:
+            filled?: Гильдия должна быть указана

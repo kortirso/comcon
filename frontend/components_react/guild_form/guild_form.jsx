@@ -115,7 +115,7 @@ export default class GuildForm extends React.Component {
 
   render() {
     return (
-      <div className="static_form">
+      <div className="guild_form">
         {this.state.errors.length > 0 &&
           <ErrorView errors={this.state.errors} />
         }

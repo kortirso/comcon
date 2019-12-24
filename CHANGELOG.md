@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - model Activity
 - ActivityDryForm
 - Activities page for guilds
+- creating activities
 
 ## [1.1.9] - 2019-12-24
 ### Modified

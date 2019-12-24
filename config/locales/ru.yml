@@ -311,6 +311,8 @@ ru:
     edit_guild: Редактировать гильдию
     create_invite: Управление приглашениями в гильдию
     statics: Статики
+  activities:
+    add: Добавить новость
   guilds:
     add: Добавить гильдию
     creating: Добавить новую гильдию
