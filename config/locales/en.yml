@@ -278,6 +278,7 @@ en:
   static:
     label: Static roster
   guild:
+    activities: Activities
     management: Management
     roster: Roster
     bank: Bank

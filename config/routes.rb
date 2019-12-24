@@ -103,6 +103,7 @@ Rails.application.routes.draw do
     end
     resources :recipes, only: %i[index new edit destroy]
     resources :guilds, only: %i[index show new edit] do
+      get :activities, on: :member
       get :management, on: :member
       get :statics, on: :member
       get :notifications, on: :member

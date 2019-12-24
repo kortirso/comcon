@@ -238,4 +238,38 @@ RSpec.describe GuildsController, type: :controller do
       get :bank, params: { locale: 'en', id: guild.slug }
     end
   end
+
+  describe 'GET#activities' do
+    let!(:guild) { create :guild }
+
+    it_behaves_like 'User Auth'
+    it_behaves_like 'Unconfirmed User Auth'
+
+    context 'for logged user' do
+      sign_in_user
+
+      context 'for unexisted guild' do
+        it 'renders error template' do
+          get :activities, params: { locale: 'en', id: 999 }
+
+          expect(response).to render_template 'shared/404'
+        end
+      end
+
+      context 'for existed guild' do
+        let!(:character) { create :character, guild: guild, world: guild.world, user: @current_user }
+        let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
+        it 'renders activities template' do
+          get :activities, params: { locale: 'en', id: guild.slug }
+
+          expect(response).to render_template :activities
+        end
+      end
+    end
+
+    def do_request
+      get :activities, params: { locale: 'en', id: guild.slug }
+    end
+  end
 end
