@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_23_203421) do
+ActiveRecord::Schema.define(version: 2019_12_24_210259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.integer "guild_id"
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guild_id"], name: "index_activities_on_guild_id"
+  end
 
   create_table "bank_cells", force: :cascade do |t|
     t.integer "bank_id"
