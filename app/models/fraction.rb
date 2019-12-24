@@ -6,8 +6,9 @@ class Fraction < ApplicationRecord
   has_many :statics, dependent: :destroy
   has_many :world_fractions, dependent: :destroy
 
-  def self.cache_key(fractions)
+  def self.cache_key(fractions, api)
     {
+      api: api,
       serializer: 'fractions',
       stat_record: fractions.maximum(:updated_at)
     }

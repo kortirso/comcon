@@ -1,5 +1,5 @@
 module Api
-  module V1
+  module V2
     module Concerns
       module FractionCacher
         extend ActiveSupport::Concern
@@ -8,8 +8,8 @@ module Api
 
         def get_fractions_from_cache
           fractions = Fraction.order(id: :asc)
-          @fractions_json = Rails.cache.fetch(Fraction.cache_key(fractions, :v1)) do
-            ActiveModelSerializers::SerializableResource.new(fractions, each_serializer: FractionSerializer).as_json[:fractions]
+          @fractions_json = Rails.cache.fetch(Fraction.cache_key(fractions, :v2)) do
+            FastFractionSerializer.new(fractions).serializable_hash
           end
         end
       end
