@@ -7,7 +7,7 @@ nav.navigation.navbar-light class="#{'collapsed' if cookies[:guildHallCollapsedM
   .collapse.navbar-collapse
     ul.navigation_block
       li
-        = link_to_if request.fullpath =~ /^\/activities/ || request.fullpath =~ /^\/ru\/activities/, t('navigation.activities'), activities_path, class: 'nav_icon activities active', title: t('navigation.guilds') do
+        = link_to_if request.fullpath =~ /^\/activities/ || request.fullpath =~ /^\/ru\/activities/, t('navigation.activities'), activities_path, class: 'nav_icon activities active', title: t('navigation.activities') do
           = link_to t('navigation.activities'), activities_path, class: 'nav_icon activities', title: t('navigation.activities')
       li
         = link_to_if request.fullpath =~ /^\/characters/ || request.fullpath =~ /^\/ru\/characters/ || request.fullpath =~ /^\/guild_invites/ || request.fullpath =~ /^\/ru\/guild_invites/ || request.fullpath =~ /^\/static_invites/ || request.fullpath =~ /^\/ru\/static_invites/, t('navigation.characters'), characters_path, class: 'nav_icon characters active', title: t('navigation.characters') do
