@@ -34,6 +34,7 @@ import "components/static/static";
 import "components/character/character";
 import "components/guild_bank/guild_bank";
 import "components/activities/activities";
+import "components/welcome/welcome";
 
 import Rails from "rails-ujs";
 

@@ -1,3 +1,39 @@
 .container.welcome
   - if user_signed_in? && !Current.user.confirmed?
     p= t('mailer.user.confirmation_email.welcome_error')
+  - else
+    .intro
+      h1 Guild-Hall
+      p.lead
+        = t('welcome.lead_1')
+        br
+        = t('welcome.lead_2')
+      p.lead
+        = t('welcome.lead_3')
+        br
+        = t('welcome.lead_4')
+      .description
+        .block
+          .head
+            h2= t('welcome.calendar.title')
+          .inner= t('welcome.calendar.inner')
+        .block
+          .head
+            h2= t('welcome.guilds.title')
+          .inner= t('welcome.guilds.inner')
+        .block
+          .head
+            h2= t('welcome.statics.title')
+          .inner= t('welcome.statics.inner')
+        .block
+          .head
+            h2= t('welcome.bank.title')
+          .inner= t('welcome.bank.inner')
+        .block
+          .head
+            h2= t('welcome.recipes.title')
+          .inner= t('welcome.recipes.inner')
+        .block
+          .head
+            h2= t('welcome.discord.title')
+          .inner= t('welcome.discord.inner')

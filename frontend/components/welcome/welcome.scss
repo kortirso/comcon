@@ -1,0 +1,56 @@
+@import '../../init/variables.scss';
+
+.welcome {
+  .intro {
+    padding: 2rem 0;
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    p {
+      margin-bottom: 0.6rem;
+    }
+  }
+
+  .description {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    .block {
+      background: $white;
+      border: 1px solid $blue-light;
+      border-radius: 0.25rem;
+      padding: 0;
+      width: 48%;
+      margin-bottom: 4%;
+
+      .head {
+        background: $blue-light;
+
+        h2 {
+          padding: 1rem;
+          margin: 0;
+          font-size: 1.25rem;
+        }
+      }
+
+      .inner {
+        padding: 1rem;
+        font-weight: 300;
+      }
+    }
+  }
+
+  @media screen and (max-width: 796px) {
+    .description {
+      .block {
+        width: 100%;
+      }
+    }
+  }
+}
