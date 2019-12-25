@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - activities page with last guild news
 - update/delete activities
 - activity's notifications
+- remember sign in with email/password
 
 ## [1.1.9] - 2019-12-24
 ### Modified

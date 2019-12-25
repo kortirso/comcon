@@ -8,4 +8,14 @@
       margin-bottom: 0.25rem;
     }
   }
+
+  .remember {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    label {
+      margin: 0 0 0 0.5rem;
+    }
+  }
 }

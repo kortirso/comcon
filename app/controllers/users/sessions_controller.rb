@@ -8,6 +8,7 @@ module Users
     skip_before_action :email_confirmed?
     before_action :save_omniauth_login_locale, only: :new
     before_action :forget_user, only: :destroy
+    after_action :check_remember, only: :create
 
     private
 
@@ -18,6 +19,10 @@ module Users
     def forget_user
       Current.user = nil
       forget(current_user) if current_user.present?
+    end
+
+    def check_remember
+      remember(current_user) if current_user.present? && params[:user][:remember_me] == '1'
     end
 
     protected

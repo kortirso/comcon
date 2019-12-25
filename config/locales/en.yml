@@ -187,6 +187,7 @@ en:
     agree: 'By registering, you agree to '
     policy: Privacy Policy
     age: . You also acknowledge that you are 14 years old.
+    remember: Remember me
   session:
     hello: Welcome back!
     title: Sign In to your personal account
