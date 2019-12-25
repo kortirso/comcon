@@ -316,6 +316,7 @@ ru:
   activities:
     add: Добавить новость
     last: Последние новости гильдий
+    closest_events: Ближайшие события
   activity:
     title: Заголовок
     description: Описание

@@ -5,6 +5,7 @@ class Subscribe < ApplicationRecord
 
   belongs_to :character
   belongs_to :subscribeable, polymorphic: true
+  belongs_to :event, -> { where(subscribes: { subscribeable_type: 'Event' }) }, foreign_key: 'subscribeable_id', optional: true
 
   scope :status_order, -> { order status: :desc }
 end

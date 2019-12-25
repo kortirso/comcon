@@ -305,6 +305,7 @@ en:
   activities:
     add: Create activity
     last: Last guild activities
+    closest_events: Closest events
   activity:
     title: Title
     description: Description

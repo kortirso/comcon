@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
   before_action :find_activities, only: %i[index]
+  before_action :find_close_events, only: %i[index]
   before_action :find_guild, only: %i[new]
   before_action :find_activity, only: %i[edit destroy]
 
@@ -23,6 +24,10 @@ class ActivitiesController < ApplicationController
 
   def find_activities
     @activities = Activity.where(guild_id: Current.user.guilds.ids).order(id: :desc).includes(guild: :world).first(10)
+  end
+
+  def find_close_events
+    @subscribes = Subscribe.where(subscribeable_type: 'Event', character_id: Current.user.characters.ids).includes(:event, :character).where('events.start_time > ?', DateTime.now).order(start_time: :asc).references(:event)
   end
 
   def find_guild

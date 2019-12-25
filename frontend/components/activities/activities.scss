@@ -30,4 +30,46 @@
       }
     }
   }
+
+  .close_events {
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .subscribe {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 4px 10px;
+
+      &:nth-of-type(even) {
+        background: $light-grey;
+      }
+
+      p {
+        margin: 0;
+
+        &:nth-of-type(1) {
+          width: 110px;
+        }
+
+        &:nth-of-type(2) {
+          flex: 1;
+
+          a {
+            color: #212529;
+          }
+        }
+
+        &:nth-of-type(3) {
+          margin-right: 20px;
+        }
+      }
+
+      .status_icon {
+        display: inline-block;
+      }
+    }
+  }
 }
