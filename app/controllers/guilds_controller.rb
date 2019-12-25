@@ -1,6 +1,6 @@
 class GuildsController < ApplicationController
   before_action :find_guild_invites_for_user, only: %i[index]
-  before_action :find_guild_by_slug, only: %i[show edit management statics notifications bank]
+  before_action :find_guild_by_slug, only: %i[show edit management statics notifications bank activities]
   before_action :find_user_characters, only: %i[show]
   before_action :allow_wowhead_script, only: %i[bank]
 
@@ -23,6 +23,10 @@ class GuildsController < ApplicationController
   end
 
   def notifications
+    authorize! @guild, to: :management?
+  end
+
+  def activities
     authorize! @guild, to: :management?
   end
 

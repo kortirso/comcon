@@ -1,0 +1,14 @@
+{
+  "en": {
+    "title": "Title",
+    "description": "Description",
+    "create": "Create",
+    "update": "Update"
+  },
+  "ru": {
+    "title": "Заголовок",
+    "description": "Описание",
+    "create": "Создать",
+    "update": "Обновить"
+  }
+}

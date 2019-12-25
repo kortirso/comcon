@@ -173,6 +173,7 @@ ru:
     support: Техподдержка
     privacy: Политика конфиденциальности
     character_transfer: Трансфер для персонажа %{character_name}
+    activities: Новости
   settings:
     label: Настройки
     personal: Личная информация
@@ -289,6 +290,7 @@ ru:
   static:
     label: Состав статика
   guild:
+    activities: Новости
     management: Управление
     roster: Состав
     bank: Банк
@@ -310,6 +312,12 @@ ru:
     edit_guild: Редактировать гильдию
     create_invite: Управление приглашениями в гильдию
     statics: Статики
+  activities:
+    add: Добавить новость
+    last: Последние новости гильдий
+  activity:
+    title: Заголовок
+    description: Описание
   guilds:
     add: Добавить гильдию
     creating: Добавить новую гильдию

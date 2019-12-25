@@ -33,6 +33,7 @@ import "components/statics/statics";
 import "components/static/static";
 import "components/character/character";
 import "components/guild_bank/guild_bank";
+import "components/activities/activities";
 
 import Rails from "rails-ujs";
 

@@ -1,0 +1,17 @@
+.inside
+  .inside_topbar
+    .title= t('navigation.activities')
+  main
+    .activities
+      .row
+        .col-md-4.last_guild_activities
+          h2= t('activities.last')
+          - @activities.each do |activity|
+            .activity
+              .title= activity.title
+              .description
+                = activity.description
+                .footer
+                  = activity.updated_at.strftime('%d.%m.%Y %H:%M')
+                  | , 
+                  = activity.guild.full_name

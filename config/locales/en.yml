@@ -162,6 +162,7 @@ en:
     support: Support
     privacy: Privacy policy
     character_transfer: Transfer for %{character_name}
+    activities: Activities
   settings:
     label: Settings
     personal: Personal settings
@@ -278,6 +279,7 @@ en:
   static:
     label: Static roster
   guild:
+    activities: Activities
     management: Management
     roster: Roster
     bank: Bank
@@ -299,6 +301,12 @@ en:
     edit_guild: Edit guild
     create_invite: Guild invite management
     statics: Statics
+  activities:
+    add: Create activity
+    last: Last guild activities
+  activity:
+    title: Title
+    description: Description
   guilds:
     add: Create guild
     creating: Create new guild

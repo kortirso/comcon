@@ -1,0 +1,33 @@
+@import '../../init/variables.scss';
+
+.activities {
+  .last_guild_activities {
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .activity {
+      width: 100%;
+      border: 1px solid $light-grey;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+
+      .title {
+        background: $light-grey;
+        padding: 0.5rem 1rem;
+      }
+
+      .description {
+        padding: 1rem;
+
+        .footer {
+          margin-top: 0.5rem;
+          text-align: right;
+          font-size: 0.8rem;
+          color: $middle-grey;
+        }
+      }
+    }
+  }
+}

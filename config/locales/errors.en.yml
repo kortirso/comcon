@@ -8,3 +8,11 @@ en:
             filled?: Name can't be blank
           zone:
             filled?: Zone can't be blank
+      activity:
+        rules:
+          title:
+            filled?: Title can't be blank
+          description:
+            filled?: Description can't be blank
+          guild:
+            filled?: Guild can't be blank

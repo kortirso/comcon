@@ -52,6 +52,15 @@ RSpec.describe Notification, type: :model do
       end
     end
 
+    context 'for activity_creation_content' do
+      let!(:activity) { create :activity }
+      let!(:notification) { create :notification, event: 'activity_creation' }
+
+      it 'returns string' do
+        expect(notification.content(event_object: activity).is_a?(String)).to eq true
+      end
+    end
+
     context '.render_start_time' do
       let!(:notification) { create :notification, event: 'guild_static_event_creation' }
 
