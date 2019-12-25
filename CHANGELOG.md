@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - closest events at activities page
 - description at welcome page
 
+### Modified
+- translation for privacy policy
+
 ## [1.1.9] - 2019-12-24
 ### Modified
 - event calendar with subscribe statuses
