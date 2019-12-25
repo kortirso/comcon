@@ -18,6 +18,7 @@ class Notification < ApplicationRecord
       when 'guild_static_event_creation' then guild_static_event_creation_content(event: event_object)
       when 'guild_request_creation' then guild_request_creation_content(guild_invite: event_object)
       when 'bank_request_creation' then bank_request_creation_content(bank_request: event_object)
+      when 'activity_creation' then activity_creation_content(activity: event_object)
     end
   end
 
@@ -57,6 +58,10 @@ class Notification < ApplicationRecord
     locale = bank_request.bank.guild.locale
     I18n.locale = locale
     "#{I18n.t('notification.bank_request_creation_content.title')} \"#{bank_request.bank.guild.full_name}\" #{I18n.t('notification.from')} #{bank_request.character_name}, #{I18n.t('notification.requests')} https://guild-hall.org/#{locale_for_url(locale: locale)}guilds/#{bank_request.bank.guild.slug}/bank"
+  end
+
+  def activity_creation_content(activity:)
+    "#{activity.title}. #{activity.description}. #{activity.guild.full_name}."
   end
 
   def locale_for_url(locale:)

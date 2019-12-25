@@ -102,8 +102,14 @@ RSpec.describe 'Activities API' do
         context 'for valid params' do
           let(:request) { post '/api/v2/activities.json', params: { access_token: access_token, activity: { guild_id: guild.id, title: '1', description: '2' } } }
 
-          it 'and creates new activity' do
+          it 'creates new activity' do
             expect { request }.to change { guild.activities.count }.by(1)
+          end
+
+          it 'and calls CreateActivityNotificationJob' do
+            expect(CreateActivityNotificationJob).to receive(:perform_now).and_call_original
+
+            request
           end
 
           context 'in answer' do

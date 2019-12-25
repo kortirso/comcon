@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - creating activities
 - activities page with last guild news
 - update/delete activities
+- activity's notifications
 
 ## [1.1.9] - 2019-12-24
 ### Modified

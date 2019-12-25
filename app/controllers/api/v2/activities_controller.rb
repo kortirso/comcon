@@ -51,6 +51,7 @@ module Api
       def save_activity(params:, status:)
         activity_dry_form = ActivityDryForm.call(params)
         if activity_dry_form.save
+          CreateActivityNotificationJob.perform_now(activity_id: activity_dry_form.activity.id) if status == 201
           render json: { activity: FastActivitySerializer.new(activity_dry_form.activity).serializable_hash }, status: status
         else
           render json: { errors: activity_dry_form.errors }, status: 409
