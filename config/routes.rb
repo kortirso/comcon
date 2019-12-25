@@ -121,7 +121,7 @@ Rails.application.routes.draw do
       get :decline, on: :member
     end
     resources :deliveries, only: %i[new destroy]
-    resources :activities, only: %i[new]
+    resources :activities, only: %i[index new]
     resources :guild_invites, only: %i[] do
       get :find, on: :collection
     end

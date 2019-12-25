@@ -173,6 +173,7 @@ ru:
     support: Техподдержка
     privacy: Политика конфиденциальности
     character_transfer: Трансфер для персонажа %{character_name}
+    activities: Новости
   settings:
     label: Настройки
     personal: Личная информация
@@ -313,6 +314,10 @@ ru:
     statics: Статики
   activities:
     add: Добавить новость
+    last: Последние новости гильдий
+  activity:
+    title: Заголовок
+    description: Описание
   guilds:
     add: Добавить гильдию
     creating: Добавить новую гильдию

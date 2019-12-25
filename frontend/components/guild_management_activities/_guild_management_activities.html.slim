@@ -13,3 +13,17 @@
       = link_to t('activities.add'), new_activity_path(guild_id: @guild.id), class: 'btn btn-primary btn-sm'
   main
     .guild_activities
+      #activities
+        - if @guild.activities.size.positive?
+          table.table.table-striped.table-sm
+            thead
+              tr
+                th= t('activity.title')
+                th= t('activity.description')
+                th= t('operations')
+            tbody
+              - @guild.activities.order(id: :desc).each do |activity|
+                tr
+                  td= activity.title
+                  td= activity.description
+                  td
