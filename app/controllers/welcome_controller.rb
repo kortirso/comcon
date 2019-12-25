@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   skip_before_action :email_confirmed?
 
   def index
-    redirect_to events_path if Current.user.present? && Current.user.confirmed?
+    redirect_to activities_path if Current.user.present? && Current.user.confirmed?
   end
 
   def donate; end
