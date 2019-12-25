@@ -25,6 +25,18 @@ export default class ActivityForm extends React.Component {
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
+    if (this.props.activity_id !== undefined) this._getActivity()
+  }
+
+  _getActivity() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v2/activities/${this.props.activity_id}.json?access_token=${this.props.access_token}`,
+      success: (data) => {
+        const attributes = data.activity.data.attributes
+        this.setState({title: attributes.title, description: attributes.description})
+      }
+    })
   }
 
   _onCreate() {
@@ -44,8 +56,26 @@ export default class ActivityForm extends React.Component {
     })
   }
 
+  _onUpdate() {
+    const state = this.state
+    let url = `/api/v2/activities/${this.props.activity_id}.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
+    $.ajax({
+      method: 'PATCH',
+      url: url,
+      data: { activity: { title: state.title, description: state.description } },
+      success: (data) => {
+        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/guilds/${this.props.guild_slug}/activities`)
+      },
+      error: (data) => {
+        this.setState({errors: data.responseJSON.errors})
+      }
+    })
+  }
+
   _renderSubmitButton() {
-    return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
+    if (this.props.activity_id !== undefined) return <input type="submit" name="commit" value={strings.update} className="btn btn-primary btn-sm" onClick={this._onUpdate.bind(this)} />
+    else return <input type="submit" name="commit" value={strings.create} className="btn btn-primary btn-sm" onClick={this._onCreate.bind(this)} />
   }
 
   render() {

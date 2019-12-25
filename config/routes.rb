@@ -80,7 +80,7 @@ Rails.application.routes.draw do
       resources :events, only: %i[index] do
         get :filter_values, on: :collection
       end
-      resources :activities, only: %i[create]
+      resources :activities, only: %i[show create update]
     end
   end
 
@@ -121,7 +121,7 @@ Rails.application.routes.draw do
       get :decline, on: :member
     end
     resources :deliveries, only: %i[new destroy]
-    resources :activities, only: %i[index new]
+    resources :activities, only: %i[index new edit destroy]
     resources :guild_invites, only: %i[] do
       get :find, on: :collection
     end

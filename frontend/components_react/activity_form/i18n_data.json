@@ -2,11 +2,13 @@
   "en": {
     "title": "Title",
     "description": "Description",
-    "create": "Create"
+    "create": "Create",
+    "update": "Update"
   },
   "ru": {
     "title": "Заголовок",
     "description": "Описание",
-    "create": "Создать"
+    "create": "Создать",
+    "update": "Обновить"
   }
 }
