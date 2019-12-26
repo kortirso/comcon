@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - counters
+- Onixia's reset
 
 ## [1.2.0] - 2019-12-25
 ### Added

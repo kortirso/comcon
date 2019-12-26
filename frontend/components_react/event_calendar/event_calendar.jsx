@@ -38,7 +38,10 @@ export default class EventCalendar extends React.Component {
       dungeon: 'none',
       character: 'none',
       subscribe: 'none',
-      currentEventId: null
+      currentEventId: null,
+      calendarStartForOnixia: this._calcStartValue(date),
+      showUnusualCD: false,
+      raidForUS: false
     }
   }
 
@@ -49,6 +52,11 @@ export default class EventCalendar extends React.Component {
 
   componentDidMount() {
     this._getEvents()
+  }
+
+  _calcStartValue(date) {
+    const onixiaStart = new Date(2019, 11, 25, 0, 0, 0, 0)
+    return parseInt((date.getTime() - onixiaStart.getTime()) / (1000 * 3600 * 24) - 1)
   }
 
   _getEvents() {
@@ -129,12 +137,31 @@ export default class EventCalendar extends React.Component {
         <div className={this._defineDayClass(i + 1)} key={i}>
           <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i)}>
             <div className="day_date">{dateForDay.getDate()}.{dateForDay.getMonth() + 1}</div>
+            {this.state.showUnusualCD &&
+              <div className={`onixia_line ${this._defineOnixiaDay(i)}`}></div>
+            }
             {this._renderEvents(dateForDay)}
           </div>
         </div>
       )
     }
     return days
+  }
+
+  _defineOnixiaDay(i) {
+    switch ((this.state.calendarStartForOnixia + this.state.weekChanges * 7 + i + (this.state.raidForUS ? -1 : 0)) % 5) {
+      case 0:
+        return 'onixia_start'
+        break;
+      case -1:
+        return 'onixia_end'
+        break;
+      case 4:
+        return 'onixia_end'
+        break;
+      default:
+        return ''
+    }
   }
 
   _onSelectCurrentDay(value) {
@@ -499,6 +526,13 @@ export default class EventCalendar extends React.Component {
     }
   }
 
+  _onChangeRaidCD(event) {
+    const raidCD = event.target.value
+    if (raidCD === '0') this.setState({raidCD: '0', showUnusualCD: false, raidForUS: false})
+    else if (raidCD === '1') this.setState({raidCD: '1', showUnusualCD: true, raidForUS: false})
+    else this.setState({raidCD: '2', showUnusualCD: true, raidForUS: true})
+  }
+
   _renderModal() {
     return (
       <div className={`modal fade ${this.state.currentDayId === null ? '' : 'show'}`} id="selectedDayModal" tabIndex="-1" role="dialog" aria-labelledby="selectedDayModalLabel" aria-hidden="true" onClick={() => this._onSelectCurrentDay(null)}>
@@ -536,8 +570,18 @@ export default class EventCalendar extends React.Component {
         <div className="calendar-block">
           <div className="full-calendar">
             <div className="buttons">
-              <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, -1)}>{strings.previous}</button>
-              <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, 1)}>{strings.next}</button>
+              <div className="cd_buttons">
+                <label htmlFor="cd_button">{strings.labelCD}</label>
+                <select id="cd_button" className="form-control form-control-sm" onChange={this._onChangeRaidCD.bind(this)} value={this.state.raidCD}>
+                  <option value='0'>{strings.nothing}</option>
+                  <option value='1'>{strings.forEU}</option>
+                  <option value='2'>{strings.forUS}</option>
+                </select>
+              </div>
+              <div className="week_buttons">
+                <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, -1)}>{strings.previous}</button>
+                <button className="btn btn-primary btn-sm" onClick={this._onChangeWeek.bind(this, 1)}>{strings.next}</button>
+              </div>
             </div>
             <div className="calendar">
               {this._renderDays()}

@@ -26,7 +26,11 @@
     "sure": "Are sure?",
     "withSubscription": "Subscribed",
     "eventOfTheDay": "Event of the day",
-    "close": "Close"
+    "close": "Close",
+    "nothing": "тщту",
+    "forEU": "for EU",
+    "forUS": "for US",
+    "labelCD": "Show unusual raid cooldowns"
   },
   "ru": {
     "none": "все",
@@ -55,6 +59,10 @@
     "sure": "Вы уверены?",
     "withSubscription": "Подписавшиеся",
     "eventOfTheDay": "Событие дня",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "nothing": "нет",
+    "forEU": "для EU",
+    "forUS": "для US",
+    "labelCD": "Показать нестандартные рейдовые КД"
   }
 }

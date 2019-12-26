@@ -109,14 +109,31 @@
     .buttons {
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
       margin-bottom: 0.5rem;
 
-      button {
-        width: 200px;
+      .cd_buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-        &:nth-of-type(1) {
-          margin-right: 1rem;
+        label {
+          white-space: nowrap;
+          margin: 0 5px 0 0;
+        }
+      }
+
+      .week_buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        button {
+          width: 200px;
+
+          &:nth-of-type(1) {
+            margin-right: 1rem;
+          }
         }
       }
     }
@@ -150,6 +167,25 @@
             top: 4px;
             left: 4px;
             font-size: 0.9rem;
+          }
+
+          .onixia_line {
+            position: absolute;
+            top: 30px;
+            left: -1px;
+            width: calc(100% + 2px);
+            height: 8px;
+            background: #A330C9;
+
+            &.onixia_start {
+              left: 4px;
+              border-radius: 3px 0 0 3px;
+            }
+
+            &.onixia_end {
+              width: calc(100% - 3px);
+              border-radius: 0 3px 3px 0;
+            }
           }
 
           .event {
