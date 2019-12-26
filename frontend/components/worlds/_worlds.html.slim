@@ -11,6 +11,9 @@
             th ID
             th= t('worlds.name')
             th= t('worlds.zone')
+            th= t('worlds.characters_count')
+            th= t('worlds.guilds_count')
+            th= t('worlds.statics_count')
             th= t('operations')
         tbody
           - @worlds.each do |world|
@@ -18,6 +21,9 @@
               td= world.id
               td= world.name
               td= world.zone
+              td= world.world_stat&.characters_count
+              td= world.world_stat&.guilds_count
+              td= world.world_stat&.statics_count
               td
                 = link_to '', edit_world_path(world), class: 'btn btn-icon btn-edit with_right_margin', aria: { label: 'Edit button' }
                 = link_to '', world, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete', aria: { label: 'Delete button' }

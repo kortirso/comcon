@@ -32,7 +32,7 @@ class WorldsController < ApplicationController
   private
 
   def find_worlds
-    @worlds = World.order(name: :asc)
+    @worlds = World.order(name: :asc).includes(:world_stat)
   end
 
   def find_world

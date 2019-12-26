@@ -7,11 +7,11 @@ class Character < ApplicationRecord
 
   friendly_id :slug_candidates, use: :slugged
 
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   belongs_to :race
   belongs_to :character_class
   belongs_to :world
-  belongs_to :guild, optional: true
+  belongs_to :guild, optional: true, counter_cache: true
   belongs_to :world_fraction
 
   has_many :dungeon_accesses, dependent: :destroy
@@ -48,6 +48,21 @@ class Character < ApplicationRecord
   has_one :guild_role, dependent: :destroy
 
   after_save ThinkingSphinx::RealTime.callback_for(:character)
+
+  trigger.after(:insert) do
+    <<~SQL
+      PERFORM pg_advisory_xact_lock(NEW.world_id);
+
+      INSERT INTO world_stats (world_id, characters_count)
+      SELECT
+        NEW.world_id as world_id,
+        COUNT(characters.id) as characters_count
+      FROM characters WHERE characters.world_id = NEW.world_id
+      ON CONFLICT (world_id) DO UPDATE
+      SET
+        characters_count = EXCLUDED.characters_count;
+    SQL
+  end
 
   def full_name
     "#{name} - #{world.full_name}"

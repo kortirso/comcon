@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_24_210259) do
+ActiveRecord::Schema.define(version: 2019_12_26_195312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 2019_12_24_210259) do
     t.integer "world_fraction_id"
     t.text "description", default: "", null: false
     t.string "locale", default: "ru", null: false
+    t.integer "characters_count"
     t.index ["fraction_id"], name: "index_guilds_on_fraction_id"
     t.index ["name"], name: "index_guilds_on_name"
     t.index ["slug"], name: "index_guilds_on_slug", unique: true
@@ -421,6 +422,7 @@ ActiveRecord::Schema.define(version: 2019_12_24_210259) do
     t.string "reset_password_token"
     t.datetime "reset_password_token_sent_at"
     t.string "token"
+    t.integer "characters_count"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -432,12 +434,71 @@ ActiveRecord::Schema.define(version: 2019_12_24_210259) do
     t.index ["world_id", "fraction_id"], name: "index_world_fractions_on_world_id_and_fraction_id"
   end
 
+  create_table "world_stats", force: :cascade do |t|
+    t.integer "world_id", null: false
+    t.integer "characters_count"
+    t.integer "guilds_count"
+    t.integer "statics_count"
+    t.index ["world_id"], name: "index_world_stats_on_world_id", unique: true
+  end
+
   create_table "worlds", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "zone", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_worlds_on_name"
+  end
+
+  create_trigger("guilds_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("guilds").
+      after(:insert) do
+    <<-SQL_ACTIONS
+PERFORM pg_advisory_xact_lock(NEW.world_id);
+
+INSERT INTO world_stats (world_id, guilds_count)
+SELECT
+  NEW.world_id as world_id,
+  COUNT(guilds.id) as guilds_count
+FROM guilds WHERE guilds.world_id = NEW.world_id
+ON CONFLICT (world_id) DO UPDATE
+SET
+  guilds_count = EXCLUDED.guilds_count;
+    SQL_ACTIONS
+  end
+
+  create_trigger("characters_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("characters").
+      after(:insert) do
+    <<-SQL_ACTIONS
+PERFORM pg_advisory_xact_lock(NEW.world_id);
+
+INSERT INTO world_stats (world_id, characters_count)
+SELECT
+  NEW.world_id as world_id,
+  COUNT(characters.id) as characters_count
+FROM characters WHERE characters.world_id = NEW.world_id
+ON CONFLICT (world_id) DO UPDATE
+SET
+  characters_count = EXCLUDED.characters_count;
+    SQL_ACTIONS
+  end
+
+  create_trigger("statics_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("statics").
+      after(:insert) do
+    <<-SQL_ACTIONS
+PERFORM pg_advisory_xact_lock(NEW.world_id);
+
+INSERT INTO world_stats (world_id, statics_count)
+SELECT
+  NEW.world_id as world_id,
+  COUNT(statics.id) as statics_count
+FROM statics WHERE statics.world_id = NEW.world_id
+ON CONFLICT (world_id) DO UPDATE
+SET
+  statics_count = EXCLUDED.statics_count;
+    SQL_ACTIONS
   end
 
 end

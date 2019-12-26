@@ -86,6 +86,9 @@ gem 'omniauth-rails_csrf_protection', '~> 0.1'
 # Mailer styles
 gem 'premailer-rails'
 
+# DB triggers
+gem 'hairtrigger'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'
