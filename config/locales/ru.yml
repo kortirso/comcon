@@ -271,12 +271,16 @@ ru:
     edit: Изменить игровой мир
     name: Название
     zone: Зона
+    characters_count: Кол-во персонажей
+    guilds_count: Кол-во гильдий
+    statics_count: Кол-во статиков
   users:
     title: Пользователи
     email: Почта
     role: Роль
     identities: Соцсети
     confirmed: Подтвержден?
+    characters_count: Кол-во персонажей
   world:
     name: Название
     name_title: Название Мира

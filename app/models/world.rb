@@ -7,6 +7,8 @@ class World < ApplicationRecord
   has_many :statics, dependent: :destroy
   has_many :world_fractions, dependent: :destroy
 
+  has_one :world_stat, dependent: :destroy
+
   def self.cache_key(worlds, api)
     {
       api: api,

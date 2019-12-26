@@ -28,6 +28,21 @@ class Static < ApplicationRecord
 
   after_save ThinkingSphinx::RealTime.callback_for(:static)
 
+  trigger.after(:insert) do
+    <<~SQL
+      PERFORM pg_advisory_xact_lock(NEW.world_id);
+
+      INSERT INTO world_stats (world_id, statics_count)
+      SELECT
+        NEW.world_id as world_id,
+        COUNT(statics.id) as statics_count
+      FROM statics WHERE statics.world_id = NEW.world_id
+      ON CONFLICT (world_id) DO UPDATE
+      SET
+        statics_count = EXCLUDED.statics_count;
+    SQL
+  end
+
   def normalize_friendly_id(text)
     text.to_slug.transliterate(:russian).normalize.to_s
   end

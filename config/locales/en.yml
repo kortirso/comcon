@@ -260,12 +260,16 @@ en:
     edit: Edit realm
     name: Name
     zone: Zone
+    characters_count: Characters count
+    guilds_count: Guilds count
+    statics_count: Statics count
   users:
     title: Users
     email: Email
     role: Role
     identities: Identities
     confirmed: Confirmed?
+    characters_count: Characters count
   world:
     name: Name
     name_title: Realm's name

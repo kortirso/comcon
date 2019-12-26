@@ -41,6 +41,21 @@ class Guild < ApplicationRecord
 
   after_save ThinkingSphinx::RealTime.callback_for(:guild)
 
+  trigger.after(:insert) do
+    <<~SQL
+      PERFORM pg_advisory_xact_lock(NEW.world_id);
+
+      INSERT INTO world_stats (world_id, guilds_count)
+      SELECT
+        NEW.world_id as world_id,
+        COUNT(guilds.id) as guilds_count
+      FROM guilds WHERE guilds.world_id = NEW.world_id
+      ON CONFLICT (world_id) DO UPDATE
+      SET
+        guilds_count = EXCLUDED.guilds_count;
+    SQL
+  end
+
   def self.cache_key(guilds)
     {
       serializer: 'guilds',

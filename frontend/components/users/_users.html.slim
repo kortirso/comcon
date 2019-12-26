@@ -11,6 +11,7 @@
             th= t('users.role')
             th= t('users.identities')
             th= t('users.confirmed')
+            th= t('users.characters_count')
             th= t('operations')
         tbody
           - @users.each do |user|
@@ -22,6 +23,7 @@
                 - user.identities.each do |identity|
                   p= "#{identity.provider}, #{identity.uid}, #{identity.email}"
               td= user.confirmed?
+              td= user.characters_count
               td
                 = link_to '', edit_user_path(user), class: 'btn btn-icon btn-edit with_right_margin', aria: { label: 'Edit button' }
                 = link_to '', user, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete', aria: { label: 'Delete button' }
