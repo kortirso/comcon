@@ -30,7 +30,7 @@
     "nothing": "none",
     "forEU": "for EU",
     "forUS": "for US",
-    "labelCD": "Show unusual raid cooldowns"
+    "labelCD": "Show Onixia's raid cooldowns"
   },
   "ru": {
     "none": "все",
@@ -63,6 +63,6 @@
     "nothing": "нет",
     "forEU": "для EU",
     "forUS": "для US",
-    "labelCD": "Показать нестандартные рейдовые КД"
+    "labelCD": "Показать рейдовые КД Ониксии"
   }
 }
