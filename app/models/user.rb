@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable, :validatable, :omniauthable, omniauth_providers: %i[discord]
 
-  has_many :characters, dependent: :destroy
+  has_many :characters, -> { includes :guild }, dependent: :destroy
   has_many :guilds, -> { distinct }, through: :characters
   has_many :subscribes, through: :characters
   has_many :worlds, through: :characters

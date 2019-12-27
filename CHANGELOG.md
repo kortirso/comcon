@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - translation
 - styles for event calendar
+- n+1 for event calendar
 
 ## [1.2.1] - 2019-12-26
 ### Added
