@@ -4,6 +4,64 @@
   }
 
   .statics {
+    table {
+      table-layout: fixed;
+
+      thead {
+        tr {
+          th {
+            &:nth-of-type(3) {
+              width: 50%;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            &:nth-of-type(3) {
+              width: 50%;
+              white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .own_statics {
+    table {
+      table-layout: fixed;
+
+      thead {
+        tr {
+          th {
+            &:nth-of-type(2) {
+              width: 40%;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            &:nth-of-type(2) {
+              width: 40%;
+              white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .statics {
     .filters {
       display: flex;
       flex-direction: row;
