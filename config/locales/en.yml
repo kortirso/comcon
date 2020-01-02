@@ -163,6 +163,7 @@ en:
     privacy: Privacy policy
     character_transfer: Transfer for %{character_name}
     activities: Activities
+    discord: Discord
   welcome:
     lead_1: A free web service for World of Warcraft Classic
     lead_2: for better guild and group management.
