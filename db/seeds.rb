@@ -171,6 +171,9 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => 'Scholomance', 'ru' => 'Некроситет' }, key_access: true)
 dungeon_form.persist?
 
+dungeon_form = DungeonForm.new(name: { 'en' => 'Maraudon', 'ru' => 'Мародон' })
+dungeon_form.persist?
+
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
 role_form.persist?
 tank = role_form.role
