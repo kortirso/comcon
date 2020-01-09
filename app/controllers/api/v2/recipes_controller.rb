@@ -11,7 +11,7 @@ module Api
         formats ['json']
       end
 
-      api :GET, '/v1/recipes.json', 'Get all recipes'
+      api :GET, '/v2/recipes.json', 'Get all recipes'
       error code: 401, desc: 'Unauthorized'
       def index
         render json: { recipes: @recipes_json }, status: 200

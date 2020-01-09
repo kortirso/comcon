@@ -1,0 +1,7 @@
+.slots
+  - item_ids.each do |item_id|
+    .slot
+      - unless equipment[item_id].nil?
+        a href="https://#{I18n.locale.to_s == 'en' ? '' : (I18n.locale.to_s + '.')}classic.wowhead.com/item=#{equipment[item_id][:item]}" data-wowhead="ench=#{equipment[item_id][:ench]}"
+          - if equipment[item_id][:img].present?
+            img src="https://wow.zamimg.com/images/wow/icons/large/#{equipment[item_id][:img]}.jpg" alt=''

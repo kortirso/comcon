@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_26_195312) do
+ActiveRecord::Schema.define(version: 2020_01_09_173705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -173,6 +173,18 @@ ActiveRecord::Schema.define(version: 2019_12_26_195312) do
     t.boolean "key_access", default: false, null: false
     t.boolean "quest_access", default: false, null: false
     t.index ["name"], name: "index_dungeons_on_name", using: :gin
+  end
+
+  create_table "equipment", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "slot"
+    t.string "item_uid"
+    t.string "ench_uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "game_item_id"
+    t.index ["character_id"], name: "index_equipment_on_character_id"
+    t.index ["game_item_id"], name: "index_equipment_on_game_item_id"
   end
 
   create_table "events", force: :cascade do |t|

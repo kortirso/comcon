@@ -5,6 +5,7 @@ class CharactersController < ApplicationController
   before_action :find_character, only: %i[destroy update_recipes]
   before_action :find_character_professions, only: %i[show recipes]
   before_action :allow_wowhead_script, only: %i[show]
+  before_action :find_character_equipment, only: %i[show]
 
   def index; end
 
@@ -48,6 +49,10 @@ class CharactersController < ApplicationController
 
   def find_character_professions
     @character_professions = @character.character_professions.includes(:character_recipes, profession: :recipes).where('professions.recipeable = true').references(:professions)
+  end
+
+  def find_character_equipment
+    @equipment = @character.equipment.includes(:game_item).inject({}) { |acc, element| acc.merge(element.slot => { item: element.item_uid, ench: element.ench_uid, img: element.game_item&.icon_name }) }
   end
 
   def recipe_params

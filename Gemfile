@@ -89,6 +89,9 @@ gem 'premailer-rails'
 # DB triggers
 gem 'hairtrigger'
 
+# mass importing
+gem 'activerecord-import'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'

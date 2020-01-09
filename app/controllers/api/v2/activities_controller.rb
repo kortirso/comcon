@@ -9,7 +9,7 @@ module Api
         formats ['json']
       end
 
-      api :GET, '/v1/activities/:id.json', 'Get activity info'
+      api :GET, '/v2/activities/:id.json', 'Get activity info'
       error code: 401, desc: 'Unauthorized'
       error code: 404, desc: 'Not found'
       def show
@@ -17,7 +17,7 @@ module Api
         render json: { activity: FastActivitySerializer.new(@activity).serializable_hash }, status: 200
       end
 
-      api :POST, '/v1/activities.json', 'Create activity'
+      api :POST, '/v2/activities.json', 'Create activity'
       error code: 401, desc: 'Unauthorized'
       error code: 404, desc: 'Not found'
       error code: 409, desc: 'Conflict'
@@ -26,7 +26,7 @@ module Api
         save_activity(params: activity_params.merge(id: nil, guild: @guild), status: 201)
       end
 
-      api :PATCH, '/v1/activities/:id.json', 'Update activity'
+      api :PATCH, '/v2/activities/:id.json', 'Update activity'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       error code: 404, desc: 'Not found'

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - user_token#create api v2 endpoint
+- equipment uploading
 
 ### Modified
 - line up page

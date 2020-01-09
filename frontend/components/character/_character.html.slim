@@ -1,35 +1,57 @@
 .inside
   .inside_topbar
     .title= @character.name
+    .action
+      - if @character.user_id == Current.user.id
+        = javascript_pack_tag 'character_equipment_import'
+        = react_component('CharacterEquipmentImport', character_id: @character.id, character_slug: @character.slug, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
   main
     .character
-      - if @character.character_transfers.size.positive?
-        .character_transfers
+      .row
+        .col-md-6
+          h3 Снаряжение персонажа
+          .equipment
+            .vertical
+              .left
+                = render 'components/character/slot', item_ids: [0, 1, 2, 14, 4, 3, 18, 8], equipment: @equipment
+              .center
+
+              .right
+                = render 'components/character/slot', item_ids: [9, 5, 6, 7, 10, 11, 12, 13], equipment: @equipment
+            .horizontal
+              = render 'components/character/slot', item_ids: [15, 16, 17], equipment: @equipment
+        .col-md-6
           h3= t('character.transfers')
-          table.table.table-striped.table-sm
-            thead
-              tr
-                th= t('characters.name')
-                th= t('characters.world')
-                th= t('characters.race')
-                th= t('characters.character_class')
-            tbody
-              - @character.character_transfers.includes(:world, :race, :character_class).order(id: :asc).each do |character_transfer|
-                tr
-                  td= character_transfer.name
-                  td= character_transfer.world.full_name
-                  td= character_transfer.race.name[I18n.locale.to_s]
-                  td= character_transfer.character_class.name[I18n.locale.to_s]
-      .character_recipes
-        h3= t('character_recipes.recipes')
-        .row.professions
-          - @character_professions.each do |character_profession|
-            .col-md-12.col-xl-4
-              .character_profession
-                h4= character_profession.profession.name[I18n.locale.to_s]
-                .recipes
-                  - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
-                  - character_profession.profession.recipes.where(id: existed_recipe_ids).order(skill: :desc).each do |recipe|
-                    .recipe
-                      span= link_to recipe.name[I18n.locale.to_s], recipe.links[I18n.locale.to_s]
-                      span= recipe.skill
+            - if @character.character_transfers.size.positive?
+              .character_transfers
+                table.table.table-striped.table-sm
+                  thead
+                    tr
+                      th= t('characters.name')
+                      th= t('characters.world')
+                      th= t('characters.race')
+                      th= t('characters.character_class')
+                  tbody
+                    - @character.character_transfers.includes(:world, :race, :character_class).order(id: :asc).each do |character_transfer|
+                      tr
+                        td= character_transfer.name
+                        td= character_transfer.world.full_name
+                        td= character_transfer.race.name[I18n.locale.to_s]
+                        td= character_transfer.character_class.name[I18n.locale.to_s]
+            - else
+              p No data
+      .row
+        .col
+          .character_recipes
+            h3= t('character_recipes.recipes')
+            .row.professions
+              - @character_professions.each do |character_profession|
+                .col-md-12.col-xl-4
+                  .character_profession
+                    h4= character_profession.profession.name[I18n.locale.to_s]
+                    .recipes
+                      - existed_recipe_ids = character_profession.character_recipes.pluck(:recipe_id)
+                      - character_profession.profession.recipes.where(id: existed_recipe_ids).order(skill: :desc).each do |recipe|
+                        .recipe
+                          span= link_to recipe.name[I18n.locale.to_s], recipe.links[I18n.locale.to_s]
+                          span= recipe.skill

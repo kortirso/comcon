@@ -8,7 +8,7 @@ module Api
         formats ['json']
       end
 
-      api :DELETE, '/v1/subscribes/:id.json', 'Delete subscribe'
+      api :DELETE, '/v2/subscribes/:id.json', 'Delete subscribe'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       error code: 403, desc: 'Forbidden'
