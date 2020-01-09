@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - user_token#create api v2 endpoint
 
+### Modified
+- line up page
+
 ## [1.2.3] - 2020-01-02
 ### Added
 - discord link in footer

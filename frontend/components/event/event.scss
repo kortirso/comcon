@@ -125,7 +125,13 @@
     }
 
     .event_closed {
-      font-size: 1.2rem;
+      text-align: center;
+
+      p {
+        margin-top: 1rem;
+        display: inline-block;
+        font-size: 1rem;
+      }
     }
 
     p {

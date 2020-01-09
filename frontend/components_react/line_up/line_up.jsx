@@ -518,11 +518,13 @@ export default class LineUp extends React.Component {
             <p>{this._renderAccess(eventInfo)}</p>
             <p>{strings.owner} - {eventInfo.owner_name}</p>
             <p className="event_closed">{eventInfo.description}</p>
-            <p>{strings.hoursBeforeClose} - {this.props.hours_before_close}</p>
-            {!this.props.event_is_open &&
-              <p className="event_closed">{strings.closed}</p>
-            }
+            <p>{strings.formatString(strings.hoursBeforeClose, { hours: this.props.hours_before_close })}</p>
             {this._renderRLBlock()}
+            {!this.props.event_is_open &&
+              <div className="event_closed">
+                <p className="alert alert-danger">{strings.closed}</p>
+              </div>
+            }
           </div>
         }
         {eventInfo !== null && eventInfo.group_role !== null &&
