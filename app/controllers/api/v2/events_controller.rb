@@ -17,7 +17,7 @@ module Api
         formats ['json']
       end
 
-      api :GET, '/v1/events.json', 'Show events'
+      api :GET, '/v2/events.json', 'Show events'
       error code: 401, desc: 'Unauthorized'
       def index
         render json: {
@@ -25,7 +25,7 @@ module Api
         }, status: 200
       end
 
-      api :GET, '/v1/events/filter_values.json', 'Values for events filter'
+      api :GET, '/v2/events/filter_values.json', 'Values for events filter'
       error code: 401, desc: 'Unauthorized'
       def filter_values
         render json: {

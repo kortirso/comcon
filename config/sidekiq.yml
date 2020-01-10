@@ -1,0 +1,16 @@
+---
+:verbose: false
+:concurrency: 10
+:pidfile: tmp/pids/sidekiq.pid
+:queues:
+  - [critical, 2]
+  - default
+  - low
+  - mailers
+  - searchkick
+
+production:
+  :concurrency: 25
+
+staging:
+  :concurrency: 15

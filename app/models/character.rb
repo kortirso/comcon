@@ -45,6 +45,8 @@ class Character < ApplicationRecord
 
   has_many :character_transfers, dependent: :destroy
 
+  has_many :equipment, dependent: :destroy
+
   has_one :guild_role, dependent: :destroy
 
   after_save ThinkingSphinx::RealTime.callback_for(:character)

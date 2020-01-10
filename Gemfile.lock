@@ -47,6 +47,8 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
+    activerecord-import (1.0.4)
+      activerecord (>= 3.2)
     activestorage (5.2.3)
       actionpack (= 5.2.3)
       activerecord (= 5.2.3)
@@ -440,6 +442,7 @@ PLATFORMS
 DEPENDENCIES
   action_policy (~> 0.3.0)
   active_model_serializers (~> 0.10.0)
+  activerecord-import
   apipie-rails (= 0.5.8)
   babosa
   bullet

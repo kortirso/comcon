@@ -13,7 +13,7 @@ module Api
         param :password, String
       end
 
-      api :POST, '/v1/user_token.json', 'Authorization for user, returns token'
+      api :POST, '/v2/user_token.json', 'Authorization for user, returns token'
       param_group :auth_params
       example '{"user":{"id":"1", "email":""}, "access_token":"", "expires_at": 111}'
       error code: 401, desc: 'Unauthorized'

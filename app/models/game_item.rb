@@ -6,4 +6,5 @@ class GameItem < ApplicationRecord
 
   has_many :bank_cells, dependent: :destroy
   has_many :bank_requests, dependent: :destroy
+  has_many :equipment, dependent: :destroy
 end

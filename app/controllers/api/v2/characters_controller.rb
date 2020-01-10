@@ -1,14 +1,14 @@
 module Api
   module V2
     class CharactersController < Api::V1::BaseController
-      before_action :find_character, only: %i[transfer]
+      before_action :find_character, only: %i[transfer equipment]
 
       resource_description do
         short 'Character resources'
         formats ['json']
       end
 
-      api :PATCH, '/v1/characters/:id/transfer.json', 'Update character'
+      api :PATCH, '/v2/characters/:id/transfer.json', 'Update character'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       error code: 404, desc: 'Not found'
@@ -22,6 +22,21 @@ module Api
           render json: character_form.character, status: 200
         else
           render json: { errors: character_form.errors.full_messages }, status: 409
+        end
+      end
+
+      api :POST, '/v2/characters/:id/equipment.json', 'Upload equipment for character'
+      param :id, String, required: true
+      error code: 401, desc: 'Unauthorized'
+      error code: 404, desc: 'Not found'
+      error code: 409, desc: 'Conflict'
+      def equipment
+        result = CharacterEquipmentUpload.call(character_id: @character.id, value: params[:value])
+        if result.present?
+          GetGameItemsJob.perform_later
+          render json: { result: 'Equipment is uploaded' }, status: 200
+        else
+          render json: { result: 'Equipment is not uploaded' }, status: 409
         end
       end
 

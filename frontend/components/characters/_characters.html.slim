@@ -20,7 +20,7 @@
           tbody
             - @characters.each do |character|
               tr
-                td= character.name
+                td.character_link= link_to character.name, character_path(character.slug)
                 td= character.race.name[I18n.locale.to_s]
                 td= character.character_class.name[I18n.locale.to_s]
                 td= character.level

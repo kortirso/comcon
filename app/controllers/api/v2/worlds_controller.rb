@@ -10,7 +10,7 @@ module Api
         formats ['json']
       end
 
-      api :GET, '/v1/worlds.json', 'Get list of worlds'
+      api :GET, '/v2/worlds.json', 'Get list of worlds'
       error code: 401, desc: 'Unauthorized'
       def index
         render json: { worlds: @worlds_json }, status: 200

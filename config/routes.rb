@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       resources :subscribes, only: %i[destroy]
       resources :characters, only: %i[] do
         patch :transfer, on: :member
+        post :equipment, on: :member
       end
       resources :events, only: %i[index] do
         get :filter_values, on: :collection
