@@ -4,6 +4,6 @@ every 10.minutes do
 end
 
 # Check all items
-every 1.minutes do
+every 1.minute do
   runner 'GetGameItemsJob.perform_now'
 end
