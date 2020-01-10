@@ -4,13 +4,17 @@
     "import": "Import",
     "placeholder": "Data from ProfScanner addon",
     "importButton": "Equipment import",
-    "importResult": "Data will be imported in a few minutes"
+    "importResult": "Data will be imported in a few minutes",
+    "link_1": "Character equipment can be loaded by addon",
+    "link_2": "from Ardash and Foxter. Install the addon, in the game use commands '/ps items', then place the received information in this window and click Import."
   },
   "ru": {
     "title": "Импортировать данные",
     "import": "Импортировать",
     "placeholder": "Данные из аддона ProfScanner",
     "importButton": "Импорт снаряжения",
-    "importResult": "Данные будут импортированы в течение нескольких минут"
+    "importResult": "Данные будут импортированы в течение нескольких минут",
+    "link_1": "Снаряжение персонажа можно загрузить при помощи аддона",
+    "link_2": "от Ardash'а и Foxter'а. Установите аддон, введите в игре команду '/ps items', а затем разметите выгруженную аддоном информацию в этом окне и нажмите кнопку Импортировать."
   }
 }

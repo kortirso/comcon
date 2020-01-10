@@ -10,7 +10,7 @@ describe UpdateBankCells do
     end
 
     it 'and calls UpdateBankCellsJob' do
-      expect(UpdateBankCellsJob).to receive(:perform_now).and_call_original
+      expect(UpdateBankCellsJob).to receive(:perform_later).and_call_original
 
       interactor
     end

@@ -231,6 +231,12 @@ body {
         display: block;
       }
     }
+
+    .modal-body {
+      p {
+        text-align: left;
+      }
+    }
   }
 
   .global_page {

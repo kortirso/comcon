@@ -4,7 +4,7 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
-import ErrorView from '../error_view/error_view'
+import Alert from '../alert/alert'
 
 let strings = new LocalizedStrings(I18nData)
 
@@ -14,7 +14,7 @@ export default class CharacterEquipmentImport extends React.Component {
     this.state = {
       showModal: false,
       data: '',
-      errors: []
+      alert: ''
     }
   }
 
@@ -26,21 +26,16 @@ export default class CharacterEquipmentImport extends React.Component {
     $.ajax({
       method: 'POST',
       url: `/api/v2/characters/${this.props.character_id}/equipment.json?access_token=${this.props.access_token}`,
-      data: { value: this.state.data },
-      success: (data) => {
-        window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters/${this.props.character_slug}`)
-      },
-      error: (data) => {
-        this.setState({errors: data.responseJSON.errors})
-      }
+      data: { value: this.state.data }
     })
+    this.setState({showModal: false, alert: strings.importResult})
   }
 
   render() {
     return (
       <div>
-        {this.state.errors.length > 0 &&
-          <ErrorView errors={this.state.errors} />
+        {this.state.alert !== '' &&
+          <Alert type="success" value={this.state.alert} />
         }
         <button className="btn btn-primary btn-sm" onClick={() => this.setState({showModal: true})}>{strings.importButton}</button>
         <div className={`modal fade ${this.state.showModal ? 'show' : ''}`} id="character_equipment_import" tabIndex="-1" role="dialog" aria-labelledby="character_equipment_import_label" aria-hidden="true" onClick={() => this.setState({showModal: false})}>
@@ -53,6 +48,7 @@ export default class CharacterEquipmentImport extends React.Component {
                 </button>
               </div>
               <div className="modal-body">
+                <p>{strings.link_1} <a href="/files/ProfScanner.zip" download="/files/ProfScanner.zip">ProfScanner</a> {strings.link_2}</p>
                 <textarea className="form-control from-control-sm" placeholder={strings.placeholder} value={this.state.data} onChange={(event) => this.setState({data: event.target.value})} />
               </div>
               <div className="modal-footer">
