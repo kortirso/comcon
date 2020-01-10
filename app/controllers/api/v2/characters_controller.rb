@@ -33,7 +33,6 @@ module Api
       def equipment
         result = CharacterEquipmentUpload.call(character_id: @character.id, value: params[:value])
         if result.present?
-          GetGameItemsJob.perform_later
           render json: { result: 'Equipment is uploaded' }, status: 200
         else
           render json: { result: 'Equipment is not uploaded' }, status: 409

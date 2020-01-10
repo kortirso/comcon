@@ -7,10 +7,6 @@
   - default
   - low
   - mailers
-  - searchkick
 
 production:
   :concurrency: 25
-
-staging:
-  :concurrency: 15
