@@ -1,5 +1,5 @@
 RSpec.describe Activity, type: :model do
-  it { should belong_to :guild }
+  it { should belong_to(:guild).optional }
 
   it 'factory should be valid' do
     activity = build :activity

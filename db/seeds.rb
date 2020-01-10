@@ -279,3 +279,5 @@ notification_form.persist?
 
 notification_form = NotificationForm.new(name: { 'en' => 'Activity creation', 'ru' => 'Создание новости' }, event: 'activity_creation', status: 1)
 notification_form.persist?
+
+Activity.create title: 'Снаряжение (Equipment)', description: "Доступна загрузка снаряжения для персонажей, пройдите к описанию вашего персонажа и импортируйте данные по инструкции. Import of character equipment is available, just go to your character's page and import data."

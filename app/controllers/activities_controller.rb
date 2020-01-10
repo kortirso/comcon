@@ -23,7 +23,7 @@ class ActivitiesController < ApplicationController
   private
 
   def find_activities
-    @activities = Activity.where(guild_id: Current.user.guilds.ids).order(id: :desc).includes(guild: :world).first(10)
+    @activities = Activity.where(guild_id: Current.user.guilds.ids).or(Activity.common).order(id: :desc).includes(guild: :world).first(10)
   end
 
   def find_close_events

@@ -172,6 +172,9 @@ en:
     calendar:
       title: Event calendar
       inner: A powerful replacement for the missing game calendar with the ability to see scheduled events for guilds or statics, subscribe to them and receive notifications of the imminent start of events. A convenient way for a raid leader to invite all signatories to the raid.
+    equipment:
+      title: Equipment
+      inner: Available import data of the equipment of the character from the game. Now RLs can evaluate the character’s equipment, and players can boast of possessing a rare item, for example, the Sword of Azeroth.
     guilds:
       title: Guilds
       inner: Combining characters in a guild with a wide range of management capabilities.

@@ -13,8 +13,9 @@
                 = activity.description
                 .footer
                   = activity.updated_at.strftime('%d.%m.%Y %H:%M')
-                  |  (GMT +0), 
-                  = activity.guild.full_name
+                  |  (GMT +0)
+                  - if activity.from_guild?
+                    = ", #{activity.guild.full_name}"
         .col-md-6.col-xl-4.close_events
           h2= t('activities.closest_events')
           - @subscribes.each do |subscribe|
