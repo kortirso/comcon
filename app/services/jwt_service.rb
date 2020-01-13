@@ -9,7 +9,7 @@ class JwtService
     token, expiration = encode({ user_id: args[:user].id }, expiration)
     {
       access_token: token,
-      user: { id: args[:user].id, email: args[:user].email },
+      user: { id: args[:user].id, email: args[:user].email, confirmed: args[:user].confirmed? },
       expires_at: expiration
     }
   end
