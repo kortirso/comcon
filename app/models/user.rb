@@ -97,6 +97,6 @@ class User < ApplicationRecord
   end
 
   def send_confirmation_token
-    ConfirmUserEmailJob.perform_now(user_id: id) if confirmed_at.nil?
+    ConfirmUserEmailJob.perform_later(user_id: id) if confirmed_at.nil?
   end
 end

@@ -107,7 +107,7 @@ RSpec.describe 'Activities API' do
           end
 
           it 'and calls CreateActivityNotificationJob' do
-            expect(CreateActivityNotificationJob).to receive(:perform_now).and_call_original
+            expect(CreateActivityNotificationJob).to receive(:perform_later).and_call_original
 
             request
           end

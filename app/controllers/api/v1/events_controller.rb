@@ -213,7 +213,7 @@ module Api
       def create_additional_objects_for_event(event)
         CreateSubscribe.call(subscribeable: event, character: event.owner, status: 'signed')
         CreateGroupRole.call(groupable: event, group_roles: group_role_params)
-        CreateEventNotificationJob.perform_now(event_id: event.id)
+        CreateEventNotificationJob.perform_later(event_id: event.id)
       end
 
       def event_params

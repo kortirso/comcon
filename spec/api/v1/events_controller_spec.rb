@@ -165,7 +165,7 @@ RSpec.describe 'Events API' do
         end
 
         it 'and calls CreateEventNotificationJob' do
-          expect(CreateEventNotificationJob).to receive(:perform_now).and_call_original
+          expect(CreateEventNotificationJob).to receive(:perform_later).and_call_original
 
           request
         end

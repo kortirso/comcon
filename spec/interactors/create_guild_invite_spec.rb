@@ -38,7 +38,7 @@ describe CreateGuildInvite do
       end
 
       it 'and calls CreateGuildRequestJob' do
-        expect(CreateGuildRequestJob).to receive(:perform_now).and_call_original
+        expect(CreateGuildRequestJob).to receive(:perform_later).and_call_original
 
         interactor
       end

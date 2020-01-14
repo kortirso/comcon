@@ -26,7 +26,7 @@ module Api
         authorize! @bank.guild, to: :bank?
         bank_request_form = BankRequestForm.new(bank_request_params.merge(bank: @bank, character: @character, game_item: @game_item))
         if bank_request_form.persist?
-          CreateBankRequestJob.perform_now(bank_request_id: bank_request_form.bank_request.id)
+          CreateBankRequestJob.perform_later(bank_request_id: bank_request_form.bank_request.id)
           render json: bank_request_form.bank_request, status: 201
         else
           render json: { errors: bank_request_form.errors.full_messages }, status: 409
