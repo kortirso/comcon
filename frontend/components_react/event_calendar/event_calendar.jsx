@@ -56,7 +56,7 @@ export default class EventCalendar extends React.Component {
 
   _calcStartValue(date) {
     const onixiaStart = new Date(2020, 0, 4, 0, 0, 0, 0)
-    return parseInt((date.getTime() - onixiaStart.getTime()) / (1000 * 3600 * 24) - 1)
+    return parseInt((date.getTime() - onixiaStart.getTime()) / (1000 * 3600 * 24))
   }
 
   _getEvents() {
