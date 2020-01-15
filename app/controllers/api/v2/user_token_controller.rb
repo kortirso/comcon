@@ -15,7 +15,7 @@ module Api
 
       api :POST, '/v2/user_token.json', 'Authorization for user, returns token'
       param_group :auth_params
-      example '{"user":{"id":"1", "email":""}, "access_token":"", "expires_at": 111}'
+      example '{"user":{"id":"1", "email":"", "confirmed": true}, "access_token":"", "expires_at": 111}'
       error code: 401, desc: 'Unauthorized'
       def create
         user = auto_auth
@@ -29,6 +29,8 @@ module Api
       def auto_auth
         if params.key?(:email)
           database_auth
+        elsif params.key?(:provider)
+          omniauth_auth
         else
           raise AuthFailure, 'No auth strategy found'
         end
@@ -41,6 +43,16 @@ module Api
           raise AuthFailure, 'Authorization error'
         end
         user
+      end
+
+      def omniauth_auth
+        provider, access_token = params.require(%i[provider access_token])
+        profile = CheckProvider.new(provider: provider, access_token: access_token).call
+        identity = Identity.find_by(uid: profile['id'], provider: provider)
+        raise AuthFailure, 'Authorization error' if identity.nil?
+        identity.user
+      rescue
+        raise AuthFailure, 'Authorization error'
       end
     end
   end

@@ -77,7 +77,7 @@ gem 'thinking-sphinx', '~> 4.4'
 gem 'whenever', require: false
 
 # Discord bot
-gem 'discord_bot', '0.2.0'
+gem 'discord_bot', '~> 0.2.0'
 
 # discord omniauth
 gem 'omniauth-discord', git: 'https://github.com/kortirso/omniauth-discord'
