@@ -346,4 +346,22 @@
       background-size: 135px;
     }
   }
+
+  &.declined {
+    background: url(../images/all_icons.png);
+    background-position: -120px -60px;
+    background-size: 270px;
+
+    &.small {
+      background: url(../images/all_icons.png);
+      background-position: -80px -40px;
+      background-size: 180px;
+    }
+
+    &.extra_small {
+      background: url(../images/all_icons.png);
+      background-position: -60px -30px;
+      background-size: 135px;
+    }
+  }
 }

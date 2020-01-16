@@ -32,6 +32,7 @@ module Api
           UpdateStaticLeftValue.call(group_role: subscribe_form.subscribe.subscribeable.group_role) if subscribe_form.subscribe.subscribeable_type == 'Static'
           render json: subscribe_form.subscribe, status: status
         else
+          puts subscribe_form.errors.full_messages
           render json: { result: 'Failed' }, status: 409
         end
       end

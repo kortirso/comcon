@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - api endpoint v2/activities#index
+- declined subscribe status
 
 ### Modified
 - rendering for guild information

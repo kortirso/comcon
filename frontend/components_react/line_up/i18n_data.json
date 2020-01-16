@@ -35,7 +35,8 @@
     "notSubscribed": "Characters of static without subscribe",
     "operations": "Actions",
     "closed": "Registration for event is closed, to change your status you need to ask creator of event",
-    "sure": "Are you sure?"
+    "sure": "Are you sure?",
+    "declined": "Declined"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -73,6 +74,7 @@
     "notSubscribed": "Персонажи статика, которые не подписались на событие",
     "operations": "Действия",
     "closed": "Регистрация на событие закрыта, для изменения статуса обращайтесь к создателю события",
-    "sure": "Вы уверены?"
+    "sure": "Вы уверены?",
+    "declined": "Отказано"
   }
 }

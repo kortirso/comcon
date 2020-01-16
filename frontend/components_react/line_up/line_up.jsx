@@ -20,7 +20,8 @@ const subscribeRoleValues = {
 const statusValues = {
   approved: 2,
   reserve: 1,
-  signed: 0
+  signed: 0,
+  declined: -1
 }
 
 let strings = new LocalizedStrings(I18nData)
@@ -252,7 +253,7 @@ export default class LineUp extends React.Component {
           <td>
             <div className="buttons">
               {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe, '')}
-              {this.props.event_is_open && this.props.current_user_id === subscribe.character.user_id && this._renderUserButton(subscribe)}
+              {this.props.event_is_open && this.props.current_user_id === subscribe.character.user_id && subscribe.status !== "declined" && this._renderUserButton(subscribe)}
               {this.props.current_user_id === subscribe.character.user_id && this._renderDeleteButton(subscribe)}
             </div>
           </td>
@@ -338,7 +339,7 @@ export default class LineUp extends React.Component {
   }
 
   _checkAdminButton(character, status) {
-    if (!["approved", "reserve", "signed"].includes(status)) return false
+    if (!["approved", "reserve", "signed", "declined"].includes(status)) return false
     if (this.props.is_owner) return true
     else if (this.props.guild_role === null) return false
     else if (this.props.guild_role[0] === 'rl') return true
@@ -445,6 +446,7 @@ export default class LineUp extends React.Component {
                   {this.state.approvingBoxForAdmin && <option value="approved" key={0}>{strings.approved}</option>}
                   {this.state.approvingBoxForAdmin && <option value="reserve" key={1}>{strings.reserve}</option>}
                   <option value="signed" key={2}>{strings.signed}</option>
+                  {this.state.approvingBoxForAdmin && <option value="declined" key={5}>{strings.declined}</option>}
                   {!this.state.approvingBoxForAdmin && <option value="unknown" key={3}>{strings.unknown}</option>}
                   {!this.state.approvingBoxForAdmin && <option value="rejected" key={4}>{strings.rejected}</option>}
                 </select>
@@ -594,6 +596,8 @@ export default class LineUp extends React.Component {
               {this.state.alternativeRender === false && this._renderEmptyLine()}
               {this.state.alternativeRender === false && this._renderSubscribes('signed')}
               {this.state.alternativeRender === false && this._renderEmptyLine()}
+              {this._renderSubscribes('declined')}
+              {this._renderEmptyLine()}
               {this._renderSubscribes('unknown')}
               {this._renderEmptyLine()}
               {this._renderSubscribes('rejected')}
