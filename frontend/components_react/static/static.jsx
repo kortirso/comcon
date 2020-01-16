@@ -321,9 +321,6 @@ export default class LineUp extends React.Component {
   render() {
     return (
       <div className="static">
-        <div className="event_details form-group">
-          <p>{this.props.static_description}</p>
-        </div>
         <div className="form-group form-check">
           <input className="form-check-input" type="checkbox" checked={this.state.alternativeRender} onChange={() => this.setState({alternativeRender: !this.state.alternativeRender})} id="alternative_checkbox" />
           <label htmlFor="alternative_checkbox">{strings.alternative}</label>

@@ -8,7 +8,8 @@
     "create": "Create",
     "update": "Update",
     "privy": "Private static?",
-    "options": "Options"
+    "options": "Options",
+    "notice": "Hyphenation of text to a new line will be correctly displayed in the static description"
   },
   "ru": {
     "name": "Название",
@@ -19,6 +20,7 @@
     "create": "Создать",
     "update": "Обновить",
     "privy": "Закрытый статик?",
-    "options": "Опции"
+    "options": "Опции",
+    "notice": "Переносы текста на новую строку будут корректно отображаться в описании статика"
   }
 }
