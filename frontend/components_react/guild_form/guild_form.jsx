@@ -160,6 +160,7 @@ export default class GuildForm extends React.Component {
             <div className="form-group">
               <label htmlFor="guild_description">{strings.description}</label>
               <textarea placeholder={strings.description} className="form-control form-control-sm" type="text" id="guild_description" value={this.state.description} onChange={(event) => this.setState({description: event.target.value})} />
+              <span className="notice">{strings.notice}</span>
             </div>
           </div>
         </div>

@@ -265,6 +265,17 @@ body {
       }
     }
   }
+
+  .notice {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  #guild_description {
+    height: 200px;
+    resize: none;
+  }
 }
 
 * {

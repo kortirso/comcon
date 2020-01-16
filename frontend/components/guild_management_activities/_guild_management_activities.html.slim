@@ -3,7 +3,8 @@
     .title= @guild.full_name
     .tabs
       ul
-        li= link_to t('guild.roster'), guild_path(@guild.slug)
+        li= link_to t('guild.about'), guild_path(@guild.slug)
+        li= link_to t('guild.roster'), roster_guild_path(@guild.slug)
         li= link_to t('guild.bank'), bank_guild_path(@guild.slug)
         li= link_to t('guild.activities'), activities_guild_path(@guild.slug), class: 'active'
         li= link_to t('guild.management'), management_guild_path(@guild.slug)

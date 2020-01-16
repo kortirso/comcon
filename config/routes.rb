@@ -111,6 +111,7 @@ Rails.application.routes.draw do
       get :statics, on: :member
       get :notifications, on: :member
       get :bank, on: :member
+      get :roster, on: :member
     end
     resources :craft, only: %i[index]
     resources :statics, except: %i[create update] do

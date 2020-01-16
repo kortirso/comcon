@@ -9,7 +9,8 @@
     "newGuild": "Create new guild",
     "updateGuild": "Update guild",
     "locale": "Locale",
-    "timeZone": "Time zone"
+    "timeZone": "Time zone",
+    "notice": "Hyphenation of text to a new line will be correctly displayed in the guild description"
   },
   "ru": {
     "name": "Название",
@@ -21,6 +22,7 @@
     "newGuild": "Создать новую гильдию",
     "updateGuild": "Обновить гильдию",
     "locale": "Локаль",
-    "timeZone": "Часовой пояс"
+    "timeZone": "Часовой пояс",
+    "notice": "Переносы текста на новую строку будут корректно отображаться в описании гильдии"
   }
 }

@@ -1,11 +1,10 @@
-= javascript_pack_tag 'guild'
-= javascript_pack_tag 'request_to_guild'
 .inside
   .inside_topbar
     .title= @guild.full_name
     .tabs
       ul
-        li= link_to t('guild.roster'), guild_path(@guild.slug), class: 'active'
+        li= link_to t('guild.about'), guild_path(@guild.slug), class: 'active'
+        li= link_to t('guild.roster'), roster_guild_path(@guild.slug)
         - if Current.user.has_characters_in_guild?(guild_id: @guild.id)
           li= link_to t('guild.bank'), bank_guild_path(@guild.slug)
         - if Current.user.any_role?(@guild.id, 'gm', 'rl')
@@ -15,6 +14,25 @@
           li= link_to t('notifications.title'), notifications_guild_path(@guild.slug)
   main
     #guild
-      p= @guild.description
-      = react_component('RequestToGuild', guild_id: @guild.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
-      = react_component('Guild', guild_slug: @guild.slug, guild_id: @guild.id, is_admin: Current.user.is_admin?, is_gm: Current.user.any_role?(@guild.id, 'gm'), locale: I18n.locale.to_s, access_token: Current.user&.access_token, current_user_character_ids: @user_characters.pluck(:id))
+      h2= t('guild.about')
+      p= @guild.description.gsub(/\n/, '<br />').html_safe
+      h2= t('navigation.statics')
+      #statics
+        - if @guild.statics.not_privy.size.positive?
+          table.table.table-striped.table-sm
+            thead
+              tr
+                th= t('statics.name')
+                th= t('statics.description')
+                th= t('statics.left_value')
+            tbody
+              - @guild.statics.not_privy.includes(:group_role).each do |static|
+                tr
+                  td= link_to static.name, static
+                  td= static.description
+                  td
+                    - ['tanks', 'healers', 'dd'].each do |role|
+                      - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
+                        span class="left_value class_icon #{key}"
+                          span class="role #{role}"
+                          span class="amount"= value
