@@ -1,12 +1,19 @@
 module Api
   module V2
     class ActivitiesController < Api::V1::BaseController
+      before_action :find_activities, only: %i[index]
       before_action :find_guild, only: %i[create]
       before_action :find_activity, only: %i[show update]
 
       resource_description do
         short 'Activity resources'
         formats ['json']
+      end
+
+      api :GET, '/v2/activities.json', 'Get activities'
+      error code: 401, desc: 'Unauthorized'
+      def index
+        render json: { activities: FastActivitySerializer.new(@activities).serializable_hash }, status: 200
       end
 
       api :GET, '/v2/activities/:id.json', 'Get activity info'
@@ -37,6 +44,11 @@ module Api
       end
 
       private
+
+      def find_activities
+        @activities = Activity.where(guild_id: Current.user.guilds.ids).or(Activity.common).order(updated_at: :desc).includes(guild: :world)
+        @activities = @activities.where('updated_at > ?', Time.at(params[:last_updated_at].to_i).utc)
+      end
 
       def find_guild
         @guild = Guild.find_by(id: params[:activity][:guild_id])

@@ -1,4 +1,37 @@
 RSpec.describe 'Activities API' do
+  describe 'GET#index' do
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'with valid user token in params' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
+      context 'for existed activity' do
+        let!(:guild) { create :guild }
+        let!(:character) { create :character, guild: guild, user: user }
+        let!(:guild_role) { create :guild_role, character: character, guild: guild, name: 'gm' }
+        let!(:activity) { create :activity, guild: guild }
+        before { get '/api/v2/activities.json', params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[title description].each do |attr|
+          it "and contains delivery #{attr}" do
+            expect(response.body).to have_json_path("activities/data/0/attributes/#{attr}")
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get '/api/v2/activities.json', headers: headers
+    end
+  end
+
   describe 'GET#show' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
