@@ -1,11 +1,20 @@
 module Api
   module V2
     class CharactersController < Api::V1::BaseController
+      before_action :find_characters, only: %i[index]
       before_action :find_character, only: %i[transfer equipment]
 
       resource_description do
         short 'Character resources'
         formats ['json']
+      end
+
+      api :GET, '/v1/characters.json', 'Get user characters'
+      error code: 401, desc: 'Unauthorized'
+      def index
+        render json: {
+          characters: FastCharacterIndexSerializer.new(@characters).serializable_hash
+        }, status: 200
       end
 
       api :PATCH, '/v2/characters/:id/transfer.json', 'Update character'
@@ -40,6 +49,11 @@ module Api
       end
 
       private
+
+      def find_characters
+        @characters = Current.user.characters.order(updated_at: :desc).includes(:world, :character_class, :guild, race: :fraction)
+        @characters = @characters.where('updated_at > ?', Time.at(params[:last_updated_at].to_i).utc)
+      end
 
       def find_character
         @character = Current.user.characters.find_by(id: params[:id])

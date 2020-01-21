@@ -74,7 +74,7 @@ Rails.application.routes.draw do
       resources :worlds, only: %i[index]
       resources :recipes, only: %i[index]
       resources :subscribes, only: %i[destroy]
-      resources :characters, only: %i[] do
+      resources :characters, only: %i[index] do
         patch :transfer, on: :member
         post :equipment, on: :member
       end
