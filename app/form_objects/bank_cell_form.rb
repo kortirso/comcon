@@ -6,6 +6,7 @@ class BankCellForm
   attribute :id, Integer
   attribute :item_uid, Integer
   attribute :amount, Integer, default: 1
+  attribute :bag_number, Integer
   attribute :bank, Bank
   attribute :game_item, GameItem
 

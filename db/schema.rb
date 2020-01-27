@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_173705) do
+ActiveRecord::Schema.define(version: 2020_01_27_070241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -32,7 +32,8 @@ ActiveRecord::Schema.define(version: 2020_01_09_173705) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_item_id"
-    t.index ["bank_id", "item_uid"], name: "index_bank_cells_on_bank_id_and_item_uid", unique: true
+    t.integer "bag_number"
+    t.index ["bank_id", "item_uid", "bag_number"], name: "index_bank_cells_on_bank_id_and_item_uid_and_bag_number", unique: true
     t.index ["game_item_id"], name: "index_bank_cells_on_game_item_id"
   end
 

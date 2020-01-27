@@ -313,6 +313,21 @@ export default class GuildBank extends React.Component {
   }
 
   _renderBankCells(bankCells) {
+    const grouped = bankCells.reduce((acc, current) => {
+      if (!acc[current.bag_number]) acc[current.bag_number] = []
+      acc[current.bag_number].push(current)
+      return acc
+    }, {})
+    return Object.values(grouped).map((bankCells, index) => {
+      return (
+        <div className="bag" key={index}>
+          {this._renderBag(bankCells)}
+        </div>
+      )
+    })
+  }
+
+  _renderBag(bankCells) {
     return bankCells.map((bankCell, index) => {
       return (
         <div className={this._defineFilterOn(bankCell)} key={index}>

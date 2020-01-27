@@ -1,5 +1,5 @@
 class BankCellSerializer < ActiveModel::Serializer
-  attributes :id, :amount, :item_uid, :game_item
+  attributes :id, :amount, :item_uid, :bag_number, :game_item
 
   def game_item
     return nil if object.game_item.nil?

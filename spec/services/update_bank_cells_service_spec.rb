@@ -7,8 +7,8 @@ RSpec.describe UpdateBankCellsService, type: :service do
     let(:request) { service.call(cells_info: cells_info) }
 
     context 'for empty bank' do
-      it 'does not create character recipes' do
-        expect { request }.to change { bank.bank_cells.count }.by(18)
+      it 'creates bank cells' do
+        expect { request }.to change { bank.bank_cells.count }.by(22)
       end
     end
   end
