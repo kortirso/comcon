@@ -55,7 +55,7 @@ RSpec.describe 'Characters API' do
           expect(response.status).to eq 200
         end
 
-        %w[id name level character_class_id race_id guild_id main_role_id dungeon_ids secondary_role_ids profession_ids].each do |attr|
+        %w[id name level character_class_id race_id guild_id main_role_id secondary_role_ids profession_ids].each do |attr|
           it "and contains character #{attr}" do
             expect(response.body).to have_json_path("character/#{attr}")
           end
@@ -111,12 +111,6 @@ RSpec.describe 'Characters API' do
 
         it 'calls CreateCharacterRoles' do
           expect(CreateCharacterRoles).to receive(:call).and_call_original
-
-          request
-        end
-
-        it 'and calls CreateDungeonAccess' do
-          expect(CreateDungeonAccess).to receive(:call).and_call_original
 
           request
         end
@@ -214,12 +208,6 @@ RSpec.describe 'Characters API' do
 
           it 'calls CreateCharacterRoles' do
             expect(CreateCharacterRoles).to receive(:call).and_call_original
-
-            request
-          end
-
-          it 'and calls CreateDungeonAccess' do
-            expect(CreateDungeonAccess).to receive(:call).and_call_original
 
             request
           end

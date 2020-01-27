@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_070241) do
+ActiveRecord::Schema.define(version: 2020_01_27_101505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -158,21 +158,11 @@ ActiveRecord::Schema.define(version: 2020_01_27_070241) do
     t.index ["params"], name: "index_delivery_params_on_params", using: :gin
   end
 
-  create_table "dungeon_accesses", force: :cascade do |t|
-    t.integer "character_id"
-    t.integer "dungeon_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["character_id", "dungeon_id"], name: "index_dungeon_accesses_on_character_id_and_dungeon_id", unique: true
-  end
-
   create_table "dungeons", force: :cascade do |t|
     t.jsonb "name", default: {"en"=>"", "ru"=>""}, null: false
     t.boolean "raid", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "key_access", default: false, null: false
-    t.boolean "quest_access", default: false, null: false
     t.index ["name"], name: "index_dungeons_on_name", using: :gin
   end
 

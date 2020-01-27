@@ -14,9 +14,6 @@ class Character < ApplicationRecord
   belongs_to :guild, optional: true, counter_cache: true
   belongs_to :world_fraction
 
-  has_many :dungeon_accesses, dependent: :destroy
-  has_many :dungeons, through: :dungeon_accesses
-
   has_many :owned_events, class_name: 'Event', foreign_key: 'owner_id', dependent: :destroy
 
   has_many :subscribes, dependent: :destroy

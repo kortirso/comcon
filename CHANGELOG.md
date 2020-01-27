@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - group bank cells by bags
 - activities page
+- removed DungeonAccess model
 
 ## [1.2.5] - 2020-01-16
 ### Added
