@@ -21,6 +21,7 @@ gem 'slim'
 
 # Code analyzation
 gem 'rubocop', '~> 0.57.2', require: false
+gem 'rubocop-performance', require: false
 
 # Different
 gem 'therubyracer', platforms: :ruby
