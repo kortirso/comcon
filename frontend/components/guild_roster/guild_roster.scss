@@ -17,6 +17,8 @@
           }
 
           &.character_link {
+            text-decoration: underline;
+
             &:hover {
               cursor: pointer;
               text-decoration: underline;

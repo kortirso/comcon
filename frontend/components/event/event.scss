@@ -215,9 +215,13 @@
               }
             }
 
-            .character_name {
-              display: flex;
-              flex-direction: row;
+            &.character_name {
+              text-decoration: underline;
+
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
             }
           }
         }
