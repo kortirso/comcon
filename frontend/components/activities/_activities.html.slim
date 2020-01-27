@@ -1,26 +1,6 @@
+= javascript_pack_tag 'activities_list'
 .inside
   .inside_topbar
     .title= t('navigation.activities')
   main
-    .activities
-      .row
-        .col-md-6.col-xl-4.last_guild_activities
-          h2= t('activities.last')
-          - @activities.each do |activity|
-            .activity
-              .title= activity.title
-              .description
-                = activity.description
-                .footer
-                  = activity.updated_at.strftime('%d.%m.%Y %H:%M')
-                  |  (GMT +0)
-                  - if activity.from_guild?
-                    = ", #{activity.guild.full_name}"
-        .col-md-6.col-xl-4.close_events
-          h2= t('activities.closest_events')
-          - @subscribes.each do |subscribe|
-            .subscribe
-              p= subscribe.event.start_time.strftime('%d.%m %H:%M')
-              p= link_to subscribe.event.name, event_path(subscribe.event.slug)
-              p= subscribe.character.name
-              span class="status_icon small #{subscribe.status}"
+    = react_component('ActivitiesList', time_offset_value: Current.user.time_offset.value, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
