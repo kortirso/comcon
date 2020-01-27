@@ -134,6 +134,26 @@ RSpec.describe CharactersController, type: :controller do
           expect(response).to redirect_to characters_en_path
         end
       end
+
+      context 'for existed character in guild' do
+        let!(:guild) { create :guild }
+        let!(:character) { create :character, :human_warrior, user: @current_user, guild: guild }
+        let(:request) { delete :destroy, params: { locale: 'en', id: character.id } }
+
+        it 'deletes character' do
+          expect { request }.to change { Character.count }.by(-1)
+        end
+
+        it 'and deletes guild' do
+          expect { request }.to change { Guild.count }.by(-1)
+        end
+
+        it 'and redirects to characters path' do
+          request
+
+          expect(response).to redirect_to characters_en_path
+        end
+      end
     end
 
     def do_request

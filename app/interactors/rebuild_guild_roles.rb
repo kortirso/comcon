@@ -14,9 +14,8 @@ class RebuildGuildRoles
     # if guild has no gm/rl, but has cl
     cls = guild.guild_roles.where(name: 'cl')
     return select_gm_from(cls) unless cls.empty?
-    guild_members = guild.characters
-    return guild.destroy if guild_members.empty?
-    CreateGuildRole.call(guild: guild, character: guild_members.sample, name: 'gm')
+    guild_members = Character.where(guild_id: guild.id)
+    guild_members.empty? ? guild.destroy : CreateGuildRole.call(guild: guild, character: guild_members.sample, name: 'gm')
   end
 
   private

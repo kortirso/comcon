@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - removed DungeonAccess model
 - character names like links
 
+### Fixed
+- deleting empty guilds
+
 ## [1.2.5] - 2020-01-16
 ### Added
 - api endpoint v2/activities#index

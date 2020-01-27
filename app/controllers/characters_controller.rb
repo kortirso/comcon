@@ -17,6 +17,7 @@ class CharactersController < ApplicationController
 
   def destroy
     @character.destroy
+    RebuildGuildRoles.call(guild: @character.guild) unless @character.guild_id.nil?
     redirect_to characters_path, status: 303
   end
 
