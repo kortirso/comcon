@@ -17,11 +17,13 @@
           }
 
           &.character_link {
-            text-decoration: underline;
-
-            &:hover {
-              cursor: pointer;
+            a {
+              color: #212529;
               text-decoration: underline;
+
+              &:hover {
+                cursor: pointer;
+              }
             }
           }
         }

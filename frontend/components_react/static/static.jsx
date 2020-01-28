@@ -127,7 +127,7 @@ export default class LineUp extends React.Component {
       return (
         <tr className={subscribe.character.character_class_name.en} key={subscribe.id}>
           <td>
-            <div className="character_name">{subscribe.character.name}</div>
+            <a className="character_name" href={this._defineCharacterLink(subscribe.character.slug)}>{subscribe.character.name}</a>
           </td>
           <td>
             <div className="role_icons">
@@ -148,6 +148,10 @@ export default class LineUp extends React.Component {
         </tr>
       )
     })
+  }
+
+  _defineCharacterLink(characterSlug) {
+    return `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters/${characterSlug}`
   }
 
   _renderSubscribedRole(role) {

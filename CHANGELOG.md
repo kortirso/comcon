@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Modified
 - alternative renderer is view by default if available
+- character's links as a tags
 
 ## [1.2.6] - 2020-01-27
 ### Modified

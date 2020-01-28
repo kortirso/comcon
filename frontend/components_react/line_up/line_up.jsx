@@ -239,7 +239,9 @@ export default class LineUp extends React.Component {
     return subscribes.map((subscribe) => {
       return (
         <tr className={subscribe.character.character_class_name.en} key={subscribe.id}>
-          <td className="character_name" onClick={this._goToCharacter.bind(this, subscribe.character.slug)}>{subscribe.character.name}</td>
+          <td className="character_name">
+            <a href={this._defineCharacterLink(subscribe.character.slug)}>{subscribe.character.name}</a>
+          </td>
           <td>
             <div className="role_icons">
               {["approved", "reserve"].includes(status) && subscribe.for_role !== null ? this._renderSubscribedRole(subscribe.for_role) : this._renderRoles(subscribe.character.roles)}
@@ -261,8 +263,8 @@ export default class LineUp extends React.Component {
     })
   }
 
-  _goToCharacter(characterSlug) {
-    window.location.href = `${this.props.locale === 'en' ? '' : '/' + this.props.locale}/characters/${characterSlug}`
+  _defineCharacterLink(characterSlug) {
+    return `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters/${characterSlug}`
   }
 
   _renderNotSubscribed() {
@@ -500,7 +502,9 @@ export default class LineUp extends React.Component {
     return subscribes.map((subscribe, index) => {
       return (
         <div className="subscribe" key={index}>
-          <span>{subscribe.character.name}</span>
+          <span>
+            <a href={this._defineCharacterLink(subscribe.character.slug)}>{subscribe.character.name}</a>
+          </span>
           <span className={`status_icon ${subscribe.status} small`}></span>
           {this._checkAdminButton(subscribe.character, subscribe.status) &&
             <span>{this._renderAdminButton(subscribe, 'small')}</span>

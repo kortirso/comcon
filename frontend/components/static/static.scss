@@ -159,8 +159,12 @@
             }
 
             .character_name {
-              display: flex;
-              flex-direction: row;
+              color: #212529;
+              text-decoration: underline;
+
+              &:hover {
+                cursor: pointer;
+              }
             }
           }
         }
