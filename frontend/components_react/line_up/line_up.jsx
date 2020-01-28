@@ -66,7 +66,8 @@ export default class LineUp extends React.Component {
       method: 'GET',
       url: `/api/v1/events/${this.props.event_id}.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({eventInfo: data.event}, () => {
+        const alternativeRender = data.event !== null && data.event.group_role !== null
+        this.setState({eventInfo: data.event, alternativeRender: alternativeRender}, () => {
           if (this.state.eventInfo.eventable_type === 'Static') this._getNotSubscribedCharacters()
           else this._getEventsSubscribes()
         })
