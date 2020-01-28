@@ -312,6 +312,7 @@ ru:
     role: Роль
     character_class: Класс
     level: Уровень
+    item_level: Уровень предметов
     guild: Гильдия
     find_guild: Найти гильдию
     statics: Статики

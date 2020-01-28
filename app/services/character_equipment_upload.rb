@@ -10,6 +10,8 @@ class CharacterEquipmentUpload
       equipment << Equipment.new(character_id: character_id, slot: index, item_uid: values[0], ench_uid: values[1].to_s, game_item_id: game_item_id)
     end
     Equipment.import(equipment)
+    # reset character's item level
+    Character.find_by(id: character_id)&.update(item_level_calculated: false)
     true
   rescue
     nil

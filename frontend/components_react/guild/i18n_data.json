@@ -11,7 +11,8 @@
     "cl": "CL",
     "ba": "Banker",
     "sure": "Are sure?",
-    "operations": "Actions"
+    "operations": "Actions",
+    "itemLevel": "Item level"
   },
   "ru": {
     "name": "Имя персонажа",
@@ -25,6 +26,7 @@
     "cl": "КЛ",
     "ba": "Банкир",
     "sure": "Вы уверены?",
-    "operations": "Действия"
+    "operations": "Действия",
+    "itemLevel": "Уровень предметов"
   }
 }

@@ -46,6 +46,8 @@ class Character < ApplicationRecord
 
   has_one :guild_role, dependent: :destroy
 
+  scope :with_empty_item_level, -> { where item_level_calculated: false }
+
   after_save ThinkingSphinx::RealTime.callback_for(:character)
 
   trigger.after(:insert) do

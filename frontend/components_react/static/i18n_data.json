@@ -20,7 +20,8 @@
     "alternative": "Display static by roles and classes",
     "close": "Close",
     "sure": "Are sure?",
-    "operations": "Actions"
+    "operations": "Actions",
+    "itemLevel": "Item level"
   },
   "ru": {
     "name": "Имя",
@@ -43,6 +44,7 @@
     "alternative": "Отображение статика по ролям и классам",
     "close": "Закрыть",
     "sure": "Вы уверены?",
-    "operations": "Действия"
+    "operations": "Действия",
+    "itemLevel": "Уровень предметов"
   }
 }

@@ -120,6 +120,7 @@ export default class Guild extends React.Component {
           </td>
           <td>{character.race_name[this.props.locale]}</td>
           <td>{character.level}</td>
+          <td>{character.item_level > 0 && character.item_level}</td>
           <td>{character.guild_role !== null ? strings[character.guild_role.name] : ''}</td>
           {this._renderManageButtons(character)}
         </tr>
@@ -167,6 +168,7 @@ export default class Guild extends React.Component {
               <th>{strings.role}</th>
               <th>{strings.race}</th>
               <th>{strings.level}</th>
+              <th>{strings.itemLevel}</th>
               <th>{strings.guildRole}</th>
               <th>{strings.operations}</th>
             </tr>

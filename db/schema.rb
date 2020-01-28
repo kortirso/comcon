@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_112223) do
+ActiveRecord::Schema.define(version: 2020_01_28_121224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(version: 2020_01_27_112223) do
     t.integer "guild_id"
     t.string "slug"
     t.integer "world_fraction_id"
+    t.integer "item_level", default: 0, null: false
+    t.boolean "item_level_calculated", default: false, null: false
     t.index ["character_class_id"], name: "index_characters_on_character_class_id"
     t.index ["guild_id"], name: "index_characters_on_guild_id"
     t.index ["name"], name: "index_characters_on_name"

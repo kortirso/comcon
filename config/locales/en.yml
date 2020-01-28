@@ -301,6 +301,7 @@ en:
     role: Role
     character_class: Character class
     level: Level
+    item_level: Item level
     guild: Guild
     find_guild: Find guild
     statics: Statics

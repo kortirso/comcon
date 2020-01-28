@@ -36,7 +36,8 @@
     "operations": "Actions",
     "closed": "Registration for event is closed, to change your status you need to ask creator of event",
     "sure": "Are you sure?",
-    "declined": "Declined"
+    "declined": "Declined",
+    "itemLevel": "Item level"
   },
   "ru": {
     "lineUp": "Состав рейда",
@@ -75,6 +76,7 @@
     "operations": "Действия",
     "closed": "Регистрация на событие закрыта, для изменения статуса обращайтесь к создателю события",
     "sure": "Вы уверены?",
-    "declined": "Отказано"
+    "declined": "Отказано",
+    "itemLevel": "Уровень предметов"
   }
 }

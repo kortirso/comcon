@@ -14,6 +14,7 @@
               th= t('characters.race')
               th= t('characters.character_class')
               th= t('characters.level')
+              th= t('characters.item_level')
               th= t('characters.guild')
               th= t('characters.world')
               th= t('characters.operations')
@@ -24,6 +25,9 @@
                 td= character.race.name[I18n.locale.to_s]
                 td= character.character_class.name[I18n.locale.to_s]
                 td= character.level
+                td
+                  - if character.item_level.positive?
+                    = character.item_level
                 td class="#{character.race.fraction.name['en'].downcase}"
                   - if character.guild_id.present?
                     = link_to character.guild.name, guild_path(id: character.guild.slug)

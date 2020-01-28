@@ -7,3 +7,8 @@ end
 every 1.minute do
   runner 'GetGameItemsJob.perform_later'
 end
+
+# Check new uploaded equipment
+every 5.minutes do
+  runner 'CalcItemLevelForCharactersJob.perform_later'
+end

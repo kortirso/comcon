@@ -1,5 +1,5 @@
 class GuildCharacterSerializer < ActiveModel::Serializer
-  attributes :id, :name, :level, :character_class_name, :race_name, :main_role_name, :slug
+  attributes :id, :name, :level, :item_level, :character_class_name, :race_name, :main_role_name, :slug
   has_one :guild_role, serializer: GuildRoleSerializer
 
   def character_class_name

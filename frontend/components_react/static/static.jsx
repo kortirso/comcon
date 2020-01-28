@@ -135,6 +135,7 @@ export default class LineUp extends React.Component {
             </div>
           </td>
           <td>{subscribe.character.level}</td>
+          <td>{subscribe.character.item_level > 0 && subscribe.character.item_level}</td>
           <td>{subscribe.character.guild_name}</td>
           <td>{strings[subscribe.status]}</td>
           <td className="comment_box">{this._renderComment(subscribe)}</td>
@@ -168,7 +169,7 @@ export default class LineUp extends React.Component {
   _renderEmptyLine() {
     return (
       <tr className='empty_line'>
-        <td colSpan={7}></td>
+        <td colSpan={8}></td>
       </tr>
     )
   }
@@ -377,6 +378,7 @@ export default class LineUp extends React.Component {
                   <th>{strings.name}</th>
                   <th>{strings.role}</th>
                   <th>{strings.level}</th>
+                  <th>{strings.itemLevel}</th>
                   <th>{strings.guild}</th>
                   <th>{strings.status}</th>
                   <th>{strings.comment}</th>
