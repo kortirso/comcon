@@ -56,7 +56,7 @@ class UpdateBankCellsService
   def delete_removed_bank_cells
     existed_bank_cell_items.each do |item|
       next if cell_items.key?(item[1]) && cell_items[item[1]].key?(item[0])
-      BankCell.where(bag_number: item[1], item_uid: item[0]).destroy
+      BankCell.find_by(bank_id: bank.id, bag_number: item[1], item_uid: item[0]).destroy
     end
   end
 end
