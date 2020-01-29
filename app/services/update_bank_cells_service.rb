@@ -44,7 +44,7 @@ class UpdateBankCellsService
 
   def handle_cell_item(item_uid:, amount:, bag_number:)
     params =
-      if existed_bank_cell_items.include?(item_uid)
+      if existed_bank_cell_items.include?([item_uid, bag_number])
         bank_cell = BankCell.find_by(bank_id: bank.id, item_uid: item_uid, bag_number: bag_number)
         bank_cell.attributes.merge(bank: bank, amount: amount, game_item: bank_cell.game_item)
       else
