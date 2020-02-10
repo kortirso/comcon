@@ -105,10 +105,10 @@ world_form.persist?
 guild_form = GuildForm.new(name: 'КомКон', world: world_form.world, fraction: horde)
 guild_form.persist?
 
-dungeon_form = DungeonForm.new(name: { 'en' => 'Molten Core', 'ru' => 'Огненные Недра' }, raid: true, quest_access: true)
+dungeon_form = DungeonForm.new(name: { 'en' => 'Molten Core', 'ru' => 'Огненные Недра' }, raid: true)
 dungeon_form.persist?
 
-dungeon_form = DungeonForm.new(name: { 'en' => "Onyxia's Lair", 'ru' => 'Логово Ониксии' }, raid: true, quest_access: true)
+dungeon_form = DungeonForm.new(name: { 'en' => "Onyxia's Lair", 'ru' => 'Логово Ониксии' }, raid: true)
 dungeon_form.persist?
 
 dungeon_form = DungeonForm.new(name: { 'en' => 'Ragefire Chasm', 'ru' => 'Огненная пропасть' })
@@ -168,10 +168,13 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => 'Dire Maul', 'ru' => 'Забытый Город' })
 dungeon_form.persist?
 
-dungeon_form = DungeonForm.new(name: { 'en' => 'Scholomance', 'ru' => 'Некроситет' }, key_access: true)
+dungeon_form = DungeonForm.new(name: { 'en' => 'Scholomance', 'ru' => 'Некроситет' })
 dungeon_form.persist?
 
 dungeon_form = DungeonForm.new(name: { 'en' => 'Maraudon', 'ru' => 'Мародон' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Blackwing Lair', 'ru' => 'Логово Крыла Тьмы' }, raid: true)
 dungeon_form.persist?
 
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
