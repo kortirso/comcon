@@ -234,7 +234,7 @@ GEM
     net-ssh (5.2.0)
     newrelic_rpm (6.9.0.363)
     nio4r (2.5.2)
-    nokogiri (1.10.5)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.2)
       faraday (>= 0.8, < 2.0)
@@ -269,7 +269,7 @@ GEM
       actionmailer (>= 3)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (4.0.1)
-    puma (4.3.1)
+    puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.0.8)
     rack-protection (2.0.7)
@@ -483,7 +483,7 @@ DEPENDENCIES
   parallel_tests
   pg (= 0.21)
   premailer-rails
-  puma (>= 3.12.2)
+  puma (>= 4.3.3)
   rails (= 5.2.3)
   rails-controller-testing
   rb-readline

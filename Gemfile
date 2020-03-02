@@ -14,7 +14,7 @@ gem 'rails', '5.2.3'
 gem 'pg', '0.21'
 
 # Use Puma as the app server
-gem 'puma', '>= 3.12.2'
+gem 'puma', '>= 4.3.3'
 
 # Use Slim as the templating engine. Better than ERB
 gem 'slim'
