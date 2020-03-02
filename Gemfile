@@ -95,6 +95,7 @@ gem 'activerecord-import'
 
 # Profiling
 gem 'newrelic_rpm'
+gem 'skylight'
 
 group :development, :test do
   gem 'bullet'
