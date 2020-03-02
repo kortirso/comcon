@@ -93,6 +93,9 @@ gem 'hairtrigger'
 # mass importing
 gem 'activerecord-import'
 
+# Profiling
+gem 'newrelic_rpm'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'

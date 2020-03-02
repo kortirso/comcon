@@ -232,6 +232,7 @@ GEM
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
+    newrelic_rpm (6.9.0.363)
     nio4r (2.5.2)
     nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
@@ -474,6 +475,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.1.5)
   mysql2 (~> 0.3)
+  newrelic_rpm
   oj
   oj_mimic_json
   omniauth-discord!
