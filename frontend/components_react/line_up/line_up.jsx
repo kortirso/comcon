@@ -216,7 +216,7 @@ export default class LineUp extends React.Component {
 
   _renderRoles(roles) {
     return roles.map((role, index) => {
-      return <div className={`role_icon ${role.en}`} key={index}></div>
+      return <div className={`role_icon ${role[0]}`} key={index}></div>
     })
   }
 
@@ -237,8 +237,8 @@ export default class LineUp extends React.Component {
       roleValueA = subscribeRoleValues[subscribeA.attributes.for_role]
       roleValueB = subscribeRoleValues[subscribeB.attributes.for_role]
     } else {
-      roleValueA = roleValues[aCharacterAttrs.roles[0].en]
-      roleValueB = roleValues[bCharacterAttrs.roles[0].en]
+      roleValueA = roleValues[aCharacterAttrs.roles[0][0]]
+      roleValueB = roleValues[bCharacterAttrs.roles[0][0]]
     }
     if (roleValueA > roleValueB) return -1
     else if (roleValueA < roleValueB) return 1
@@ -291,7 +291,7 @@ export default class LineUp extends React.Component {
   }
 
   _showApprovingBox(subscribe, forAdmin) {
-    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.attributes.character.data.attributes.roles[0][this.props.locale], approvingStatus: forAdmin ? 'approved' : 'signed'})
+    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.attributes.character.data.attributes.roles[0][this.props.locale === 'en' ? 0 : 1], approvingStatus: forAdmin ? 'approved' : 'signed'})
   }
 
   closeModal() {
@@ -310,7 +310,7 @@ export default class LineUp extends React.Component {
 
   _renderRLBlock() {
     const approvedSubscribes = this.state.subscribes.filter((subscribe) => {
-      return subscribe.status === 'approved'
+      return subscribe.attributes.status === 'approved'
     })
     return (
       <div>
@@ -341,7 +341,7 @@ export default class LineUp extends React.Component {
 
   _renderAvailableRoles(roles) {
     return roles.map((role, index) => {
-      return <option value={role[this.props.locale]} key={index}>{role[this.props.locale]}</option>
+      return <option value={role[this.props.locale === 'en' ? 0 : 1]} key={index}>{role[this.props.locale === 'en' ? 0 : 1]}</option>
     })
   }
 
@@ -397,7 +397,7 @@ export default class LineUp extends React.Component {
       if (!["signed", "reserve", "approved"].includes(subscribe.attributes.status)) return false
       else if (subscribe.attributes.character.data.attributes.character_class_name.en !== characterClassName) return false
       else if (subscribe.attributes.for_role !== null && subscribe.attributes.for_role !== roleName) return false
-      else if (subscribe.attributes.for_role === null && this._transformRole(subscribe.attributes.character.data.attributes.roles[0].en) !== roleName) return false
+      else if (subscribe.attributes.for_role === null && this._transformRole(subscribe.attributes.character.data.attributes.roles[0][0]) !== roleName) return false
       else {
         if (subscribe.attributes.status !== "signed") onlyApproved += 1
         return true

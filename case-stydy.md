@@ -1,6 +1,8 @@
 # Case-study оптимизации
 
-Для применения полученных навыков был выбран реальный проект на production - мой пет проект GuildHall, url - https://guild-hall.org
+Для применения полученных навыков был выбран реальный проект на production - мой пет проект GuildHall
+url - https://guild-hall.org
+код проекта - https://github.com/kortirso/comcon
 
 ## Предварительная настройка
 
@@ -16,7 +18,7 @@
 - проверка результата
 - повторение
 
-## Находка 1
+## Находка 1.1
 Целый комплекс эндпоинтов для отображения одной страницы, при вызове events#show происходит вызов эндпоинтов:
 - Api::V1::EventsController#subscribers
 - Api::V1::EventsController#characters_without_subscribe
@@ -42,3 +44,20 @@ NewRelic
 - Api::V1::EventsController#characters_without_subscribe, apdex 0.8, average 549 ms
 - Api::V1::EventsController#user_characters
 
+Оптимизация:
+- 1 новый эндпоинт (Api::V2::EventsController#subscribers) вместо 3 старых
+- fast json api сериализация
+- кэширование результатов https://github.com/kortirso/comcon/commit/0c49bee29e7107e303cc1cb16fe21b4207c4f9b2#diff-c2a7dc5d956f7cd307d4a4eb1ac0e12dR49
+- использование activerecord-import для быстрого создания базовых подписок https://github.com/kortirso/comcon/commit/0c49bee29e7107e303cc1cb16fe21b4207c4f9b2#diff-49d71d479391d0d579099c5d6c941762R13
+
+Статистика после оптимизации
+Skylight
+- Api::V2::EventsController#subscribers, typical 126 ms, problem 191 ms, agony 2
+
+NewRelic
+- Api::V2::EventsController#subscribers, apdex 0.98, average 151 ms
+
+### Находка 1.2
+При сериализации персонажа идет много дополнительных запросов на получение списка ролей - надо заменить на предварительный расчет текущих ролей персонажа, т.к. они к тому же редко меняются
+
+Статистика после оптимизации

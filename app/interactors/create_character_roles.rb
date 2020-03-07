@@ -19,5 +19,9 @@ class CreateCharacterRoles
         character_role.destroy
       end
     end
+
+    character = Character.find_by(id: context.character_id)
+    current_roles = character.roles.order(main: :desc).pluck(:name).map { |element| [element['en'], element['ru']] }
+    character.update(current_roles: current_roles)
   end
 end

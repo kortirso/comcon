@@ -4,7 +4,7 @@ class FastCharacterSerializer
   include FastJsonapi::ObjectSerializer
 
   set_type :character
-  attributes :id, :name, :level, :user_id, :slug
+  attributes :id, :name, :level, :user_id, :slug, :item_level
 
   attribute :character_class_name do |object|
     object.character_class.name
@@ -14,7 +14,5 @@ class FastCharacterSerializer
     object.guild.name unless object.guild_id.nil?
   end
 
-  attribute :roles do |object|
-    object.roles.order(main: :desc).pluck(:name)
-  end
+  attribute :roles, &:current_roles
 end
