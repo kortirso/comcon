@@ -102,6 +102,9 @@ gem 'strong_migrations'
 gem 'pg_query', '>= 0.9.0'
 gem 'pghero'
 
+# Errors
+gem 'bugsnag'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'

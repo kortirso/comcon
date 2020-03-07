@@ -72,6 +72,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     babosa (1.0.3)
     bcrypt (3.1.13)
+    bugsnag (6.13.0)
+      concurrent-ruby (~> 1.0)
     builder (3.2.3)
     bullet (6.0.2)
       activesupport (>= 3.0.0)
@@ -465,6 +467,7 @@ DEPENDENCIES
   activerecord-import
   apipie-rails (= 0.5.8)
   babosa
+  bugsnag
   bullet
   capistrano (~> 3.10)
   capistrano-bundler

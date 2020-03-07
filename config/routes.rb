@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount PgHero::Engine, at: 'pghero'
+  # mount PgHero::Engine, at: 'pghero'
 
   namespace :api do
     namespace :v1 do
