@@ -62,47 +62,47 @@ character_class_form = CharacterClassForm.new(name: { 'en' => 'Warrior', 'ru' =>
 character_class_form.persist?
 warrior = character_class_form.character_class
 
-[druid, hunter, shaman, warrior].each do |character_class|
+[druid, hunter, shaman, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: tauren.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[rogue, warlock, hunter, shaman, warrior].each do |character_class|
+[rogue, warlock, hunter, shaman, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: orc.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[rogue, hunter, paladin, priest, warrior].each do |character_class|
+[rogue, hunter, paladin, priest, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: dwarf.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[mage, priest, rogue, warlock, warrior].each do |character_class|
+[mage, priest, rogue, warlock, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: undead.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[mage, paladin, priest, rogue, warlock, warrior].each do |character_class|
+[mage, paladin, priest, rogue, warlock, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: human.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[hunter, mage, priest, rogue, shaman, warrior].each do |character_class|
+[hunter, mage, priest, rogue, shaman, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: troll.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[druid, hunter, priest, rogue, warrior].each do |character_class|
+[druid, hunter, priest, rogue, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: night_elf.id, combinateable_type: 'Race')
   combination_form.persist?
 end
-[mage, rogue, warlock, warrior].each do |character_class|
+[mage, rogue, warlock, warrior].compact.each do |character_class|
   combination_form = CombinationForm.new(character_class: character_class, combinateable_id: gnome.id, combinateable_type: 'Race')
   combination_form.persist?
 end
 
-world_form = WorldForm.new(name: 'Хроми', zone: 'RU')
-world_form.persist?
+world_form = WorldDryForm.new(id: nil, name: 'Хроми', zone: 'RU')
+world_form.save
 
 guild_form = GuildForm.new(name: 'КомКон', world: world_form.world, fraction: alliance)
 guild_form.persist?
 
-world_form = WorldForm.new(name: 'Рок-Делар', zone: 'RU')
-world_form.persist?
+world_form = WorldDryForm.new(id: nil, name: 'Рок-Делар', zone: 'RU')
+world_form.save
 
 guild_form = GuildForm.new(name: 'КомКон', world: world_form.world, fraction: horde)
 guild_form.persist?
