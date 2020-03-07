@@ -50,11 +50,12 @@
                   td= static.staticable.full_name
                   td= static.privy? ? t('statics.private') : t('statics.public')
                   td
-                    - ['tanks', 'healers', 'dd'].each do |role|
-                      - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
-                        span class="left_value class_icon #{key}"
-                          span class="role #{role}"
-                          span class="amount"= value
+                    - if static.group_role.present?
+                      - ['tanks', 'healers', 'dd'].each do |role|
+                        - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
+                          span class="left_value class_icon #{key}"
+                            span class="role #{role}"
+                            span class="amount"= value
                   td
                     - if Current.user.any_static_role?(static)
                       = link_to '', edit_static_path(static.slug), class: 'btn btn-icon btn-edit with_right_margin', aria: { label: 'Edit button' }
