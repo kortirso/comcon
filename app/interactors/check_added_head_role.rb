@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create what need to add after adding GM role from character
 class CheckAddedHeadRole
   include Interactor

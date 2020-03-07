@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # StaticInvite policies
 class StaticInvitePolicy < ApplicationPolicy
   authorize :static, :character

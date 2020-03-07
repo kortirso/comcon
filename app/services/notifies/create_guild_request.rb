@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Notifies
   # Notificate about creating guild request
   class CreateGuildRequest < Notify

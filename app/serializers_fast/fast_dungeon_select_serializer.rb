@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FastDungeonSelectSerializer
   include FastJsonapi::ObjectSerializer
 

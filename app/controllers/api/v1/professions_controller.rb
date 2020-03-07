@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ProfessionsController < Api::V1::BaseController
@@ -13,7 +15,7 @@ module Api
       api :GET, '/v1/professions.json', 'Get list of professions'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: { professions: @professions_json }, status: 200
+        render json: { professions: @professions_json }, status: :ok
       end
     end
   end

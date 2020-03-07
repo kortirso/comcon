@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StaticsController < ApplicationController
   before_action :find_user_statics, only: %i[index]
   before_action :find_guild, only: %i[new]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents invite to guild and requests for guild membership
 class GuildInvite < ApplicationRecord
   enum status: { send: 0, declined: 1 }, _prefix: :status

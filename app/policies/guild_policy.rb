@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Guild policies
 class GuildPolicy < ApplicationPolicy
   def edit?

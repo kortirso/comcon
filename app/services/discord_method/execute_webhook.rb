@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Module for deliveries
 module DiscordMethod
   # Send message with webhook

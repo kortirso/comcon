@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update password for user
 class UpdateUserPassword
   include Interactor

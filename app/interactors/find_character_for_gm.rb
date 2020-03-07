@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Find character as gm for new guild
 class FindCharacterForGm
   include Interactor

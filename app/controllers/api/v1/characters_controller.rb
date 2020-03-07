@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class CharactersController < Api::V1::BaseController
@@ -25,7 +27,7 @@ module Api
       def index
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters, each_serializer: CharacterIndexSerializer).as_json[:characters]
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/characters/:id.json', 'Show character info'
@@ -34,7 +36,7 @@ module Api
       def show
         render json: {
           character: CharacterShowSerializer.new(@character)
-        }, status: 200
+        }, status: :ok
       end
 
       api :POST, '/v1/characters.json', 'Create character'
@@ -44,9 +46,9 @@ module Api
         character_form = CharacterForm.new(character_params)
         if character_form.persist?
           create_additional_structures_for_character(character_form.character)
-          render json: character_form.character, status: 201
+          render json: character_form.character, status: :created
         else
-          render json: { errors: character_form.errors.full_messages }, status: 409
+          render json: { errors: character_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -60,9 +62,9 @@ module Api
         if character_form.persist?
           character_form.character.character_roles.destroy_all
           create_additional_structures_for_character(character_form.character)
-          render json: character_form.character, status: 200
+          render json: character_form.character, status: :ok
         else
-          render json: { errors: character_form.errors.full_messages }, status: 409
+          render json: { errors: character_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -74,7 +76,7 @@ module Api
           worlds: @worlds_json,
           dungeons: @dungeons_json,
           professions: @professions_json
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/characters/search.json', 'Search characters by name with params'
@@ -82,7 +84,7 @@ module Api
       def search
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters, root: 'characters', each_serializer: CharacterCrafterSerializer).as_json[:characters]
-        }, status: 200
+        }, status: :ok
       end
 
       api :POST, '/v1/characters/:id/upload_recipes.json', 'Upload recipes for character'
@@ -91,8 +93,8 @@ module Api
       error code: 400, desc: 'Object is not found'
       def upload_recipes
         result = CharacterRecipesUpload.call(character_id: @character.id, profession_id: @profession.id, value: params[:value])
-        return render json: { result: 'Recipes are uploaded' }, status: 200 unless result.nil?
-        render json: { result: 'Recipes are not uploaded' }, status: 409
+        return render json: { result: 'Recipes are uploaded' }, status: :ok unless result.nil?
+        render json: { result: 'Recipes are not uploaded' }, status: :conflict
       end
 
       private
@@ -110,7 +112,7 @@ module Api
         @characters = Character.search "*#{params[:query]}*", with: define_additional_search_params
       end
 
-      def define_additional_search_params(with = {})
+      def define_additional_search_params(with={})
         with[:world_id] = params[:world_id].to_i if params[:world_id].present?
         with[:character_class_id] = params[:character_class_id].to_i if params[:character_class_id].present?
         if params[:race_id].present?

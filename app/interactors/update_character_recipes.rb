@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update CharacterRecipes
 class UpdateCharacterRecipes
   include Interactor

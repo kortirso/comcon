@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # base helper
 module ApplicationHelper
   def change_locale(locale)

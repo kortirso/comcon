@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents game items
 class GameItem < ApplicationRecord
   belongs_to :game_item_quality

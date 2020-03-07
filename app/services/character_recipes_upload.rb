@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Service for uploading existed for user recipes
 class CharacterRecipesUpload
   def self.call(character_id:, profession_id:, value:)
@@ -12,7 +14,7 @@ class CharacterRecipesUpload
 
     until values.empty?
       recipe_name = values.shift
-      recipe = recipes.detect { |elem| elem.name[locale] == recipe_name }
+      recipe = recipes.find { |elem| elem.name[locale] == recipe_name }
       # if recipe with such name does not exists
       next if recipe.nil?
       # find or create new character_recipe

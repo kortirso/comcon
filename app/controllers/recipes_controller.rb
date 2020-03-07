@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RecipesController < ApplicationController
   before_action :is_admin?
   before_action :find_recipe, only: %i[edit destroy]
@@ -11,7 +13,7 @@ class RecipesController < ApplicationController
 
   def destroy
     @recipe.destroy
-    redirect_to recipes_path, status: 303
+    redirect_to recipes_path, status: :see_other
   end
 
   private

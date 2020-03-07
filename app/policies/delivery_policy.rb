@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Delivery policies
 class DeliveryPolicy < ApplicationPolicy
   def new?

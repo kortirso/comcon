@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Confirm from static by character
 class LeaveFromStatic
   include Interactor

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CharactersController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[update_recipes]
   before_action :find_characters, only: %i[index]
@@ -18,7 +20,7 @@ class CharactersController < ApplicationController
   def destroy
     @character.destroy
     RebuildGuildRoles.call(guild: @character.guild) unless @character.guild_id.nil?
-    redirect_to characters_path, status: 303
+    redirect_to characters_path, status: :see_other
   end
 
   def recipes; end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents staticable
 module Staticable
   extend ActiveSupport::Concern

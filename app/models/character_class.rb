@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents character classes
 class CharacterClass < ApplicationRecord
   has_many :characters, dependent: :destroy

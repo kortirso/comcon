@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents bank requests for items
 class BankRequest < ApplicationRecord
   enum status: { send: 0, declined: 1, completed: 2 }, _prefix: :status

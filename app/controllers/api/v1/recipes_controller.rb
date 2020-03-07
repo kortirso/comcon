@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class RecipesController < Api::V1::BaseController
@@ -16,14 +18,14 @@ module Api
       api :GET, '/v1/recipes.json', 'Get all recipes'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: { recipes: @recipes_json }, status: 200
+        render json: { recipes: @recipes_json }, status: :ok
       end
 
       api :GET, '/v1/recipes/:id.json', 'Show recipe info'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def show
-        render json: { recipe: @recipe }, status: 200
+        render json: { recipe: @recipe }, status: :ok
       end
 
       api :POST, '/v1/recipes.json', 'Create recipe'
@@ -32,9 +34,9 @@ module Api
       def create
         recipe_form = RecipeForm.new(recipe_params)
         if recipe_form.persist?
-          render json: { recipe: recipe_form.recipe }, status: 201
+          render json: { recipe: recipe_form.recipe }, status: :created
         else
-          render json: { errors: recipe_form.errors.full_messages }, status: 409
+          render json: { errors: recipe_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -45,9 +47,9 @@ module Api
       def update
         recipe_form = RecipeForm.new(@recipe.attributes.merge(recipe_params))
         if recipe_form.persist?
-          render json: { recipe: recipe_form.recipe }, status: 200
+          render json: { recipe: recipe_form.recipe }, status: :ok
         else
-          render json: { errors: recipe_form.errors.full_messages }, status: 409
+          render json: { errors: recipe_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -56,7 +58,7 @@ module Api
       def search
         render json: {
           recipes: ActiveModelSerializers::SerializableResource.new(Recipe.where(id: @recipe_ids), each_serializer: RecipeSerializer).as_json[:recipes]
-        }, status: 200
+        }, status: :ok
       end
 
       private
@@ -70,7 +72,7 @@ module Api
         @recipe_ids = Recipe.search("*#{params[:query]}*", with: define_additional_search_params).map!(&:id)
       end
 
-      def define_additional_search_params(with = {})
+      def define_additional_search_params(with={})
         with[:profession_id] = params[:profession_id].to_i if params[:profession_id].present?
         with
       end

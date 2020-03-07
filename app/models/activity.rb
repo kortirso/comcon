@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents news
 class Activity < ApplicationRecord
   belongs_to :guild, optional: true

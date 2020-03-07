@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send notifications for users about close event
 every 10.minutes do
   runner 'NotifyComingSoonEventsJob.perform_later'

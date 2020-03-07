@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Delete guild role
 class RemoveGuildRole
   include Interactor

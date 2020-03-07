@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Rebuild guild roles if there is no GM
 class RebuildGuildRoles
   include Interactor

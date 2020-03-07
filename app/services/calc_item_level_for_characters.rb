@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Calc
 class CalcItemLevelForCharacters
   attr_reader :characters

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class CraftController < Api::V1::BaseController
@@ -19,13 +21,13 @@ module Api
           fractions: @fractions_json,
           guilds: @guilds_json,
           professions: @professions_json
-        }, status: 200
+        }, status: :ok
       end
 
       def search
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters.includes(:race, :character_class, guild: :world), each_serializer: CharacterCrafterSerializer).as_json[:characters]
-        }, status: 200
+        }, status: :ok
       end
 
       private

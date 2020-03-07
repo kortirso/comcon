@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class UserTokenController < Api::V1::BaseController
@@ -19,9 +21,9 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def create
         user = auto_auth
-        render json: JwtService.new.json_response(user: user), status: 200
+        render json: JwtService.new.json_response(user: user), status: :ok
       rescue AuthFailure => ex
-        render json: { errors: ex.message }, status: 401
+        render json: { errors: ex.message }, status: :unauthorized
       end
 
       private

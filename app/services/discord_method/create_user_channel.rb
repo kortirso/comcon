@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Module for deliveries
 module DiscordMethod
   # Create PM channel with user

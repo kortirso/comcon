@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update left value of group role of static
 class UpdateStaticLeftValue
   include Interactor
@@ -23,9 +25,9 @@ class UpdateStaticLeftValue
 
   def modify(role)
     case role
-      when 'Tank' then 'tanks'
-      when 'Healer' then 'healers'
-      else 'dd'
+    when 'Tank' then 'tanks'
+    when 'Healer' then 'healers'
+    else 'dd'
     end
   end
 end

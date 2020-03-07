@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update bank cells
 class UpdateBankCellsJob < ApplicationJob
   queue_as :default

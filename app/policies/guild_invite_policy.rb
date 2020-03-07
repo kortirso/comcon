@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # GuildInvite policies
 class GuildInvitePolicy < ApplicationPolicy
   authorize :guild, :character

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send reset token to user's email
 class SendResetToken
   include Interactor

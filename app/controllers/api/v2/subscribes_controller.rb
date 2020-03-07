@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class SubscribesController < Api::V1::BaseController
@@ -14,7 +16,7 @@ module Api
       def closest
         render json: {
           subscribes: FastSubscribeIndexSerializer.new(@subscribes).serializable_hash
-        }, status: 200
+        }, status: :ok
       end
 
       api :DELETE, '/v2/subscribes/:id.json', 'Delete subscribe'
@@ -25,7 +27,7 @@ module Api
       def destroy
         authorize! @subscribe, context: { status: :no_status_change }
         @subscribe.destroy
-        render json: { result: 'Subscribe is deleted' }, status: 200
+        render json: { result: 'Subscribe is deleted' }, status: :ok
       end
 
       private

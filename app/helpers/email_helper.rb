@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # email helper
 module EmailHelper
   def self.formatted_email(email)

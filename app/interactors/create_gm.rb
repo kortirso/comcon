@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Define GM for new guild
 class CreateGm
   include Interactor

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents game professions
 class Profession < ApplicationRecord
   has_many :character_professions, dependent: :destroy

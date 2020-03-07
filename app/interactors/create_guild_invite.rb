@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create GuildInvite
 class CreateGuildInvite
   include Interactor

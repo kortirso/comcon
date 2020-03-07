@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Find or create bank
 class FindOrCreateBank
   include Interactor

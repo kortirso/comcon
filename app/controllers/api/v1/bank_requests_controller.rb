@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class BankRequestsController < Api::V1::BaseController
@@ -16,7 +18,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         authorize! @guild, to: :bank?
-        render json: @guild.bank_requests.sent.order(id: :asc).includes(:character, :bank, :game_item), status: 200
+        render json: @guild.bank_requests.sent.order(id: :asc).includes(:character, :bank, :game_item), status: :ok
       end
 
       api :POST, '/v1/bank_requests.json', 'Create bank request'
@@ -24,12 +26,13 @@ module Api
       error code: 409, desc: 'Conflict'
       def create
         authorize! @bank.guild, to: :bank?
-        bank_request_form = BankRequestForm.new(bank_request_params.merge(bank: @bank, character: @character, game_item: @game_item))
+        bank_request_form =
+          BankRequestForm.new(bank_request_params.merge(bank: @bank, character: @character, game_item: @game_item))
         if bank_request_form.persist?
           CreateBankRequestJob.perform_later(bank_request_id: bank_request_form.bank_request.id)
-          render json: bank_request_form.bank_request, status: 201
+          render json: bank_request_form.bank_request, status: :created
         else
-          render json: { errors: bank_request_form.errors.full_messages }, status: 409
+          render json: { errors: bank_request_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -39,7 +42,7 @@ module Api
       def decline
         authorize! @bank_request.bank.guild, to: :bank?
         @bank_request.decline
-        render json: { result: 'Bank request is declined' }, status: 200
+        render json: { result: 'Bank request is declined' }, status: :ok
       end
 
       api :POST, '/v1/bank_requests/:id/approve.json', 'Approve bank request'
@@ -50,16 +53,16 @@ module Api
         result = ApproveBankRequest.call(bank_request: @bank_request, provided_amount: params[:provided_amount])
         if result.success?
           result.bank_cell.destroy if result.bank_cell.amount.zero?
-          render json: result.bank_cell, status: 200
+          render json: result.bank_cell, status: :ok
         else
-          render json: { result: result.message }, status: 409
+          render json: { result: result.message }, status: :conflict
         end
       end
 
       def destroy
         authorize! @bank_request, to: :destroy?
         @bank_request.destroy
-        render json: { result: 'Bank request is destroyed' }, status: 200
+        render json: { result: 'Bank request is destroyed' }, status: :ok
       end
 
       private

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents invites to statics
 class StaticInvite < ApplicationRecord
   enum status: { send: 0, declined: 1, approved: 2 }, _prefix: :status

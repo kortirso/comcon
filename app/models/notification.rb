@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents notifications about events
 class Notification < ApplicationRecord
   enum status: { guild: 0, user: 1 }, _prefix: :status
@@ -13,12 +15,12 @@ class Notification < ApplicationRecord
 
   def content(event_object:)
     case event
-      when 'guild_event_creation' then guild_event_creation_content(event: event_object)
-      when 'event_start_soon' then event_start_soon_content(event: event_object)
-      when 'guild_static_event_creation' then guild_static_event_creation_content(event: event_object)
-      when 'guild_request_creation' then guild_request_creation_content(guild_invite: event_object)
-      when 'bank_request_creation' then bank_request_creation_content(bank_request: event_object)
-      when 'activity_creation' then activity_creation_content(activity: event_object)
+    when 'guild_event_creation' then guild_event_creation_content(event: event_object)
+    when 'event_start_soon' then event_start_soon_content(event: event_object)
+    when 'guild_static_event_creation' then guild_static_event_creation_content(event: event_object)
+    when 'guild_request_creation' then guild_request_creation_content(guild_invite: event_object)
+    when 'bank_request_creation' then bank_request_creation_content(bank_request: event_object)
+    when 'activity_creation' then activity_creation_content(activity: event_object)
     end
   end
 
@@ -89,9 +91,9 @@ class Notification < ApplicationRecord
 
   def event_time_offset(event:)
     case event.eventable_type
-      when 'Guild' then (event.eventable.time_offset.value || 0)
-      when 'Static' then event.eventable.time_offset_value
-      else 0
+    when 'Guild' then (event.eventable.time_offset.value || 0)
+    when 'Static' then event.eventable.time_offset_value
+    else 0
     end
   end
 end

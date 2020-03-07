@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Transfering character
 class ComplexTransferCharacter
   include Interactor::Organizer

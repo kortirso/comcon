@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class CharacterClassesController < Api::V1::BaseController
@@ -11,7 +13,7 @@ module Api
       api :GET, '/v1/character_classes.json', 'Get list of character classes'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: @character_classes, status: 200
+        render json: @character_classes, status: :ok
       end
 
       private

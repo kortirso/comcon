@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Apipie.configure do |config|
   config.app_name = 'Comcon'
   config.api_base_url = '/api'

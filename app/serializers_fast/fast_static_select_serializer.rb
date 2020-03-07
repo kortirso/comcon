@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FastStaticSelectSerializer
   include FastJsonapi::ObjectSerializer
 

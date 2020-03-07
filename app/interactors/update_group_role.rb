@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update GroupRole
 class UpdateGroupRole
   include Interactor

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send email for mail confirmation
 class ConfirmUserEmailJob < ApplicationJob
   queue_as :default

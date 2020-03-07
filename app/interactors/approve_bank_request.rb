@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Approve bank request
 class ApproveBankRequest
   include Interactor

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Validate email of new user
 class ValidateUserEmail
   include Interactor

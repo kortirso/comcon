@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Service for uploading equipment for character
 class CharacterEquipmentUpload
   def self.call(character_id:, value:)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create what need to remove after deleting GM role from character
 class CheckRemovedHeadRole
   include Interactor

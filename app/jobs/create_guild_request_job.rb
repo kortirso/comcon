@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send notifications about creating request to guild
 class CreateGuildRequestJob < ApplicationJob
   queue_as :default

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GuildsController < ApplicationController
   before_action :find_guild_invites_for_user, only: %i[index]
   before_action :find_guild_by_slug, only: %i[show edit management statics notifications bank activities roster]

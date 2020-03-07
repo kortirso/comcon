@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class DeliveriesController < Api::V1::BaseController
@@ -11,9 +13,9 @@ module Api
         result = CreateDeliveryWithParams.call(delivery_params: delivery_params, delivery_param_params: delivery_param_params)
         if result.success?
           CreateDublicateForGmUser.call(delivery: result.delivery)
-          render json: result.delivery, status: 201
+          render json: result.delivery, status: :created
         else
-          render json: { errors: result.message }, status: 409
+          render json: { errors: result.message }, status: :conflict
         end
       end
 

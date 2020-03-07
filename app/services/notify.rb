@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base notify class
 class Notify
   private

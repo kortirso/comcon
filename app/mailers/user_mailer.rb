@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Emails for users
 class UserMailer < ApplicationMailer
   def confirmation_email(user_id:)

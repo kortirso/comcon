@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Check user identity at providers
 class CheckProvider
   attr_reader :provider, :access_token
@@ -9,7 +11,7 @@ class CheckProvider
 
   def call
     case provider
-      when 'discord' then Providers::Discord.new(access_token: access_token).call
+    when 'discord' then Providers::Discord.new(access_token: access_token).call
     end
   end
 end

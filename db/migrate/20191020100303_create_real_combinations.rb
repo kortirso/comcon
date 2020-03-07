@@ -25,52 +25,52 @@ class CreateRealCombinations < ActiveRecord::Migration[5.2]
     warlock = CharacterClass.find_by(name: { 'en' => 'Warlock', 'ru' => 'Чернокнижник' })
     warrior = CharacterClass.find_by(name: { 'en' => 'Warrior', 'ru' => 'Воин' })
     # create race combination
-    [druid, hunter, shaman, warrior].each do |character_class|
+    [druid, hunter, shaman, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: tauren.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [rogue, warlock, hunter, shaman, warrior].each do |character_class|
+    [rogue, warlock, hunter, shaman, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: orc.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [rogue, hunter, paladin, priest, warrior].each do |character_class|
+    [rogue, hunter, paladin, priest, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: dwarf.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [mage, priest, rogue, warlock, warrior].each do |character_class|
+    [mage, priest, rogue, warlock, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: undead.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [mage, paladin, priest, rogue, warlock, warrior].each do |character_class|
+    [mage, paladin, priest, rogue, warlock, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: human.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [hunter, mage, priest, rogue, shaman, warrior].each do |character_class|
+    [hunter, mage, priest, rogue, shaman, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: troll.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [druid, hunter, priest, rogue, warrior].each do |character_class|
+    [druid, hunter, priest, rogue, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: night_elf.id, combinateable_type: 'Race')
       combination_form.persist?
     end
-    [mage, rogue, warlock, warrior].each do |character_class|
+    [mage, rogue, warlock, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: gnome.id, combinateable_type: 'Race')
       combination_form.persist?
     end
     # create role combination
-    [druid, paladin, warrior].each do |character_class|
+    [druid, paladin, warrior].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: tank.id, combinateable_type: 'Role')
       combination_form.persist?
     end
-    [paladin, priest, shaman, druid].each do |character_class|
+    [paladin, priest, shaman, druid].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: healer.id, combinateable_type: 'Role')
       combination_form.persist?
     end
-    [rogue, warrior, paladin, druid, shaman].each do |character_class|
+    [rogue, warrior, paladin, druid, shaman].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: melee.id, combinateable_type: 'Role')
       combination_form.persist?
     end
-    [mage, priest, druid, warlock, shaman, hunter].each do |character_class|
+    [mage, priest, druid, warlock, shaman, hunter].compact.each do |character_class|
       combination_form = CombinationForm.new(character_class: character_class, combinateable_id: ranged.id, combinateable_type: 'Role')
       combination_form.persist?
     end

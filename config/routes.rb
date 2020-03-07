@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
+  mount PgHero::Engine, at: 'pghero'
+
   namespace :api do
     namespace :v1 do
       resources :game_item_categories, only: %i[index]

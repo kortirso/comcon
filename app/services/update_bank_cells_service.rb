@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update bank cells
 class UpdateBankCellsService
   attr_reader :bank, :existed_bank_cell_items, :cell_items, :cell_item_uids

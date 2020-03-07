@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents deliveriable
 module Deliveriable
   extend ActiveSupport::Concern

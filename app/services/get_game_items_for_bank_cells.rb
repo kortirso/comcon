@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # upload game items
 class GetGameItemsForBankCells
   attr_reader :item_uids, :equipment_uids

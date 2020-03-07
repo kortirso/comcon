@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create DeliveryParam
 class CreateDeliveryParam
   include Interactor

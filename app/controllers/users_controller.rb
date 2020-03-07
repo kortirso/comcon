@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[reset_password change_password]
   skip_before_action :set_current_user, only: %i[restore_password reset_password new_password change_password]
@@ -25,7 +27,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_path, status: 303
+    redirect_to users_path, status: :see_other
   end
 
   def restore_password; end

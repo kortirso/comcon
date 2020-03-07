@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents data about previous characters lifes
 class CharacterTransfer < ApplicationRecord
   belongs_to :character

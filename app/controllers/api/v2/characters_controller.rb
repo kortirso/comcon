@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class CharactersController < Api::V1::BaseController
@@ -14,7 +16,7 @@ module Api
       def index
         render json: {
           characters: FastCharacterIndexSerializer.new(@characters).serializable_hash
-        }, status: 200
+        }, status: :ok
       end
 
       api :PATCH, '/v2/characters/:id/transfer.json', 'Update character'
@@ -28,9 +30,9 @@ module Api
         if character_form.persist?
           character_form.character.character_roles.destroy_all
           ComplexTransferCharacter.call(character_id: character_form.character.id, character_role_params: character_role_params)
-          render json: character_form.character, status: 200
+          render json: character_form.character, status: :ok
         else
-          render json: { errors: character_form.errors.full_messages }, status: 409
+          render json: { errors: character_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -42,9 +44,9 @@ module Api
       def equipment
         result = CharacterEquipmentUpload.call(character_id: @character.id, value: params[:value])
         if result.present?
-          render json: { result: 'Equipment is uploaded' }, status: 200
+          render json: { result: 'Equipment is uploaded' }, status: :ok
         else
-          render json: { result: 'Equipment is not uploaded' }, status: 409
+          render json: { result: 'Equipment is not uploaded' }, status: :conflict
         end
       end
 

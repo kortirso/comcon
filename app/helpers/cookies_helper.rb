@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Helper for cookies authentification
 module CookiesHelper
   # Remembers a person in a persistent session.

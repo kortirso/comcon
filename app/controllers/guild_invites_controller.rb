@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GuildInvitesController < ApplicationController
   before_action :find_character, only: %i[find]
 

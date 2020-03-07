@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Providers
   # check user identity through discord
   class Discord

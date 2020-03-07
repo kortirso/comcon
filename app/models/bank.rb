@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents guild banks
 class Bank < ApplicationRecord
   belongs_to :guild

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivitiesController < ApplicationController
   before_action :find_guild, only: %i[new]
   before_action :find_activity, only: %i[edit destroy]
@@ -15,7 +17,7 @@ class ActivitiesController < ApplicationController
   def destroy
     authorize! @activity.guild, with: GuildPolicy, to: :management?
     @activity.destroy
-    redirect_to activities_guild_path(@activity.guild.slug), status: 303
+    redirect_to activities_guild_path(@activity.guild.slug), status: :see_other
   end
 
   private

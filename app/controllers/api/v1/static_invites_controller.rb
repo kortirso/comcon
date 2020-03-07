@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class StaticInvitesController < Api::V1::BaseController
@@ -16,7 +18,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         authorize! @from_static, with: StaticInvitePolicy, context: { static: @invite_creator, character: @invite_creator }
-        render json: (@invite_creator.is_a?(Static) ? @invite_creator.static_invites.includes(:character) : @invite_creator.static_invites.includes(:static)), status: 200
+        render json: (@invite_creator.is_a?(Static) ? @invite_creator.static_invites.includes(:character) : @invite_creator.static_invites.includes(:static)), status: :ok
       end
 
       api :POST, '/v1/statics.json', 'Create static invite or member for guild members'
@@ -34,7 +36,7 @@ module Api
       def destroy
         authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :index?, context: { static: @static_invite.static, character: @static_invite.character }
         @static_invite.destroy
-        render json: { result: 'Static invite is destroyed' }, status: 200
+        render json: { result: 'Static invite is destroyed' }, status: :ok
       end
 
       api :POST, '/v1/static_invites/:id/approve.json', 'Approve static invite'
@@ -44,7 +46,7 @@ module Api
       def approve
         authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
         ApproveStaticInvite.call(static: @static_invite.static, character: @static_invite.character)
-        render json: { result: 'Character is added to the static' }, status: 200
+        render json: { result: 'Character is added to the static' }, status: :ok
       end
 
       api :POST, '/v1/static_invites/:id/decline.json', 'Decline static invite'
@@ -54,7 +56,7 @@ module Api
       def decline
         authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
         UpdateStaticInvite.call(static_invite: @static_invite, status: 1)
-        render json: { result: 'Static invite is declined' }, status: 200
+        render json: { result: 'Static invite is declined' }, status: :ok
       end
 
       private
@@ -84,7 +86,7 @@ module Api
       end
 
       def check_static_member
-        render json: { error: 'Static member already exists' }, status: 409 if StaticMember.where(static: @static, character: @character).exists?
+        render json: { error: 'Static member already exists' }, status: :conflict if StaticMember.where(static: @static, character: @character).exists?
       end
 
       def find_static_invite
@@ -97,9 +99,9 @@ module Api
         if result.success?
           render json: {
             member: StaticMemberSerializer.new(result.static_member)
-          }, status: 201
+          }, status: :created
         else
-          render json: { errors: result.message }, status: 409
+          render json: { errors: result.message }, status: :conflict
         end
       end
 
@@ -108,9 +110,9 @@ module Api
         if static_invite_form.persist?
           render json: {
             invite: StaticInviteSerializer.new(static_invite_form.static_invite)
-          }, status: 201
+          }, status: :created
         else
-          render json: { errors: static_invite_form.errors.full_messages }, status: 409
+          render json: { errors: static_invite_form.errors.full_messages }, status: :conflict
         end
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents users in the system
 class User < ApplicationRecord
   include Personable
@@ -47,8 +49,8 @@ class User < ApplicationRecord
     Static.where(id: static_ids)
   end
 
-  def guild_static_ids_as_guild_leader(guild_static_ids = [])
-    characters.where.not(guild_id: nil).includes(:guild).each do |character|
+  def guild_static_ids_as_guild_leader(guild_static_ids=[])
+    characters.where.not(guild_id: nil).includes(:guild).find_each do |character|
       next unless any_role?(character.guild_id, 'gm', 'rl', 'cl')
       guild_static_ids << character.guild.statics.pluck(:id)
     end
@@ -67,9 +69,9 @@ class User < ApplicationRecord
 
   def available_characters_for_event(event:)
     case event.eventable_type
-      when 'World' then characters.where(world_fraction_id: event.world_fraction_id)
-      when 'Guild' then characters.where(guild_id: event.eventable_id)
-      when 'Static' then characters.joins(:static_members).where(static_members: { static_id: event.eventable_id })
+    when 'World' then characters.where(world_fraction_id: event.world_fraction_id)
+    when 'Guild' then characters.where(guild_id: event.eventable_id)
+    when 'Static' then characters.joins(:static_members).where(static_members: { static_id: event.eventable_id })
     end
   end
 

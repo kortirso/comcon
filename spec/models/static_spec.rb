@@ -30,24 +30,23 @@ RSpec.describe Static, type: :model do
 
     context 'for character static' do
       let!(:static) { create :static, :character }
+      let!(:user) { static.staticable.user }
+      let!(:time_offset) { create :time_offset, timeable: static.staticable.user, value: nil }
 
       context 'without value' do
-        let!(:time_offset) { create :time_offset, timeable: static.staticable.user, value: nil }
-
         it 'returns locale of character user' do
-          static.staticable.user.reload
+          user.reload
 
           expect(static.time_offset_value).to eq 0
         end
       end
 
       context 'with value' do
-        let!(:time_offset) { create :time_offset, timeable: static.staticable.user, value: 3 }
-
         it 'returns locale of character user' do
-          static.staticable.user.reload
+          user.reload
+          user.time_offset.update(value: 3)
 
-          expect(static.time_offset_value).to eq static.staticable.user.time_offset.value
+          expect(static.time_offset_value).to eq user.time_offset.value
         end
       end
     end

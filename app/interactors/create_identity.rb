@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create Identity
 class CreateIdentity
   include Interactor

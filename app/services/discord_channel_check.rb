@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Check channel existeness at discord
 class DiscordChannelCheck
   attr_reader :delivery_param, :channel_id_value
@@ -13,8 +15,8 @@ class DiscordChannelCheck
 
   def call
     case delivery_param.delivery.deliveriable_type
-      when 'Guild' then channel_id_value
-      when 'User' then check_user_channel
+    when 'Guild' then channel_id_value
+    when 'User' then check_user_channel
     end
   end
 

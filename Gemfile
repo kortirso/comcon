@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -18,10 +20,6 @@ gem 'puma', '>= 4.3.3'
 
 # Use Slim as the templating engine. Better than ERB
 gem 'slim'
-
-# Code analyzation
-gem 'rubocop', '~> 0.57.2', require: false
-gem 'rubocop-performance', require: false
 
 # Different
 gem 'therubyracer', platforms: :ruby
@@ -97,6 +95,13 @@ gem 'activerecord-import'
 gem 'newrelic_rpm'
 gem 'skylight'
 
+# Rules for migrations
+gem 'strong_migrations'
+
+# PGHero
+gem 'pg_query', '>= 0.9.0'
+gem 'pghero'
+
 group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'
@@ -111,6 +116,11 @@ group :development do
   gem 'letter_opener'
   gem 'listen', '~> 3.1.5'
   gem 'rb-readline'
+  # Code analyzation
+  gem 'rubocop', '~> 0.80.1', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create links between characters and professions
 class CreateCharacterProfessions
   include Interactor

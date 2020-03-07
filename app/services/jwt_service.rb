@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jwt'
 
 # Service for encode/decode JWT tokens
@@ -5,7 +7,7 @@ class JwtService
   JWT_TTL = 2190
 
   # encode user_id, returns token, expiration time and user information
-  def json_response(args = {}, expiration = nil)
+  def json_response(args={}, expiration=nil)
     token, expiration = encode({ user_id: args[:user].id }, expiration)
     {
       access_token: token,
@@ -15,7 +17,7 @@ class JwtService
   end
 
   # decode token
-  def decode(args = {})
+  def decode(args={})
     JWT.decode(args[:access_token], jwt_secret)[0]
   rescue
     nil
@@ -24,7 +26,7 @@ class JwtService
   private
 
   # encode user information
-  def encode(payload, expiration = nil)
+  def encode(payload, expiration=nil)
     expiration ||= JWT_TTL.hours.from_now.to_i
 
     payload = payload.dup

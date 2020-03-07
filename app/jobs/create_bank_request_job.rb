@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send notifications about creating bank request in guild
 class CreateBankRequestJob < ApplicationJob
   queue_as :default

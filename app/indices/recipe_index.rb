@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ThinkingSphinx::Index.define :recipe, with: :real_time do
   # indexes
   indexes name_ru, type: :string, as: :name_ru

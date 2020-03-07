@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # service for searching/creating identities with users
 class Oauth
   def self.auth_login(auth:)

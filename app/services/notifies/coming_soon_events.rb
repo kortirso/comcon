@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Notifies
   # Notificate about coming soon events
   class ComingSoonEvents < Notify

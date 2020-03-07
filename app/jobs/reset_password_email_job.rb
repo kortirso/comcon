@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send reset password token for user
 class ResetPasswordEmailJob < ApplicationJob
   queue_as :default

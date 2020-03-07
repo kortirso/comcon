@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents deliveries for guilds
 class Delivery < ApplicationRecord
   enum delivery_type: {

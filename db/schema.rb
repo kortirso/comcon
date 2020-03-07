@@ -13,7 +13,6 @@
 ActiveRecord::Schema.define(version: 2020_01_28_121224) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
@@ -32,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_01_28_121224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "game_item_id"
-    t.integer "bag_number"
+    t.integer "bag_number", default: 0
     t.index ["bank_id", "item_uid", "bag_number"], name: "index_bank_cells_on_bank_id_and_item_uid_and_bag_number", unique: true
     t.index ["game_item_id"], name: "index_bank_cells_on_game_item_id"
   end

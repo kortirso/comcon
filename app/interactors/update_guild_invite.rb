@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update GuildInvite
 class UpdateGuildInvite
   include Interactor

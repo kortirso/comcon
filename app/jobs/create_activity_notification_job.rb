@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Send notifications about creating events
 class CreateActivityNotificationJob < ApplicationJob
   queue_as :default

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents identities of users for oauth
 class Identity < ApplicationRecord
   belongs_to :user

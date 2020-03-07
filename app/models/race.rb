@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents races
 class Race < ApplicationRecord
   include Combinateable

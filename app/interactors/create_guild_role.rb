@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create GuildRole
 class CreateGuildRole
   include Interactor

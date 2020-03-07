@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update bank cells
 class UpdateBankCells
   include Interactor

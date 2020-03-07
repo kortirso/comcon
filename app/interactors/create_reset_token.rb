@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update reset token for user
 class CreateResetToken
   include Interactor

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create combination world and fraction
 class CreateWorldFractions
   include Interactor

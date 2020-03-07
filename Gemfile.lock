@@ -191,7 +191,7 @@ GEM
     ice_nine (0.11.2)
     innertube (1.1.0)
     interactor (3.1.1)
-    jaro_winkler (1.5.3)
+    jaro_winkler (1.5.4)
     joiner (0.4.2)
       activerecord (>= 5.2.beta1)
     json (2.2.0)
@@ -254,13 +254,15 @@ GEM
       actionpack (>= 4.2)
       omniauth (>= 1.3.1)
     orm_adapter (0.5.0)
-    parallel (1.18.0)
+    parallel (1.19.1)
     parallel_tests (2.29.2)
       parallel
-    parser (2.6.5.0)
+    parser (2.7.0.4)
       ast (~> 2.4.0)
     pg (0.21.0)
-    powerpack (0.1.2)
+    pg_query (1.2.0)
+    pghero (2.4.1)
+      activerecord (>= 5)
     premailer (1.11.1)
       addressable
       css_parser (>= 1.6.0)
@@ -271,7 +273,7 @@ GEM
     public_suffix (4.0.1)
     puma (4.3.3)
       nio4r (~> 2.0)
-    rack (2.0.8)
+    rack (2.2.2)
     rack-protection (2.0.7)
       rack
     rack-proxy (0.6.5)
@@ -333,6 +335,7 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rexml (3.2.4)
     riddle (2.4.0)
     route_translator (7.0.0)
       actionpack (>= 5.0.0.1, < 6.1)
@@ -358,16 +361,21 @@ GEM
       rspec-mocks (~> 3.9.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.0)
-    rubocop (0.57.2)
+    rubocop (0.80.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.5)
-      powerpack (~> 0.1)
+      parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
+      rexml
       ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.0, >= 1.0.1)
-    rubocop-performance (0.0.0)
-      rubocop (~> 0.57)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-performance (1.5.2)
+      rubocop (>= 0.71.0)
+    rubocop-rails (2.4.2)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
+    rubocop-rspec (1.38.1)
+      rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby2ruby (2.4.4)
       ruby_parser (~> 3.1)
@@ -409,6 +417,8 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    strong_migrations (0.6.2)
+      activerecord (>= 5)
     temple (0.8.2)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
@@ -425,7 +435,7 @@ GEM
     tilt (2.0.10)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    unicode-display_width (1.6.0)
+    unicode-display_width (1.6.1)
     uniform_notifier (1.13.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -486,6 +496,8 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (~> 0.1)
   parallel_tests
   pg (= 0.21)
+  pg_query (>= 0.9.0)
+  pghero
   premailer-rails
   puma (>= 4.3.3)
   rails (= 5.2.3)
@@ -494,8 +506,10 @@ DEPENDENCIES
   redis-rails
   route_translator
   rspec-rails
-  rubocop (~> 0.57.2)
+  rubocop (~> 0.80.1)
   rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   shoulda-matchers
   sidekiq (= 5.2.5)
   simplecov
@@ -503,6 +517,7 @@ DEPENDENCIES
   slim
   spring
   spring-watcher-listen (~> 2.0.0)
+  strong_migrations
   therubyracer
   thinking-sphinx (~> 4.4)
   virtus

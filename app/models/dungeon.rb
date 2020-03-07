@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents dungeons and raids
 class Dungeon < ApplicationRecord
   has_many :events, dependent: :destroy

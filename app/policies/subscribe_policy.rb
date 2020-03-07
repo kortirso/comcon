@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Subscribe policies
 class SubscribePolicy < ApplicationPolicy
   authorize :status

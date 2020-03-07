@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Event policies
 class EventPolicy < ApplicationPolicy
   def show?

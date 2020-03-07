@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class GuildsController < Api::V1::BaseController
@@ -21,14 +23,14 @@ module Api
       def index
         render json: {
           guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds]
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/guilds/:id.json', 'Show guild info'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def show
-        render json: { guild: GuildShowSerializer.new(@guild) }, status: 200
+        render json: { guild: GuildShowSerializer.new(@guild) }, status: :ok
       end
 
       api :POST, '/v1/guilds.json', 'Create guild'
@@ -38,9 +40,9 @@ module Api
         result = CreateNewGuild.call(guild_params: guild_params, owner_id: params[:guild][:owner_id], user: Current.user, name: 'gm')
         if result.success?
           CreateTimeOffset.call(timeable: result.guild, value: params[:guild][:time_offset])
-          render json: { guild: GuildShowSerializer.new(result.guild) }, status: 201
+          render json: { guild: GuildShowSerializer.new(result.guild) }, status: :created
         else
-          render json: { errors: result.message }, status: 409
+          render json: { errors: result.message }, status: :conflict
         end
       end
 
@@ -51,9 +53,9 @@ module Api
         guild_form = GuildForm.new(@guild.attributes.merge(guild_params.merge(world: @guild.world, fraction: @guild.fraction, world_fraction: @guild.world_fraction)))
         if guild_form.persist?
           UpdateTimeOffset.call(timeable: @guild, value: params[:guild][:time_offset])
-          render json: { guild: GuildShowSerializer.new(guild_form.guild) }, status: 200
+          render json: { guild: GuildShowSerializer.new(guild_form.guild) }, status: :ok
         else
-          render json: { errors: guild_form.errors.full_messages }, status: 409
+          render json: { errors: guild_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -64,7 +66,7 @@ module Api
       def characters
         render json: {
           characters: @guild_characters
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/guilds/form_values.json', 'Get form_values for guild form'
@@ -72,7 +74,7 @@ module Api
       def form_values
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@user_characters, each_serializer: CharacterIndexSerializer).as_json[:characters]
-        }, status: 200
+        }, status: :ok
       end
 
       api :POST, '/v1/guilds/:id/kick_character.json', 'Kick character from guild'
@@ -83,7 +85,7 @@ module Api
       def kick_character
         authorize! @guild, to: :management?
         CharacterLeftFromGuild.call(guild: @guild, character: @character)
-        render json: { result: 'Character is kicked from guild' }, status: 200
+        render json: { result: 'Character is kicked from guild' }, status: :ok
       end
 
       api :POST, '/v1/guilds/:id/leave_character.json', 'Character leave from guild'
@@ -93,7 +95,7 @@ module Api
       error code: 400, desc: 'Object is not found'
       def leave_character
         CharacterLeftFromGuild.call(guild: @guild, character: @character)
-        render json: { result: 'Character is left from guild' }, status: 200
+        render json: { result: 'Character is left from guild' }, status: :ok
       end
 
       api :GET, '/v1/guilds/search.json', 'Search guilds by name with params'
@@ -101,7 +103,7 @@ module Api
       def search
         render json: {
           guilds: ActiveModelSerializers::SerializableResource.new(@guilds, root: 'guilds', each_serializer: GuildIndexSerializer).as_json[:guilds]
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/guilds/:id/characters_for_request.json', 'Get list of characters for request to guild'
@@ -109,7 +111,7 @@ module Api
       def characters_for_request
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters_for_request, each_serializer: CharacterIndexSerializer).as_json[:characters]
-        }, status: 200
+        }, status: :ok
       end
 
       api :POST, '/v1/guilds/:id/import_bank.json', 'Import bank'
@@ -121,9 +123,9 @@ module Api
         authorize! @guild, to: :bank_management?
         result = ImportGuildBankData.call(guild: @guild, bank_data: params[:bank_data])
         if result.success?
-          render json: { result: 'Bank data is importing' }, status: 200
+          render json: { result: 'Bank data is importing' }, status: :ok
         else
-          render json: { result: 'Invalid bank data' }, status: 409
+          render json: { result: 'Invalid bank data' }, status: :conflict
         end
       end
 
@@ -136,7 +138,7 @@ module Api
         authorize! @guild, to: :bank?
         render json: {
           banks: ActiveModelSerializers::SerializableResource.new(@guild.banks.includes(bank_cells: [game_item: %i[game_item_quality game_item_category game_item_subcategory]]), each_serializer: BankSerializer).as_json[:banks]
-        }, status: 200
+        }, status: :ok
       end
 
       private
@@ -180,7 +182,7 @@ module Api
         @guilds = Guild.search "*#{params[:query]}*", with: define_additional_search_params
       end
 
-      def define_additional_search_params(with = {})
+      def define_additional_search_params(with={})
         with[:world_id] = params[:world_id].to_i if params[:world_id].present?
         with[:fraction_id] = params[:fraction_id].to_i if params[:fraction_id].present?
         with

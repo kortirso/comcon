@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StaticInvitesController < ApplicationController
   before_action :find_characters, only: %i[find]
   before_action :find_static_invite, only: %i[approve decline]

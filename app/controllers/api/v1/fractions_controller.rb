@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class FractionsController < Api::V1::BaseController
@@ -13,7 +15,7 @@ module Api
       api :GET, '/v1/fractions.json', 'Get list of fractions'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: { fractions: @fractions_json }, status: 200
+        render json: { fractions: @fractions_json }, status: :ok
       end
     end
   end

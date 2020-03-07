@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update time offset
 class UpdateTimeOffset
   include Interactor

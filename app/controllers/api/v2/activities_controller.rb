@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class ActivitiesController < Api::V1::BaseController
@@ -13,7 +15,7 @@ module Api
       api :GET, '/v2/activities.json', 'Get activities'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: { activities: FastActivitySerializer.new(@activities).serializable_hash }, status: 200
+        render json: { activities: FastActivitySerializer.new(@activities).serializable_hash }, status: :ok
       end
 
       api :GET, '/v2/activities/:id.json', 'Get activity info'
@@ -21,7 +23,7 @@ module Api
       error code: 404, desc: 'Not found'
       def show
         authorize! @activity.guild, with: GuildPolicy, to: :management?
-        render json: { activity: FastActivitySerializer.new(@activity).serializable_hash }, status: 200
+        render json: { activity: FastActivitySerializer.new(@activity).serializable_hash }, status: :ok
       end
 
       api :POST, '/v2/activities.json', 'Create activity'
@@ -30,7 +32,7 @@ module Api
       error code: 409, desc: 'Conflict'
       def create
         authorize! @guild, with: GuildPolicy, to: :management?
-        save_activity(params: activity_params.merge(id: nil, guild: @guild), status: 201)
+        save_activity(params: activity_params.merge(id: nil, guild: @guild), status: :created)
       end
 
       api :PATCH, '/v2/activities/:id.json', 'Update activity'
@@ -40,7 +42,7 @@ module Api
       error code: 409, desc: 'Conflict'
       def update
         authorize! @activity.guild, with: GuildPolicy, to: :management?
-        save_activity(params: @activity.attributes.symbolize_keys.merge(activity_params.merge(guild: @activity.guild)), status: 200)
+        save_activity(params: @activity.attributes.symbolize_keys.merge(activity_params.merge(guild: @activity.guild)), status: :ok)
       end
 
       private
@@ -63,10 +65,10 @@ module Api
       def save_activity(params:, status:)
         activity_dry_form = ActivityDryForm.call(params)
         if activity_dry_form.save
-          CreateActivityNotificationJob.perform_later(activity_id: activity_dry_form.activity.id) if status == 201
+          CreateActivityNotificationJob.perform_later(activity_id: activity_dry_form.activity.id) if status == :created
           render json: { activity: FastActivitySerializer.new(activity_dry_form.activity).serializable_hash }, status: status
         else
-          render json: { errors: activity_dry_form.errors }, status: 409
+          render json: { errors: activity_dry_form.errors }, status: :conflict
         end
       end
 

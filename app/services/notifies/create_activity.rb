@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Notifies
   # Notify about new event
   class CreateActivity < Notify

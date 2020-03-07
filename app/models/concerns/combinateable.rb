@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents combinateable
 module Combinateable
   extend ActiveSupport::Concern

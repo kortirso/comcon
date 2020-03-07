@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Update StaticInvite
 class UpdateStaticInvite
   include Interactor

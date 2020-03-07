@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents token actions
 module Tokenable
   extend ActiveSupport::Concern

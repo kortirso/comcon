@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create CharacterRoles
 class CreateCharacterRoles
   include Interactor

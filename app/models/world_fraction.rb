@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents combinations of worlds and fractions
 class WorldFraction < ApplicationRecord
   belongs_to :world

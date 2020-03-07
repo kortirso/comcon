@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Create delivery dublicate for gm user
 class CreateDublicateForGmUser
   include Interactor
@@ -23,9 +25,9 @@ class CreateDublicateForGmUser
 
   def user_ids
     case context.delivery.notification.event
-      when 'guild_request_creation' then context.delivery.deliveriable.head_users.pluck(:id)
-      when 'bank_request_creation' then context.delivery.deliveriable.bank_users.pluck(:id)
-      else []
+    when 'guild_request_creation' then context.delivery.deliveriable.head_users.pluck(:id)
+    when 'bank_request_creation' then context.delivery.deliveriable.bank_users.pluck(:id)
+    else []
     end
   end
 end

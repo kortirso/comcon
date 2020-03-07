@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class WorldsController < Api::V1::BaseController
@@ -13,7 +15,7 @@ module Api
       api :GET, '/v1/worlds.json', 'Get list of worlds'
       error code: 401, desc: 'Unauthorized'
       def index
-        render json: { worlds: @worlds_json }, status: 200
+        render json: { worlds: @worlds_json }, status: :ok
       end
     end
   end

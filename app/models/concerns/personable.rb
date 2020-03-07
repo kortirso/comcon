@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bcrypt'
 
 # Add token/hash generating for user/guest models for sessions

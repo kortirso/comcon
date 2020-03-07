@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmailConfirmationsController < ApplicationController
   skip_before_action :set_current_user
   skip_before_action :save_current_path

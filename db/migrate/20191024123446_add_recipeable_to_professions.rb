@@ -10,7 +10,7 @@ class AddRecipeableToProfessions < ActiveRecord::Migration[5.2]
     enchanting = Profession.find_by(name: { 'en' => 'Enchanting', 'ru' => 'Наложение чар' })
     cooking = Profession.find_by(name: { 'en' => 'Cooking', 'ru' => 'Кулинария' })
 
-    [leatherworking, alchemy, blacksmithing, engineering, tailoring, enchanting, cooking].each do |profession|
+    [leatherworking, alchemy, blacksmithing, engineering, tailoring, enchanting, cooking].compact.each do |profession|
       profession.update(recipeable: true)
     end
   end

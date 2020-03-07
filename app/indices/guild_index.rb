@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ThinkingSphinx::Index.define :guild, with: :real_time do
   # indexes
   indexes name, type: :string

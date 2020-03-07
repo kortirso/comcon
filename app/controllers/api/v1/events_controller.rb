@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class EventsController < Api::V1::BaseController
@@ -38,14 +40,14 @@ module Api
       def index
         render json: {
           events: ActiveModelSerializers::SerializableResource.new(@events, root: 'events', each_serializer: EventIndexSerializer).as_json[:events]
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/events/:id.json', 'Show event info'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def show
-        render json: { event: EventShowSerializer.new(@event) }, status: 200
+        render json: { event: EventShowSerializer.new(@event) }, status: :ok
       end
 
       api :POST, '/v1/events.json', 'Create event'
@@ -61,7 +63,7 @@ module Api
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
       def edit
-        render json: { event: EventEditSerializer.new(@event) }, status: 200
+        render json: { event: EventEditSerializer.new(@event) }, status: :ok
       end
 
       api :PATCH, '/v1/events/:id.json', 'Update event'
@@ -74,9 +76,9 @@ module Api
         event_form = EventForm.new(@event.attributes.merge(event_params))
         if event_form.persist?
           UpdateGroupRole.call(group_role: @event.group_role, group_roles: group_role_params)
-          render json: { event: EventEditSerializer.new(event_form.event) }, status: 200
+          render json: { event: EventEditSerializer.new(event_form.event) }, status: :ok
         else
-          render json: { errors: event_form.errors.full_messages }, status: 409
+          render json: { errors: event_form.errors.full_messages }, status: :conflict
         end
       end
 
@@ -86,7 +88,7 @@ module Api
       def destroy
         authorize! @event, to: :edit?
         @event.destroy
-        render json: { result: 'Event is destroyed' }, status: 200
+        render json: { result: 'Event is destroyed' }, status: :ok
       end
 
       api :GET, '/v1/events/:id/subscribers.json', 'Show event subscribers'
@@ -94,7 +96,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @event, to: :show?
-        render json: @event.subscribes.status_order.includes(character: %i[character_class guild]), status: 200
+        render json: @event.subscribes.status_order.includes(character: %i[character_class guild]), status: :ok
       end
 
       api :GET, '/v1/events/:id/user_characters.json', 'Show user characters who can subscribe for event'
@@ -102,7 +104,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def user_characters
         authorize! @event, to: :show?
-        render json: { user_characters: Current.user.available_characters_for_event(event: @event).pluck(:id, :name) }, status: 200
+        render json: { user_characters: Current.user.available_characters_for_event(event: @event).pluck(:id, :name) }, status: :ok
       end
 
       api :GET, '/v1/events/filter_values.json', 'Values for events filter'
@@ -115,7 +117,7 @@ module Api
           guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:world), each_serializer: GuildBaseSerializer).as_json[:guilds],
           statics: Current.user.statics.pluck(:id, :name),
           dungeons: @dungeons_json
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/events/filter_values.json', 'Values for event form'
@@ -126,7 +128,7 @@ module Api
           dungeons: @dungeons_json,
           statics: user_statics,
           group_roles: GroupRole.default
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v1/events/:id/characters_without_subscribe.json', 'Show characters who not subscribe for event'
@@ -135,7 +137,7 @@ module Api
       def characters_without_subscribe
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@not_subscribed, each_serializer: CharacterSubscriptionSerializer).as_json[:characters]
-        }, status: 200
+        }, status: :ok
       end
 
       private
@@ -145,7 +147,7 @@ module Api
           @start_of_period = DateTime.new(params[:year].to_i, params[:month].to_i, params[:day].to_i, 0, 0, 0)
           @end_of_period = @start_of_period + params[:days].to_i.days
         else
-          time_now = Time.now
+          time_now = Time.now.utc
           day_of_week = time_now.wday.zero? ? 6 : (time_now.wday - 1)
           @start_of_period = DateTime.parse((time_now - day_of_week.days).to_date.to_s)
           @end_of_period = @start_of_period + 7.days
@@ -197,16 +199,16 @@ module Api
           event_form = EventForm.new(default_event_params.merge(start_time: default_event_params[:start_time] + (params[:event][:repeat_days].to_i * index).days))
           create_additional_objects_for_event(event_form.event) if event_form.persist?
         end
-        render json: { result: 'Events are created' }, status: 201
+        render json: { result: 'Events are created' }, status: :created
       end
 
       def create_one_event
         event_form = EventForm.new(event_params)
         if event_form.persist?
           create_additional_objects_for_event(event_form.event)
-          render json: { event: EventEditSerializer.new(event_form.event) }, status: 201
+          render json: { event: EventEditSerializer.new(event_form.event) }, status: :created
         else
-          render json: { errors: event_form.errors.full_messages }, status: 409
+          render json: { errors: event_form.errors.full_messages }, status: :conflict
         end
       end
 

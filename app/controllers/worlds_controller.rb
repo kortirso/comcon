@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorldsController < ApplicationController
   before_action :is_admin?
   before_action :find_worlds, only: %i[index]
@@ -26,7 +28,7 @@ class WorldsController < ApplicationController
 
   def destroy
     @world.destroy
-    redirect_to worlds_path, status: 303
+    redirect_to worlds_path, status: :see_other
   end
 
   private

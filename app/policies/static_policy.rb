@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Static policies
 class StaticPolicy < ApplicationPolicy
   def show?

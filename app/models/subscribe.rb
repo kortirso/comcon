@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents event subscribes
 class Subscribe < ApplicationRecord
   enum status: { rejected: 0, unknown: 1, signed: 2, approved: 3, reserve: 4, declined: 5 }

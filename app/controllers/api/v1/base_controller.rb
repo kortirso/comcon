@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class BaseController < ApplicationController
@@ -19,14 +21,15 @@ module Api
 
       def authenticate
         auto_auth
-      rescue AuthFailure => ex
+      rescue AuthFailure => e
         Current.user = nil
-        render json: { errors: ex.message }, status: 401
+        render json: { errors: e.message }, status: :unauthorized
       end
 
       def auto_auth
         return user_auth_with_header if request.headers['Authorization']
         return user_auth_with_params if params.key?(:access_token)
+
         raise AuthFailure, 'There is no authorization token'
       end
 

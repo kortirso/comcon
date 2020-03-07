@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents eventable
 module Eventable
   extend ActiveSupport::Concern

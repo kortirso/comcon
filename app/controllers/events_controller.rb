@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventsController < ApplicationController
   before_action :find_user_character_ids, only: %i[index]
   before_action :find_event_by_slug, only: %i[show edit]

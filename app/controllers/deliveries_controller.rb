@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeliveriesController < ApplicationController
   before_action :find_deliveriable, only: %i[new]
   before_action :find_delivery, only: %i[destroy]

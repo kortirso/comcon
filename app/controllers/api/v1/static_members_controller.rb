@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class StaticMembersController < Api::V1::BaseController
@@ -12,7 +14,7 @@ module Api
         authorize! @static_member.static, to: :edit?
         @static_member.destroy
         UpdateStaticLeftValue.call(group_role: @static_member.static.group_role)
-        render json: { result: 'Static member is destroyed' }, status: 200
+        render json: { result: 'Static member is destroyed' }, status: :ok
       end
 
       private

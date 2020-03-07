@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 fraction_form = FractionForm.new(name: { 'en' => 'Alliance', 'ru' => 'Альянс' })
 fraction_form.persist?
 alliance = fraction_form.fraction

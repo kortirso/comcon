@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Confirm User
 class ConfirmUser
   include Interactor

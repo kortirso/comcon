@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # GuildRole policies
 class GuildRolePolicy < ApplicationPolicy
   def create?

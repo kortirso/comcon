@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class UserSettingsController < Api::V1::BaseController
@@ -11,14 +13,14 @@ module Api
       def index
         render json: {
           time_offset: TimeOffsetSerializer.new(Current.user.time_offset)
-        }, status: 200
+        }, status: :ok
       end
 
       api :PATCH, '/v1/user_settings/update_settings.json', 'Update user settings'
       error code: 401, desc: 'Unauthorized'
       def update_settings
         UpdateTimeOffset.call(timeable: Current.user, value: user_settings_params[:time_offset][:value])
-        render json: { result: 'User settings are updated' }, status: 200
+        render json: { result: 'User settings are updated' }, status: :ok
       end
 
       api :PATCH, '/v1/user_settings/update_password.json', 'Update user password'
@@ -27,9 +29,9 @@ module Api
         result = UpdateUserPassword.call(user: Current.user, user_password_params: user_password_params)
         if result.success?
           sign_in Current.user
-          render json: { result: 'User password is updated' }, status: 200
+          render json: { result: 'User password is updated' }, status: :ok
         else
-          render json: { errors: result.message }, status: 409
+          render json: { errors: result.message }, status: :conflict
         end
       end
 

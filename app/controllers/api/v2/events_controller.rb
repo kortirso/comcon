@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V2
     class EventsController < Api::V1::BaseController
@@ -22,7 +24,7 @@ module Api
       def index
         render json: {
           events: FastEventIndexSerializer.new(@events, params: { subscribes: @subscribes }).serializable_hash
-        }, status: 200
+        }, status: :ok
       end
 
       api :GET, '/v2/events/filter_values.json', 'Values for events filter'
@@ -35,7 +37,7 @@ module Api
           guilds: FastGuildSelectSerializer.new(Current.user.guilds).serializable_hash,
           statics: FastStaticSelectSerializer.new(Current.user.statics).serializable_hash,
           dungeons: @dungeons_json
-        }, status: 200
+        }, status: :ok
       end
 
       private
@@ -45,7 +47,7 @@ module Api
           @start_of_period = DateTime.new(params[:year].to_i, params[:month].to_i, params[:day].to_i, 0, 0, 0)
           @end_of_period = @start_of_period + params[:days].to_i.days
         else
-          time_now = Time.now
+          time_now = Time.now.utc
           day_of_week = time_now.wday.zero? ? 6 : (time_now.wday - 1)
           @start_of_period = DateTime.parse((time_now - day_of_week.days).to_date.to_s)
           @end_of_period = @start_of_period + 7.days
