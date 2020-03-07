@@ -10,4 +10,4 @@
     div
       p= @static.description.gsub(/\n/, '<br />').html_safe
       = react_component('RequestToStatic', static_id: @static.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
-      = react_component('Static', static_id: @static.id, static_group_role: @static.group_role.value, static_fraction_name: @static.fraction.name['en'], manager: Current.user.any_static_role?(@static), current_user_id: Current.user&.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
+      = react_component('Static', static_id: @static.id, static_group_role: @static.group_role&.value, static_fraction_name: @static.fraction.name['en'], manager: Current.user.any_static_role?(@static), current_user_id: Current.user&.id, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

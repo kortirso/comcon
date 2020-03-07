@@ -31,11 +31,12 @@
                   td= static.description
                   td= static.privy? ? t('statics.private') : t('statics.public')
                   td
-                    - ['tanks', 'healers', 'dd'].each do |role|
-                      - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
-                        span class="left_value class_icon #{key}"
-                          span class="role #{role}"
-                          span class="amount"= value
+                    - if static.group_role.present?
+                      - ['tanks', 'healers', 'dd'].each do |role|
+                        - static.group_role.left_value[role]['by_class'].select { |key, value| value > 0 }.each do |key, value|
+                          span class="left_value class_icon #{key}"
+                            span class="role #{role}"
+                            span class="amount"= value
                   td
                     = link_to '', edit_static_path(static.slug), class: 'btn btn-icon btn-edit with_right_margin', aria: { label: 'Edit button' }
                     = link_to '', static, method: :delete, data: { confirm: t('buttons.sure') }, class: 'btn btn-icon btn-delete', aria: { label: 'Delete button' }

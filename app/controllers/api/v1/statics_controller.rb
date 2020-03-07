@@ -90,7 +90,9 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @static, to: :show?
-        render json: @static.subscribes.status_order.includes(character: %i[character_class guild]), status: :ok
+        render json: {
+          subscribes: ActiveModelSerializers::SerializableResource.new(@static.subscribes.status_order.includes(character: %i[character_class guild]), each_serializer: SubscribeSerializer).as_json[:subscribes]
+        }, status: :ok
       end
 
       api :POST, '/v1/statics/:id/kick_character.json', 'Kick character from static'
