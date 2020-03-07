@@ -86,6 +86,7 @@ Rails.application.routes.draw do
       end
       resources :events, only: %i[index] do
         get :filter_values, on: :collection
+        get :subscribers, on: :member
       end
       resources :activities, only: %i[index show create update]
       resources :user_token, only: %i[create]

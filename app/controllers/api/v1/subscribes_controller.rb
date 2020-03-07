@@ -8,12 +8,12 @@ module Api
 
       def create
         authorize! @subscribeable, with: SubscribePolicy, context: { status: params[:subscribe][:status] }
-        perform_subscribe(subscribe_params, 201)
+        perform_subscribe(subscribe_params, :created)
       end
 
       def update
         authorize! @subscribe, context: { status: params[:subscribe][:status] || :no_status_change }
-        perform_subscribe(@subscribe.attributes.merge(update_subscribe_params.merge(character: @subscribe.character)), 200)
+        perform_subscribe(@subscribe.attributes.merge(update_subscribe_params.merge(character: @subscribe.character)), :ok)
       end
 
       private
@@ -32,7 +32,9 @@ module Api
         subscribe_form = SubscribeForm.new(options)
         if subscribe_form.persist?
           UpdateStaticLeftValue.call(group_role: subscribe_form.subscribe.subscribeable.group_role) if subscribe_form.subscribe.subscribeable_type == 'Static'
-          render json: subscribe_form.subscribe, status: status
+          render json: {
+            subscribe: FastSubscribeSerializer.new(subscribe_form.subscribe).serializable_hash
+          }, status: status
         else
           render json: { result: 'Failed' }, status: :conflict
         end

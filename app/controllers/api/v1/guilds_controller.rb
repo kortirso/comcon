@@ -170,7 +170,11 @@ module Api
       end
 
       def find_guild_characters
-        @guild_characters = ActiveModelSerializers::SerializableResource.new(@guild.characters.includes(:race, :character_class, :main_roles, :guild_role), each_serializer: GuildCharacterSerializer).as_json[:characters].sort_by { |character| [- character[:level], character[:character_class_name]['en'], Role::ROLE_VALUES[character[:main_role_name]['en']], character[:name]] }
+        @guild_characters =
+          ActiveModelSerializers::SerializableResource.new(
+            @guild.characters.includes(:race, :character_class, :main_roles, :guild_role), each_serializer: GuildCharacterSerializer
+          ).as_json[:characters]
+            .sort_by { |character| [- character[:level], character[:character_class_name]['en'], Role::ROLE_VALUES[character[:main_role_name].nil? ? 'Ranged' : character[:main_role_name]['en']], character[:name]] }
       end
 
       def find_characters_for_request

@@ -170,8 +170,8 @@ RSpec.describe 'Events API' do
           request
         end
 
-        it 'and calls CreateSubscribe' do
-          expect(CreateSubscribe).to receive(:call).and_call_original
+        it 'and calls CreateSubscribes' do
+          expect(CreateSubscribes).to receive(:call).and_call_original
 
           request
         end
@@ -414,98 +414,6 @@ RSpec.describe 'Events API' do
     end
   end
 
-  describe 'GET#subscribers' do
-    let!(:event) { create :event }
-
-    it_behaves_like 'API auth without token'
-    it_behaves_like 'API auth with invalid token'
-    it_behaves_like 'API auth unconfirmed'
-
-    context 'for logged user' do
-      let!(:user) { create :user }
-      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
-      let!(:character) { create :character, user: user }
-
-      context 'for unexisted event' do
-        before { get '/api/v1/events/unexisted/subscribers.json', params: { access_token: access_token } }
-
-        it 'returns status 404' do
-          expect(response.status).to eq 404
-        end
-
-        it 'and returns error message' do
-          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
-        end
-      end
-
-      context 'for existed event' do
-        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-        let!(:subscribe) { create :subscribe, subscribeable: world_event, character: character }
-        before { get "/api/v1/events/#{world_event.id}/subscribers.json", params: { access_token: access_token } }
-
-        it 'returns status 200' do
-          expect(response.status).to eq 200
-        end
-
-        %w[id status comment character].each do |attr|
-          it "and contains subscribe #{attr}" do
-            expect(response.body).to have_json_path("subscribes/0/#{attr}")
-          end
-        end
-      end
-    end
-
-    def do_request(headers = {})
-      get "/api/v1/events/#{event.id}/subscribers.json", headers: headers
-    end
-  end
-
-  describe 'GET#user_characters' do
-    let!(:event) { create :event }
-
-    it_behaves_like 'API auth without token'
-    it_behaves_like 'API auth with invalid token'
-    it_behaves_like 'API auth unconfirmed'
-
-    context 'for logged user' do
-      let!(:user) { create :user }
-      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
-      let!(:character) { create :character, user: user }
-
-      context 'for unexisted event' do
-        before { get '/api/v1/events/unexisted/user_characters.json', params: { access_token: access_token } }
-
-        it 'returns status 404' do
-          expect(response.status).to eq 404
-        end
-
-        it 'and returns error message' do
-          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
-        end
-      end
-
-      context 'for existed event' do
-        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-        before { get "/api/v1/events/#{world_event.id}/user_characters.json", params: { access_token: access_token } }
-
-        it 'returns status 200' do
-          expect(response.status).to eq 200
-        end
-
-        it 'and contains user characters params' do
-          result = JSON.parse(response.body)['user_characters'][0]
-
-          expect(result[0]).to eq character.id
-          expect(result[1]).to eq character.name
-        end
-      end
-    end
-
-    def do_request(headers = {})
-      get "/api/v1/events/#{event.id}/user_characters.json", headers: headers
-    end
-  end
-
   describe 'GET#filter_values' do
     it_behaves_like 'API auth without token'
     it_behaves_like 'API auth with invalid token'
@@ -558,78 +466,6 @@ RSpec.describe 'Events API' do
 
     def do_request(headers = {})
       get '/api/v1/events/event_form_values.json', headers: headers
-    end
-  end
-
-  describe 'GET#characters_without_subscribe' do
-    let!(:event) { create :event }
-
-    it_behaves_like 'API auth without token'
-    it_behaves_like 'API auth with invalid token'
-    it_behaves_like 'API auth unconfirmed'
-
-    context 'for logged user' do
-      let!(:user) { create :user }
-      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
-      let!(:character) { create :character, user: user }
-
-      context 'for unexisted event' do
-        before { get '/api/v1/events/unexisted/characters_without_subscribe.json', params: { access_token: access_token } }
-
-        it 'returns status 404' do
-          expect(response.status).to eq 404
-        end
-
-        it 'and returns error message' do
-          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
-        end
-      end
-
-      context 'for existed event' do
-        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
-        before { get "/api/v1/events/#{world_event.id}/characters_without_subscribe.json", params: { access_token: access_token } }
-
-        it 'returns status 400' do
-          expect(response.status).to eq 400
-        end
-
-        it 'and returns error message' do
-          expect(JSON.parse(response.body)).to eq('error' => 'Event is not for static')
-        end
-      end
-
-      context 'for existed static event' do
-        let!(:static) { create :static, :guild }
-        let!(:static_member1) { create :static_member, character: character, static: static }
-        let!(:subscribe2) { create :subscribe, subscribeable: static, character: character, status: 'approved' }
-        let!(:character2) { create :character, user: user }
-        let!(:static_member2) { create :static_member, character: character2, static: static }
-        let!(:subscribe2) { create :subscribe, subscribeable: static, character: character2, status: 'approved' }
-        let!(:static_event) { create :event, eventable: static }
-        let!(:subscribe) { create :subscribe, subscribeable: static_event, character: character }
-        before { get "/api/v1/events/#{static_event.id}/characters_without_subscribe.json", params: { access_token: access_token } }
-
-        it 'returns status 200' do
-          expect(response.status).to eq 200
-        end
-
-        it 'and returns only not subscribed characters' do
-          result = JSON.parse(response.body)['characters']
-
-          expect(result.size).to eq 1
-          expect(result[0]['id']).to eq character2.id
-        end
-
-        %w[id user_id name level character_class_name guild_name roles slug].each do |attr|
-          it "and contains character #{attr}" do
-            expect(response.body).to have_json_path("characters/0/#{attr}")
-          end
-        end
-      end
-    end
-
-    def do_request(headers = {})
-      get "/api/v1/events/#{event.id}/characters_without_subscribe.json", headers: headers
     end
   end
 end

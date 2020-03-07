@@ -12,6 +12,7 @@ AllCops:
     - 'spec/**/*'
     - 'app/form_objects/**/*'
     - 'app/serializers/**/*'
+    - 'lib/tasks/**/*'
 
 # Commonly used screens these days easily fit more than 80 characters.
 Layout/LineLength:

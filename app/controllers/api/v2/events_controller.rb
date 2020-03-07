@@ -13,6 +13,7 @@ module Api
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_for_select_from_cache, only: %i[filter_values]
+      before_action :find_event, only: %i[subscribers]
 
       resource_description do
         short 'Event information resources'
@@ -37,6 +38,19 @@ module Api
           guilds: FastGuildSelectSerializer.new(Current.user.guilds).serializable_hash,
           statics: FastStaticSelectSerializer.new(Current.user.statics).serializable_hash,
           dungeons: @dungeons_json
+        }, status: :ok
+      end
+
+      api :GET, '/v2/events/subscribers.json', 'Values for events filter'
+      error code: 401, desc: 'Unauthorized'
+      def subscribers
+        authorize! @event, to: :show?
+        subscribes = @event.subscribes.includes(character: %i[character_class guild])
+        result = Rails.cache.fetch(Subscribe.cache_key(subscribes)) do
+          FastSubscribeSerializer.new(subscribes).serializable_hash
+        end
+        render json: {
+          subscribers: result
         }, status: :ok
       end
 
@@ -67,6 +81,11 @@ module Api
         else
           @events = @events.available_for_user(Current.user)
         end
+      end
+
+      def find_event
+        @event = Event.find_by(id: params[:id])
+        render_error(t('custom_errors.object_not_found'), 404) if @event.nil?
       end
 
       def find_user_subscribes

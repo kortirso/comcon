@@ -98,4 +98,50 @@ RSpec.describe 'Events API' do
       get '/api/v2/events/filter_values.json', headers: headers
     end
   end
+
+  describe 'GET#subscribers' do
+    let!(:event) { create :event }
+
+    it_behaves_like 'API auth without token'
+    it_behaves_like 'API auth with invalid token'
+    it_behaves_like 'API auth unconfirmed'
+
+    context 'for logged user' do
+      let!(:user) { create :user }
+      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+      let!(:character) { create :character, user: user }
+
+      context 'for unexisted event' do
+        before { get '/api/v2/events/unexisted/subscribers.json', params: { access_token: access_token } }
+
+        it 'returns status 404' do
+          expect(response.status).to eq 404
+        end
+
+        it 'and returns error message' do
+          expect(JSON.parse(response.body)).to eq('error' => 'Object is not found')
+        end
+      end
+
+      context 'for existed event' do
+        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+        let!(:subscribe) { create :subscribe, subscribeable: world_event, character: character }
+        before { get "/api/v2/events/#{world_event.id}/subscribers.json", params: { access_token: access_token } }
+
+        it 'returns status 200' do
+          expect(response.status).to eq 200
+        end
+
+        %w[id status comment character for_role].each do |attr|
+          it "and contains subscribe #{attr}" do
+            expect(response.body).to have_json_path("subscribers/data/0/attributes/#{attr}")
+          end
+        end
+      end
+    end
+
+    def do_request(headers = {})
+      get "/api/v2/events/#{event.id}/subscribers.json", headers: headers
+    end
+  end
 end

@@ -47,9 +47,9 @@ RSpec.describe 'Subscribes API' do
             expect(response.status).to eq 201
           end
 
-          %w[id status comment character subscribeable_id subscribeable_type for_role].each do |attr|
+          %w[status comment character for_role].each do |attr|
             it "and contains subscribe #{attr}" do
-              expect(response.body).to have_json_path("subscribe/#{attr}")
+              expect(response.body).to have_json_path("subscribe/data/attributes/#{attr}")
             end
           end
         end
@@ -138,7 +138,7 @@ RSpec.describe 'Subscribes API' do
 
               %w[id status comment character].each do |attr|
                 it "and contains subscribe #{attr}" do
-                  expect(response.body).to have_json_path("subscribe/#{attr}")
+                  expect(response.body).to have_json_path("subscribe/data/attributes/#{attr}")
                 end
               end
             end
@@ -169,7 +169,7 @@ RSpec.describe 'Subscribes API' do
 
               %w[id status comment character].each do |attr|
                 it "and contains subscribe #{attr}" do
-                  expect(response.body).to have_json_path("subscribe/#{attr}")
+                  expect(response.body).to have_json_path("subscribe/data/attributes/#{attr}")
                 end
               end
             end
@@ -207,7 +207,7 @@ RSpec.describe 'Subscribes API' do
 
             %w[id status comment character].each do |attr|
               it "and contains subscribe #{attr}" do
-                expect(response.body).to have_json_path("subscribe/#{attr}")
+                expect(response.body).to have_json_path("subscribe/data/attributes/#{attr}")
               end
             end
           end

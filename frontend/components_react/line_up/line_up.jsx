@@ -37,7 +37,6 @@ export default class LineUp extends React.Component {
     this.state = {
       eventInfo: null,
       subscribes: [],
-      userCharacters: [],
       editMode: null,
       commentValue: '',
       showApprovingBox: false,
@@ -45,20 +44,13 @@ export default class LineUp extends React.Component {
       approvingSubscribe: null,
       approvingRole: '',
       approvingStatus: '',
-      alternativeRender: false,
-      notSubscribed: []
+      alternativeRender: false
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
     this._getEventInfo()
-  }
-
-  _filterCharacters(characters) {
-    return characters.filter((character) => {
-      return character.subscribe_for_event === null
-    })
   }
 
   _getEventInfo() {
@@ -68,43 +60,18 @@ export default class LineUp extends React.Component {
       success: (data) => {
         const alternativeRender = data.event !== null && data.event.group_role !== null
         this.setState({eventInfo: data.event, alternativeRender: alternativeRender}, () => {
-          if (this.state.eventInfo.eventable_type === 'Static') this._getNotSubscribedCharacters()
-          else this._getEventsSubscribes()
+          this._getEventsSubscribers()
         })
       }
     })
   }
 
-  _getNotSubscribedCharacters() {
+  _getEventsSubscribers() {
     $.ajax({
       method: 'GET',
-      url: `/api/v1/events/${this.props.event_id}/characters_without_subscribe.json?access_token=${this.props.access_token}`,
+      url: `/api/v2/events/${this.props.event_id}/subscribers.json?access_token=${this.props.access_token}`,
       success: (data) => {
-        this.setState({notSubscribed: data.characters}, () => {
-          this._getEventsSubscribes()
-        })
-      }
-    })
-  }
-
-  _getEventsSubscribes() {
-    $.ajax({
-      method: 'GET',
-      url: `/api/v1/events/${this.props.event_id}/subscribers.json?access_token=${this.props.access_token}`,
-      success: (data) => {
-        this.setState({subscribes: data.subscribes}, () => {
-          if (this.props.user_subscribed === false) this._getUserCharactersForEvent()
-        })
-      }
-    })
-  }
-
-  _getUserCharactersForEvent() {
-    $.ajax({
-      method: 'GET',
-      url: `/api/v1/events/${this.props.event_id}/user_characters.json?access_token=${this.props.access_token}`,
-      success: (data) => {
-        this.setState({userCharacters: data.user_characters, selectedCharacterForSign: data.user_characters[0][0]})
+        this.setState({subscribes: data.subscribers.data})
       }
     })
   }
@@ -118,7 +85,7 @@ export default class LineUp extends React.Component {
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, subscribeable_id: this.props.event_id, subscribeable_type: 'Event', status: status } },
       success: (data) => {
         let subscribes = this.state.subscribes
-        subscribes.push(data.subscribe)
+        subscribes.push(data.subscribe.data)
         this.setState({subscribes: subscribes, userCharacters: [], selectedCharacterForSign: 0})
       }
     })
@@ -132,7 +99,7 @@ export default class LineUp extends React.Component {
       success: (data) => {
         const subscribes = [... this.state.subscribes]
         const subscribeIndex = subscribes.indexOf(subscribe)
-        subscribes[subscribeIndex] = data.subscribe
+        subscribes[subscribeIndex] = data.subscribe.data
         this.setState({subscribes: subscribes, showApprovingBox: false, approvingSubscribe: null, approvingRole: '', approvingStatus: ''})
       }
     })
@@ -203,60 +170,34 @@ export default class LineUp extends React.Component {
     } 
   }
 
-  _renderSignBlock() {
-    if (this.state.userCharacters.length === 0) return false
-    if (!this.props.event_is_open) return false
-    else {
-      return (
-        <div className="user_signers">
-          <p>{strings.signCharacter}</p>
-          <select className="form-control form-control-sm" onChange={this._onChangeCharacter.bind(this)} value={this.state.selectedCharacterForSign}>
-            {this._renderUserCharacters()}
-          </select>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'signed')}>{strings.signed}</button>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'unknown')}>{strings.unknown}</button>
-          <button className="btn btn-primary btn-sm with_bottom_margin" onClick={this.onCreateSubscribe.bind(this, 'rejected')}>{strings.rejected}</button>
-        </div>
-      )
-    }
-  }
-
-  _renderUserCharacters() {
-    return this.state.userCharacters.map((character) => {
-      return <option value={character[0]} key={character[0]}>{character[1]}</option>
-    })
-  }
-
-  _onChangeCharacter(event) {
-    this.setState({selectedCharacterForSign: event.target.value})
-  }
-
   _renderSubscribes(status) {
     let subscribes = this.state.subscribes.filter((subscribe) => {
-      return subscribe.status === status
+      return subscribe.attributes.status === status
     })
-    subscribes.sort((a, b) => this._sortCharacterFunction(a.character, b.character, a, b, status))
+    subscribes.sort((a, b) => this._sortCharacterFunction(a, b, status))
     return subscribes.map((subscribe) => {
+      const character = subscribe.attributes.character
+      const characterAttrs = character.data.attributes
       return (
-        <tr className={subscribe.character.character_class_name.en} key={subscribe.id}>
+        <tr className={characterAttrs.character_class_name.en} key={subscribe.id}>
           <td className="character_name">
-            <a href={this._defineCharacterLink(subscribe.character.slug)}>{subscribe.character.name}</a>
+            <a href={this._defineCharacterLink(characterAttrs.slug)}>{characterAttrs.name}</a>
           </td>
           <td>
             <div className="role_icons">
-              {["approved", "reserve"].includes(status) && subscribe.for_role !== null ? this._renderSubscribedRole(subscribe.for_role) : this._renderRoles(subscribe.character.roles)}
+              {["approved", "reserve"].includes(status) && subscribe.attributes.for_role !== null ? this._renderSubscribedRole(subscribe.attributes.for_role) : this._renderRoles(characterAttrs.roles)}
             </div>
           </td>
-          <td>{subscribe.character.level}</td>
-          <td>{subscribe.character.item_level > 0 && subscribe.character.item_level}</td>
-          <td>{subscribe.character.guild_name}</td>
-          <td>{strings[subscribe.status]}</td>
+          <td>{characterAttrs.level}</td>
+          <td>{characterAttrs.item_level > 0 && characterAttrs.item_level}</td>
+          <td>{characterAttrs.guild_name}</td>
+          <td>{strings[subscribe.attributes.status]}</td>
           <td className="comment_box">{this._renderComment(subscribe)}</td>
           <td>
             <div className="buttons">
-              {this._checkAdminButton(subscribe.character, status) && this._renderAdminButton(subscribe, '')}
-              {this.props.event_is_open && this.props.current_user_id === subscribe.character.user_id && subscribe.status !== "declined" && this._renderUserButton(subscribe)}
-              {this.props.current_user_id === subscribe.character.user_id && this._renderDeleteButton(subscribe)}
+              {this._checkAdminButton(character, status) && this._renderAdminButton(subscribe, '')}
+              {this.props.event_is_open && this.props.current_user_id === characterAttrs.user_id && subscribe.attributes.status !== "declined" && this._renderUserButton(subscribe)}
+              {this.props.current_user_id === characterAttrs.user_id && this._renderDeleteButton(subscribe)}
             </div>
           </td>
         </tr>
@@ -266,26 +207,6 @@ export default class LineUp extends React.Component {
 
   _defineCharacterLink(characterSlug) {
     return `${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters/${characterSlug}`
-  }
-
-  _renderNotSubscribed() {
-    return this.state.notSubscribed.map((character) => {
-      return (
-        <tr className={character.character_class_name.en} key={character.id}>
-          <td>
-            <div className="character_name">{character.name}</div>
-          </td>
-          <td>
-            <div className="role_icons">
-              {this._renderRoles(character.roles)}
-            </div>
-          </td>
-          <td>{character.level}</td>
-          <td>{character.item_level > 0 && character.item_level}</td>
-          <td>{character.guild_name}</td>
-        </tr>
-      )
-    })
   }
 
   _renderSubscribedRole(role) {
@@ -307,26 +228,28 @@ export default class LineUp extends React.Component {
     )
   }
 
-  _sortCharacterFunction(a, b, subscribeA, subscribeB, status) {
+  _sortCharacterFunction(subscribeA, subscribeB, status) {
+    const aCharacterAttrs = subscribeA.attributes.character.data.attributes
+    const bCharacterAttrs = subscribeB.attributes.character.data.attributes
     let roleValueA
     let roleValueB
     if (["approved", "reserve"].includes(status)) {
-      roleValueA = subscribeRoleValues[subscribeA.for_role]
-      roleValueB = subscribeRoleValues[subscribeB.for_role]
+      roleValueA = subscribeRoleValues[subscribeA.attributes.for_role]
+      roleValueB = subscribeRoleValues[subscribeB.attributes.for_role]
     } else {
-      roleValueA = roleValues[a.roles[0].en]
-      roleValueB = roleValues[b.roles[0].en]
+      roleValueA = roleValues[aCharacterAttrs.roles[0].en]
+      roleValueB = roleValues[bCharacterAttrs.roles[0].en]
     }
     if (roleValueA > roleValueB) return -1
     else if (roleValueA < roleValueB) return 1
     else {
-      if (a.character_class_name[this.props.locale] < b.character_class_name[this.props.locale]) return -1
-      else if (a.character_class_name[this.props.locale] > b.character_class_name[this.props.locale]) return 1
+      if (aCharacterAttrs.character_class_name[this.props.locale] < bCharacterAttrs.character_class_name[this.props.locale]) return -1
+      else if (aCharacterAttrs.character_class_name[this.props.locale] > bCharacterAttrs.character_class_name[this.props.locale]) return 1
       else {
-        if (a.level > b.level) return -1
-        else if (a.level < b.level) return 1
+        if (aCharacterAttrs.level > bCharacterAttrs.level) return -1
+        else if (aCharacterAttrs.level < bCharacterAttrs.level) return 1
         else {
-          if (a.name <= b.name) return -1
+          if (aCharacterAttrs.name <= bCharacterAttrs.name) return -1
           else return 1
         }
       }
@@ -334,14 +257,16 @@ export default class LineUp extends React.Component {
   }
 
   _renderComment(subscribe) {
+    const character = subscribe.attributes.character
+    const characterAttrs = character.data.attributes
     if (this.state.editMode === subscribe.id) {
       return <textarea placeholder={strings.textarea} value={this.state.commentValue} onChange={(event) => this.setState({commentValue: event.target.value})} onKeyUp={this._onSaveComment.bind(this, subscribe)} />
     } else {
-      if (this.props.current_user_id === subscribe.character.user_id) {
-        const comment = subscribe.comment === null || subscribe.comment.length === 0 ? strings.textarea : subscribe.comment
+      if (this.props.current_user_id === characterAttrs.user_id) {
+        const comment = subscribe.attributes.comment === null || subscribe.attributes.comment.length === 0 ? strings.textarea : subscribe.attributes.comment
         return <p className="user_comment" onClick={() => this.setState({editMode: subscribe.id, commentValue: ''})}>{comment}</p>
       }
-      else return <p title={subscribe.comment}>{subscribe.comment}</p>
+      else return <p title={subscribe.attributes.comment}>{subscribe.attributes.comment}</p>
     }
   }
 
@@ -350,7 +275,7 @@ export default class LineUp extends React.Component {
     if (this.props.is_owner) return true
     else if (this.props.guild_role === null) return false
     else if (this.props.guild_role[0] === 'rl') return true
-    else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1].includes(character.character_class_name.en)
+    else return this.props.guild_role[0] === 'cl' && this.props.guild_role[1].includes(character.data.attributes.character_class_name.en)
   }
 
   _renderAdminButton(subscribe, size) {
@@ -366,7 +291,7 @@ export default class LineUp extends React.Component {
   }
 
   _showApprovingBox(subscribe, forAdmin) {
-    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.character.roles[0][this.props.locale], approvingStatus: forAdmin ? 'approved' : 'signed'})
+    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.attributes.character.data.attributes.roles[0][this.props.locale], approvingStatus: forAdmin ? 'approved' : 'signed'})
   }
 
   closeModal() {
@@ -403,7 +328,7 @@ export default class LineUp extends React.Component {
 
   _renderSubscribeCharacters(subscribes) {
     return subscribes.map((subscribe) => {
-      return subscribe.character.name
+      return subscribe.attributes.character.data.attributes.name
     }).join("\n")
   }
 
@@ -438,12 +363,12 @@ export default class LineUp extends React.Component {
               </button>
             </div>
             <div className="modal-body">
-              <p className="approving_box_character">{this.state.approvingSubscribe.character.name}</p>
+              <p className="approving_box_character">{this.state.approvingSubscribe.attributes.character.data.attributes.name}</p>
               {this.state.approvingBoxForAdmin &&
                 <div className="form-group">
                   <label htmlFor="signed_role">{strings.selectRole}</label>
                   <select className="form-control form-control-sm" id="signed_role" onChange={(event) => this.setState({approvingRole: event.target.value})} value={this.state.approvingRole}>
-                    {this._renderAvailableRoles(this.state.approvingSubscribe.character.roles)}
+                    {this._renderAvailableRoles(this.state.approvingSubscribe.attributes.character.data.attributes.roles)}
                   </select>
                 </div>
               }
@@ -469,12 +394,12 @@ export default class LineUp extends React.Component {
   _renderClassList(roleName, characterClassName, needAmount) {
     let onlyApproved = 0
     let subscribes = this.state.subscribes.filter((subscribe) => {
-      if (!["signed", "reserve", "approved"].includes(subscribe.status)) return false
-      else if (subscribe.character.character_class_name.en !== characterClassName) return false
-      else if (subscribe.for_role !== null && subscribe.for_role !== roleName) return false
-      else if (subscribe.for_role === null && this._transformRole(subscribe.character.roles[0].en) !== roleName) return false
+      if (!["signed", "reserve", "approved"].includes(subscribe.attributes.status)) return false
+      else if (subscribe.attributes.character.data.attributes.character_class_name.en !== characterClassName) return false
+      else if (subscribe.attributes.for_role !== null && subscribe.attributes.for_role !== roleName) return false
+      else if (subscribe.attributes.for_role === null && this._transformRole(subscribe.attributes.character.data.attributes.roles[0].en) !== roleName) return false
       else {
-        if (subscribe.status !== "signed") onlyApproved += 1
+        if (subscribe.attributes.status !== "signed") onlyApproved += 1
         return true
       }
     })
@@ -488,13 +413,13 @@ export default class LineUp extends React.Component {
   }
 
   _sortCharacterAlternative(a, b) {
-    if (statusValues[a.status] > statusValues[b.status]) return -1
-    else if (statusValues[a.status] < statusValues[b.status]) return 1
+    if (statusValues[a.attributes.status] > statusValues[b.attributes.status]) return -1
+    else if (statusValues[a.status] < statusValues[b.attributes.status]) return 1
     else {
-      if (a.character.level > b.character.level) return -1
-      else if (a.character.level < b.character.level) return 1
+      if (a.attributes.character.data.attributes.level > b.attributes.character.data.attributes.level) return -1
+      else if (a.attributes.character.data.attributes.level < b.attributes.character.data.attributes.level) return 1
       else {
-        if (a.character.name <= b.character.name) return -1
+        if (a.attributes.character.data.attributes.name <= b.attributes.character.data.attributes.name) return -1
         else return 1
       }
     }
@@ -505,10 +430,10 @@ export default class LineUp extends React.Component {
       return (
         <div className="subscribe" key={index}>
           <span>
-            <a href={this._defineCharacterLink(subscribe.character.slug)}>{subscribe.character.name}</a>
+            <a href={this._defineCharacterLink(subscribe.attributes.character.data.attributes.slug)}>{subscribe.attributes.character.data.attributes.name}</a>
           </span>
-          <span className={`status_icon ${subscribe.status} small`}></span>
-          {this._checkAdminButton(subscribe.character, subscribe.status) &&
+          <span className={`status_icon ${subscribe.attributes.status} small`}></span>
+          {this._checkAdminButton(subscribe.attributes.character, subscribe.attributes.status) &&
             <span>{this._renderAdminButton(subscribe, 'small')}</span>
           }
         </div>
@@ -544,7 +469,6 @@ export default class LineUp extends React.Component {
             <label htmlFor="alternative_checkbox">{strings.alternative}</label>
           </div>
         }
-        {this._renderSignBlock()}
         {this._renderModal()}
         {this.state.alternativeRender && eventInfo !== null &&
           <div className="alternative_line_up">
@@ -611,28 +535,11 @@ export default class LineUp extends React.Component {
               {this._renderSubscribes('unknown')}
               {this._renderEmptyLine()}
               {this._renderSubscribes('rejected')}
+              {this._renderEmptyLine()}
+              {this._renderSubscribes('created')}
             </tbody>
           </table>
         </div>
-        {this.state.notSubscribed.length > 0 &&
-          <div className="line_up not_subscribed">
-            <h4>{strings.notSubscribed}</h4>
-            <table className="table table-sm">
-              <thead>
-                <tr>
-                  <th>{strings.name}</th>
-                  <th>{strings.role}</th>
-                  <th>{strings.level}</th>
-                  <th>{strings.itemLevel}</th>
-                  <th>{strings.guild}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this._renderNotSubscribed()}
-              </tbody>
-            </table>
-          </div>
-        }
       </div>
     )
   }

@@ -9,12 +9,10 @@ module Api
 
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
-      before_action :find_event, only: %i[show edit update destroy subscribers user_characters characters_without_subscribe]
+      before_action :find_event, only: %i[show edit update destroy]
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
-      before_action :check_event, only: %i[characters_without_subscribe]
-      before_action :find_characters, only: %i[characters_without_subscribe]
 
       resource_description do
         short 'Event information resources'
@@ -91,22 +89,6 @@ module Api
         render json: { result: 'Event is destroyed' }, status: :ok
       end
 
-      api :GET, '/v1/events/:id/subscribers.json', 'Show event subscribers'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      def subscribers
-        authorize! @event, to: :show?
-        render json: @event.subscribes.status_order.includes(character: %i[character_class guild]), status: :ok
-      end
-
-      api :GET, '/v1/events/:id/user_characters.json', 'Show user characters who can subscribe for event'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      def user_characters
-        authorize! @event, to: :show?
-        render json: { user_characters: Current.user.available_characters_for_event(event: @event).pluck(:id, :name) }, status: :ok
-      end
-
       api :GET, '/v1/events/filter_values.json', 'Values for events filter'
       error code: 401, desc: 'Unauthorized'
       def filter_values
@@ -128,15 +110,6 @@ module Api
           dungeons: @dungeons_json,
           statics: user_statics,
           group_roles: GroupRole.default
-        }, status: :ok
-      end
-
-      api :GET, '/v1/events/:id/characters_without_subscribe.json', 'Show characters who not subscribe for event'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      def characters_without_subscribe
-        render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(@not_subscribed, each_serializer: CharacterSubscriptionSerializer).as_json[:characters]
         }, status: :ok
       end
 
@@ -174,15 +147,6 @@ module Api
         render_error(t('custom_errors.object_not_found'), 404) if @event.nil?
       end
 
-      def check_event
-        render_error('Event is not for static', 400) if @event.eventable_type != 'Static'
-      end
-
-      def find_characters
-        character_ids = @event.subscribes.pluck(:character_id)
-        @not_subscribed = @event.eventable.signed_characters.where.not(id: character_ids)
-      end
-
       def user_statics
         Current.user.statics.map do |static|
           {
@@ -213,7 +177,7 @@ module Api
       end
 
       def create_additional_objects_for_event(event)
-        CreateSubscribe.call(subscribeable: event, character: event.owner, status: 'signed')
+        CreateSubscribes.call(subscribeable: event)
         CreateGroupRole.call(groupable: event, group_roles: group_role_params)
         CreateEventNotificationJob.perform_later(event_id: event.id)
       end
