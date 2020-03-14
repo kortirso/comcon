@@ -28,7 +28,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def index
         render json: {
-          events: FastEventIndexSerializer.new(@events, params: { subscribes: @subscribes }).serializable_hash
+          events: FastEventIndexSerializer.new(@events.distinct, params: { subscribes: @subscribes }).serializable_hash
         }, status: :ok
       end
 
