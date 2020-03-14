@@ -155,7 +155,7 @@ RSpec.describe 'Events API' do
     end
   end
 
-  describe 'GET#show' do
+  describe 'GET#edit' do
     let!(:event) { create :event }
 
     it_behaves_like 'API auth without token'
@@ -337,32 +337,6 @@ RSpec.describe 'Events API' do
 
     def do_request(headers = {})
       delete "/api/v1/events/#{event.id}.json", headers: headers
-    end
-  end
-
-  describe 'GET#filter_values' do
-    it_behaves_like 'API auth without token'
-    it_behaves_like 'API auth with invalid token'
-    it_behaves_like 'API auth unconfirmed'
-
-    context 'for logged user' do
-      let!(:user) { create :user }
-      let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
-      before { get '/api/v1/events/filter_values.json', params: { access_token: access_token } }
-
-      it 'returns status 200' do
-        expect(response.status).to eq 200
-      end
-
-      %w[worlds fractions characters guilds statics dungeons].each do |attr|
-        it "and contains #{attr}" do
-          expect(response.body).to have_json_path(attr)
-        end
-      end
-    end
-
-    def do_request(headers = {})
-      get '/api/v1/events/filter_values.json', headers: headers
     end
   end
 

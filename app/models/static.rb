@@ -45,6 +45,13 @@ class Static < ApplicationRecord
     SQL
   end
 
+  def self.cache_key_for_user(statics, user_id)
+    {
+      serializer: 'statics',
+      stat_record: "user_#{user_id}/#{statics.maximum(:updated_at)}"
+    }
+  end
+
   def normalize_friendly_id(text)
     text.to_slug.transliterate(:russian).normalize.to_s
   end

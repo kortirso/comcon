@@ -67,6 +67,13 @@ class Character < ApplicationRecord
     SQL
   end
 
+  def self.cache_key_for_user(characters)
+    {
+      serializer: 'characters',
+      stat_record: "user_#{characters[0]&.user_id}/#{characters.maximum(:updated_at)}"
+    }
+  end
+
   def full_name
     "#{name} - #{world.full_name}"
   end

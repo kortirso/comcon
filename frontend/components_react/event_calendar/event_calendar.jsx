@@ -37,7 +37,6 @@ export default class EventCalendar extends React.Component {
       fraction: 'none',
       dungeon: 'none',
       character: 'none',
-      subscribe: 'none',
       currentEventId: null,
       calendarStartForOnixia: this._calcStartValue(date),
       showUnusualCD: false,
@@ -63,7 +62,6 @@ export default class EventCalendar extends React.Component {
     const state = this.state
     let params = []
     if (state.character !== 'none') params.push(`character_id=${state.character}`)
-    if (state.subscribe === 'all') params.push(`subscribed=true`)
     const selectedDate = new Date(state.currentYear, state.currentMonth, state.currentDate + state.weekChanges * 7, 0, 0, 0)
     params.push(`month=${selectedDate.getMonth() + 1}`)
     params.push(`year=${selectedDate.getFullYear()}`)
@@ -237,7 +235,6 @@ export default class EventCalendar extends React.Component {
         {this._renderFractionFilter()}
         {this._renderDungeonFilter()}
         {this._renderCharacterFilter()}
-        {this._renderSubscribeFilter()}
       </div>
     )
   }
@@ -376,18 +373,6 @@ export default class EventCalendar extends React.Component {
     })
   }
 
-  _renderSubscribeFilter() {
-    return (
-      <div className="filter subscribe">
-        <label htmlFor="filter_subscribe">{strings.filterSubscribe}</label>
-        <select id="filter_subscribe" className="form-control form-control-sm" onChange={this._onChangeSubscribe.bind(this)} value={this.state.subscribe}>
-          <option value='none' key='0'>{strings.none}</option>
-          <option value='all' key='1'>{strings.withSubscription}</option>
-        </select>
-      </div>
-    )
-  }
-
   _onChangeAccessType(event) {
     if (event.target.value === 'none') {
       this.setState({accessType: 'none', world: 'none', guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
@@ -432,12 +417,6 @@ export default class EventCalendar extends React.Component {
 
   _onChangeCharacter(event) {
     this.setState({character: event.target.value, currentEventId: null, currentDayId: null}, () => {
-      this._getEvents()
-    })
-  }
-
-  _onChangeSubscribe(event) {
-    this.setState({subscribe: event.target.value, currentEventId: null, currentDayId: null}, () => {
       this._getEvents()
     })
   }

@@ -6,6 +6,9 @@ module Api
       include Concerns::WorldCacher
       include Concerns::FractionCacher
       include Concerns::DungeonCacher
+      include Concerns::UserCharactersCacher
+      include Concerns::UserGuildsCacher
+      include Concerns::UserStaticsCacher
 
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
@@ -13,6 +16,9 @@ module Api
       before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_for_select_from_cache, only: %i[filter_values]
+      before_action :get_user_characters_from_cache, only: %i[filter_values]
+      before_action :get_user_guilds_from_cache, only: %i[filter_values]
+      before_action :get_user_statics_from_cache, only: %i[filter_values]
       before_action :find_event, only: %i[subscribers]
 
       resource_description do
@@ -34,9 +40,9 @@ module Api
         render json: {
           worlds: @worlds_json,
           fractions: @fractions_json,
-          characters: FastCharacterSelectSerializer.new(Current.user.characters).serializable_hash,
-          guilds: FastGuildSelectSerializer.new(Current.user.guilds).serializable_hash,
-          statics: FastStaticSelectSerializer.new(Current.user.statics).serializable_hash,
+          characters: @user_characters_json,
+          guilds: @user_guilds_json,
+          statics: @user_statics_json,
           dungeons: @dungeons_json
         }, status: :ok
       end

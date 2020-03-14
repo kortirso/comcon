@@ -58,6 +58,13 @@ class Guild < ApplicationRecord
     SQL
   end
 
+  def self.cache_key_for_user(guilds, user_id)
+    {
+      serializer: 'guilds',
+      stat_record: "user_#{user_id}/#{guilds.maximum(:updated_at)}"
+    }
+  end
+
   def self.cache_key(guilds)
     {
       serializer: 'guilds',

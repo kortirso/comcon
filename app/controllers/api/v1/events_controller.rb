@@ -3,14 +3,10 @@
 module Api
   module V1
     class EventsController < Api::V1::BaseController
-      include Concerns::WorldCacher
-      include Concerns::FractionCacher
       include Concerns::DungeonCacher
 
       before_action :find_event, only: %i[show edit update destroy]
-      before_action :get_worlds_from_cache, only: %i[filter_values]
-      before_action :get_fractions_from_cache, only: %i[filter_values]
-      before_action :get_dungeons_from_cache, only: %i[filter_values event_form_values]
+      before_action :get_dungeons_from_cache, only: %i[event_form_values]
 
       resource_description do
         short 'Event information resources'
@@ -77,19 +73,6 @@ module Api
         authorize! @event, to: :edit?
         @event.destroy
         render json: { result: 'Event is destroyed' }, status: :ok
-      end
-
-      api :GET, '/v1/events/filter_values.json', 'Values for events filter'
-      error code: 401, desc: 'Unauthorized'
-      def filter_values
-        render json: {
-          worlds: @worlds_json,
-          fractions: @fractions_json,
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(Current.user.guilds.includes(:world), each_serializer: GuildBaseSerializer).as_json[:guilds],
-          statics: Current.user.statics.pluck(:id, :name),
-          dungeons: @dungeons_json
-        }, status: :ok
       end
 
       api :GET, '/v1/events/filter_values.json', 'Values for event form'

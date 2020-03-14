@@ -30,7 +30,6 @@ Rails.application.routes.draw do
       resources :events, except: %i[index new] do
         get :subscribers, on: :member
         get :user_characters, on: :member
-        get :filter_values, on: :collection
         get :event_form_values, on: :collection
         get :characters_without_subscribe, on: :member
       end
