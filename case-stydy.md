@@ -83,11 +83,20 @@ NewRelic
 - оптимизация запросов в БД
 - кэширование
 
+Статистика до оптимизации
+Skylight
+- Api::V2::EventsController#index, typical 227 ms, problem 681 ms, agony 3
+- Api::V2::EventsController#filter_values, typical 224 ms, problem 621 ms, agony 2
+
+NewRelic
+- Api::V2::EventsController#index, apdex 0.95, average 283 ms
+- Api::V2::EventsController#filter_values, apdex 0.96, average 261 ms
+
 Мысли во время оптимизации:
 - стало проще и быстрее проверять права на доступ к событию, если есть подписка - то можно просматривать => ускорение проверки доступа
 - есть пользователи, которые имеют право редактирования подписок персонажам и при этом не состоят в статиках этих персонажей, выход - создавать для них скрытые подписки
 
-Статистика до оптимизации
+Статистика после оптимизации
 Skylight
 - Api::V2::EventsController#index, typical 227 ms, problem 681 ms, agony 3
 - Api::V2::EventsController#filter_values, typical 224 ms, problem 621 ms, agony 2
