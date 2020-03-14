@@ -3,7 +3,6 @@
 module Api
   module V2
     class EventsController < Api::V1::BaseController
-      include Concerns::WorldCacher
       include Concerns::FractionCacher
       include Concerns::DungeonCacher
       include Concerns::UserCharactersCacher
@@ -13,7 +12,6 @@ module Api
       before_action :find_start_of_month, only: %i[index]
       before_action :find_events, only: %i[index]
       before_action :find_user_subscribes, only: %i[index]
-      before_action :get_worlds_from_cache, only: %i[filter_values]
       before_action :get_fractions_from_cache, only: %i[filter_values]
       before_action :get_dungeons_for_select_from_cache, only: %i[filter_values]
       before_action :get_user_characters_from_cache, only: %i[filter_values]
@@ -38,7 +36,6 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def filter_values
         render json: {
-          worlds: @worlds_json,
           fractions: @fractions_json,
           characters: @user_characters_json,
           guilds: @user_guilds_json,

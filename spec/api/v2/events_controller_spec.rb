@@ -88,7 +88,7 @@ RSpec.describe 'Events API' do
         expect(response.status).to eq 200
       end
 
-      %w[worlds fractions characters guilds statics dungeons].each do |attr|
+      %w[fractions characters guilds statics dungeons].each do |attr|
         it "and contains #{attr}" do
           expect(response.body).to have_json_path(attr)
         end
@@ -125,7 +125,7 @@ RSpec.describe 'Events API' do
       end
 
       context 'for existed event' do
-        let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+        let!(:world_event) { create :event, fraction: character.race.fraction }
         let!(:subscribe) { create :subscribe, subscribeable: world_event, character: character }
         before { get "/api/v2/events/#{world_event.id}/subscribers.json", params: { access_token: access_token } }
 

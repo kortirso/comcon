@@ -2,10 +2,8 @@
   "en": {
     "none": "none",
     "filterAccess": "Access type",
-    "onlyWorlds": "World events",
     "onlyGuilds": "Guild events",
     "onlyStatics": "Static events",
-    "filterWorld": "Realm",
     "filterGuild": "Guild",
     "filterStatic": "Static",
     "filterFraction": "Fraction",
@@ -33,10 +31,8 @@
   "ru": {
     "none": "все",
     "filterAccess": "Доступ",
-    "onlyWorlds": "События в Мире",
     "onlyGuilds": "События в Гильдии",
     "onlyStatics": "События в Статике",
-    "filterWorld": "Мир",
     "filterGuild": "Гильдия",
     "filterStatic": "Статик",
     "filterFraction": "Фракция",

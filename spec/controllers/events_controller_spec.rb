@@ -27,7 +27,8 @@ RSpec.describe EventsController, type: :controller do
     context 'for logged user' do
       sign_in_user
       let!(:character) { create :character, user: @current_user }
-      let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+      let!(:world_event) { create :event, fraction: character.race.fraction }
+      let!(:subscribe) { create :subscribe, subscribeable: world_event, character: character }
 
       context 'for unexisted event' do
         it 'renders error template' do

@@ -25,7 +25,7 @@ class EventShowSerializer < ActiveModel::Serializer
   end
 
   def eventable_name
-    return object.eventable.full_name if object.eventable_type == 'World' || object.eventable_type == 'Guild'
+    return object.eventable.full_name if object.eventable_type == 'Guild'
     object.eventable.name
   end
 

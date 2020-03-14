@@ -18,7 +18,7 @@ class EventForm
 
   validates :name, :owner, :event_type, :eventable_id, :eventable_type, :start_time, :hours_before_close, :world_fraction, presence: true
   validates :event_type, inclusion: { in: %w[instance raid custom] }
-  validates :eventable_type, inclusion: { in: %w[World Guild Static] }
+  validates :eventable_type, inclusion: { in: Event::EVENTABLE_TYPES }
   validates :hours_before_close, inclusion: 0..24
   validates :name, length: { in: 2..50 }
   validate :valid_time?
@@ -33,7 +33,6 @@ class EventForm
     if owner.present?
       self.fraction = owner.race&.fraction
       self.world_fraction = owner.world_fraction
-      self.eventable_id = (eventable_type == 'World' ? owner.world_id : owner.guild_id) if eventable_type != 'Static'
     end
     # validation
     return false unless valid?

@@ -8,6 +8,11 @@ class Event < ApplicationRecord
   include Subscribeable
   extend FriendlyId
 
+  EVENTABLE_TYPES = %w[
+    Guild
+    Static
+  ].freeze
+
   friendly_id :slug_candidates, use: :slugged
 
   belongs_to :owner, class_name: 'Character'
@@ -23,7 +28,6 @@ class Event < ApplicationRecord
   has_many :signed_characters, through: :signed_subscribes, source: :character
   has_many :signed_users, -> { distinct }, through: :signed_characters, source: :user
 
-  scope :for_world_fraction, ->(world_fraction_id) { where eventable_type: 'World', world_fraction_id: world_fraction_id }
   scope :for_guild, ->(guild_id) { where eventable_type: 'Guild', eventable_id: guild_id }
   scope :for_static, ->(static_ids) { where eventable_type: 'Static', eventable_id: static_ids }
 
@@ -36,11 +40,7 @@ class Event < ApplicationRecord
   end
 
   def available_for_user?(user)
-    return true if eventable_type == 'World' && user.world_fractions.pluck(:id).include?(world_fraction_id)
-    return true if eventable_type == 'Guild' && user.guilds.pluck(:id).include?(eventable_id)
-    return true if eventable_type == 'Static' && user.static_members.pluck(:static_id).include?(eventable_id)
-    return true if eventable_type == 'Static' && eventable.staticable_type == 'Guild' && user.any_role?(eventable.staticable_id, 'gm', 'rl', 'cl')
-    false
+    users.where(id: user.id).exists?
   end
 
   def normalize_friendly_id(text)
@@ -52,7 +52,6 @@ class Event < ApplicationRecord
   end
 
   def guild_role_of_user(user_id)
-    return nil if eventable_type == 'World'
     return nil if eventable_type == 'Static' && eventable.staticable_type == 'Character'
     guild = eventable_type == 'Static' ? eventable.staticable : eventable
     # leaders from guild of this user

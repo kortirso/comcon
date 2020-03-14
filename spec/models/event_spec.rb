@@ -73,38 +73,6 @@ RSpec.describe Event, type: :model do
           end
         end
       end
-
-      context 'available_for_user?' do
-        context 'for available world event' do
-          it 'returns true' do
-            expect(world_event1.available_for_user?(user)).to eq true
-          end
-        end
-
-        context 'for available guild event' do
-          it 'returns true' do
-            expect(guild_event.available_for_user?(user)).to eq true
-          end
-        end
-
-        context 'for available static (as static member) event' do
-          it 'returns true' do
-            expect(static_event.available_for_user?(user)).to eq true
-          end
-        end
-
-        context 'for available static (as guild leader) event' do
-          it 'returns true' do
-            expect(static_event.available_for_user?(user)).to eq true
-          end
-        end
-
-        context 'for not available world event' do
-          it 'returns false' do
-            expect(world_event2.available_for_user?(user)).to eq false
-          end
-        end
-      end
     end
   end
 

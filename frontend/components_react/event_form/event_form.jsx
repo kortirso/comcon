@@ -294,7 +294,6 @@ export default class EventForm extends React.Component {
               <label htmlFor="event_eventable_type">{strings.eventableType}</label>
               <select className="form-control form-control-sm" id="event_eventable_type" onChange={this._onChangeEventableType.bind(this)} value={this.state.eventableType} disabled={this.state.eventId !== undefined}>
                 <option value='Guild' key='Guild'>{strings.guild}</option>
-                <option value='World' key='World'>{strings.world}</option>
                 {this.state.currentStatics.length > 0 &&
                   <option value='Static' key='Static'>{strings.staticLabel}</option>
                 }

@@ -22,7 +22,6 @@ export default class EventCalendar extends React.Component {
       timeZoneOffsetMinutes: props.time_offset_value === null ? date.getTimezoneOffset() : - props.time_offset_value * 60,
       weekChanges: 0,
       currentDayId: null,
-      worlds: [],
       guilds: [],
       statics: [],
       fractions: [],
@@ -31,7 +30,6 @@ export default class EventCalendar extends React.Component {
       horde: 0,
       characters: [],
       accessType: 'none',
-      world: 'none',
       guild: 'none',
       currentStatic: 'none',
       fraction: 'none',
@@ -83,7 +81,6 @@ export default class EventCalendar extends React.Component {
     const state = this.state
     let filters = {}
     if (state.accessType !== 'none') filters['eventable_type'] = state.accessType
-    if (state.world !== 'none') filters['eventable_id'] = state.world
     if (state.guild !== 'none') filters['eventable_id'] = state.guild
     if (state.currentStatic !== 'none') filters['eventable_id'] = state.currentStatic
     if (state.fraction !== 'none') filters['fraction_id'] = state.fraction
@@ -108,7 +105,7 @@ export default class EventCalendar extends React.Component {
           if (fraction.attributes.name.en === 'Horde') horde = parseInt(fraction.id)
           else alliance = parseInt(fraction.id)
         })
-        this.setState({worlds: data.worlds.data, fractions: data.fractions.data, alliance: alliance, horde: horde, guilds: data.guilds.data, characters: data.characters.data, dungeons: data.dungeons.data, statics: data.statics.data})
+        this.setState({fractions: data.fractions.data, alliance: alliance, horde: horde, guilds: data.guilds.data, characters: data.characters.data, dungeons: data.dungeons.data, statics: data.statics.data})
       }
     })
   }
@@ -229,7 +226,6 @@ export default class EventCalendar extends React.Component {
     return (
       <div className="filters">
         {this._renderAccessTypeFilter()}
-        {this._renderWorldFilter()}
         {this._renderGuildFilter()}
         {this._renderStaticFilter()}
         {this._renderFractionFilter()}
@@ -245,33 +241,11 @@ export default class EventCalendar extends React.Component {
         <label htmlFor="filter_access_type">{strings.filterAccess}</label>
         <select id="filter_access_type" className="form-control form-control-sm" onChange={this._onChangeAccessType.bind(this)} value={this.state.accessType}>
           <option value='none'>{strings.none}</option>
-          <option value='World'>{strings.onlyWorlds}</option>
           <option value='Guild'>{strings.onlyGuilds}</option>
           <option value='Static'>{strings.onlyStatics}</option>
         </select>
       </div>
     )
-  }
-
-  _renderWorldFilter() {
-    if (this.state.accessType !== 'World') return false
-    else {
-      return (
-        <div className="filter world">
-          <label htmlFor="filter_world">{strings.filterWorld}</label>
-          <select id="filter_world" className="form-control form-control-sm" onChange={this._onChangeWorld.bind(this)} value={this.state.world}>
-            <option value='none' key='0'>{strings.none}</option>
-            {this._renderWorldsList()}
-          </select>
-        </div>
-      )
-    }
-  }
-
-  _renderWorldsList() {
-    return this.state.worlds.map((world) => {
-      return <option value={world.id} key={world.id}>{world.attributes.name}</option>
-    })
   }
 
   _renderGuildFilter() {
@@ -375,20 +349,14 @@ export default class EventCalendar extends React.Component {
 
   _onChangeAccessType(event) {
     if (event.target.value === 'none') {
-      this.setState({accessType: 'none', world: 'none', guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
+      this.setState({accessType: 'none', guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
         this._filterEvents()
       })
     } else {
-      this.setState({accessType: event.target.value, world: 'none', guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
+      this.setState({accessType: event.target.value, guild: 'none', currentStatic: 'none', currentEventId: null}, () => {
         this._filterEvents()
       })
     }
-  }
-
-  _onChangeWorld(event) {
-    this.setState({world: event.target.value, currentEventId: null, currentDayId: null}, () => {
-      this._filterEvents()
-    })
   }
 
   _onChangeGuild(event) {

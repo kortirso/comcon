@@ -91,7 +91,7 @@ class Notification < ApplicationRecord
 
   def event_time_offset(event:)
     case event.eventable_type
-    when 'Guild' then (event.eventable.time_offset.value || 0)
+    when 'Guild' then (event.eventable.time_offset&.value || 0)
     when 'Static' then event.eventable.time_offset_value
     else 0
     end

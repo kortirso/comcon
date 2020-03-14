@@ -17,7 +17,7 @@ module Api
         param :event, Hash do
           param :name, String, required: false, description: 'Event name'
           param :owner_id, String, required: true, description: 'Character ID'
-          param :eventable_type, String, required: true, description: 'World/Guild/Static'
+          param :eventable_type, String, required: true, description: 'Guild/Static'
           param :eventable_id, String, required: true, description: 'Eventable ID'
           param :event_type, String, required: true, description: 'raid/instance/custom'
           param :hours_before_close, String, required: true, description: 'Hours before close, from 0 to 24'

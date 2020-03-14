@@ -14,7 +14,8 @@ RSpec.describe EventForm, type: :service do
 
     context 'for invalid time' do
       let!(:character) { create :character }
-      let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.hour, eventable_type: 'World', hours_before_close: 2) }
+      let!(:guild) { create :guild }
+      let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.hour, eventable_type: 'Guild', eventable_id: guild.id, hours_before_close: 2) }
 
       it 'does not create new event' do
         expect { service.persist? }.to_not change(Event, :count)
@@ -27,7 +28,8 @@ RSpec.describe EventForm, type: :service do
 
     context 'for valid data' do
       let!(:character) { create :character }
-      let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.day, eventable_type: 'World') }
+      let!(:guild) { create :guild }
+      let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.day, eventable_type: 'Guild', eventable_id: guild.id) }
 
       it 'creates new event' do
         expect { service.persist? }.to change { Event.count }.by(1)
@@ -42,7 +44,7 @@ RSpec.describe EventForm, type: :service do
       let!(:event) { create :event }
 
       context 'for unexisted event' do
-        let(:service) { EventForm.new(id: 999, name: '1', owner: event.owner, eventable_type: 'World') }
+        let(:service) { EventForm.new(id: 999, name: '1', owner: event.owner) }
 
         it 'returns false' do
           expect(service.persist?).to eq false

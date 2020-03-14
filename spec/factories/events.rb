@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:name) { |i| "Name#{i}" }
     event_type { 'instance' }
     start_time { DateTime.now + 1.hour }
-    association :eventable, factory: :world
+    association :eventable, factory: :guild
     association :owner, factory: :character
     association :fraction, :alliance
 
