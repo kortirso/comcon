@@ -48,9 +48,9 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @event, to: :show?
-        subscribes = @event.subscribes.includes(character: %i[character_class guild])
+        subscribes = @event.subscribes.visible
         result = Rails.cache.fetch(Subscribe.cache_key(subscribes)) do
-          FastSubscribeSerializer.new(subscribes).serializable_hash
+          FastSubscribeSerializer.new(subscribes.includes(character: %i[character_class guild])).serializable_hash
         end
         render json: {
           subscribers: result
