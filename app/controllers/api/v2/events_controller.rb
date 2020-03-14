@@ -69,18 +69,18 @@ module Api
       end
 
       def find_events
-        @events = Event.where('start_time > ? AND start_time <= ?', @start_of_period, @end_of_period).order(start_time: :asc).includes(:group_role)
+        @events = find_available_events
+        @events = @events.where('start_time > ? AND start_time <= ?', @start_of_period, @end_of_period).order(start_time: :asc).includes(:group_role)
         @events = @events.where(eventable_type: params[:eventable_type]) if params[:eventable_type].present?
         @events = @events.where(eventable_id: params[:eventable_id]) if params[:eventable_id].present?
         @events = @events.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
         @events = @events.where(dungeon_id: params[:dungeon_id]) if params[:dungeon_id].present?
-        @events = @events.where_user_subscribed(Current.user) if params[:subscribed] == 'true'
-        if params[:character_id].present?
-          character = Current.user.characters.find_by(id: params[:character_id])
-          @events = character.present? ? @events.available_for_character(character) : @events.available_for_user(Current.user)
-        else
-          @events = @events.available_for_user(Current.user)
-        end
+      end
+
+      def find_available_events
+        return Event.available_for_user(Current.user.id) unless params[:character_id]
+        character = Current.user.characters.find_by(id: params[:character_id])
+        character.present? ? Event.available_for_character(character.id) : Event.available_for_user(Current.user.id)
       end
 
       def find_event

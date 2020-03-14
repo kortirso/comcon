@@ -33,72 +33,19 @@ RSpec.describe Event, type: :model do
       let!(:guild_role) { create :guild_role, guild: guild, character: character3, name: 'rl' }
 
       context '.available_for_user' do
-        context 'without guild' do
-          it 'returns events for character2 and character3' do
-            result = Event.available_for_user(user)
+        context 'if no subscribes' do
+          it 'returns no events' do
+            result = Event.available_for_user(user.id)
 
-            expect(result.include?(world_event1)).to eq true
-            expect(result.include?(world_event2)).to eq false
-            expect(result.include?(guild_event)).to eq true
-            expect(result.include?(static_event)).to eq true
-          end
-        end
-      end
-
-      context '.available_for_character' do
-        context 'without guild' do
-          it 'returns only world event for character fraction' do
-            result = Event.available_for_character(character1)
-
-            expect(result.include?(world_event1)).to eq true
-            expect(result.include?(world_event2)).to eq false
-            expect(result.include?(guild_event)).to eq false
-          end
-
-          it 'returns only world event for character fraction' do
-            result = Event.available_for_character(character2)
-
-            expect(result.include?(world_event1)).to eq false
-            expect(result.include?(world_event2)).to eq true
-            expect(result.include?(guild_event)).to eq false
+            expect(result.size.zero?).to eq true
           end
         end
 
-        context 'with guild' do
-          it 'returns world event for character fraction and guild event' do
-            result = Event.available_for_character(character3)
+        context 'if subscribed' do
+          let!(:subscribe) { create :subscribe, character: character1, subscribeable: guild_event }
 
-            expect(result.include?(world_event1)).to eq true
-            expect(result.include?(world_event2)).to eq false
-            expect(result.include?(guild_event)).to eq true
-          end
-        end
-      end
-
-      context '.where_user_subscribed' do
-        context 'without signing' do
-          it 'returns []' do
-            result = Event.where_user_subscribed(user)
-
-            expect(result.size).to eq 0
-          end
-        end
-
-        context 'with unknown signing' do
-          let!(:subscribe) { create :subscribe, subscribeable: guild_event, character: character3, status: 1 }
-
-          it 'returns []' do
-            result = Event.where_user_subscribed(user)
-
-            expect(result.size).to eq 0
-          end
-        end
-
-        context 'with signed' do
-          let!(:subscribe) { create :subscribe, subscribeable: guild_event, character: character3, status: 2 }
-
-          it 'returns events where user characters at least signed' do
-            result = Event.where_user_subscribed(user)
+          it 'returns events where user is subscribed' do
+            result = Event.available_for_user(user.id)
 
             expect(result.size).to eq 1
             expect(result.include?(guild_event)).to eq true
@@ -106,7 +53,28 @@ RSpec.describe Event, type: :model do
         end
       end
 
-      context 'available_for_user' do
+      context '.available_for_character' do
+        context 'if no subscribes' do
+          it 'returns no events' do
+            result = Event.available_for_character(character1.id)
+
+            expect(result.size.zero?).to eq true
+          end
+        end
+
+        context 'if subscribed' do
+          let!(:subscribe) { create :subscribe, character: character1, subscribeable: guild_event }
+
+          it 'returns events where user is subscribed' do
+            result = Event.available_for_character(character1.id)
+
+            expect(result.size).to eq 1
+            expect(result.include?(guild_event)).to eq true
+          end
+        end
+      end
+
+      context 'available_for_user?' do
         context 'for available world event' do
           it 'returns true' do
             expect(world_event1.available_for_user?(user)).to eq true

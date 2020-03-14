@@ -27,7 +27,7 @@ Rails.application.routes.draw do
         get :search, on: :collection
         post :upload_recipes, on: :member
       end
-      resources :events, except: %i[new] do
+      resources :events, except: %i[index new] do
         get :subscribers, on: :member
         get :user_characters, on: :member
         get :filter_values, on: :collection

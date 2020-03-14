@@ -9,6 +9,7 @@ RSpec.describe 'Events API' do
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
       let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+      let!(:subscribe) { create :subscribe, character: character, subscribeable: world_event }
 
       context 'without params' do
         before { get '/api/v2/events.json', params: { access_token: access_token } }

@@ -27,27 +27,12 @@ class Event < ApplicationRecord
   scope :for_guild, ->(guild_id) { where eventable_type: 'Guild', eventable_id: guild_id }
   scope :for_static, ->(static_ids) { where eventable_type: 'Static', eventable_id: static_ids }
 
-  def self.available_for_user(user)
-    # values based on user characters
-    static_ids = (user.guild_static_ids_as_guild_leader + user.static_members.pluck(:static_id)).uniq
-    # find available events
-    for_world_fraction(user.world_fractions.pluck(:id)).or(for_guild(user.guilds.pluck(:id))).or(for_static(static_ids))
+  def self.available_for_user(user_id)
+    Event.joins(subscribes: :character).where(characters: { user_id: user_id })
   end
 
-  # event available for character if event
-  # is world event for fraction of character
-  # is guild event for guild of character
-  # is static event for static of character with membership
-  # is static event of guild where character is gm, rl or cl
-  def self.available_for_character(character)
-    events = for_world_fraction(character.world_fraction_id).or(for_guild(character.guild_id)).or(for_static(character.in_statics.pluck(:id)))
-    events = events.or(for_static(character.guild.statics.pluck(:id))) if character.user.any_role?(character.guild_id, 'gm', 'rl', 'cl')
-    events
-  end
-
-  def self.where_user_subscribed(user)
-    character_ids = user.characters.pluck(:id)
-    joins(:signed_characters).where(characters: { id: character_ids })
+  def self.available_for_character(character_id)
+    Event.joins(subscribes: :character).where(characters: { id: character_id })
   end
 
   def available_for_user?(user)
