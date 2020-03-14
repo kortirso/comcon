@@ -13,8 +13,8 @@ RSpec.describe EventForm, type: :service do
     end
 
     context 'for invalid time' do
-      let!(:character) { create :character }
       let!(:guild) { create :guild }
+      let!(:character) { create :character, guild: guild }
       let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.hour, eventable_type: 'Guild', eventable_id: guild.id, hours_before_close: 2) }
 
       it 'does not create new event' do
@@ -27,8 +27,8 @@ RSpec.describe EventForm, type: :service do
     end
 
     context 'for valid data' do
-      let!(:character) { create :character }
       let!(:guild) { create :guild }
+      let!(:character) { create :character, guild: guild }
       let(:service) { EventForm.new(name: 'Хроми', owner: character, event_type: 'raid', start_time: DateTime.now + 1.day, eventable_type: 'Guild', eventable_id: guild.id) }
 
       it 'creates new event' do
@@ -41,7 +41,9 @@ RSpec.describe EventForm, type: :service do
     end
 
     context 'for updating' do
-      let!(:event) { create :event }
+      let!(:guild) { create :guild }
+      let!(:character) { create :character, guild: guild }
+      let!(:event) { create :event, eventable: guild, owner: character }
 
       context 'for unexisted event' do
         let(:service) { EventForm.new(id: 999, name: '1', owner: event.owner) }

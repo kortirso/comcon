@@ -55,9 +55,9 @@ RSpec.describe 'Events API' do
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'for invalid params' do
-        let!(:character) { create :character, user: user }
+        let!(:character) { create :character, user: user, guild: guild }
         let!(:dungeon) { create :dungeon }
-        let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now - 1.day).to_i, eventable_type: 'Guild', eventable_id: guild.id } } }
+        let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now - 1.day).to_i, eventable_type: 'Guild' } } }
 
         it 'does not create new event' do
           expect { request }.to_not change(Event, :count)
@@ -79,11 +79,11 @@ RSpec.describe 'Events API' do
       end
 
       context 'for valid params' do
-        let!(:character) { create :character, user: user }
+        let!(:character) { create :character, user: user, guild: guild }
         let!(:role) { create :role, :tank }
         let!(:character_role) { create :character_role, character: character, role: role }
         let!(:dungeon) { create :dungeon }
-        let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now + 1.day).to_i, eventable_type: 'Guild', eventable_id: guild.id } } }
+        let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now + 1.day).to_i, eventable_type: 'Guild' } } }
 
         it 'creates new event' do
           expect { request }.to change { character.owned_events.count }.by(1)
@@ -125,11 +125,11 @@ RSpec.describe 'Events API' do
       end
 
       context 'for valid params, many times' do
-        let!(:character) { create :character, user: user }
+        let!(:character) { create :character, user: user, guild: guild }
         let!(:role) { create :role, :tank }
         let!(:character_role) { create :character_role, character: character, role: role }
         let!(:dungeon) { create :dungeon }
-        let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now + 1.day).to_i, eventable_type: 'Guild', eventable_id: guild.id, repeat: 2, repeat_days: 7 } } }
+        let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now + 1.day).to_i, eventable_type: 'Guild', repeat: 2, repeat_days: 7 } } }
 
         it 'creates new events' do
           expect { request }.to change { character.owned_events.count }.by(3)
@@ -209,8 +209,9 @@ RSpec.describe 'Events API' do
     it_behaves_like 'API auth unconfirmed'
 
     context 'for logged user' do
+      let!(:guild) { create :guild }
       let!(:user) { create :user }
-      let!(:character) { create :character, user: user }
+      let!(:character) { create :character, user: user, guild: guild }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
 
       context 'for unexisted event' do

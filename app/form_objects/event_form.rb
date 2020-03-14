@@ -33,6 +33,7 @@ class EventForm
     if owner.present?
       self.fraction = owner.race&.fraction
       self.world_fraction = owner.world_fraction
+      self.eventable_id = owner.guild_id if eventable_type != 'Static'
     end
     # validation
     return false unless valid?
