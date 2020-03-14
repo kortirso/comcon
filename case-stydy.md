@@ -98,9 +98,12 @@ NewRelic
 
 Статистика после оптимизации
 Skylight
-- Api::V2::EventsController#index, typical 227 ms, problem 681 ms, agony 3
-- Api::V2::EventsController#filter_values, typical 224 ms, problem 621 ms, agony 2
+- Api::V2::EventsController#index, typical 121 ms, problem 184 ms, agony 2
+- Api::V2::EventsController#filter_values, typical 147 ms, problem 219 ms, agony 2
 
 NewRelic
-- Api::V2::EventsController#index, apdex 0.95, average 283 ms
-- Api::V2::EventsController#filter_values, apdex 0.96, average 261 ms
+- Api::V2::EventsController#index, apdex 1, average 150 ms
+- Api::V2::EventsController#filter_values, apdex 1, average 171 ms
+
+Результат улучшился примерно в 2-4 раза
+Визуально страницы открываются практически мгновенно и теперь графики в Skylight и NewRelic выглядят отлично, без каких-то выделяющихся плохихи запросов.
