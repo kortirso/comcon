@@ -1,8 +1,22 @@
-@import 'bootstrap';
+// required bootstrap
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+@import 'bootstrap/scss/_mixins';
+// optional bootstrap
+@import 'bootstrap/scss/_grid';
+@import 'bootstrap/scss/_navbar';
+@import 'bootstrap/scss/_tables';
+@import 'bootstrap/scss/_reboot';
+@import 'bootstrap/scss/_buttons';
+@import 'bootstrap/scss/_forms';
+@import 'bootstrap/scss/_type';
+@import 'bootstrap/scss/_modal';
+@import 'bootstrap/scss/_close';
+@import 'bootstrap/scss/_alert';
+// others
 @import './variables.scss';
 @import './buttons.scss';
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap&subset=cyrillic');
-@import './datepicker.min.css';
 
 html, body {
   margin: 0;
