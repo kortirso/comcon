@@ -8,6 +8,7 @@
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
+    "minimist": "^1.2.5",
     "prop-types": "^15.7.2",
     "rails-ujs": "^5.2.3",
     "react": "^16.10.2",
