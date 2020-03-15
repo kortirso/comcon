@@ -21,19 +21,19 @@
   height: 14px;
 
   &.tanks {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: 0 -14px;
     background-size: 126px;
   }
 
   &.healers {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -14px -14px;
     background-size: 126px;
   }
 
   &.dd {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -28px -14px;
     background-size: 126px;
   }
@@ -45,25 +45,25 @@
   margin-right: 0.25rem;
 
   &.Tank {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: 0 -26px;
     background-size: 234px;
   }
 
   &.Healer {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -26px -26px;
     background-size: 234px;
   }
 
   &.Melee {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -52px -26px;
     background-size: 234px;
   }
 
   &.Ranged {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -78px -26px;
     background-size: 234px;
   }
@@ -76,55 +76,55 @@
   margin-right: 0.25rem;
 
   &.warrior {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: 0 0;
     background-size: 270px;
   }
 
   &.warlock {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -30px 0;
     background-size: 270px;
   }
 
   &.shaman {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -60px 0;
     background-size: 270px;
   }
 
   &.rogue {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -90px 0;
     background-size: 270px;
   }
 
   &.priest {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -120px 0;
     background-size: 270px;
   }
 
   &.paladin {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -150px 0;
     background-size: 270px;
   }
 
   &.mage {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -180px 0;
     background-size: 270px;
   }
 
   &.hunter {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -210px 0;
     background-size: 270px;
   }
 
   &.druid {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -240px 0;
     background-size: 270px;
   }
@@ -147,48 +147,48 @@
   }
 
   &.btn-add {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -140px -56px;
     background-size: 252px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -100px -40px;
       background-size: 180px;
     }
   }
 
   &.btn-delete {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -168px -56px;
     background-size: 252px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -120px -40px;
       background-size: 180px;
     }
   }
 
   &.btn-exit {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -224px -56px;
     background-size: 252px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -160px -40px;
       background-size: 180px;
     }
   }
 
   &.btn-edit {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -224px -140px;
     background-size: 252px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -160px -100px;
       background-size: 180px;
     }
@@ -213,24 +213,24 @@
 }
 
 .btn-plus {
-  background: #fff url(../images/all_icons.png);
+  background: #fff url(../images/all_icons.webp);
   background-position: -210px -30px;
   background-size: 270px;
 
   &.small {
-    background: #fff url(../images/all_icons.png);
+    background: #fff url(../images/all_icons.webp);
     background-position: -140px -20px;
     background-size: 180px;
   }
 }
 
 .btn-minus {
-  background: #fff url(../images/all_icons.png);
+  background: #fff url(../images/all_icons.webp);
   background-position: -240px -30px;
   background-size: 270px;
 
   &.small {
-    background: #fff url(../images/all_icons.png);
+    background: #fff url(../images/all_icons.webp);
     background-position: -160px -20px;
     background-size: 180px;
   }
@@ -258,108 +258,108 @@
   }
 
   &.approved {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: 0 -60px;
     background-size: 270px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: 0 -40px;
       background-size: 180px;
     }
 
     &.extra_small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: 0 -30px;
       background-size: 135px;
     }
   }
 
   &.reserve {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -30px -60px;
     background-size: 270px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -20px -40px;
       background-size: 180px;
     }
 
     &.extra_small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -15px -30px;
       background-size: 135px;
     }
   }
 
   &.signed {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -60px -60px;
     background-size: 270px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -40px -40px;
       background-size: 180px;
     }
 
     &.extra_small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -30px -30px;
       background-size: 135px;
     }
   }
 
   &.unknown {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -90px -60px;
     background-size: 270px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -60px -40px;
       background-size: 180px;
     }
 
     &.extra_small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -45px -30px;
       background-size: 135px;
     }
   }
 
   &.rejected {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -120px -60px;
     background-size: 270px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -80px -40px;
       background-size: 180px;
     }
 
     &.extra_small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -60px -30px;
       background-size: 135px;
     }
   }
 
   &.declined {
-    background: url(../images/all_icons.png);
+    background: url(../images/all_icons.webp);
     background-position: -120px -60px;
     background-size: 270px;
 
     &.small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -80px -40px;
       background-size: 180px;
     }
 
     &.extra_small {
-      background: url(../images/all_icons.png);
+      background: url(../images/all_icons.webp);
       background-position: -60px -30px;
       background-size: 135px;
     }

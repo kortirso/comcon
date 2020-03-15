@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Modified
 - decrease amount of css
+- convert png icons to webp format
 
 ### Fixed
 - creating/updating events

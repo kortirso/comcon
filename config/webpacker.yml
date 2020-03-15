@@ -23,6 +23,7 @@ default: &default
     - .jpg
     - .jpeg
     - .png
+    - .webp
     - .gif
     - .tiff
     - .ico
@@ -48,6 +49,7 @@ default: &default
     - .gif
     - .jpeg
     - .jpg
+    - .webp
 
 development:
   <<: *default
