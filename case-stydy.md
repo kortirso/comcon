@@ -143,5 +143,12 @@ if @wowhead
 ## Находка 6.2
 Включение сжатия gzip
 
-## Находка 6.3
-Аудит показывает, что не установлен Cache TTL с рекомендацией A long cache lifetime can speed up repeat visits to your page
+Проблемы:
+- Ассеты используются без сжатия
+- Аудит показывает, что не установлен Cache TTL с рекомендацией A long cache lifetime can speed up repeat visits to your page
+
+Результат:
+- Удалось добавить плагин compression-webpack-plugin для webpacker'а.
+- Также донастроил nginx, теперь ассеты используются в сжатом виде.
+- Добавлено кэширование, поэтому не тратится время на постоянное скачивание скриптов
+- Аудит performance показывает 91 балл.
