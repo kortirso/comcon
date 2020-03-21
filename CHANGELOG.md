@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - add compression for webpacker
 
 ### Fixed
+- bug https://github.com/kortirso/comcon/issues/32
+
+### Fixed
 - creating/updating events
 
 ## [1.3.0] - 2020-03-14
