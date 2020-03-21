@@ -254,6 +254,7 @@ nav.navigation {
     .collapse {
       &.show {
         height: calc(100vh - 45px);
+        position: relative;
       }
     }
   }

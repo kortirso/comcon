@@ -4,6 +4,7 @@
 @import 'bootstrap/scss/_mixins';
 // optional bootstrap
 @import 'bootstrap/scss/_grid';
+@import 'bootstrap/scss/_nav';
 @import 'bootstrap/scss/_navbar';
 @import 'bootstrap/scss/_tables';
 @import 'bootstrap/scss/_reboot';
@@ -13,6 +14,7 @@
 @import 'bootstrap/scss/_modal';
 @import 'bootstrap/scss/_close';
 @import 'bootstrap/scss/_alert';
+@import 'bootstrap/scss/_transitions';
 // others
 @import './variables.scss';
 @import './buttons.scss';
@@ -231,6 +233,16 @@ body {
           width: 40px;
           text-align: center;
           font-size: 0.9rem;
+        }
+      }
+
+      @media screen and (max-width: 1199px) {
+        p {
+          width: 100%;
+        }
+
+        .role_by_class {
+          margin-bottom: 0.25rem;
         }
       }
     }
