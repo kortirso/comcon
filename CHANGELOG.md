@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - bug https://github.com/kortirso/comcon/issues/32
+- bug with datepicker css
 
 ### Fixed
 - creating/updating events

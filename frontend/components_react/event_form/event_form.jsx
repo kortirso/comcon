@@ -4,7 +4,6 @@ import I18nData from './i18n_data.json'
 
 const $ = require("jquery")
 
-import '../../init/datepicker.min.css';
 import 'air-datepicker/dist/js/datepicker.js'
 import 'air-datepicker/dist/js/i18n/datepicker.en.js'
 
