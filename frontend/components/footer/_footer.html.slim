@@ -7,6 +7,6 @@ footer
         a href='https://discord.gg/EuRDe2P' target='_blank' rel='noreferrer'= t('navigation.discord')
         = link_to t('navigation.privacy'), privacy_path
       .locale_block
-        p Guild-Hall 1.3.0
+        p Guild-Hall 1.3.1
         - I18n.available_locales.each do |locale|
           = link_to '', change_locale(locale), class: "flag flag_#{locale}", aria: { label: 'Change locale' }
