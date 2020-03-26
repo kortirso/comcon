@@ -393,7 +393,6 @@ en:
     p_2: Each registered user has the same opportunities to use content.
     p_3: If suddenly you somehow liked the project and you want to financially help the creators of Guild Hall, then this is possible through the Yandex.Money service.
   guild_bank:
-    title: Bank
     import: Data import
   notification:
     from: from

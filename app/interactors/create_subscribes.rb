@@ -14,14 +14,24 @@ class CreateSubscribes
 
     if %w[Guild Static].include?(context.subscribeable.eventable_type)
       object = context.subscribeable.eventable
-      object.characters.where.not(id: context.subscribeable.owner.id).find_each do |character|
-        subscribed_character_ids << character.id
-        subscribes << Subscribe.new(subscribeable: context.subscribeable, character: character, status: 'created')
-      end
-      # create hidden subscribes for guild managers
-      if object.is_a?(Static) && object.staticable.is_a?(Guild)
-        object.staticable.characters_with_leader_role.where.not(id: subscribed_character_ids).find_each do |character|
-          subscribes << Subscribe.new(subscribeable: context.subscribeable, character: character, status: 'hidden')
+      if object.is_a?(Static)
+        # subscribe all static characters
+        object.characters.where.not(id: context.subscribeable.owner.id).find_each do |character|
+          subscribed_character_ids << character.id
+          subscribes << Subscribe.new(subscribeable: context.subscribeable, character: character, status: 'created')
+        end
+        # create hidden subscribes for guild managers
+        if object.staticable.is_a?(Guild)
+          object.staticable.characters_with_leader_role.where.not(id: subscribed_character_ids).find_each do |character|
+            subscribes << Subscribe.new(subscribeable: context.subscribeable, character: character, status: 'hidden')
+          end
+        end
+      else
+        # subscribe only 1 main character from guild for guild event
+        object.users.where.not(id: context.subscribeable.owner.user_id).find_each do |user|
+          character = user.characters.order(main: :desc, level: :desc, item_level: :desc).first
+          subscribed_character_ids << character.id
+          subscribes << Subscribe.new(subscribeable: context.subscribeable, character: character, status: 'created')
         end
       end
     end

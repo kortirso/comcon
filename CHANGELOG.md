@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 - main label for characters
+- for guild events create subscribes only for main characters
 
 ### Modified
 - decrease amount of css

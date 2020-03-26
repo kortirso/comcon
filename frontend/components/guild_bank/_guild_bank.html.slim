@@ -1,6 +1,6 @@
 .inside
   .inside_topbar
-    .title= "#{@guild.full_name}, #{t('guild_bank.title')}"
+    .title= @guild.full_name
     .tabs
       ul
         li= link_to t('guild.about'), guild_path(@guild.slug)
