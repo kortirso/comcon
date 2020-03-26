@@ -12,7 +12,10 @@
     "otherRoles": "Other roles",
     "create": "Create",
     "update": "Update",
-    "guildRequest": "Send request to guild"
+    "guildRequest": "Send request to guild",
+    "main": "Main character?",
+    "yes": "Yes",
+    "no": "No"
   },
   "ru": {
     "name": "Имя",
@@ -27,6 +30,9 @@
     "otherRoles": "Другие роли",
     "create": "Создать",
     "update": "Обновить",
-    "guildRequest": "Отправить заявку в гильдию"
+    "guildRequest": "Отправить заявку в гильдию",
+    "main": "Главный персонаж?",
+    "yes": "Да",
+    "no": "Нет"
   }
 }

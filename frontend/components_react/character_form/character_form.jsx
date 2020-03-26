@@ -37,7 +37,8 @@ export default class CharacterForm extends React.Component {
       currentGuildId: 0,
       currentFractionId: 0,
       updateFractionId: 0,
-      errors: []
+      errors: [],
+      main: false
     }
   }
 
@@ -104,7 +105,7 @@ export default class CharacterForm extends React.Component {
           currentProfessions[profession.id] = (character.profession_ids.includes(parseInt(profession.id)) ? 1 : 0)
         })
 
-        this.setState({name: character.name, level: character.level, currentRace: character.race_id, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, currentWorld: character.world_id, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles, currentProfessions: currentProfessions})
+        this.setState({name: character.name, level: character.level, currentRace: character.race_id, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, currentWorld: character.world_id, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles, currentProfessions: currentProfessions, main: character.main})
       }
     })
   }
@@ -132,7 +133,7 @@ export default class CharacterForm extends React.Component {
     $.ajax({
       method: 'POST',
       url: url,
-      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, professions: state.currentProfessions, guild_id: state.currentGuildId } },
+      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, professions: state.currentProfessions, guild_id: state.currentGuildId, main: state.main } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
@@ -151,7 +152,7 @@ export default class CharacterForm extends React.Component {
     $.ajax({
       method: 'PATCH',
       url: url,
-      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, professions: state.currentProfessions } },
+      data: { character: { name: state.name, level: state.level, race_id: state.currentRace, character_class_id: state.currentCharacterClass, world_id: state.currentWorld, main_role_id: state.currentMainRole, roles: currentSecondaryRoles, professions: state.currentProfessions, main: state.main } },
       success: () => {
         window.location.replace(`${this.props.locale === 'en' ? '' : ('/' + this.props.locale)}/characters`)
       },
@@ -276,6 +277,10 @@ export default class CharacterForm extends React.Component {
     })
   }
 
+  _onChangeMain() {
+    this.setState({main: !this.state.main})
+  }
+
   _onChangeRole(roleId) {
     let roles = this.state.currentSecondaryRoles
     roles[roleId] = (roles[roleId] === 0 ? 1 : 0)
@@ -388,6 +393,15 @@ export default class CharacterForm extends React.Component {
                   </div>
                 </div>
               }
+              <div className="col-sm-4">
+                <div className="form-group">
+                  <label htmlFor="character_main">{strings.main}</label>
+                  <select className="form-control form-control-sm" id="character_main" onChange={this._onChangeMain.bind(this)} value={this.state.main ? '1' : '0'}>
+                    <option value="0">{strings.no}</option>
+                    <option value="1">{strings.yes}</option>
+                  </select>
+                </div>
+              </div>
             </div>
             {this._renderSubmitButton()}
           </div>

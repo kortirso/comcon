@@ -133,10 +133,11 @@ module Api
         CreateCharacterRoles.call(character_id: character.id, character_role_params: character_role_params)
         CreateCharacterProfessions.call(character_id: character.id, profession_params: profession_params)
         CreateGuildInvite.call(character: character, guild: Guild.find_by(world_fraction: character.world_fraction, id: params[:character][:guild_id]), from_guild: false) if params[:character][:guild_id].present?
+        character.user.characters.where.not(id: character.id).update_all(main: false) if character.main?
       end
 
       def character_params
-        h = params.require(:character).permit(:name, :level).to_h
+        h = params.require(:character).permit(:name, :level, :main).to_h
         h[:race] = @character.nil? ? Race.find_by(id: params[:character][:race_id]) : @character.race
         h[:character_class] = @character.nil? ? CharacterClass.find_by(id: params[:character][:character_class_id]) : @character.character_class
         h[:world] = @character.nil? ? World.find_by(id: params[:character][:world_id]) : @character.world
