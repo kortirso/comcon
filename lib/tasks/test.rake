@@ -8,7 +8,8 @@ namespace :test do
     command = TTY::Command.new(printer: :quiet, color: true)
     command.run('rake ts:rebuild RAILS_ENV=test')
     start = Time.now
-    command.run('rspec')
+    # command.run('rspec')
+    command.run('rake parallel:spec[4]')
     finish = Time.now
 
     TestDurationMetric.write(run_time_seconds: (finish - start).to_i)
