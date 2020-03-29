@@ -33,6 +33,7 @@ module ComCon
     end
 
     config.autoload_paths += %W[#{config.root}/app/jobs]
+    config.autoload_paths += %W[#{config.root}/app/metrics]
     config.active_job.queue_adapter = :sidekiq
 
     config.generators.system_tests = nil
