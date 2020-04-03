@@ -105,11 +105,13 @@ gem 'pghero'
 # Errors
 gem 'bugsnag'
 
+# metrics
+gem 'influxer'
+gem 'tty-command'
+
 group :development, :test do
   gem 'bullet'
-  gem 'influxer'
   gem 'parallel_tests'
-  gem 'tty-command'
 end
 
 group :development do
