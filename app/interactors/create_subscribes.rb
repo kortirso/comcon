@@ -29,7 +29,7 @@ class CreateSubscribes
       else
         # subscribe only 1 main character from guild for guild event
         object.users.where.not(id: context.subscribeable.owner.user_id).find_each do |user|
-          character = user.characters.order(main: :desc, level: :desc, item_level: :desc).first
+          character = user.characters.where(guild_id: object.id).order(main: :asc, level: :desc, item_level: :desc).first
           subscribed_character_ids << character.id
           subscribes << Subscribe.new(subscribeable: context.subscribeable, character: character, status: 'created')
         end
