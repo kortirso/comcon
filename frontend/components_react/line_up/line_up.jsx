@@ -34,6 +34,7 @@ $.ajaxSetup({
 export default class LineUp extends React.Component {
   constructor() {
     super()
+    this.typingTimeout = 0
     this.state = {
       eventInfo: null,
       subscribes: [],
@@ -44,13 +45,19 @@ export default class LineUp extends React.Component {
       approvingSubscribe: null,
       approvingRole: '',
       approvingStatus: '',
-      alternativeRender: false
+      alternativeRender: false,
+      query: '',
+      searchedCharacters: [],
     }
   }
 
   componentWillMount() {
     strings.setLanguage(this.props.locale)
     this._getEventInfo()
+  }
+
+  componentWillUnmount() {
+    if (this.typingTimeout) clearTimeout(this.typingTimeout)
   }
 
   _getEventInfo() {
@@ -72,21 +79,6 @@ export default class LineUp extends React.Component {
       url: `/api/v2/events/${this.props.event_id}/subscribers.json?access_token=${this.props.access_token}`,
       success: (data) => {
         this.setState({subscribes: data.subscribers.data})
-      }
-    })
-  }
-
-  onCreateSubscribe(status) {
-    let url = `/api/v1/subscribes.json?access_token=${this.props.access_token}`
-    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
-    $.ajax({
-      method: 'POST',
-      url: url,
-      data: { subscribe: { character_id: this.state.selectedCharacterForSign, subscribeable_id: this.props.event_id, subscribeable_type: 'Event', status: status } },
-      success: (data) => {
-        let subscribes = this.state.subscribes
-        subscribes.push(data.subscribe.data)
-        this.setState({subscribes: subscribes, userCharacters: [], selectedCharacterForSign: 0})
       }
     })
   }
@@ -125,6 +117,31 @@ export default class LineUp extends React.Component {
         this.onUpdateSubscribe(subscribe, { comment: nextCommentValue.trim() })
       })
     }
+  }
+
+  _onSendInvite(character) {
+    let url = `/api/v1/subscribes.json?access_token=${this.props.access_token}`
+    if (this.props.locale !== 'en') url += `&locale=${this.props.locale}`
+    $.ajax({
+      method: 'POST',
+      url: url,
+      data: { subscribe: { character_id: character.id, subscribeable_type: 'Event', subscribeable_id: this.props.event_id, status: 'created' } },
+      success: (data) => {
+        let subscribes = this.state.subscribes
+        subscribes.push(data.subscribe.data)
+        this.setState({subscribes: subscribes, searchedCharacters: [], query: ''})
+      }
+    })
+  }
+
+  _searchCharacters() {
+    $.ajax({
+      method: 'GET',
+      url: `/api/v1/characters/search_for_event.json?access_token=${this.props.access_token}&query=${this.state.query}&event_id=${this.props.event_id}`,
+      success: (data) => {
+        this.setState({searchedCharacters: data.characters})
+      }
+    })
   }
 
   _renderLocalTime(time) {
@@ -167,7 +184,7 @@ export default class LineUp extends React.Component {
           staticName: eventInfo.eventable_name
         })
       )
-    } 
+    }
   }
 
   _renderSubscribes(status) {
@@ -441,6 +458,50 @@ export default class LineUp extends React.Component {
     })
   }
 
+  _onChangeQuery(event) {
+    if (this.typingTimeout) clearTimeout(this.typingTimeout)
+    const queryValue = event.target.value
+    if (queryValue.length < 3) return this.setState({query: queryValue})
+    else this.setState({query: queryValue}, () => {
+      this.typingTimeout = setTimeout(() => {
+        this._searchCharacters()
+      }, 1000)
+    })
+  }
+
+  _renderSearchedCharacters() {
+    if (this.state.searchedCharacters.length > 0) {
+      return (
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              <th>{strings.name}</th>
+              <th>{strings.level}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this._renderSearchResults()}
+          </tbody>
+        </table>
+      )
+    } else return <p>{strings.noCharacters}</p>
+  }
+
+  _renderSearchResults() {
+    return this.state.searchedCharacters.map((character) => {
+      return (
+        <tr className={character.character_class_name.en} key={character.id}>
+          <td>{character.name}</td>
+          <td>{character.level}</td>
+          <td>
+            <input type="submit" name="commit" value={strings.invite} className="btn btn-primary btn-sm" onClick={this._onSendInvite.bind(this, character)} />
+          </td>
+        </tr>
+      )
+    })
+  }
+
   render() {
     const eventInfo = this.state.eventInfo
     return (
@@ -451,16 +512,27 @@ export default class LineUp extends React.Component {
               <h2 className="event_name">{eventInfo.name}</h2>
               <p className="event_location">{eventInfo.date} {this._renderLocalTime(eventInfo.time)}</p>
             </div>
-            <p>{this._renderAccess(eventInfo)}</p>
-            <p>{strings.owner} - {eventInfo.owner_name}</p>
-            <p className="event_description">{eventInfo.description}</p>
-            <p>{strings.formatString(strings.hoursBeforeClose, { hours: this.props.hours_before_close })}</p>
-            {this._renderRLBlock()}
-            {!this.props.event_is_open &&
-              <div className="event_closed">
-                <p className="alert alert-danger">{strings.closed}</p>
+            <div className="row">
+              <div className="col-md-6">
+                <p>{this._renderAccess(eventInfo)}</p>
+                <p>{strings.owner} - {eventInfo.owner_name}</p>
+                <p className="event_description">{eventInfo.description}</p>
+                <p>{strings.formatString(strings.hoursBeforeClose, { hours: this.props.hours_before_close })}</p>
+                {this._renderRLBlock()}
+                {!this.props.event_is_open &&
+                  <div className="event_closed">
+                    <p className="alert alert-danger">{strings.closed}</p>
+                  </div>
+                }
               </div>
-            }
+              {(this.props.is_owner || this.props.guild_role !== null) &&
+                <div className="form-group search col-md-6">
+                  <h3>{strings.search}</h3>
+                  <input placeholder={strings.searchPlaceholder} className="form-control form-control-sm" type="text" id="query" value={this.state.query} onChange={this._onChangeQuery.bind(this)} />
+                  {this._renderSearchedCharacters()}
+                </div>
+              }
+            </div>
           </div>
         }
         {eventInfo !== null && eventInfo.group_role !== null &&

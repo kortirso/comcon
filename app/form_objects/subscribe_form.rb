@@ -13,7 +13,7 @@ class SubscribeForm
 
   validates :subscribeable_id, :subscribeable_type, :character, :status, presence: true
   validates :subscribeable_type, inclusion: { in: %w[Event Static] }
-  validates :status, inclusion: 0..5
+  validates :status, inclusion: 0..7
   validates :for_role, inclusion: 0..2, allow_nil: true
   validates :comment, length: { maximum: 100 }, allow_nil: true
   validate :subscribeable_exists?
@@ -49,6 +49,8 @@ class SubscribeForm
   def status_to_integer
     return status if status.is_a?(Integer)
     case status
+      when 'hidden' then 7
+      when 'created' then 6
       when 'declined' then 5
       when 'reserve' then 4
       when 'approved' then 3

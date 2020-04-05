@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :characters, only: %i[index show create update] do
         get :default_values, on: :collection
         get :search, on: :collection
+        get :search_for_event, on: :collection
         post :upload_recipes, on: :member
       end
       resources :events, except: %i[index new] do

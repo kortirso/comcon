@@ -14,7 +14,9 @@ module Api
       before_action :get_worlds_from_cache, only: %i[default_values]
       before_action :get_dungeons_from_cache, only: %i[default_values]
       before_action :get_professions_from_cache, only: %i[default_values]
-      before_action :search_characters, only: %i[search]
+      before_action :find_event_for_search, only: %i[search_for_event]
+      before_action :search_characters, only: %i[search search_for_event]
+      before_action :select_unsubscribed_characters, only: %i[search_for_event]
       before_action :find_profession, only: %i[upload_recipes]
 
       resource_description do
@@ -87,6 +89,14 @@ module Api
         }, status: :ok
       end
 
+      api :GET, '/v1/characters/search_for_event.json', 'Search characters by name for event'
+      error code: 401, desc: 'Unauthorized'
+      def search_for_event
+        render json: {
+          characters: ActiveModelSerializers::SerializableResource.new(@characters, root: 'characters', each_serializer: CharacterCrafterSerializer).as_json[:characters]
+        }, status: :ok
+      end
+
       api :POST, '/v1/characters/:id/upload_recipes.json', 'Upload recipes for character'
       param :id, String, required: true
       error code: 401, desc: 'Unauthorized'
@@ -122,6 +132,16 @@ module Api
           with[:race_id] = fraction.races.pluck(:id) unless fraction.nil?
         end
         with
+      end
+
+      def find_event_for_search
+        @event = Event.find_by(id: params[:event_id])
+        render_error(t('custom_errors.object_not_found'), 404) if @event.nil?
+      end
+
+      def select_unsubscribed_characters
+        subscribed_character_ids = @event.characters.pluck(:id)
+        @characters = @characters.reject { |character| subscribed_character_ids.include?(character.id) }
       end
 
       def find_profession

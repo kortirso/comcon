@@ -5,7 +5,7 @@ class SubscribePolicy < ApplicationPolicy
   authorize :status
 
   def create?
-    return %w[signed unknown rejected].include?(status) && record.is_open? if record.is_a?(Event)
+    return %w[created signed unknown rejected].include?(status) && record.is_open? if record.is_a?(Event)
     user.any_static_role?(record)
   end
 
@@ -34,7 +34,7 @@ class SubscribePolicy < ApplicationPolicy
     # false if event is closed
     return false unless event.is_open?
     # true if own character and only signed status
-    return true if record.character.user == user && %w[signed unknown rejected].include?(status)
+    return true if record.character.user == user && %w[created signed unknown rejected].include?(status)
     false
   end
 
