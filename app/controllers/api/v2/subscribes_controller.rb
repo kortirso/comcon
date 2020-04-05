@@ -15,7 +15,7 @@ module Api
       error code: 401, desc: 'Unauthorized'
       def closest
         render json: {
-          subscribes: FastSubscribeIndexSerializer.new(@subscribes.uniq(&:subscribeable_id)).serializable_hash
+          subscribes: FastSubscribeIndexSerializer.new(@subscribes).serializable_hash
         }, status: :ok
       end
 

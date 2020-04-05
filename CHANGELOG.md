@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - invite separate characters for event
 
+### Modified
+- show all subscribes at activities page
+
 ## [1.3.1] - 2020-03-26
 ### Added
 - main label for characters
