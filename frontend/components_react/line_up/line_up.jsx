@@ -431,7 +431,7 @@ export default class LineUp extends React.Component {
 
   _sortCharacterAlternative(a, b) {
     if (statusValues[a.attributes.status] > statusValues[b.attributes.status]) return -1
-    else if (statusValues[a.status] < statusValues[b.attributes.status]) return 1
+    else if (statusValues[a.attributes.status] < statusValues[b.attributes.status]) return 1
     else {
       if (a.attributes.character.data.attributes.level > b.attributes.character.data.attributes.level) return -1
       else if (a.attributes.character.data.attributes.level < b.attributes.character.data.attributes.level) return 1

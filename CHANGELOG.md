@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Modified
 - show all subscribes at activities page
 
+### Fixed
+- bug with sorting of alternative renderer
+
 ## [1.3.1] - 2020-03-26
 ### Added
 - main label for characters
