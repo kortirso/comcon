@@ -42,7 +42,7 @@ module Api
 
       def subscribe_params
         h = create_subscribe_params.to_h
-        h[:character] = Current.user.characters.find_by(id: params[:subscribe][:character_id])
+        h[:character] = Character.find_by(id: params[:subscribe][:character_id])
         h
       end
 
