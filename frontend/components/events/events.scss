@@ -180,9 +180,30 @@
             &.onixia_start {
               left: 4px;
               border-radius: 3px 0 0 3px;
+              width: calc(100% - 3px);
             }
 
             &.onixia_end {
+              width: calc(100% - 3px);
+              border-radius: 0 3px 3px 0;
+            }
+          }
+
+          .troll_line {
+            position: absolute;
+            top: 40px;
+            left: -1px;
+            width: calc(100% + 2px);
+            height: 8px;
+            background: green;
+
+            &.troll_start {
+              left: 4px;
+              border-radius: 3px 0 0 3px;
+              width: calc(100% - 3px);
+            }
+
+            &.troll_end {
               width: calc(100% - 3px);
               border-radius: 0 3px 3px 0;
             }

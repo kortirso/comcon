@@ -179,6 +179,9 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => 'Blackwing Lair', 'ru' => 'Логово Крыла Тьмы' }, raid: true)
 dungeon_form.persist?
 
+dungeon_form = DungeonForm.new(name: { 'en' => "Zul’Gurub", 'ru' => "Зул’Гуруб" }, raid: true)
+dungeon_form.persist?
+
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
 role_form.persist?
 tank = role_form.role

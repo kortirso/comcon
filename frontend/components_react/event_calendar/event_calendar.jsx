@@ -37,6 +37,7 @@ export default class EventCalendar extends React.Component {
       character: 'none',
       currentEventId: null,
       calendarStartForOnixia: this._calcStartValue(date),
+      calendarStartForZulGurub: this._calcTrollStartValue(date),
       showUnusualCD: false,
       raidForUS: false
     }
@@ -54,6 +55,11 @@ export default class EventCalendar extends React.Component {
   _calcStartValue(date) {
     const onixiaStart = new Date(2020, 0, 4, 0, 0, 0, 0)
     return parseInt((date.getTime() - onixiaStart.getTime()) / (1000 * 3600 * 24))
+  }
+
+  _calcTrollStartValue(date) {
+    const TrollStart = new Date(2020, 3, 17, 0, 0, 0, 0)
+    return parseInt((date.getTime() - TrollStart.getTime()) / (1000 * 3600 * 24))
   }
 
   _getEvents() {
@@ -133,7 +139,10 @@ export default class EventCalendar extends React.Component {
           <div className="day_content" onClick={this._onSelectCurrentDay.bind(this, i)}>
             <div className="day_date">{dateForDay.getDate()}.{dateForDay.getMonth() + 1}</div>
             {this.state.showUnusualCD &&
-              <div className={`onixia_line ${this._defineOnixiaDay(i)}`}></div>
+                <div className={`onixia_line ${this._defineOnixiaDay(i)}`}></div>
+            }
+            {this.state.showUnusualCD &&
+                <div className={`troll_line ${this._defineTrollDay(i)}`}></div>
             }
             {this._renderEvents(dateForDay)}
           </div>
@@ -153,6 +162,22 @@ export default class EventCalendar extends React.Component {
         break;
       case 4:
         return 'onixia_end'
+        break;
+      default:
+        return ''
+    }
+  }
+
+  _defineTrollDay(i) {
+    switch ((this.state.calendarStartForZulGurub + this.state.weekChanges * 7 + i + (this.state.raidForUS ? -1 : 0)) % 3) {
+      case 0:
+        return 'troll_start'
+        break;
+      case -1:
+        return 'troll_end'
+        break;
+      case 2:
+        return 'troll_end'
         break;
       default:
         return ''
