@@ -1,5 +1,173 @@
 @import '../../init/variables.scss';
 
+.no-webp {
+  nav.navigation {
+    .navigation_block {
+      margin-bottom: 2rem;
+      list-style: none;
+      padding-left: 0;
+
+      li {
+        a {
+          &.nav_icon {
+            &.characters {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: 0 -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: 0 -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.guilds {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -25px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -25px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.statics {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -50px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -50px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.events {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -75px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -75px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.crafters {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -175px -50px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -175px -125px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.worlds, &.activities {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -100px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -100px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.users {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -125px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -125px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.recipes {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -175px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -175px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.settings {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -150px -75px;
+                background-size: 225px;
+              }
+
+              &.active {
+                &:before {
+                  background: url(../../images/all_icons.png);
+                  background-position: -150px -100px;
+                  background-size: 225px;
+                }
+              }
+            }
+
+            &.exit {
+              &:before {
+                background: url(../../images/all_icons.png);
+                background-position: -200px -50px;
+                background-size: 225px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 nav.navigation {
   z-index: 1;
   transition: .2s;
