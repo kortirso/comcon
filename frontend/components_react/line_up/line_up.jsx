@@ -416,7 +416,7 @@ export default class LineUp extends React.Component {
       else if (subscribe.attributes.for_role !== null && subscribe.attributes.for_role !== roleName) return false
       else if (subscribe.attributes.for_role === null && this._transformRole(subscribe.attributes.character.data.attributes.roles[0][0]) !== roleName) return false
       else {
-        if (subscribe.attributes.status !== "signed") onlyApproved += 1
+        if (subscribe.attributes.status === "approved") onlyApproved += 1
         return true
       }
     })
