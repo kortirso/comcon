@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Fixed
 - ZulGurub raid cooldown
+- jquery package version
 
 ## [1.3.3] - 2020-04-12
 ### Fixed
