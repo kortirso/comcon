@@ -58,7 +58,7 @@ export default class EventCalendar extends React.Component {
   }
 
   _calcTrollStartValue(date) {
-    const TrollStart = new Date(2020, 3, 17, 0, 0, 0, 0)
+    const TrollStart = new Date(2020, 3, 16, 0, 0, 0, 0)
     return parseInt((date.getTime() - TrollStart.getTime()) / (1000 * 3600 * 24))
   }
 
