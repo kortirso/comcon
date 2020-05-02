@@ -301,7 +301,7 @@ export default class GuildBank extends React.Component {
           <div className="bank_info col-md-6">
             <h3>{bank.name}
               {this.props.banker &&
-                , <span className="bank_coins">{this._calcCoins(bank.coins)}</span>
+                <span className="bank_coins">, {this._calcCoins(bank.coins)}</span>
               }
             </h3>
             <div className="bank_cells">
