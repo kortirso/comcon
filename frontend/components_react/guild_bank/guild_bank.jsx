@@ -299,7 +299,11 @@ export default class GuildBank extends React.Component {
       return (
         <div className="bank row" key={index}>
           <div className="bank_info col-md-6">
-            <h3>{bank.name}, <span className="bank_coins">{this._calcCoins(bank.coins)}</span></h3>
+            <h3>{bank.name}
+              {this.props.banker &&
+                , <span className="bank_coins">{this._calcCoins(bank.coins)}</span>
+              }
+            </h3>
             <div className="bank_cells">
               {this._renderBankCells(bank.bank_cells)}
             </div>

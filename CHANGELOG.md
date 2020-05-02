@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Modified
 - for line up show only approved characters in counter
+- hide bank coins for simple users
 
 ### Fixed
 - ZulGurub raid cooldown
