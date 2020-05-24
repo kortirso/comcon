@@ -25,6 +25,7 @@ gem 'slim'
 gem 'therubyracer', platforms: :ruby
 
 # Background Jobs
+gem 'redis-namespace'
 gem 'redis-rails'
 gem 'sidekiq', '5.2.5'
 
