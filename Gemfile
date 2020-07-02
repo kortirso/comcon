@@ -93,7 +93,6 @@ gem 'hairtrigger'
 gem 'activerecord-import'
 
 # Profiling
-gem 'newrelic_rpm'
 gem 'skylight'
 
 # Rules for migrations
