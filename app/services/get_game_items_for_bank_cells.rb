@@ -22,6 +22,7 @@ class GetGameItemsForBankCells
       next if game_item.nil?
       Equipment.where(item_uid: item_uid).update_all(game_item_id: game_item.id)
     end
+  rescue URI::InvalidURIError => _e
   end
 
   private
