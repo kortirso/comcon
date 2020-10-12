@@ -22,7 +22,6 @@ class GetGameItemsForBankCells
       next if game_item.nil?
       Equipment.where(item_uid: item_uid).update_all(game_item_id: game_item.id)
     end
-  rescue URI::InvalidURIError => _e
   end
 
   private
@@ -60,6 +59,8 @@ class GetGameItemsForBankCells
 
     game_item_params = game_item_params.merge(game_item_quality: game_item_quality, game_item_category: game_item_category, game_item_subcategory: game_item_subcategory)
     find_game_item(params: game_item_params)
+  rescue URI::InvalidURIError, NoMethodError => _e
+    nil
   end
 
   def find_object(params:, object_type:, object_class:, object_form_class:)
