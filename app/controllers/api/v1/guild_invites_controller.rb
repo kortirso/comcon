@@ -8,21 +8,11 @@ module Api
       before_action :find_character, only: %i[create]
       before_action :find_guild_invite, only: %i[destroy approve decline]
 
-      resource_description do
-        short 'GuildInvite resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/guild_invites.json', 'Get list of guild_invites for guild or character'
-      error code: 401, desc: 'Unauthorized'
       def index
         authorize! @from_guild, with: GuildInvitePolicy, context: { guild: @invite_creator, character: @invite_creator }
         render json: (@invite_creator.is_a?(Guild) ? @invite_creator.guild_invites.includes(:character) : @invite_creator.guild_invites.includes(:guild)), status: :ok
       end
 
-      api :POST, '/v1/guild_invites.json', 'Create guild invite'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         authorize! params[:guild_invite][:from_guild], with: GuildInvitePolicy, context: { guild: @guild, character: @character }
         result = CreateGuildInvite.call(guild: @guild, character: @character, from_guild: params[:guild_invite][:from_guild])
@@ -33,20 +23,12 @@ module Api
         end
       end
 
-      api :DELETE, '/v1/guild_invites/:id.json', 'Destroy guild invite'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Object is not found'
       def destroy
         authorize! @guild_invite.from_guild.to_s, with: GuildInvitePolicy, context: { guild: @guild_invite.guild, character: @guild_invite.character }
         @guild_invite.destroy
         render json: { result: 'Guild invite is deleted' }, status: :ok
       end
 
-      api :POST, '/v1/guild_invites/:id/approve.json', 'Approve guild invite'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Object is not found'
       def approve
         authorize! @guild_invite.from_guild.to_s, with: GuildInvitePolicy, context: { guild: @guild_invite.guild, character: @guild_invite.character }
         @guild_invite.character.update(guild_id: @guild_invite.guild.id)
@@ -54,10 +36,6 @@ module Api
         render json: { result: 'Character is added to the guild' }, status: :ok
       end
 
-      api :POST, '/v1/guild_invites/:id/decline.json', 'Decline guild invite'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Object is not found'
       def decline
         authorize! @guild_invite.from_guild.to_s, with: GuildInvitePolicy, context: { guild: @guild_invite.guild, character: @guild_invite.character }
         UpdateGuildInvite.call(guild_invite: @guild_invite, status: 1)

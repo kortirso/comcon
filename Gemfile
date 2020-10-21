@@ -7,16 +7,16 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '2.5.1'
+ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '>= 6.0.3.4'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '0.21'
+gem 'pg', '1.2.3'
 
 # Use Puma as the app server
-gem 'puma', '>= 4.3.3'
+gem 'puma', '>= 5.0.2'
 
 # Use Slim as the templating engine. Better than ERB
 gem 'slim'
@@ -27,10 +27,10 @@ gem 'therubyracer', platforms: :ruby
 # Background Jobs
 gem 'redis-namespace'
 gem 'redis-rails'
-gem 'sidekiq', '5.2.5'
+gem 'sidekiq', '6.1.2'
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'foreman', '0.84.0'
+gem 'foreman', '0.87.2'
 gem 'webpacker', '~> 4.x'
 gem 'webpacker-react', '0.3.2'
 
@@ -64,10 +64,7 @@ gem 'route_translator'
 
 # Friendly url
 gem 'babosa'
-gem 'friendly_id', '~> 5.2.4'
-
-# API documentation
-gem 'apipie-rails', '0.5.8'
+gem 'friendly_id'
 
 # Search engine
 gem 'mysql2', '~> 0.3', platform: :ruby
@@ -102,12 +99,12 @@ gem 'strong_migrations'
 gem 'pg_query', '>= 0.9.0'
 gem 'pghero'
 
-# Errors
-gem 'bugsnag'
-
 # metrics
 gem 'influxer'
 gem 'tty-command'
+
+# Errors
+gem 'bugsnag'
 
 group :development, :test do
   gem 'bullet'
@@ -123,8 +120,8 @@ group :development do
   gem 'letter_opener'
   gem 'listen', '~> 3.1.5'
   gem 'rb-readline'
-  # Code analyzation
-  gem 'rubocop', '~> 0.80.1', require: false
+  # Static analysis
+  gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false

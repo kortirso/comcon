@@ -6,24 +6,12 @@ module Api
       before_action :find_characters, only: %i[index]
       before_action :find_character, only: %i[transfer equipment]
 
-      resource_description do
-        short 'Character resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/characters.json', 'Get user characters'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: {
           characters: FastCharacterIndexSerializer.new(@characters).serializable_hash
         }, status: :ok
       end
 
-      api :PATCH, '/v2/characters/:id/transfer.json', 'Update character'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Not found'
-      error code: 409, desc: 'Conflict'
       def transfer
         authorize! @character, to: :update?
         character_form = CharacterForm.new(@character.attributes.merge(character_params))
@@ -36,11 +24,6 @@ module Api
         end
       end
 
-      api :POST, '/v2/characters/:id/equipment.json', 'Upload equipment for character'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Not found'
-      error code: 409, desc: 'Conflict'
       def equipment
         result = CharacterEquipmentUpload.call(character_id: @character.id, value: params[:value])
         if result.present?

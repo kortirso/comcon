@@ -3,28 +3,17 @@
 module Api
   module V1
     class UserSettingsController < Api::V1::BaseController
-      resource_description do
-        short 'User settings resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/user_settings.json', 'Get user settings'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: {
           time_offset: TimeOffsetSerializer.new(Current.user.time_offset)
         }, status: :ok
       end
 
-      api :PATCH, '/v1/user_settings/update_settings.json', 'Update user settings'
-      error code: 401, desc: 'Unauthorized'
       def update_settings
         UpdateTimeOffset.call(timeable: Current.user, value: user_settings_params[:time_offset][:value])
         render json: { result: 'User settings are updated' }, status: :ok
       end
 
-      api :PATCH, '/v1/user_settings/update_password.json', 'Update user password'
-      error code: 401, desc: 'Unauthorized'
       def update_password
         result = UpdateUserPassword.call(user: Current.user, user_password_params: user_password_params)
         if result.success?

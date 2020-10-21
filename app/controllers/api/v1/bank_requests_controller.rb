@@ -9,21 +9,11 @@ module Api
       before_action :find_game_item, only: %i[create]
       before_action :find_bank_request, only: %i[decline approve destroy]
 
-      resource_description do
-        short 'BankRequests resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/bank_requests.json', 'Get bank requests'
-      error code: 401, desc: 'Unauthorized'
       def index
         authorize! @guild, to: :bank?
         render json: @guild.bank_requests.sent.order(id: :asc).includes(:character, :bank, :game_item), status: :ok
       end
 
-      api :POST, '/v1/bank_requests.json', 'Create bank request'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         authorize! @bank.guild, to: :bank?
         bank_request_form =
@@ -36,18 +26,12 @@ module Api
         end
       end
 
-      api :POST, '/v1/bank_requests/:id/decline.json', 'Decline bank request'
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Not found'
       def decline
         authorize! @bank_request.bank.guild, to: :bank?
         @bank_request.decline
         render json: { result: 'Bank request is declined' }, status: :ok
       end
 
-      api :POST, '/v1/bank_requests/:id/approve.json', 'Approve bank request'
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Not found'
       def approve
         authorize! @bank_request.bank.guild, to: :bank?
         result = ApproveBankRequest.call(bank_request: @bank_request, provided_amount: params[:provided_amount])

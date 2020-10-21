@@ -7,13 +7,6 @@ module Api
 
       before_action :get_fractions_from_cache, only: %i[index]
 
-      resource_description do
-        short 'Fraction resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/fractions.json', 'Get list of fractions'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: { fractions: @fractions_json }, status: :ok
       end

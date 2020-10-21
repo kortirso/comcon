@@ -19,7 +19,7 @@ class User < ApplicationRecord
 
   validates :role, presence: true, inclusion: { in: %w[user admin] }
 
-  before_save :set_confirmation_token, on: :create
+  before_create :set_confirmation_token
   after_commit :create_time_offset, on: :create
   after_commit :send_confirmation_token, on: :create
 

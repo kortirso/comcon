@@ -7,14 +7,6 @@ module Api
       before_action :find_guild, only: %i[create update]
       before_action :find_character, only: %i[create update]
 
-      resource_description do
-        short 'GuildRole resources'
-        formats ['json']
-      end
-
-      api :POST, '/v1/guild_roles.json', 'Create guild role'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         authorize! @guild, with: GuildRolePolicy
         result = CreateGuildRole.call(guild: @guild, character: @character, name: params[:guild_role][:name])
@@ -26,10 +18,6 @@ module Api
         end
       end
 
-      api :PATCH, '/v1/guild_roles/:id.json', 'Update guild role'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def update
         authorize! @guild_role
         guild_role_form = GuildRoleForm.new(@guild_role.attributes.merge(guild: @guild, character: @character, name: params[:guild_role][:name]))
@@ -41,9 +29,6 @@ module Api
         end
       end
 
-      api :DELETE, '/v1/guild_roles/:id.json', 'Delete guild role'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
       def destroy
         authorize! @guild_role
         CheckRemovedHeadRole.call(guild_role: @guild_role)

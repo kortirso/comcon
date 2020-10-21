@@ -6,24 +6,12 @@ module Api
       before_action :find_closest_subscribes, only: %i[closest]
       before_action :find_subscribe, only: %i[destroy]
 
-      resource_description do
-        short 'Subscribe resources'
-        formats ['json']
-      end
-
-      api :GET, '/v2/subscribes/closest.json', 'Get list of closes subscribes'
-      error code: 401, desc: 'Unauthorized'
       def closest
         render json: {
           subscribes: FastSubscribeIndexSerializer.new(@subscribes).serializable_hash
         }, status: :ok
       end
 
-      api :DELETE, '/v2/subscribes/:id.json', 'Delete subscribe'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 403, desc: 'Forbidden'
-      error code: 404, desc: 'Not found'
       def destroy
         authorize! @subscribe, context: { status: :no_status_change }
         @subscribe.destroy
