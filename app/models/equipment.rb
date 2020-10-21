@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Represents equipment of character
 class Equipment < ApplicationRecord
   BEAUTY_SLOTS = [3, 18].freeze
   NUMBER_BATTLE_SLOTS = 17

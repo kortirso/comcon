@@ -12,5 +12,5 @@ end
 
 # Check new uploaded equipment
 every 5.minutes do
-  runner 'CalcItemLevelForCharactersJob.perform_later'
+  runner 'Characters::ItemLevel::CalculateJob.perform_later'
 end
