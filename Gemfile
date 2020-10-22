@@ -96,7 +96,6 @@ gem 'skylight'
 gem 'strong_migrations'
 
 # PGHero
-gem 'pg_query', '>= 0.9.0'
 gem 'pghero'
 
 # metrics
