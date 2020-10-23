@@ -20,9 +20,7 @@ module Characters
 
       def parse_input_value(input_value)
         @equipment_values = input_value.split(';').map { |value| value.split(':') }
-        return fail!('Invalid amount of equiped items') if @equipment_values.size != EQUIPMENT::NUMBER_BATTLE_SLOTS
-
-        return fail!('Invalid item') if @equipment_values.any? { |value| value.size != 2 }
+        fail!('Invalid amount of equiped items') if @equipment_values.size != ::Equipment::SLOTS_AMOUNT
       end
 
       def clear_character_equipment
@@ -41,7 +39,7 @@ module Characters
             game_item_id: GameItem.find_by(item_uid: value[0].to_i)&.id
           )
         end
-        Equipment.import(equipment)
+        ::Equipment.import(equipment)
       end
 
       def reset_character_item_level

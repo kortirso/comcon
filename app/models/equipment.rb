@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Equipment < ApplicationRecord
+  SLOTS_AMOUNT = 19
   BEAUTY_SLOTS = [3, 18].freeze
   NUMBER_BATTLE_SLOTS = 17
 

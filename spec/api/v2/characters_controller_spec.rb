@@ -156,7 +156,7 @@ RSpec.describe 'Characters API' do
         let(:request) { post "/api/v2/characters/#{character.id}/equipment.json", params: { access_token: access_token, value: '8176:;12039:;10774:;49:;13110:16;5609:;9624:;2033:;9857:;10777:;10710:;2933:;0:0;0:0;4114:;10823:;6829:;3108:;23192:;' } }
 
         it 'calls CharacterEquipmentUpload' do
-          expect(CharacterEquipmentUpload).to receive(:call).and_call_original
+          expect(Characters::Equipment::UploadService).to receive(:call).and_call_original
 
           request
         end
