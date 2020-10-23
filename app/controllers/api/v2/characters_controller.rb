@@ -25,11 +25,11 @@ module Api
       end
 
       def equipment
-        result = CharacterEquipmentUpload.call(character_id: @character.id, value: params[:value])
-        if result.present?
+        service = Characters::Equipment::UploadService.call(character: @character, value: params[:value])
+        if service.success?
           render json: { result: 'Equipment is uploaded' }, status: :ok
         else
-          render json: { result: 'Equipment is not uploaded' }, status: :conflict
+          render json: { errors: service.errors }, status: :conflict
         end
       end
 

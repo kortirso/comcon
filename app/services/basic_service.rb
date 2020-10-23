@@ -10,4 +10,31 @@ module BasicService
   def self.prepended(base)
     base.extend ClassMethods
   end
+
+  attr_reader :errors
+
+  def initialize
+    super
+    @errors = []
+  end
+
+  def call(*args)
+    super(*args)
+    self
+  end
+
+  def success?
+    !failure?
+  end
+
+  def failure?
+    @errors.any?
+  end
+
+  private
+
+  def fail!(messages)
+    @errors += Array(messages)
+    self
+  end
 end
