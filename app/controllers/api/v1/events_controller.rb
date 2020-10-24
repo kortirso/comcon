@@ -14,6 +14,7 @@ module Api
 
       def create
         return create_many_events if params[:event][:repeat].to_i.positive?
+
         create_one_event
       end
 
@@ -40,9 +41,9 @@ module Api
 
       def event_form_values
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
-          dungeons: @dungeons_json,
-          statics: user_statics,
+          characters:  ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
+          dungeons:    @dungeons_json,
+          statics:     user_statics,
           group_roles: GroupRole.default
         }, status: :ok
       end
@@ -57,8 +58,8 @@ module Api
       def user_statics
         Current.user.statics.map do |static|
           {
-            'id' => static.id,
-            'name' => static.name,
+            'id'         => static.id,
+            'name'       => static.name,
             'characters' => static.characters.where(user_id: Current.user.id).pluck(:id)
           }
         end

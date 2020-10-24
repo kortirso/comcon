@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CharacterCrafterSerializer < ActiveModel::Serializer
   attributes :id, :name, :level, :character_class_name, :guild_name, :world_name, :slug, :world_id, :fraction_id, :guild_id
 

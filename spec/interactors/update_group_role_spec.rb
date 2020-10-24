@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 describe UpdateGroupRole do
   let!(:static) { create :static, :guild }
   let!(:group_role) { create :group_role, groupable: static }
   let(:group_roles) do
     {
-      'tanks' => {
+      'tanks'   => {
         'by_class' => { 'warrior' => 2, 'paladin' => 0, 'druid' => 2 }
       },
       'healers' => {
         'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 0 }
       },
-      'dd' => {
+      'dd'      => {
         'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 0 }
       }
     }
@@ -24,7 +26,7 @@ describe UpdateGroupRole do
       end
 
       it 'does not call UpdateStaticLeftValue' do
-        expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+        expect(UpdateStaticLeftValue).not_to receive(:call).and_call_original
 
         interactor
       end
@@ -33,7 +35,7 @@ describe UpdateGroupRole do
         interactor
         group_role.reload
 
-        expect(group_role.value).to_not eq ''
+        expect(group_role.value).not_to eq ''
       end
     end
 

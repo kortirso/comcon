@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CharacterRecipesUpload, type: :service do
   describe '.call' do
     let!(:character) { create :character }
@@ -5,10 +7,10 @@ RSpec.describe CharacterRecipesUpload, type: :service do
     let!(:recipe) { create :recipe, profession: profession, name: { 'en' => '123', 'ru' => 'Хорошее зелье маны' } }
 
     context 'for invalid value' do
-      let(:request) { CharacterRecipesUpload.call(character_id: character.id, profession_id: profession.id, value: '') }
+      let(:request) { described_class.call(character_id: character.id, profession_id: profession.id, value: '') }
 
       it 'does not create character recipes' do
-        expect { request }.to_not change(CharacterRecipe, :count)
+        expect { request }.not_to change(CharacterRecipe, :count)
       end
 
       it 'and returns nil' do
@@ -17,10 +19,10 @@ RSpec.describe CharacterRecipesUpload, type: :service do
     end
 
     context 'for empty value' do
-      let(:request) { CharacterRecipesUpload.call(character_id: character.id, profession_id: profession.id, value: 'en') }
+      let(:request) { described_class.call(character_id: character.id, profession_id: profession.id, value: 'en') }
 
       it 'does not create character recipes' do
-        expect { request }.to_not change(CharacterRecipe, :count)
+        expect { request }.not_to change(CharacterRecipe, :count)
       end
 
       it 'and returns nil' do
@@ -29,10 +31,10 @@ RSpec.describe CharacterRecipesUpload, type: :service do
     end
 
     context 'for unexisted character profession' do
-      let(:request) { CharacterRecipesUpload.call(character_id: character.id, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны') }
+      let(:request) { described_class.call(character_id: character.id, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны') }
 
       it 'does not create character recipes' do
-        expect { request }.to_not change(CharacterRecipe, :count)
+        expect { request }.not_to change(CharacterRecipe, :count)
       end
 
       it 'and returns nil' do
@@ -45,26 +47,26 @@ RSpec.describe CharacterRecipesUpload, type: :service do
 
       context 'for existed character recipe' do
         let!(:character_recipe) { create :character_recipe, recipe: recipe, character_profession: character_profession }
-        let(:request) { CharacterRecipesUpload.call(character_id: character.id, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны') }
+        let(:request) { described_class.call(character_id: character.id, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны') }
 
         it 'does not create character recipes' do
-          expect { request }.to_not change(CharacterRecipe, :count)
+          expect { request }.not_to change(CharacterRecipe, :count)
         end
 
         it 'and returns not nil' do
-          expect(request).to_not eq nil
+          expect(request).not_to eq nil
         end
       end
 
       context 'for unexisted character recipe' do
-        let(:request) { CharacterRecipesUpload.call(character_id: character.id, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны') }
+        let(:request) { described_class.call(character_id: character.id, profession_id: profession.id, value: 'ruRU;Хорошее зелье маны') }
 
         it 'creates character recipes' do
-          expect { request }.to change { CharacterRecipe.count }.by(1)
+          expect { request }.to change(CharacterRecipe, :count).by(1)
         end
 
         it 'and returns not nil' do
-          expect(request).to_not eq nil
+          expect(request).not_to eq nil
         end
       end
     end

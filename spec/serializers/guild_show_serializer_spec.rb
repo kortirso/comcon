@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe GuildShowSerializer do
   let!(:guild) { create :guild }
   let(:serializer) { described_class.new(guild).to_json }

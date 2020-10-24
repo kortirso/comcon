@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe UpdateTimeOffset do
   let!(:user) { create :user }
 

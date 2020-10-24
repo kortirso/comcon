@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe Users::SessionsController, type: :controller do
-  before(:each) { request.env['devise.mapping'] = Devise.mappings[:user] }
+  before { request.env['devise.mapping'] = Devise.mappings[:user] }
 
   describe 'POST#create' do
     let!(:user) { create :user }

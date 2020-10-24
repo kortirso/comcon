@@ -49,8 +49,8 @@ module Api
 
       def form_values
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
+          characters:  ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
+          guilds:      ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
           group_roles: GroupRole.default
         }, status: :ok
       end
@@ -101,10 +101,10 @@ module Api
         @statics = Static.not_privy.order(name: :asc).includes(:fraction, :group_role, staticable: :world)
         @statics = @statics.where(world_id: params[:world_id]) if params[:world_id].present?
         @statics = @statics.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
-        return unless params[:character_id].present?
+        return if params[:character_id].blank?
 
         character = Current.user.characters.find_by(id: params[:character_id])
-        return unless character.present?
+        return if character.blank?
 
         @statics = @statics.includes(:group_role).select { |static| static.group_role.left_value[main_role(character)]['by_class'][class_name(character)].positive? }
       end
@@ -123,6 +123,7 @@ module Api
 
       def find_guild
         return unless params[:static][:staticable_type] == 'Guild'
+
         @guild = Guild.find_by(id: params[:static][:staticable_id])
         render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end

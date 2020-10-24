@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API auth without token' do
   before { do_request }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CreateBankRequestJob, type: :job do
   let!(:character) { create :character }
   let!(:guild) { create :guild, world: character.world, fraction: character.race.fraction }

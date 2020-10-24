@@ -68,7 +68,7 @@ module Api
       end
 
       def check_static_member
-        render json: { error: 'Static member already exists' }, status: :conflict if StaticMember.where(static: @static, character: @character).exists?
+        render json: { error: 'Static member already exists' }, status: :conflict if StaticMember.exists?(static: @static, character: @character)
       end
 
       def find_static_invite

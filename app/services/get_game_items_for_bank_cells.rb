@@ -12,14 +12,18 @@ class GetGameItemsForBankCells
   def call
     item_uids.each.with_index do |item_uid, index|
       next if index.positive? && Rails.env.test?
+
       game_item = perform(item_uid: item_uid)
       next if game_item.nil?
+
       BankCell.where(item_uid: item_uid).update_all(game_item_id: game_item.id)
     end
     equipment_uids.each.with_index do |item_uid, index|
       next if index.positive? && Rails.env.test?
+
       game_item = perform(item_uid: item_uid)
       next if game_item.nil?
+
       Equipment.where(item_uid: item_uid).update_all(game_item_id: game_item.id)
     end
   end
@@ -66,6 +70,7 @@ class GetGameItemsForBankCells
   def find_object(params:, object_type:, object_class:, object_form_class:)
     object = object_class.find_by(uid: params[:uid], name: params[:name])
     return object unless object.nil?
+
     object_form = object_form_class.new(params)
     object = object_form[object_type] if object_form.persist?
     object
@@ -74,6 +79,7 @@ class GetGameItemsForBankCells
   def find_game_item(params:)
     object = GameItem.find_by(item_uid: params[:item_uid])
     return object unless object.nil?
+
     object_form = GameItemForm.new(params)
     object = object_form.game_item if object_form.persist?
     object

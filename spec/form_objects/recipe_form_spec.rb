@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe RecipeForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { RecipeForm.new(name: { 'en' => '', 'ru' => '' }) }
+      let(:service) { described_class.new(name: { 'en' => '', 'ru' => '' }) }
 
       it 'does not create new recipe' do
-        expect { service.persist? }.to_not change(Recipe, :count)
+        expect { service.persist? }.not_to change(Recipe, :count)
       end
 
       it 'and returns false' do
@@ -16,10 +18,10 @@ RSpec.describe RecipeForm, type: :service do
       let!(:recipe) { create :recipe }
 
       context 'for existed recipe' do
-        let(:service) { RecipeForm.new(name: recipe.name, profession: recipe.profession, links: { 'en' => '1', 'ru' => '1' }, skill: 1) }
+        let(:service) { described_class.new(name: recipe.name, profession: recipe.profession, links: { 'en' => '1', 'ru' => '1' }, skill: 1) }
 
         it 'does not create new recipe' do
-          expect { service.persist? }.to_not change(Recipe, :count)
+          expect { service.persist? }.not_to change(Recipe, :count)
         end
 
         it 'and returns false' do
@@ -28,10 +30,10 @@ RSpec.describe RecipeForm, type: :service do
       end
 
       context 'for unexisted recipe' do
-        let(:service) { RecipeForm.new(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
+        let(:service) { described_class.new(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
 
         it 'creates new recipe' do
-          expect { service.persist? }.to change { Recipe.count }.by(1)
+          expect { service.persist? }.to change(Recipe, :count).by(1)
         end
 
         it 'and returns true' do
@@ -41,10 +43,10 @@ RSpec.describe RecipeForm, type: :service do
 
       context 'for invalid profession' do
         let!(:profession) { create :profession, recipeable: false }
-        let(:service) { RecipeForm.new(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
+        let(:service) { described_class.new(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
 
         it 'does not create new recipe' do
-          expect { service.persist? }.to_not change(Recipe, :count)
+          expect { service.persist? }.not_to change(Recipe, :count)
         end
 
         it 'and returns false' do
@@ -58,7 +60,7 @@ RSpec.describe RecipeForm, type: :service do
       let!(:other_recipe) { create :recipe }
 
       context 'for unexisted recipe' do
-        let(:service) { RecipeForm.new(id: 999, name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
+        let(:service) { described_class.new(id: 999, name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1) }
 
         it 'returns false' do
           expect(service.persist?).to eq false
@@ -67,29 +69,29 @@ RSpec.describe RecipeForm, type: :service do
 
       context 'for existed recipe' do
         context 'for invalid data' do
-          let(:service) { RecipeForm.new(recipe.attributes.merge(name: { 'en' => '', 'ru' => '' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1)) }
+          let(:service) { described_class.new(recipe.attributes.merge(name: { 'en' => '', 'ru' => '' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1)) }
 
           it 'does not update recipe' do
             service.persist?
             recipe.reload
 
-            expect(recipe.name).to_not eq('en' => '', 'ru' => '')
+            expect(recipe.name).not_to eq('en' => '', 'ru' => '')
           end
         end
 
         context 'for existed data' do
-          let(:service) { RecipeForm.new(recipe.attributes.merge(name: other_recipe.name, profession: other_recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1)) }
+          let(:service) { described_class.new(recipe.attributes.merge(name: other_recipe.name, profession: other_recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1)) }
 
           it 'does not update recipe' do
             service.persist?
             recipe.reload
 
-            expect(recipe.name).to_not eq other_recipe.name
+            expect(recipe.name).not_to eq other_recipe.name
           end
         end
 
         context 'for valid data' do
-          let(:service) { RecipeForm.new(recipe.attributes.merge(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1)) }
+          let(:service) { described_class.new(recipe.attributes.merge(name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession: recipe.profession, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1)) }
 
           it 'updates recipe' do
             service.persist?

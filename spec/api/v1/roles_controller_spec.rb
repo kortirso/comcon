@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Roles API' do
   describe 'GET#index' do
     let!(:role) { create :role }
@@ -9,6 +11,7 @@ RSpec.describe 'Roles API' do
     context 'with valid user token in params' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/roles.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -22,7 +25,7 @@ RSpec.describe 'Roles API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/roles.json', headers: headers
     end
   end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe CharacterRecipe, type: :model do
-  it { should belong_to :recipe }
-  it { should belong_to :character_profession }
+  it { is_expected.to belong_to :recipe }
+  it { is_expected.to belong_to :character_profession }
 
-  it 'factory should be valid' do
+  it 'factory is_expected.to be valid' do
     character_recipe = build :character_recipe
 
     expect(character_recipe).to be_valid

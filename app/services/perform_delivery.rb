@@ -7,7 +7,7 @@ class PerformDelivery
     when 'discord_webhook' then DiscordMethod::ExecuteWebhook.call(delivery_param: delivery.delivery_param, content: content)
     when 'discord_message' then DiscordMethod::CreateChannelMessage.call(delivery_param: delivery.delivery_param, content: content)
     end
-  rescue
+  rescue StandardError
     false
   end
 end

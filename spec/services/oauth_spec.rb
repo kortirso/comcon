@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 RSpec.describe Oauth, type: :service do
   describe '.auth_login' do
     let!(:oauth) { create :oauth, :with_credentials }
-    let(:request) { Oauth.auth_login(auth: oauth) }
+    let(:request) { described_class.auth_login(auth: oauth) }
 
     context 'for unexisted user and identity' do
       it 'creates new User' do
@@ -42,7 +44,7 @@ RSpec.describe Oauth, type: :service do
       let!(:user) { create :user, email: oauth.info[:email] }
 
       it 'does not create new User' do
-        expect { request }.to_not change(User, :count)
+        expect { request }.not_to change(User, :count)
       end
 
       it 'and returns existed user' do
@@ -74,7 +76,7 @@ RSpec.describe Oauth, type: :service do
       let!(:identity) { create :identity, uid: oauth.uid, user: user }
 
       it 'does not create new User' do
-        expect { request }.to_not change(User, :count)
+        expect { request }.not_to change(User, :count)
       end
 
       it 'and returns existed user' do
@@ -82,7 +84,7 @@ RSpec.describe Oauth, type: :service do
       end
 
       it 'and does not create new Identity' do
-        expect { request }.to_not change(Identity, :count)
+        expect { request }.not_to change(Identity, :count)
       end
     end
   end
@@ -90,13 +92,13 @@ RSpec.describe Oauth, type: :service do
   describe '.auth_binding' do
     let!(:user) { create :user }
     let!(:oauth) { create :oauth, :with_credentials }
-    let(:request) { Oauth.auth_binding(auth: oauth, user: user) }
+    let(:request) { described_class.auth_binding(auth: oauth, user: user) }
 
     context 'for existed identity' do
       let!(:identity) { create :identity, user: user, uid: '1234567890' }
 
       it 'does not create new Identity' do
-        expect { request }.to_not change(Identity, :count)
+        expect { request }.not_to change(Identity, :count)
       end
 
       it 'and returns nil' do

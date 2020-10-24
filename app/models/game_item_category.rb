@@ -7,7 +7,7 @@ class GameItemCategory < ApplicationRecord
 
   def self.cache_key(game_item_categories)
     {
-      serializer: 'game_item_categories',
+      serializer:  'game_item_categories',
       stat_record: game_item_categories.maximum(:updated_at)
     }
   end
@@ -19,7 +19,7 @@ class GameItemCategory < ApplicationRecord
   def to_hash
     {
       id.to_s => {
-        'name' => name,
+        'name'          => name,
         'subcategories' => game_item_subcategories.order(id: :asc).inject({}) do |game_item_subcategories, game_item_subcategory|
           game_item_subcategories.merge(game_item_subcategory.to_hash)
         end

@@ -7,6 +7,7 @@ class CreateEventNotificationJob < ApplicationJob
   def perform(event_id:)
     event = Event.find_by(id: event_id)
     return if event.nil?
+
     Notifies::CreateEvent.new.call(event: event)
   end
 end

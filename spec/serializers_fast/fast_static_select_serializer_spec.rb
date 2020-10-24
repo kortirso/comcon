@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FastStaticSelectSerializer do
   let!(:static) { create :static, :guild }
   let(:serializer) { described_class.new(static).serializable_hash.to_json }

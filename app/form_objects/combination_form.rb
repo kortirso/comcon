@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Combination model
 class CombinationForm
   include ActiveModel::Model
@@ -16,8 +18,10 @@ class CombinationForm
   def persist?
     return false unless valid?
     return false unless combinateable_exists?
+
     @combination = id ? Combination.find_by(id: id) : Combination.new
     return false if @combination.nil?
+
     @combination.attributes = attributes.except(:id)
     @combination.save
     true

@@ -50,7 +50,7 @@ module Api
 
       def check_token(access_token)
         @identifier = JwtService.new.decode(access_token: access_token)['user_id']
-      rescue
+      rescue StandardError
         raise AuthFailure, 'Signature verification error'
       end
 

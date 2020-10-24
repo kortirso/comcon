@@ -14,7 +14,7 @@ class Subscribe < ApplicationRecord
 
   def self.cache_key(subcribes)
     {
-      serializer: 'subcribes',
+      serializer:  'subcribes',
       stat_record: "parent_#{subcribes[0]&.subscribeable_id}/#{subcribes.maximum(:updated_at)}"
     }
   end

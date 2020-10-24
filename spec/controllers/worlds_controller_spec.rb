@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe WorldsController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'Admin Auth'
@@ -41,13 +43,14 @@ RSpec.describe WorldsController, type: :controller do
     context 'for logged admin' do
       let!(:fraction1) { create :fraction, :alliance }
       let!(:fraction2) { create :fraction, :horde }
+
       sign_in_admin
 
       context 'for invalid params' do
         let(:request) { post :create, params: { locale: 'ru', world: { name: '', zone: '' } } }
 
         it 'does not create new world' do
-          expect { request }.to_not change(World, :count)
+          expect { request }.not_to change(World, :count)
         end
 
         it 'and renders new template' do
@@ -61,11 +64,11 @@ RSpec.describe WorldsController, type: :controller do
         let(:request) { post :create, params: { locale: 'ru', world: { name: '1', zone: '2' } } }
 
         it 'creates new world' do
-          expect { request }.to change { World.count }.by(1)
+          expect { request }.to change(World, :count).by(1)
         end
 
         it 'and creates new world fractions' do
-          expect { request }.to change { WorldFraction.count }.by(2)
+          expect { request }.to change(WorldFraction, :count).by(2)
         end
 
         it 'and redirects to worlds path' do
@@ -136,7 +139,7 @@ RSpec.describe WorldsController, type: :controller do
           request
           world.reload
 
-          expect(world.name).to_not eq ''
+          expect(world.name).not_to eq ''
         end
 
         it 'and renders edit template' do
@@ -181,7 +184,7 @@ RSpec.describe WorldsController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'ru', id: 'unexisted' } }
 
         it 'does not delete any world' do
-          expect { request }.to_not change(World, :count)
+          expect { request }.not_to change(World, :count)
         end
 
         it 'and renders error template' do
@@ -195,7 +198,7 @@ RSpec.describe WorldsController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'ru', id: world.id } }
 
         it 'deletes world' do
-          expect { request }.to change { World.count }.by(-1)
+          expect { request }.to change(World, :count).by(-1)
         end
 
         it 'and redirects to worlds path' do

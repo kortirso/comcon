@@ -40,7 +40,8 @@ class StaticsController < ApplicationController
   end
 
   def find_guild
-    return unless params[:guild_id].present?
+    return if params[:guild_id].blank?
+
     @guild = Guild.find_by(id: params[:guild_id])
     render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
   end

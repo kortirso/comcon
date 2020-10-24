@@ -55,9 +55,9 @@ module Api
 
       def default_values
         render json: {
-          races: @races_json,
-          worlds: @worlds_json,
-          dungeons: @dungeons_json,
+          races:       @races_json,
+          worlds:      @worlds_json,
+          dungeons:    @dungeons_json,
           professions: @professions_json
         }, status: :ok
       end
@@ -77,6 +77,7 @@ module Api
       def upload_recipes
         result = CharacterRecipesUpload.call(character_id: @character.id, profession_id: @profession.id, value: params[:value])
         return render json: { result: 'Recipes are uploaded' }, status: :ok unless result.nil?
+
         render json: { result: 'Recipes are not uploaded' }, status: :conflict
       end
 

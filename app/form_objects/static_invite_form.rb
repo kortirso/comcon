@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for StaticInvite model
 class StaticInviteForm
   include ActiveModel::Model
@@ -20,8 +22,10 @@ class StaticInviteForm
 
   def persist?
     return false unless valid?
+
     @static_invite = id ? StaticInvite.find_by(id: id) : StaticInvite.new
     return false if @static_invite.nil?
+
     @static_invite.attributes = attributes.except(:id)
     @static_invite.save
     true
@@ -31,25 +35,29 @@ class StaticInviteForm
 
   def exists?
     static_invites = id.nil? ? StaticInvite.all : StaticInvite.where.not(id: id)
-    return unless static_invites.where(static: static, character: character, from_static: from_static).exists?
+    return unless static_invites.exists?(static: static, character: character, from_static: from_static)
+
     errors[:static_invite] << 'already exists'
   end
 
   def status_value
     return if id && !status.zero?
     return if id.nil? && status.zero?
+
     errors[:status] << 'not valid'
   end
 
   def same_world?
     return if static.nil? || character.nil?
     return if static.world_id == character.world_id
+
     errors[:worlds] << 'are different'
   end
 
   def same_fraction?
     return if static.nil? || character.nil?
     return if static.fraction_id == character.race.fraction_id
+
     errors[:fractions] << 'are different'
   end
 end

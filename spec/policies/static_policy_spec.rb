@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe StaticPolicy do
   let!(:user) { create :user }
   let!(:admin) { create :user, :admin }

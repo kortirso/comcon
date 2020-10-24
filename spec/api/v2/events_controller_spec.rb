@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Events API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
@@ -26,7 +28,8 @@ RSpec.describe 'Events API' do
       end
 
       context 'with day params' do
-        let(:time) { Time.now - 7.days }
+        let(:time) { Time.zone.now - 7.days }
+
         before { get '/api/v2/events.json', params: { year: time.year, month: time.month, day: time.day, days: 14, access_token: access_token } }
 
         it 'returns status 200' do
@@ -69,7 +72,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/events.json', headers: headers
     end
   end
@@ -82,6 +85,7 @@ RSpec.describe 'Events API' do
     context 'for logged user' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v2/events/filter_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -95,7 +99,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/events/filter_values.json', headers: headers
     end
   end
@@ -127,6 +131,7 @@ RSpec.describe 'Events API' do
       context 'for existed event' do
         let!(:world_event) { create :event, fraction: character.race.fraction }
         let!(:subscribe) { create :subscribe, subscribeable: world_event, character: character }
+
         before { get "/api/v2/events/#{world_event.id}/subscribers.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -141,7 +146,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get "/api/v2/events/#{event.id}/subscribers.json", headers: headers
     end
   end

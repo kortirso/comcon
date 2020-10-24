@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe CharacterClass, type: :model do
-  it { should have_many(:characters).dependent(:destroy) }
-  it { should have_many(:combinations).dependent(:destroy) }
-  it { should have_many(:role_combinations).class_name('Combination') }
-  it { should have_many(:available_roles).through(:role_combinations).source(:combinateable) }
+  it { is_expected.to have_many(:characters).dependent(:destroy) }
+  it { is_expected.to have_many(:combinations).dependent(:destroy) }
+  it { is_expected.to have_many(:role_combinations).class_name('Combination') }
+  it { is_expected.to have_many(:available_roles).through(:role_combinations).source(:combinateable) }
 
-  it 'factory should be valid' do
+  it 'factory is_expected.to be valid' do
     character_class = build :character_class, :warrior
 
     expect(character_class).to be_valid
   end
 
-  context '.to_hash' do
+  describe '.to_hash' do
     let!(:character_class) { create :character_class, :warrior }
 
     it 'returns hashed character_class' do

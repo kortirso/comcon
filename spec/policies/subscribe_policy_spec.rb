@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe SubscribePolicy do
   let!(:user) { create :user }
   let!(:user_character) { create :character, user: user }

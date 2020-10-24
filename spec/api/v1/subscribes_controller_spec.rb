@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Subscribes API' do
   describe 'POST#create' do
     let!(:event) { create :event }
@@ -17,7 +19,7 @@ RSpec.describe 'Subscribes API' do
         let(:request) { post '/api/v1/subscribes.json', params: { subscribe: { event_id: 'unexisted', subscribeable_type: 'Event' }, access_token: access_token } }
 
         it 'does not create new subscribe' do
-          expect { request }.to_not change(Subscribe, :count)
+          expect { request }.not_to change(Subscribe, :count)
         end
 
         context 'in answer' do
@@ -56,7 +58,7 @@ RSpec.describe 'Subscribes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/subscribes.json', params: { subscribe: { subscribeable_id: event.id, subscribeable_type: 'Event', character_id: nil, status: 'signed' } }, headers: headers
     end
   end
@@ -96,7 +98,7 @@ RSpec.describe 'Subscribes API' do
             request
             subscribe.reload
 
-            expect(subscribe.status).to_not eq 'approved'
+            expect(subscribe.status).not_to eq 'approved'
           end
 
           context 'in answer' do
@@ -124,7 +126,7 @@ RSpec.describe 'Subscribes API' do
             end
 
             it 'and does not call UpdateStaticLeftValue' do
-              expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+              expect(UpdateStaticLeftValue).not_to receive(:call).and_call_original
 
               request
             end
@@ -155,7 +157,7 @@ RSpec.describe 'Subscribes API' do
             end
 
             it 'and does not call UpdateStaticLeftValue' do
-              expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+              expect(UpdateStaticLeftValue).not_to receive(:call).and_call_original
 
               request
             end
@@ -215,7 +217,7 @@ RSpec.describe 'Subscribes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/subscribes/999.json', params: { subscribe: { status: 'approved' } }, headers: headers
     end
   end

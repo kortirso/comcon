@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FastFractionSerializer do
   let!(:fraction) { create :fraction }
   let(:serializer) { described_class.new(fraction).serializable_hash.to_json }

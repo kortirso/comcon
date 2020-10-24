@@ -15,6 +15,7 @@ module Notifies
     def notify_about_event(event:)
       notification = Notification.find_by(event: 'event_start_soon', status: 1)
       return if notification.nil?
+
       user_ids = event.signed_users.with_discord_identity.pluck(:id)
       # notify users about soon event
       do_notify(receiver_ids: user_ids, receiver_type: 'User', notification_id: notification.id, content: notification.content(event_object: event))

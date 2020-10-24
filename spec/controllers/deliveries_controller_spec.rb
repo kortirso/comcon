@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DeliveriesController, type: :controller do
   describe 'GET#new' do
     let!(:guild) { create :guild }
@@ -77,7 +79,7 @@ RSpec.describe DeliveriesController, type: :controller do
           let(:request) { delete :destroy, params: { locale: 'en', id: delivery.id } }
 
           it 'does not delete delivery' do
-            expect { request }.to_not change(Delivery, :count)
+            expect { request }.not_to change(Delivery, :count)
           end
 
           it 'and renders error page' do
@@ -92,7 +94,7 @@ RSpec.describe DeliveriesController, type: :controller do
           let(:request) { delete :destroy, params: { locale: 'en', id: delivery.id } }
 
           it 'deletes delivery' do
-            expect { request }.to change { Delivery.count }.by(-1)
+            expect { request }.to change(Delivery, :count).by(-1)
           end
 
           it 'and redirects to guild management page' do

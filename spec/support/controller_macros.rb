@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Macros for signing users in tests
 module ControllerMacros
   def sign_in_unconfirmed_user

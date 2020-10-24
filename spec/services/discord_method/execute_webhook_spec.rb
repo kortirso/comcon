@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscordMethod::ExecuteWebhook, type: :service do
   describe '.call' do
     let!(:delivery_param) { create :delivery_param, params: { 'id' => '123', 'token' => '321' } }

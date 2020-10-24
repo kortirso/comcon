@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Characters::Equipment::UploadService, type: :service do
   subject(:service_call) {
     described_class.call(

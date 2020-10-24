@@ -8,8 +8,8 @@ module Api
       def create
         user = auto_auth
         render json: JwtService.new.json_response(user: user), status: :ok
-      rescue AuthFailure => ex
-        render json: { errors: ex.message }, status: :unauthorized
+      rescue AuthFailure => e
+        render json: { errors: e.message }, status: :unauthorized
       end
 
       private
@@ -30,6 +30,7 @@ module Api
         if user.nil? || !user.valid_password?(password)
           raise AuthFailure, 'Authorization error'
         end
+
         user
       end
 
@@ -38,8 +39,9 @@ module Api
         profile = CheckProvider.new(provider: provider, access_token: access_token).call
         identity = Identity.find_by(uid: profile['id'], provider: provider)
         raise AuthFailure, 'Authorization error' if identity.nil?
+
         identity.user
-      rescue
+      rescue StandardError
         raise AuthFailure, 'Authorization error'
       end
     end

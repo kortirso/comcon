@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
 
   def is_admin?
     return invalid_request unless Current.user.is_admin?
+
     true
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CharacterPolicy do
   let!(:user) { create :user }
   let!(:character1) { create :character, user: user }

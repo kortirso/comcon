@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe UpdateStaticInvite do
   let!(:guild) { create :guild }
   let!(:character) { create :character, guild: guild }
@@ -6,7 +8,7 @@ describe UpdateStaticInvite do
 
   describe '.call' do
     context 'for invalid status' do
-      let(:interactor) { UpdateStaticInvite.call(static_invite: static_invite, status: 10) }
+      let(:interactor) { described_class.call(static_invite: static_invite, status: 10) }
 
       it 'fails' do
         expect(interactor).to be_a_failure
@@ -21,7 +23,7 @@ describe UpdateStaticInvite do
     end
 
     context 'for valid status' do
-      let(:interactor) { UpdateStaticInvite.call(static_invite: static_invite, status: 2) }
+      let(:interactor) { described_class.call(static_invite: static_invite, status: 2) }
 
       it 'succeeds' do
         expect(interactor).to be_a_success

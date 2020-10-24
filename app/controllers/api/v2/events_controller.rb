@@ -27,11 +27,11 @@ module Api
 
       def filter_values
         render json: {
-          fractions: @fractions_json,
+          fractions:  @fractions_json,
           characters: @user_characters_json,
-          guilds: @user_guilds_json,
-          statics: @user_statics_json,
-          dungeons: @dungeons_json
+          guilds:     @user_guilds_json,
+          statics:    @user_statics_json,
+          dungeons:   @dungeons_json
         }, status: :ok
       end
 

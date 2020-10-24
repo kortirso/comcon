@@ -31,7 +31,7 @@ class Static < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:static)
 
   trigger.after(:insert) do
-    <<~SQL
+    <<~SQL.squish
       PERFORM pg_advisory_xact_lock(NEW.world_id);
 
       INSERT INTO world_stats (world_id, statics_count)
@@ -47,7 +47,7 @@ class Static < ApplicationRecord
 
   def self.cache_key_for_user(statics, user_id)
     {
-      serializer: 'statics',
+      serializer:  'statics',
       stat_record: "user_#{user_id}/#{statics.maximum(:updated_at)}"
     }
   end
@@ -71,6 +71,7 @@ class Static < ApplicationRecord
 
   def locale
     return staticable.locale if staticable_type == 'Guild'
+
     staticable.world.locale
   end
 

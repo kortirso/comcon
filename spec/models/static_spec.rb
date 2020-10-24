@@ -1,18 +1,20 @@
-RSpec.describe Static, type: :model do
-  it { should belong_to :staticable }
-  it { should belong_to :fraction }
-  it { should belong_to :world }
-  it { should belong_to :world_fraction }
-  it { should have_many(:static_members).dependent(:destroy) }
-  it { should have_many(:characters).through(:static_members) }
-  it { should have_many(:static_invites).dependent(:destroy) }
-  it { should have_many(:invited_characters).through(:static_invites).source(:static) }
-  it { should have_many(:subscribes).dependent(:destroy) }
-  it { should have_many(:signed_subscribes).class_name('Subscribe') }
-  it { should have_many(:signed_characters).through(:signed_subscribes).source(:character) }
-  it { should have_one(:group_role).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Static, type: :model do
+  it { is_expected.to belong_to :staticable }
+  it { is_expected.to belong_to :fraction }
+  it { is_expected.to belong_to :world }
+  it { is_expected.to belong_to :world_fraction }
+  it { is_expected.to have_many(:static_members).dependent(:destroy) }
+  it { is_expected.to have_many(:characters).through(:static_members) }
+  it { is_expected.to have_many(:static_invites).dependent(:destroy) }
+  it { is_expected.to have_many(:invited_characters).through(:static_invites).source(:static) }
+  it { is_expected.to have_many(:subscribes).dependent(:destroy) }
+  it { is_expected.to have_many(:signed_subscribes).class_name('Subscribe') }
+  it { is_expected.to have_many(:signed_characters).through(:signed_subscribes).source(:character) }
+  it { is_expected.to have_one(:group_role).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     static = create :static, :guild
 
     expect(static).to be_valid

@@ -1,4 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Guilds API' do
+  let(:bank_data) do
+    'W9CS0L7RgdGC0L7QutCx0LDQvdC6LDExNTI1NCxydVJVXTtbLTEsLDAs0KDRjtC60LfQsNC6LDEs0JfQsNC/0LvQtdGH0L3Ri9C5INC80LXRiNC+0Log0L/QvtC00LzQsNGB0YLQtdGA0YzRjywyLNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCwzLNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw0LNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw1LNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw2LNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw3LCw4LCw5LCwxMCwsMTEsLDEyLF07Wy0xLDEsMTEzNzAsMTBdO1stMSwyLDExMzcwLDNdO1stMSwzLDExMzcwLDEwXTtbLTEsNCwxMTM3MCwxMF07Wy0xLDUsMTEzNzAsMTBdO1stMSw2LDExMzcwLDEwXTtbLTEsNywxMTM3MCwxMF07Wy0xLDgsMTEzNzAsMTBdO1stMSw5LDExMzcwLDEwXTtbLTEsMTAsMTEzNzAsMTBdO1swLDEsMTY4MjgsMV07WzAsMiwxNjgyOCwxXTtbMCwzLDE2ODMwLDFdO1swLDQsMTY4MDIsMV07WzAsNSwxNjgwMiwxXTtbMCw2LDE0MzQxLDE2XTtbMCw3LDE0MDQ4LDEwXTtbMCw4LDE0MDQ4LDEwXTtbMCw5LDE0MDQ4LDEwXTtbMCwxMCwxNDA0OCwxMF07WzIsMSw3MDc4LDEwXTtbMiwyLDcwNzgsMTBdO1syLDMsNzA3OCwxMF07WzIsNCw3MDc4LDEwXTtbMiw1LDcwNzgsMTBdO1syLDYsNzA3OCwxXTtbMiw3LDcwNzcsMV07WzIsOCw3MDc3LDEwXTtbMiw5LDcwNzcsMTBdO1syLDEwLDcwNzcsMTBdO1syLDExLDcwNjgsMTBdO1syLDEyLDcwNjgsMTBdO1syLDEzLDcwNjgsMTBdO1syLDE0LDcwNjgsMTBdO1szLDEsNzA2OCw1XTtbMywyLDExMzgyLDJdO1szLDMsMTQzNDEsMTddO1szLDQsMTQzNDEsMjBdO1szLDcsNzA3Niw5XTtbMyw4LDE0MDQ4LDEwXTtbMyw5LDE0MzQxLDIwXTtbMywxMCwxNDA0OCwxMF07WzMsMTEsMTQwNDgsMTBdO1szLDEyLDE0MDQ4LDEwXTtbMywxMywxNDA0OCwxMF07WzMsMTQsMTQwNDgsMTBdO1s0LDUsMTQwNDYsMV07WzQsNiwzOTE0LDFdO1s0LDcsMzkxNCwxXTtbNCw4LDE0MDQ4LDVdO1s0LDksMTQwNDgsMTBdO1s1LDEsMTcwMTAsNF07WzUsMiwxNzAxMCwxMF07WzUsMywxNzAxMCwxMF07WzUsNCwxNzAxMCwxMF07WzUsNSwxNzAxMCwxMF07WzUsMTAsMTcwMTEsMl07WzUsMTEsMTcwMTEsMTBdO1s1LDEyLDE3MDExLDEwXTtbNSwxMywxNzAxMSw4XTtbNSwxNCwxNzAxMSwxMF07WzYsMSwxNTQxMCwyMF07WzYsMiwxNTQxMCwzXTtbNiw0LDE3MDEyLDIwXTtbNiw1LDE3MDEyLDIwXTtbNiw2LDE3MDEyLDIwXTtbNiw3LDE3MDEyLDIwXTtbNiw4LDE3MDEyLDExXTtbNiwxMywxNDM0NCwyMF07WzYsMTQsMTQzNDQsOF07'
+  end
+
   describe 'GET#index' do
     let!(:guild) { create :guild }
 
@@ -41,7 +47,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds.json', headers: headers
     end
   end
@@ -69,6 +75,7 @@ RSpec.describe 'Guilds API' do
 
       context 'for existed guild' do
         let!(:guild) { create :guild }
+
         before { get "/api/v1/guilds/#{guild.id}.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -83,7 +90,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds/unexisted.json', headers: headers
     end
   end
@@ -108,7 +115,7 @@ RSpec.describe 'Guilds API' do
         end
 
         it 'and does not create new guild' do
-          expect { request }.to_not change(Guild, :count)
+          expect { request }.not_to change(Guild, :count)
         end
 
         context 'in answer' do
@@ -119,7 +126,7 @@ RSpec.describe 'Guilds API' do
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -140,7 +147,7 @@ RSpec.describe 'Guilds API' do
         end
 
         it 'and creates new guild' do
-          expect { request }.to change { Guild.count }.by(1)
+          expect { request }.to change(Guild, :count).by(1)
         end
 
         context 'in answer' do
@@ -159,7 +166,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/guilds.json', params: { guild: { name: '1', description: '2' } }, headers: headers
     end
   end
@@ -196,7 +203,7 @@ RSpec.describe 'Guilds API' do
             request
             guild.reload
 
-            expect(guild.name).to_not eq ''
+            expect(guild.name).not_to eq ''
           end
 
           context 'in answer' do
@@ -207,7 +214,7 @@ RSpec.describe 'Guilds API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -245,7 +252,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/guilds/unexisted.json', params: { guild: { name: '1' } }, headers: headers
     end
   end
@@ -258,6 +265,7 @@ RSpec.describe 'Guilds API' do
     context 'for logged user' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/guilds/form_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -271,7 +279,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds/form_values.json', headers: headers
     end
   end
@@ -301,6 +309,7 @@ RSpec.describe 'Guilds API' do
         let!(:guild) { create :guild }
         let!(:character) { create :character, guild: guild }
         let!(:character_role) { create :character_role, character: character, main: true }
+
         before { get "/api/v1/guilds/#{guild.slug}/characters.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -315,7 +324,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds/999/characters.json', headers: headers
     end
   end
@@ -390,7 +399,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/guilds/#{guild.id}/kick_character.json", params: { character_id: character.id }, headers: headers
     end
   end
@@ -465,7 +474,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/guilds/#{guild.id}/leave_character.json", params: { character_id: character.id }, headers: headers
     end
   end
@@ -530,7 +539,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds/search.json', headers: headers
     end
   end
@@ -562,6 +571,7 @@ RSpec.describe 'Guilds API' do
         let!(:character2) { create :character, user: user, guild: guild, world: character1.world, race: character1.race }
         let!(:character3) { create :character, user: user, world: character1.world, race: character1.race }
         let!(:guild_invite) { create :guild_invite, character: character3, guild: guild }
+
         before { get "/api/v1/guilds/#{guild.id}/characters_for_request.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -583,7 +593,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds/unexisted/characters_for_request.json', headers: headers
     end
   end
@@ -660,7 +670,7 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/guilds/#{guild.id}/import_bank.json", params: { bank_data: '' }, headers: headers
     end
   end
@@ -692,6 +702,7 @@ RSpec.describe 'Guilds API' do
         let!(:bank) { create :bank, guild: guild }
         let!(:game_item) { create :game_item }
         let!(:bank_cell) { create :bank_cell, bank: bank, game_item: game_item }
+
         before { get "/api/v1/guilds/#{guild.id}/bank.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -706,12 +717,8 @@ RSpec.describe 'Guilds API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guilds/unexisted/bank.json', headers: headers
     end
-  end
-
-  let(:bank_data) do
-    'W9CS0L7RgdGC0L7QutCx0LDQvdC6LDExNTI1NCxydVJVXTtbLTEsLDAs0KDRjtC60LfQsNC6LDEs0JfQsNC/0LvQtdGH0L3Ri9C5INC80LXRiNC+0Log0L/QvtC00LzQsNGB0YLQtdGA0YzRjywyLNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCwzLNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw0LNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw1LNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw2LNCh0YPQvNC60LAg0LjQtyDRgNGD0L3QvdC+0Lkg0YLQutCw0L3QuCw3LCw4LCw5LCwxMCwsMTEsLDEyLF07Wy0xLDEsMTEzNzAsMTBdO1stMSwyLDExMzcwLDNdO1stMSwzLDExMzcwLDEwXTtbLTEsNCwxMTM3MCwxMF07Wy0xLDUsMTEzNzAsMTBdO1stMSw2LDExMzcwLDEwXTtbLTEsNywxMTM3MCwxMF07Wy0xLDgsMTEzNzAsMTBdO1stMSw5LDExMzcwLDEwXTtbLTEsMTAsMTEzNzAsMTBdO1swLDEsMTY4MjgsMV07WzAsMiwxNjgyOCwxXTtbMCwzLDE2ODMwLDFdO1swLDQsMTY4MDIsMV07WzAsNSwxNjgwMiwxXTtbMCw2LDE0MzQxLDE2XTtbMCw3LDE0MDQ4LDEwXTtbMCw4LDE0MDQ4LDEwXTtbMCw5LDE0MDQ4LDEwXTtbMCwxMCwxNDA0OCwxMF07WzIsMSw3MDc4LDEwXTtbMiwyLDcwNzgsMTBdO1syLDMsNzA3OCwxMF07WzIsNCw3MDc4LDEwXTtbMiw1LDcwNzgsMTBdO1syLDYsNzA3OCwxXTtbMiw3LDcwNzcsMV07WzIsOCw3MDc3LDEwXTtbMiw5LDcwNzcsMTBdO1syLDEwLDcwNzcsMTBdO1syLDExLDcwNjgsMTBdO1syLDEyLDcwNjgsMTBdO1syLDEzLDcwNjgsMTBdO1syLDE0LDcwNjgsMTBdO1szLDEsNzA2OCw1XTtbMywyLDExMzgyLDJdO1szLDMsMTQzNDEsMTddO1szLDQsMTQzNDEsMjBdO1szLDcsNzA3Niw5XTtbMyw4LDE0MDQ4LDEwXTtbMyw5LDE0MzQxLDIwXTtbMywxMCwxNDA0OCwxMF07WzMsMTEsMTQwNDgsMTBdO1szLDEyLDE0MDQ4LDEwXTtbMywxMywxNDA0OCwxMF07WzMsMTQsMTQwNDgsMTBdO1s0LDUsMTQwNDYsMV07WzQsNiwzOTE0LDFdO1s0LDcsMzkxNCwxXTtbNCw4LDE0MDQ4LDVdO1s0LDksMTQwNDgsMTBdO1s1LDEsMTcwMTAsNF07WzUsMiwxNzAxMCwxMF07WzUsMywxNzAxMCwxMF07WzUsNCwxNzAxMCwxMF07WzUsNSwxNzAxMCwxMF07WzUsMTAsMTcwMTEsMl07WzUsMTEsMTcwMTEsMTBdO1s1LDEyLDE3MDExLDEwXTtbNSwxMywxNzAxMSw4XTtbNSwxNCwxNzAxMSwxMF07WzYsMSwxNTQxMCwyMF07WzYsMiwxNTQxMCwzXTtbNiw0LDE3MDEyLDIwXTtbNiw1LDE3MDEyLDIwXTtbNiw2LDE3MDEyLDIwXTtbNiw3LDE3MDEyLDIwXTtbNiw4LDE3MDEyLDExXTtbNiwxMywxNDM0NCwyMF07WzYsMTQsMTQzNDQsOF07'
   end
 end

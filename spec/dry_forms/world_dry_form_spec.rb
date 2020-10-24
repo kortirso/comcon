@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe WorldDryForm, type: :service do
   describe '.save' do
     context 'for invalid data' do
       let(:service) { described_class.new(id: nil, name: '', zone: '') }
 
       it 'does not create new world' do
-        expect { service.save }.to_not change(World, :count)
+        expect { service.save }.not_to change(World, :count)
       end
 
       it 'and returns false' do
@@ -25,7 +27,7 @@ RSpec.describe WorldDryForm, type: :service do
         let(:service) { described_class.new(id: nil, name: world.name, zone: world.zone) }
 
         it 'does not create new world' do
-          expect { service.save }.to_not change(World, :count)
+          expect { service.save }.not_to change(World, :count)
         end
 
         it 'and returns false' do
@@ -43,7 +45,7 @@ RSpec.describe WorldDryForm, type: :service do
         let(:service) { described_class.new(id: nil, name: 'Хроми', zone: 'RU') }
 
         it 'creates new world' do
-          expect { service.save }.to change { World.count }.by(1)
+          expect { service.save }.to change(World, :count).by(1)
         end
 
         it 'and returns true' do
@@ -69,8 +71,8 @@ RSpec.describe WorldDryForm, type: :service do
           service.save
           world1.reload
 
-          expect(world1.name).to_not eq ''
-          expect(world1.zone).to_not eq ''
+          expect(world1.name).not_to eq ''
+          expect(world1.zone).not_to eq ''
         end
 
         it 'and form contains errors' do
@@ -87,7 +89,7 @@ RSpec.describe WorldDryForm, type: :service do
           service.save
           world1.reload
 
-          expect(world1.name).to_not eq world2.name
+          expect(world1.name).not_to eq world2.name
         end
 
         it 'and form contains errors' do

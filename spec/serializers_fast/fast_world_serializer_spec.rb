@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FastWorldSerializer do
   let!(:world) { create :world }
   let(:serializer) { described_class.new(world).serializable_hash.to_json }

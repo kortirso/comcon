@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApproveBankRequest do
   let!(:bank) { create :bank }
   let!(:game_item) { create :game_item }

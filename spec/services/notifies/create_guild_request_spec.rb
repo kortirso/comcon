@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Notifies::CreateGuildRequest, type: :service do
   let!(:character) { create :character }
   let!(:guild) { create :guild, world: character.world, fraction: character.race.fraction, world_fraction: character.world_fraction }

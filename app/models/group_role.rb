@@ -6,13 +6,13 @@ class GroupRole < ApplicationRecord
 
   def self.default
     {
-      'tanks' => {
+      'tanks'   => {
         'by_class' => { 'warrior' => 0, 'paladin' => 0, 'druid' => 0 }
       },
       'healers' => {
         'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 0 }
       },
-      'dd' => {
+      'dd'      => {
         'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 0 }
       }
     }
@@ -22,6 +22,7 @@ class GroupRole < ApplicationRecord
     return true if value['tanks']['by_class'].values.any? { |value| !value.zero? }
     return true if value['healers']['by_class'].values.any? { |value| !value.zero? }
     return true if value['dd']['by_class'].values.any? { |value| !value.zero? }
+
     false
   end
 end

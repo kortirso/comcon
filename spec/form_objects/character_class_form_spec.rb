@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe CharacterClassForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { CharacterClassForm.new(name: { 'en' => '', 'ru' => '' }) }
+      let(:service) { described_class.new(name: { 'en' => '', 'ru' => '' }) }
 
       it 'does not create new character_class' do
-        expect { service.persist? }.to_not change(CharacterClass, :count)
+        expect { service.persist? }.not_to change(CharacterClass, :count)
       end
 
       it 'and returns false' do
@@ -16,10 +18,10 @@ RSpec.describe CharacterClassForm, type: :service do
       let!(:character_class) { create :character_class, :warrior }
 
       context 'for existed character_class' do
-        let(:service) { CharacterClassForm.new(name: { 'en' => character_class.name['en'], 'ru' => character_class.name['ru'] }) }
+        let(:service) { described_class.new(name: { 'en' => character_class.name['en'], 'ru' => character_class.name['ru'] }) }
 
         it 'does not create new character_class' do
-          expect { service.persist? }.to_not change(CharacterClass, :count)
+          expect { service.persist? }.not_to change(CharacterClass, :count)
         end
 
         it 'and returns false' do
@@ -28,10 +30,10 @@ RSpec.describe CharacterClassForm, type: :service do
       end
 
       context 'for unexisted character_class' do
-        let(:service) { CharacterClassForm.new(name: { 'en' => 'Mage', 'ru' => 'Маг' }) }
+        let(:service) { described_class.new(name: { 'en' => 'Mage', 'ru' => 'Маг' }) }
 
         it 'creates new character_class' do
-          expect { service.persist? }.to change { CharacterClass.count }.by(1)
+          expect { service.persist? }.to change(CharacterClass, :count).by(1)
         end
 
         it 'and returns true' do

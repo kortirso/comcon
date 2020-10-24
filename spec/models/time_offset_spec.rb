@@ -1,7 +1,9 @@
-RSpec.describe TimeOffset, type: :model do
-  it { should belong_to :timeable }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe TimeOffset, type: :model do
+  it { is_expected.to belong_to :timeable }
+
+  it 'factory is_expected.to be valid' do
     time_offset = build :time_offset
 
     expect(time_offset).to be_valid

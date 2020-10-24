@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ActivityDryForm, type: :service do
   let!(:guild) { create :guild }
 
@@ -6,7 +8,7 @@ RSpec.describe ActivityDryForm, type: :service do
       let(:service) { described_class.new(id: nil, title: '', description: '', guild: nil) }
 
       it 'does not create new activity' do
-        expect { service.save }.to_not change(Activity, :count)
+        expect { service.save }.not_to change(Activity, :count)
       end
 
       it 'and returns false' do
@@ -48,7 +50,7 @@ RSpec.describe ActivityDryForm, type: :service do
           service.save
           activity.reload
 
-          expect(activity.title).to_not eq ''
+          expect(activity.title).not_to eq ''
         end
 
         it 'and form contains errors' do

@@ -188,13 +188,13 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => 'Blackwing Lair', 'ru' => 'Логово Крыла Тьмы' }, raid: true)
 dungeon_form.persist?
 
-dungeon_form = DungeonForm.new(name: { 'en' => "Zul’Gurub", 'ru' => "Зул’Гуруб" }, raid: true)
+dungeon_form = DungeonForm.new(name: { 'en' => 'Zul’Gurub', 'ru' => 'Зул’Гуруб' }, raid: true)
 dungeon_form.persist?
 
-dungeon_form = DungeonForm.new(name: { 'en' => "The Ruins of Ahn’Qiraj", 'ru' => "Руины Ан’Киража" }, raid: true)
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Ruins of Ahn’Qiraj', 'ru' => 'Руины Ан’Киража' }, raid: true)
 dungeon_form.persist?
 
-dungeon_form = DungeonForm.new(name: { 'en' => "The Temple of Ahn’Qiraj", 'ru' => "Храм Ан’Киража" }, raid: true)
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Temple of Ahn’Qiraj', 'ru' => 'Храм Ан’Киража' }, raid: true)
 dungeon_form.persist?
 
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
@@ -305,4 +305,4 @@ notification_form.persist?
 
 Activity.create title: 'Снаряжение (Equipment)', description: "Доступна загрузка снаряжения для персонажей, пройдите к описанию вашего персонажа и импортируйте данные по инструкции. Import of character equipment is available, just go to your character's page and import data."
 
-Activity.create title: "Ан’Кираж (Ahn’Qiraj)", description: "Рейды Ан’Киража доступны для создания событий. Raids of Ahn’Qiraj are available for event creation."
+Activity.create title: 'Ан’Кираж (Ahn’Qiraj)', description: 'Рейды Ан’Киража доступны для создания событий. Raids of Ahn’Qiraj are available for event creation.'

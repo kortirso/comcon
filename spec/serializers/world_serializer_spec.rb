@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe WorldSerializer do
   let!(:world) { create :world }
   let(:serializer) { described_class.new(world).to_json }

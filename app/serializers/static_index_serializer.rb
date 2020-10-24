@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StaticIndexSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :privy, :staticable_id, :staticable_type, :fraction_name, :fraction_id, :world_id, :slug
 

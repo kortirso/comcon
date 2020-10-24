@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe CharacterProfessionForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { CharacterProfessionForm.new(character: nil) }
+      let(:service) { described_class.new(character: nil) }
 
       it 'does not create new character profession' do
-        expect { service.persist? }.to_not change(CharacterProfession, :count)
+        expect { service.persist? }.not_to change(CharacterProfession, :count)
       end
 
       it 'and returns false' do
@@ -21,10 +23,10 @@ RSpec.describe CharacterProfessionForm, type: :service do
 
       context 'for existed character profession' do
         let!(:character_profession) { create :character_profession, character: character, profession: profession1 }
-        let(:service) { CharacterProfessionForm.new(character: character, profession: profession1) }
+        let(:service) { described_class.new(character: character, profession: profession1) }
 
         it 'does not create new character profession' do
-          expect { service.persist? }.to_not change(CharacterProfession, :count)
+          expect { service.persist? }.not_to change(CharacterProfession, :count)
         end
 
         it 'and returns false' do
@@ -37,10 +39,10 @@ RSpec.describe CharacterProfessionForm, type: :service do
         let!(:character_profession2) { create :character_profession, character: character, profession: profession2 }
 
         context 'for new main profession' do
-          let(:service) { CharacterProfessionForm.new(character: character, profession: profession4) }
+          let(:service) { described_class.new(character: character, profession: profession4) }
 
           it 'does not create new character profession' do
-            expect { service.persist? }.to_not change(CharacterProfession, :count)
+            expect { service.persist? }.not_to change(CharacterProfession, :count)
           end
 
           it 'and returns false' do
@@ -49,10 +51,10 @@ RSpec.describe CharacterProfessionForm, type: :service do
         end
 
         context 'for new not main profession' do
-          let(:service) { CharacterProfessionForm.new(character: character, profession: profession3) }
+          let(:service) { described_class.new(character: character, profession: profession3) }
 
           it 'creates new character profession' do
-            expect { service.persist? }.to change { CharacterProfession.count }.by(1)
+            expect { service.persist? }.to change(CharacterProfession, :count).by(1)
           end
 
           it 'and returns true' do
@@ -62,10 +64,10 @@ RSpec.describe CharacterProfessionForm, type: :service do
       end
 
       context 'for valid data' do
-        let(:service) { CharacterProfessionForm.new(character: character, profession: profession1) }
+        let(:service) { described_class.new(character: character, profession: profession1) }
 
         it 'creates new character profession' do
-          expect { service.persist? }.to change { CharacterProfession.count }.by(1)
+          expect { service.persist? }.to change(CharacterProfession, :count).by(1)
         end
 
         it 'and returns true' do

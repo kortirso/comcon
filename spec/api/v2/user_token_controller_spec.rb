@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'UserToken API' do
   describe 'POST#create' do
     context 'without params' do
@@ -27,6 +29,7 @@ RSpec.describe 'UserToken API' do
 
       context 'for valid params' do
         let!(:user) { create :user }
+
         before { post '/api/v2/user_token.json', params: { email: user.email, password: user.password } }
 
         it 'returns status 200' do
@@ -47,7 +50,7 @@ RSpec.describe 'UserToken API' do
 
         %w[password password_confirmation].each do |attr|
           it "and does not contain user #{attr}" do
-            expect(response.body).to_not have_json_path("user/#{attr}")
+            expect(response.body).not_to have_json_path("user/#{attr}")
           end
         end
       end

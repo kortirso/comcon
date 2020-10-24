@@ -17,7 +17,8 @@ class DeliveriesController < ApplicationController
   private
 
   def find_deliveriable
-    return render_error(t('custom_errors.object_not_found'), 404) if !params[:deliveriable_type].present? || !params[:deliveriable_id].present?
+    return render_error(t('custom_errors.object_not_found'), 404) if params[:deliveriable_type].blank? || params[:deliveriable_id].blank?
+
     @deliveriable = params[:deliveriable_type].constantize.find_by(id: params[:deliveriable_id])
     render_error(t('custom_errors.object_not_found'), 404) if @deliveriable.nil?
   end

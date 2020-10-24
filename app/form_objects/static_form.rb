@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Static model
 class StaticForm
   include ActiveModel::Model
@@ -21,6 +23,7 @@ class StaticForm
 
   def persist?
     return false unless staticable_exists?
+
     # initial values
     self.fraction = staticable_type == 'Guild' ? @staticable.fraction : @staticable.race.fraction
     self.world = @staticable.world
@@ -28,8 +31,10 @@ class StaticForm
     # continue validation
     return false unless valid?
     return false if exists?
+
     @static = id ? Static.find_by(id: id) : Static.new
     return false if @static.nil?
+
     @static.attributes = attributes.except(:id)
     @static.save
     true
@@ -38,7 +43,8 @@ class StaticForm
   private
 
   def staticable_exists?
-    return false unless staticable_type.present?
+    return false if staticable_type.blank?
+
     @staticable = staticable_type.constantize.find_by(id: staticable_id)
     @staticable.present?
   end

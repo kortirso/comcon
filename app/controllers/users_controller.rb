@@ -66,11 +66,13 @@ class UsersController < ApplicationController
   def find_last_time_reset_password
     return if @user.reset_password_token_sent_at.nil?
     return if DateTime.now - 1.hour >= @user.reset_password_token_sent_at
+
     render_error(t('custom_errors.reset_password.hour_limit'), 400)
   end
 
   def find_user_for_change_password
-    return render_error(t('custom_errors.reset_password.token_invalid'), 400) unless params[:reset_password_token].present?
+    return render_error(t('custom_errors.reset_password.token_invalid'), 400) if params[:reset_password_token].blank?
+
     @user = User.find_by(email: params[:email], reset_password_token: params[:reset_password_token])
     render_error(t('custom_errors.reset_password.user_not_exists'), 404) if @user.nil?
   end

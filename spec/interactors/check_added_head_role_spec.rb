@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CheckAddedHeadRole do
   let!(:user) { create :user }
   let!(:character) { create :character, user: user }
@@ -16,7 +18,7 @@ describe CheckAddedHeadRole do
       end
 
       it 'and does not delete delivery' do
-        expect { interactor }.to_not change(Delivery, :count)
+        expect { interactor }.not_to change(Delivery, :count)
       end
     end
 
@@ -28,7 +30,7 @@ describe CheckAddedHeadRole do
       end
 
       it 'and does not create delivery' do
-        expect { interactor }.to_not change(Delivery, :count)
+        expect { interactor }.not_to change(Delivery, :count)
       end
 
       context 'for existed guild notification' do
@@ -40,7 +42,7 @@ describe CheckAddedHeadRole do
           end
 
           it 'and does not create delivery' do
-            expect { interactor }.to_not change(Delivery, :count)
+            expect { interactor }.not_to change(Delivery, :count)
           end
         end
 
@@ -53,7 +55,7 @@ describe CheckAddedHeadRole do
             end
 
             it 'and does not create delivery' do
-              expect { interactor }.to_not change(Delivery, :count)
+              expect { interactor }.not_to change(Delivery, :count)
             end
           end
 
@@ -68,7 +70,7 @@ describe CheckAddedHeadRole do
               end
 
               it 'and does not create delivery' do
-                expect { interactor }.to_not change(Delivery, :count)
+                expect { interactor }.not_to change(Delivery, :count)
               end
             end
 
@@ -78,7 +80,7 @@ describe CheckAddedHeadRole do
               end
 
               it 'and creates new delivery' do
-                expect { interactor }.to change { Delivery.count }.by(1)
+                expect { interactor }.to change(Delivery, :count).by(1)
               end
             end
           end

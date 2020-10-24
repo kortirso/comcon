@@ -1,13 +1,15 @@
-RSpec.describe GameItemSubcategory, type: :model do
-  it { should have_many(:game_items).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe GameItemSubcategory, type: :model do
+  it { is_expected.to have_many(:game_items).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     game_item_subcategory = build :game_item_subcategory
 
     expect(game_item_subcategory).to be_valid
   end
 
-  context '.to_hash' do
+  describe '.to_hash' do
     let!(:game_item_subcategory) { create :game_item_subcategory }
 
     it 'returns hashed game_item_subcategory' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CharacterIndexSerializer do
   let!(:character) { create :character }
   let(:serializer) { described_class.new(character).to_json }

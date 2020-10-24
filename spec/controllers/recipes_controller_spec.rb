@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe RecipesController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'Admin Auth'
@@ -77,7 +79,7 @@ RSpec.describe RecipesController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'ru', id: 999 } }
 
         it 'does not delete any recipe' do
-          expect { request }.to_not change(Recipe, :count)
+          expect { request }.not_to change(Recipe, :count)
         end
 
         it 'and renders error template' do
@@ -91,7 +93,7 @@ RSpec.describe RecipesController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'ru', id: recipe.id } }
 
         it 'deletes recipe' do
-          expect { request }.to change { Recipe.count }.by(-1)
+          expect { request }.to change(Recipe, :count).by(-1)
         end
 
         it 'and redirects to recipes path' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ActivitiesController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
@@ -117,7 +119,7 @@ RSpec.describe ActivitiesController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'en', id: 999 } }
 
         it 'does not delete any activity' do
-          expect { request }.to_not change(Activity, :count)
+          expect { request }.not_to change(Activity, :count)
         end
 
         it 'and renders error template' do
@@ -135,7 +137,7 @@ RSpec.describe ActivitiesController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'en', id: activity.id } }
 
         it 'deletes activity' do
-          expect { request }.to change { Activity.count }.by(-1)
+          expect { request }.to change(Activity, :count).by(-1)
         end
 
         it 'and redirects to characters path' do

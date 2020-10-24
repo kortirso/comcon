@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe GuildPolicy do
   let!(:user) { create :user }
   let!(:admin) { create :user, :admin }

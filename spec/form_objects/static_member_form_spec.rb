@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe StaticMemberForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { StaticMemberForm.new(static: nil, character: nil) }
+      let(:service) { described_class.new(static: nil, character: nil) }
 
       it 'does not create new static member' do
-        expect { service.persist? }.to_not change(StaticMember, :count)
+        expect { service.persist? }.not_to change(StaticMember, :count)
       end
 
       it 'and returns false' do
@@ -18,10 +20,10 @@ RSpec.describe StaticMemberForm, type: :service do
 
       context 'for existed static member' do
         let!(:static_member) { create :static_member, static: static, character: character }
-        let(:service) { StaticMemberForm.new(static: static, character: character) }
+        let(:service) { described_class.new(static: static, character: character) }
 
         it 'does not create new static member' do
-          expect { service.persist? }.to_not change(StaticMember, :count)
+          expect { service.persist? }.not_to change(StaticMember, :count)
         end
 
         it 'and returns false' do
@@ -31,10 +33,10 @@ RSpec.describe StaticMemberForm, type: :service do
 
       context 'for different worlds' do
         let!(:other_world_static) { create :static, :guild, fraction: character.race.fraction }
-        let(:service) { StaticMemberForm.new(static: other_world_static, character: character) }
+        let(:service) { described_class.new(static: other_world_static, character: character) }
 
         it 'does not create new static member' do
-          expect { service.persist? }.to_not change(StaticMember, :count)
+          expect { service.persist? }.not_to change(StaticMember, :count)
         end
 
         it 'and returns false' do
@@ -44,10 +46,10 @@ RSpec.describe StaticMemberForm, type: :service do
 
       context 'for different fractions' do
         let!(:other_fraction_static) { create :static, :guild, world: character.world }
-        let(:service) { StaticMemberForm.new(static: other_fraction_static, character: character) }
+        let(:service) { described_class.new(static: other_fraction_static, character: character) }
 
         it 'does not create new static member' do
-          expect { service.persist? }.to_not change(StaticMember, :count)
+          expect { service.persist? }.not_to change(StaticMember, :count)
         end
 
         it 'and returns false' do
@@ -56,10 +58,10 @@ RSpec.describe StaticMemberForm, type: :service do
       end
 
       context 'for unexisted character' do
-        let(:service) { StaticMemberForm.new(static: static, character: character) }
+        let(:service) { described_class.new(static: static, character: character) }
 
         it 'creates new static member' do
-          expect { service.persist? }.to change { StaticMember.count }.by(1)
+          expect { service.persist? }.to change(StaticMember, :count).by(1)
         end
 
         it 'and returns true' do

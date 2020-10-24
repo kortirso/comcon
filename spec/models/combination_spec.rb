@@ -1,8 +1,10 @@
-RSpec.describe Combination, type: :model do
-  it { should belong_to :character_class }
-  it { should belong_to :combinateable }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Combination, type: :model do
+  it { is_expected.to belong_to :character_class }
+  it { is_expected.to belong_to :combinateable }
+
+  it 'factory is_expected.to be valid' do
     combination = build :combination
 
     expect(combination).to be_valid

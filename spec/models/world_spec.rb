@@ -1,19 +1,21 @@
-RSpec.describe World, type: :model do
-  it { should have_many(:characters).dependent(:destroy) }
-  it { should have_many(:guilds).dependent(:destroy) }
-  it { should have_many(:events).dependent(:destroy) }
-  it { should have_many(:statics).dependent(:destroy) }
-  it { should have_many(:world_fractions).dependent(:destroy) }
-  it { should have_one(:world_stat).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe World, type: :model do
+  it { is_expected.to have_many(:characters).dependent(:destroy) }
+  it { is_expected.to have_many(:guilds).dependent(:destroy) }
+  it { is_expected.to have_many(:events).dependent(:destroy) }
+  it { is_expected.to have_many(:statics).dependent(:destroy) }
+  it { is_expected.to have_many(:world_fractions).dependent(:destroy) }
+  it { is_expected.to have_one(:world_stat).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     world = build :world
 
     expect(world).to be_valid
   end
 
   describe 'methods' do
-    context '.full_name' do
+    describe '.full_name' do
       let!(:world) { create :world }
 
       it 'returns full name for world' do
@@ -21,7 +23,7 @@ RSpec.describe World, type: :model do
       end
     end
 
-    context '.locale' do
+    describe '.locale' do
       context 'for ru zone' do
         let!(:world) { create :world, zone: 'RU' }
 

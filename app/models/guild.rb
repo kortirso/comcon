@@ -44,7 +44,7 @@ class Guild < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:guild)
 
   trigger.after(:insert) do
-    <<~SQL
+    <<~SQL.squish
       PERFORM pg_advisory_xact_lock(NEW.world_id);
 
       INSERT INTO world_stats (world_id, guilds_count)
@@ -60,14 +60,14 @@ class Guild < ApplicationRecord
 
   def self.cache_key_for_user(guilds, user_id)
     {
-      serializer: 'guilds',
+      serializer:  'guilds',
       stat_record: "user_#{user_id}/#{guilds.maximum(:updated_at)}"
     }
   end
 
   def self.cache_key(guilds)
     {
-      serializer: 'guilds',
+      serializer:  'guilds',
       stat_record: guilds.maximum(:updated_at)
     }
   end

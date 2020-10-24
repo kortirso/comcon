@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BankRequestSerializer < ActiveModel::Serializer
   attributes :id, :character_name, :bank_name, :game_item_name, :requested_amount
 

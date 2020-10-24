@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe BankCellForm, type: :service do
   let!(:bank) { create :bank }
 
@@ -6,7 +8,7 @@ RSpec.describe BankCellForm, type: :service do
       let(:service) { described_class.new(bank: nil) }
 
       it 'does not create new bank cell' do
-        expect { service.persist? }.to_not change(BankCell, :count)
+        expect { service.persist? }.not_to change(BankCell, :count)
       end
 
       it 'and returns false' do
@@ -45,7 +47,7 @@ RSpec.describe BankCellForm, type: :service do
             service.persist?
             bank_cell.reload
 
-            expect(bank_cell.amount).to_not eq 0
+            expect(bank_cell.amount).not_to eq 0
           end
         end
 

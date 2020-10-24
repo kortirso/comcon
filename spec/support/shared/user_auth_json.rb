@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples_for 'User Auth JSON' do
   context 'for unlogged users' do
     it 'renders json with error' do

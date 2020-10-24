@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for CharacterProfession model
 class CharacterProfessionForm
   include ActiveModel::Model
@@ -14,6 +16,7 @@ class CharacterProfessionForm
   def persist?
     return false unless valid?
     return false if exists?
+
     @character_profession = CharacterProfession.new
     @character_profession.attributes = attributes.except(:id)
     @character_profession.save
@@ -29,6 +32,7 @@ class CharacterProfessionForm
   def only_two_main_professions
     return if character.nil?
     return if character.professions.where(main: true).size <= 1 || !profession.main?
+
     errors[:count] << 'is reached limit'
   end
 end

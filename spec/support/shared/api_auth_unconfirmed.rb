@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API auth unconfirmed' do
   let!(:user) { create :user, :unconfirmed }
   let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }

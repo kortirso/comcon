@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateStaticMember do
   let!(:character) { create :character }
   let!(:static) { create :static, world: character.world, fraction: character.race.fraction, staticable: character }
@@ -6,19 +8,19 @@ describe CreateStaticMember do
   describe '.call' do
     context 'for existed member' do
       let!(:static_member) { create :static_member, static: static, character: character }
-      let(:interactor) { CreateStaticMember.call(static: static, character: character) }
+      let(:interactor) { described_class.call(static: static, character: character) }
 
       it 'fails' do
         expect(interactor).to be_a_failure
       end
 
       it 'and does not create static member' do
-        expect { interactor }.to_not change(static.static_members, :count)
+        expect { interactor }.not_to change(static.static_members, :count)
       end
     end
 
     context 'for unexisted member' do
-      let(:interactor) { CreateStaticMember.call(static: static, character: character) }
+      let(:interactor) { described_class.call(static: static, character: character) }
 
       it 'succeeds' do
         expect(interactor).to be_a_success
@@ -43,12 +45,12 @@ describe CreateStaticMember do
   end
 
   describe '.rollback' do
-    subject(:interactor) { CreateStaticMember.new(static: static, character: character) }
+    subject(:interactor) { described_class.new(static: static, character: character) }
 
     it 'removes the created static member' do
       interactor.call
 
-      expect { interactor.rollback }.to change { StaticMember.count }.by(-1)
+      expect { interactor.rollback }.to change(StaticMember, :count).by(-1)
     end
   end
 end

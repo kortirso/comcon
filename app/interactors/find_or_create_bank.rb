@@ -26,8 +26,8 @@ class FindOrCreateBank
     bank_info = decoded[0][1..-2].split(',')
     context.bank_name = bank_info[0]
     context.bank_coins = bank_info[1]
-    context.cells_info = decoded[2..-1]
-  rescue
+    context.cells_info = decoded[2..]
+  rescue StandardError
     context.fail!(message: 'Invalid bank data')
   end
 end

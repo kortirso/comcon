@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe RoleForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { RoleForm.new(name: { 'en' => '', 'ru' => '' }) }
+      let(:service) { described_class.new(name: { 'en' => '', 'ru' => '' }) }
 
       it 'does not create new role' do
-        expect { service.persist? }.to_not change(Role, :count)
+        expect { service.persist? }.not_to change(Role, :count)
       end
 
       it 'and returns false' do
@@ -16,10 +18,10 @@ RSpec.describe RoleForm, type: :service do
       let!(:role) { create :role }
 
       context 'for existed role' do
-        let(:service) { RoleForm.new(name: { 'en' => role.name['en'], 'ru' => role.name['ru'] }) }
+        let(:service) { described_class.new(name: { 'en' => role.name['en'], 'ru' => role.name['ru'] }) }
 
         it 'does not create new role' do
-          expect { service.persist? }.to_not change(Role, :count)
+          expect { service.persist? }.not_to change(Role, :count)
         end
 
         it 'and returns false' do
@@ -28,10 +30,10 @@ RSpec.describe RoleForm, type: :service do
       end
 
       context 'for unexisted role' do
-        let(:service) { RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' }) }
+        let(:service) { described_class.new(name: { 'en' => 'Tank', 'ru' => 'Танк' }) }
 
         it 'creates new role' do
-          expect { service.persist? }.to change { Role.count }.by(1)
+          expect { service.persist? }.to change(Role, :count).by(1)
         end
 
         it 'and returns true' do

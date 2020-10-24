@@ -12,7 +12,7 @@ class FastEventIndexSerializer
 
   attribute :time do |object|
     {
-      hours: object.start_time.strftime('%H').to_i,
+      hours:   object.start_time.strftime('%H').to_i,
       minutes: object.start_time.strftime('%M').to_i
     }
   end
@@ -22,7 +22,7 @@ class FastEventIndexSerializer
   end
 
   attribute :status do |object, params|
-    subscribe = params[:subscribes].select { |element| element[0] == object.id }[0]
+    subscribe = params[:subscribes].find { |element| element[0] == object.id }
     subscribe[1] unless subscribe.nil?
   end
 end

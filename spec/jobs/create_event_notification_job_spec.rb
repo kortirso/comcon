@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CreateEventNotificationJob, type: :job do
   let!(:guild) { create :guild }
   let!(:time_offset) { create :time_offset, timeable: guild }

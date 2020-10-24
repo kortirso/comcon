@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'StaticMembers API' do
   describe 'DELETE#destroy' do
     it_behaves_like 'API auth without token'
@@ -64,7 +66,7 @@ RSpec.describe 'StaticMembers API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       delete '/api/v1/static_members/unexisted.json', headers: headers
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscordMethod::CreateChannelMessage, type: :service do
   describe '.call' do
     let!(:delivery_param) { create :delivery_param, params: { 'channel_id' => '123' } }

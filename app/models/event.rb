@@ -43,7 +43,7 @@ class Event < ApplicationRecord
   end
 
   def available_for_user?(user)
-    users.where(id: user.id).exists?
+    users.exists?(id: user.id)
   end
 
   def normalize_friendly_id(text)

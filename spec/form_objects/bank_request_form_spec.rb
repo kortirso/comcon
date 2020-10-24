@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe BankRequestForm, type: :service do
   let!(:bank) { create :bank }
   let!(:character) { create :character }
@@ -8,7 +10,7 @@ RSpec.describe BankRequestForm, type: :service do
       let(:service) { described_class.new(bank: bank, character: character, game_item: game_item, requested_amount: 5, status: 1) }
 
       it 'does not create new bank request' do
-        expect { service.persist? }.to_not change(BankRequest, :count)
+        expect { service.persist? }.not_to change(BankRequest, :count)
       end
 
       it 'and returns false' do
@@ -20,7 +22,7 @@ RSpec.describe BankRequestForm, type: :service do
       let(:service) { described_class.new(bank: bank, character: nil, game_item: game_item, requested_amount: 5, status: 1) }
 
       it 'does not create new bank request' do
-        expect { service.persist? }.to_not change(BankRequest, :count)
+        expect { service.persist? }.not_to change(BankRequest, :count)
       end
 
       it 'and returns false' do
@@ -35,7 +37,7 @@ RSpec.describe BankRequestForm, type: :service do
         let(:service) { described_class.new(params) }
 
         it 'does not create new bank request' do
-          expect { service.persist? }.to_not change(BankRequest, :count)
+          expect { service.persist? }.not_to change(BankRequest, :count)
         end
 
         it 'and returns false' do
@@ -48,7 +50,7 @@ RSpec.describe BankRequestForm, type: :service do
         let(:service) { described_class.new(params) }
 
         it 'does not create new bank request' do
-          expect { service.persist? }.to_not change(BankRequest, :count)
+          expect { service.persist? }.not_to change(BankRequest, :count)
         end
 
         it 'and returns false' do

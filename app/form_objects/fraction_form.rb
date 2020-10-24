@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Fraction model
 class FractionForm
   include ActiveModel::Model
@@ -13,6 +15,7 @@ class FractionForm
   def persist?
     return false unless valid?
     return false if exists?
+
     @fraction = Fraction.new
     @fraction.attributes = attributes
     @fraction.save
@@ -27,7 +30,8 @@ class FractionForm
 
   def name_as_hash
     return errors[:name] << 'Name is not hash' unless name.is_a?(Hash)
-    errors[:name] << 'Name EN is empty' unless name['en'].present?
-    errors[:name] << 'Name RU is empty' unless name['ru'].present?
+
+    errors[:name] << 'Name EN is empty' if name['en'].blank?
+    errors[:name] << 'Name RU is empty' if name['ru'].blank?
   end
 end

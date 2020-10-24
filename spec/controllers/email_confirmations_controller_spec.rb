@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe EmailConfirmationsController, type: :controller do
   describe 'GET #index' do
     context 'for invalid email' do

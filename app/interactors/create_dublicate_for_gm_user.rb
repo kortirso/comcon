@@ -11,10 +11,13 @@ class CreateDublicateForGmUser
     delivery = context.delivery
     return unless %w[guild_request_creation bank_request_creation].include?(delivery.notification.event)
     return if delivery.notification.status != 'guild'
+
     notification = Notification.find_by(event: delivery.notification.event, status: 1)
     return if notification.nil?
+
     user_ids.each do |user_id|
-      next if Delivery.where(deliveriable_id: user_id, deliveriable_type: 'User', notification: notification).exists?
+      next if Delivery.exists?(deliveriable_id: user_id, deliveriable_type: 'User', notification: notification)
+
       delivery_params = { 'delivery_type' => 2, 'deliveriable_id' => user_id, 'deliveriable_type' => 'User', 'notification' => notification }
       delivery_param_params = { 'params' => { 'channel_id' => '' } }
       CreateDeliveryWithParams.call(delivery_params: delivery_params, delivery_param_params: delivery_param_params)

@@ -18,6 +18,7 @@ class UpdateCharacterRecipes
       # check removed recipes
       existed_character_recipes.each do |existed_character_recipe|
         next if entry_ids.include?(existed_character_recipe.recipe_id)
+
         existed_character_recipe.destroy
       end
 
@@ -25,8 +26,10 @@ class UpdateCharacterRecipes
       recipe_ids = existed_character_recipes.pluck(:recipe_id)
       entry_ids.each do |entry_id|
         next if recipe_ids.include?(entry_id)
+
         recipe = Recipe.find_by(id: entry_id)
         next if recipe.nil?
+
         character_recipe_form = CharacterRecipeForm.new(recipe: recipe, character_profession: character_profession)
         character_recipe_form.persist?
       end

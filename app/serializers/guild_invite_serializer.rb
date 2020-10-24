@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GuildInviteSerializer < ActiveModel::Serializer
   attributes :id, :from_guild, :status
   belongs_to :guild, serializer: GuildIndexSerializer

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Characters API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
@@ -8,6 +10,7 @@ RSpec.describe 'Characters API' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
+
       before { get '/api/v1/characters.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -21,7 +24,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/characters.json', headers: headers
     end
   end
@@ -49,6 +52,7 @@ RSpec.describe 'Characters API' do
 
       context 'for existed character' do
         let!(:character) { create :character, user: user }
+
         before { get "/api/v1/characters/#{character.id}.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -63,7 +67,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/characters/999.json', headers: headers
     end
   end
@@ -90,7 +94,7 @@ RSpec.describe 'Characters API' do
         let(:request) { post '/api/v1/characters.json', params: { access_token: access_token, character: { name: '', level: -1, race_id: race.id, character_class_id: character_class.id, world_id: world.id, main_role_id: role.id, roles: { role.id.to_s => '1' }, dungeon: { '1' => '0' }, professions: { '1' => '0' } } } }
 
         it 'does not create new character' do
-          expect { request }.to_not change(Character, :count)
+          expect { request }.not_to change(Character, :count)
         end
 
         context 'in answer' do
@@ -101,7 +105,7 @@ RSpec.describe 'Characters API' do
           end
 
           it 'and returns errors' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -147,7 +151,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/characters.json', headers: headers
     end
   end
@@ -187,7 +191,7 @@ RSpec.describe 'Characters API' do
             request
             character.reload
 
-            expect(character.name).to_not eq ''
+            expect(character.name).not_to eq ''
           end
 
           context 'in answer' do
@@ -198,7 +202,7 @@ RSpec.describe 'Characters API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -242,7 +246,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/characters/999.json', headers: headers
     end
   end
@@ -261,6 +265,7 @@ RSpec.describe 'Characters API' do
     context 'with valid user token in params' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/characters/default_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -274,7 +279,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/characters/default_values.json', headers: headers
     end
   end
@@ -371,7 +376,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/characters/search.json', headers: headers
     end
   end
@@ -463,7 +468,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/characters/unknown/upload_recipes.json', headers: headers
     end
   end

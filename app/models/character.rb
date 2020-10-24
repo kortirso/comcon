@@ -53,7 +53,7 @@ class Character < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:character)
 
   trigger.after(:insert) do
-    <<~SQL
+    <<~SQL.squish
       PERFORM pg_advisory_xact_lock(NEW.world_id);
 
       INSERT INTO world_stats (world_id, characters_count)
@@ -69,7 +69,7 @@ class Character < ApplicationRecord
 
   def self.cache_key_for_user(characters)
     {
-      serializer: 'characters',
+      serializer:  'characters',
       stat_record: "user_#{characters[0]&.user_id}/#{characters.maximum(:updated_at)}"
     }
   end

@@ -20,6 +20,7 @@ class ActivityDryForm < Dry::Struct
     schema = ActivityContract.new.call(attributes)
     @errors = schema.errors(locale: I18n.locale).to_h.values.flatten
     return false unless errors.empty?
+
     @activity = attributes[:id] ? Activity.find_by(id: attributes[:id]) : Activity.new
     activity.attributes = attributes.except(:id)
     activity.save

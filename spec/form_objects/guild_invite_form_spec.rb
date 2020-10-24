@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe GuildInviteForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { GuildInviteForm.new(guild: nil, character: nil) }
+      let(:service) { described_class.new(guild: nil, character: nil) }
 
       it 'does not create new guild invite' do
-        expect { service.persist? }.to_not change(GuildInvite, :count)
+        expect { service.persist? }.not_to change(GuildInvite, :count)
       end
 
       it 'and returns false' do
@@ -18,10 +20,10 @@ RSpec.describe GuildInviteForm, type: :service do
 
       context 'for existed guild invite' do
         let!(:guild_invite) { create :guild_invite, guild: guild, character: character }
-        let(:service) { GuildInviteForm.new(guild: guild, character: character) }
+        let(:service) { described_class.new(guild: guild, character: character) }
 
         it 'does not create new guild invite' do
-          expect { service.persist? }.to_not change(GuildInvite, :count)
+          expect { service.persist? }.not_to change(GuildInvite, :count)
         end
 
         it 'and returns false' do
@@ -31,10 +33,10 @@ RSpec.describe GuildInviteForm, type: :service do
 
       context 'for character in the guild' do
         let!(:other_character) { create :character, guild: guild }
-        let(:service) { GuildInviteForm.new(guild: guild, character: other_character) }
+        let(:service) { described_class.new(guild: guild, character: other_character) }
 
         it 'does not create new guild invite' do
-          expect { service.persist? }.to_not change(GuildInvite, :count)
+          expect { service.persist? }.not_to change(GuildInvite, :count)
         end
 
         it 'and returns false' do
@@ -43,10 +45,10 @@ RSpec.describe GuildInviteForm, type: :service do
       end
 
       context 'for unexisted guild invite' do
-        let(:service) { GuildInviteForm.new(guild: guild, character: character) }
+        let(:service) { described_class.new(guild: guild, character: character) }
 
         it 'creates new guild invite' do
-          expect { service.persist? }.to change { GuildInvite.count }.by(1)
+          expect { service.persist? }.to change(GuildInvite, :count).by(1)
         end
 
         it 'and returns true' do
@@ -63,7 +65,7 @@ RSpec.describe GuildInviteForm, type: :service do
       let!(:guild_invite2) { create :guild_invite, guild: guild, character: character2, from_guild: true }
 
       context 'for unexisted guild invite' do
-        let(:service) { GuildInviteForm.new(id: 999, status: 1) }
+        let(:service) { described_class.new(id: 999, status: 1) }
 
         it 'returns false' do
           expect(service.persist?).to eq false
@@ -72,7 +74,7 @@ RSpec.describe GuildInviteForm, type: :service do
 
       context 'for existed guild invite' do
         context 'for invalid data' do
-          let(:service) { GuildInviteForm.new(guild_invite1.attributes.merge(guild: guild_invite1.guild, character: guild_invite1.character, status: -1)) }
+          let(:service) { described_class.new(guild_invite1.attributes.merge(guild: guild_invite1.guild, character: guild_invite1.character, status: -1)) }
 
           it 'does not update guild invite' do
             service.persist?
@@ -83,7 +85,7 @@ RSpec.describe GuildInviteForm, type: :service do
         end
 
         context 'for existed data' do
-          let(:service) { GuildInviteForm.new(guild_invite1.attributes.merge(guild: guild_invite2.guild, character: guild_invite2.character, status: 1)) }
+          let(:service) { described_class.new(guild_invite1.attributes.merge(guild: guild_invite2.guild, character: guild_invite2.character, status: 1)) }
 
           it 'does not update guild invite' do
             service.persist?
@@ -94,7 +96,7 @@ RSpec.describe GuildInviteForm, type: :service do
         end
 
         context 'for invalid status' do
-          let(:service) { GuildInviteForm.new(guild_invite1.attributes.merge(guild: guild_invite1.guild, character: guild_invite1.character, status: 0)) }
+          let(:service) { described_class.new(guild_invite1.attributes.merge(guild: guild_invite1.guild, character: guild_invite1.character, status: 0)) }
 
           it 'does not update guild invite' do
             service.persist?
@@ -105,7 +107,7 @@ RSpec.describe GuildInviteForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { GuildInviteForm.new(guild_invite1.attributes.merge(guild: guild_invite1.guild, character: guild_invite1.character, status: 1)) }
+          let(:service) { described_class.new(guild_invite1.attributes.merge(guild: guild_invite1.guild, character: guild_invite1.character, status: 1)) }
 
           it 'updates guild invite' do
             service.persist?

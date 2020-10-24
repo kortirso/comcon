@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Identity model
 class IdentityForm
   include ActiveModel::Model
@@ -15,6 +17,7 @@ class IdentityForm
 
   def persist?
     return false unless valid?
+
     @identity = Identity.new
     @identity.attributes = attributes
     @identity.save
@@ -24,7 +27,8 @@ class IdentityForm
   private
 
   def exists?
-    return unless Identity.where(uid: uid, provider: provider).exists?
+    return unless Identity.exists?(uid: uid, provider: provider)
+
     errors[:identity] << 'already exists'
   end
 end

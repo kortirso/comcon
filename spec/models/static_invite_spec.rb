@@ -1,8 +1,10 @@
-RSpec.describe StaticInvite, type: :model do
-  it { should belong_to :static }
-  it { should belong_to :character }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe StaticInvite, type: :model do
+  it { is_expected.to belong_to :static }
+  it { is_expected.to belong_to :character }
+
+  it 'factory is_expected.to be valid' do
     static_invite = build :static_invite
 
     expect(static_invite).to be_valid

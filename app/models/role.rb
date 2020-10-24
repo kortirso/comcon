@@ -5,9 +5,9 @@ class Role < ApplicationRecord
   include Combinateable
 
   ROLE_VALUES = {
-    'Tank' => 0,
+    'Tank'   => 0,
     'Healer' => 1,
-    'Melee' => 2,
+    'Melee'  => 2,
     'Ranged' => 3
   }.freeze
 

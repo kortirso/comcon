@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe UpdateUserPassword do
   let!(:user) { create :user }
 

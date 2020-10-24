@@ -5,8 +5,9 @@ module Tokenable
   extend ActiveSupport::Concern
 
   def access_token
-    return generate_token unless token.present?
+    return generate_token if token.blank?
     return generate_token if token_expired?(token)
+
     token
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateWorld do
   describe '.call' do
     context 'for invalid params' do
@@ -8,7 +10,7 @@ describe CreateWorld do
       end
 
       it 'and does not create world' do
-        expect { interactor }.to_not change(World, :count)
+        expect { interactor }.not_to change(World, :count)
       end
     end
 
@@ -20,7 +22,7 @@ describe CreateWorld do
       end
 
       it 'and creates world' do
-        expect { interactor }.to change { World.count }.by(1)
+        expect { interactor }.to change(World, :count).by(1)
       end
     end
   end
@@ -31,7 +33,7 @@ describe CreateWorld do
     it 'removes the created world' do
       interactor.call
 
-      expect { interactor.rollback }.to change { World.count }.by(-1)
+      expect { interactor.rollback }.to change(World, :count).by(-1)
     end
   end
 end

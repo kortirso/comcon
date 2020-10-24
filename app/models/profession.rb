@@ -10,7 +10,7 @@ class Profession < ApplicationRecord
 
   def self.cache_key(professions)
     {
-      serializer: 'professions',
+      serializer:  'professions',
       stat_record: professions.maximum(:updated_at)
     }
   end

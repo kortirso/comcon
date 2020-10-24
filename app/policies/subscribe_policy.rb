@@ -6,16 +6,19 @@ class SubscribePolicy < ApplicationPolicy
 
   def create?
     return %w[created signed unknown rejected].include?(status) && record.is_open? if record.is_a?(Event)
+
     user.any_static_role?(record)
   end
 
   def update?
     return event_subscribe_update if record.subscribeable.is_a?(Event)
+
     static_subscribe_update
   end
 
   def destroy?
     return record.character.user_id == user.id if record.subscribeable.is_a?(Event)
+
     false
   end
 
@@ -35,11 +38,13 @@ class SubscribePolicy < ApplicationPolicy
     return false unless event.is_open?
     # true if own character and only signed status
     return true if record.character.user == user && %w[created signed unknown rejected].include?(status)
+
     false
   end
 
   def static_subscribe_update
     return true if status == :no_status_change
+
     user.any_static_role?(record.subscribeable)
   end
 end

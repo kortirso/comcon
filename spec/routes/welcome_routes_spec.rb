@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe WelcomeController, type: :routing do
   describe 'invalid routing' do
     it 'route to route_error path' do
       expect(get: '/welcome/indexer').to route_to(
         controller: 'application',
-        action: 'catch_route_error',
-        path: 'welcome/indexer'
+        action:     'catch_route_error',
+        path:       'welcome/indexer'
       )
     end
   end

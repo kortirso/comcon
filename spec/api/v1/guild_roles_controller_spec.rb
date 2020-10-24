@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'GuildRoles API' do
   describe 'POST#create' do
     let!(:race) { create :race, :human }
@@ -16,7 +18,7 @@ RSpec.describe 'GuildRoles API' do
         let(:request) { post '/api/v1/guild_roles.json', params: { access_token: access_token, guild_role: { name: '', guild_id: guild.id, character_id: character.id } } }
 
         it 'does not create new guild role' do
-          expect { request }.to_not change(GuildRole, :count)
+          expect { request }.not_to change(GuildRole, :count)
         end
 
         context 'in answer' do
@@ -27,7 +29,7 @@ RSpec.describe 'GuildRoles API' do
           end
 
           it 'and returns errors' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -36,7 +38,7 @@ RSpec.describe 'GuildRoles API' do
         let(:request) { post '/api/v1/guild_roles.json', params: { access_token: access_token, guild_role: { name: 'gm', guild_id: guild.id, character_id: character.id } } }
 
         it 'and creates new guild role' do
-          expect { request }.to change { GuildRole.count }.by(1)
+          expect { request }.to change(GuildRole, :count).by(1)
         end
 
         it 'and calls CheckAddedHeadRole' do
@@ -61,7 +63,7 @@ RSpec.describe 'GuildRoles API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/guild_roles.json', params: { guild_role: { name: '' } }, headers: headers
     end
   end
@@ -99,7 +101,7 @@ RSpec.describe 'GuildRoles API' do
             request
             guild_role.reload
 
-            expect(guild_role.name).to_not eq ''
+            expect(guild_role.name).not_to eq ''
           end
 
           context 'in answer' do
@@ -110,7 +112,7 @@ RSpec.describe 'GuildRoles API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -148,7 +150,7 @@ RSpec.describe 'GuildRoles API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/characters/999.json', params: { guild_role: { name: '' } }, headers: headers
     end
   end
@@ -166,7 +168,7 @@ RSpec.describe 'GuildRoles API' do
         let!(:request) { delete '/api/v1/guild_roles/unknown.json', params: { access_token: access_token } }
 
         it 'does not delete guild role' do
-          expect { request }.to_not change(GuildRole, :count)
+          expect { request }.not_to change(GuildRole, :count)
         end
 
         context 'in answer' do
@@ -187,7 +189,7 @@ RSpec.describe 'GuildRoles API' do
         let(:request) { delete "/api/v1/guild_roles/#{guild_role.id}.json", params: { access_token: access_token } }
 
         it 'deletes guild role' do
-          expect { request }.to change { GuildRole.count }.by(-1)
+          expect { request }.to change(GuildRole, :count).by(-1)
         end
 
         it 'and calls CheckRemovedHeadRole' do
@@ -210,7 +212,7 @@ RSpec.describe 'GuildRoles API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       delete '/api/v1/guild_roles/unknown.json', headers: headers
     end
   end

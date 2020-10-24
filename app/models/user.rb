@@ -30,17 +30,19 @@ class User < ApplicationRecord
   # has characters of user any role in guild?
   def any_role?(guild_id, *allowed_roles)
     character_ids = Character.where(user_id: id, guild_id: guild_id).pluck(:id)
-    GuildRole.where(guild_id: guild_id, character_id: character_ids, name: allowed_roles).exists?
+    GuildRole.exists?(guild_id: guild_id, character_id: character_ids, name: allowed_roles)
   end
 
   def any_static_role?(static)
     return true if static.staticable_type == 'Guild' && any_role?(static.staticable_id, 'gm', 'rl')
     return true if static.staticable_type == 'Character' && characters.pluck(:id).include?(static.staticable_id)
+
     false
   end
 
   def any_character_in_static?(static)
     return true if static_members.pluck(:static_id).include?(static.id)
+
     false
   end
 
@@ -52,6 +54,7 @@ class User < ApplicationRecord
   def guild_static_ids_as_guild_leader(guild_static_ids=[])
     characters.where.not(guild_id: nil).includes(:guild).find_each do |character|
       next unless any_role?(character.guild_id, 'gm', 'rl', 'cl')
+
       guild_static_ids << character.guild.statics.pluck(:id)
     end
     guild_static_ids.flatten.uniq
@@ -84,7 +87,7 @@ class User < ApplicationRecord
   end
 
   def has_characters_in_guild?(guild_id:)
-    characters.where(guild_id: guild_id).exists?
+    characters.exists?(guild_id: guild_id)
   end
 
   private
@@ -95,6 +98,7 @@ class User < ApplicationRecord
 
   def create_time_offset
     return unless time_offset.nil?
+
     TimeOffset.create(timeable: self, value: nil)
   end
 

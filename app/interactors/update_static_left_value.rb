@@ -10,7 +10,7 @@ class UpdateStaticLeftValue
     left_value = GroupRole.default
     context.group_role.value.each do |role, v|
       v['by_class'].each do |character_class, value|
-        exist = approved_subscribes.select { |item| item[0] == role && item[1] == character_class }.size
+        exist = approved_subscribes.count { |item| item[0] == role && item[1] == character_class }
         left_value[role]['by_class'][character_class] = value < exist ? 0 : (value - exist)
       end
     end
