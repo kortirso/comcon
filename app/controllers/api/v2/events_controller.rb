@@ -70,9 +70,10 @@ module Api
       end
 
       def find_available_events
-        return Event.available_for_user(Current.user.id) unless params[:character_id]
+        return Event.available_for_user(Current.user) unless params[:character_id]
+
         character = Current.user.characters.find_by(id: params[:character_id])
-        character.present? ? Event.available_for_character(character.id) : Event.available_for_user(Current.user.id)
+        character.present? ? Event.available_for_character(character.id) : Event.available_for_user(Current.user)
       end
 
       def find_event

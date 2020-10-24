@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CharacterRecipe, type: :model do
   it { should belong_to :recipe }
   it { should belong_to :character_profession }

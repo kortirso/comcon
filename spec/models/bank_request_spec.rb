@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe BankRequest, type: :model do
   it { should belong_to :bank }
   it { should belong_to :game_item }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Bank, type: :model do
   it { should belong_to :guild }
   it { should have_many(:bank_cells).dependent(:destroy) }

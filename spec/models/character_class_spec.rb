@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CharacterClass, type: :model do
   it { should have_many(:characters).dependent(:destroy) }
   it { should have_many(:combinations).dependent(:destroy) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Activity, type: :model do
   it { should belong_to(:guild).optional }
 

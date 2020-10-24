@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Event, type: :model do
   it { should belong_to(:owner).class_name('Character') }
   it { should belong_to(:dungeon).optional }
@@ -34,10 +36,23 @@ RSpec.describe Event, type: :model do
 
       context '.available_for_user' do
         context 'if no subscribes' do
-          it 'returns no events' do
-            result = Event.available_for_user(user.id)
+          context 'when user is not in guild' do
+            before { character3.update(guild: nil) }
 
-            expect(result.size.zero?).to eq true
+            it 'returns no events' do
+              result = Event.available_for_user(user)
+
+              expect(result.size.zero?).to eq true
+            end
+          end
+
+          context 'when user in guild' do
+            it 'returns guild events' do
+              result = Event.available_for_user(user)
+
+              expect(result.size).to eq 1
+              expect(result.include?(guild_event)).to eq true
+            end
           end
         end
 
@@ -45,7 +60,7 @@ RSpec.describe Event, type: :model do
           let!(:subscribe) { create :subscribe, character: character1, subscribeable: guild_event }
 
           it 'returns events where user is subscribed' do
-            result = Event.available_for_user(user.id)
+            result = Event.available_for_user(user)
 
             expect(result.size).to eq 1
             expect(result.include?(guild_event)).to eq true
