@@ -32,10 +32,10 @@ class Event < ApplicationRecord
   scope :for_static, ->(static_ids) { where eventable_type: 'Static', eventable_id: static_ids }
 
   def self.available_for_user(user)
-    guild_event_ids = Event.where(eventable: user.guilds).ids
+    guild_static_event_ids = Event.where(eventable: Static.where(staticable: user.guilds)).ids
     subscribed_event_ids = Event.joins(subscribes: :character).where('characters.user_id = ?', user.id).ids
 
-    Event.where(id: guild_event_ids + subscribed_event_ids)
+    Event.where(id: guild_static_event_ids + subscribed_event_ids)
   end
 
   def self.available_for_character(character_id)

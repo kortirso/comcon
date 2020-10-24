@@ -47,11 +47,11 @@ RSpec.describe Event, type: :model do
           end
 
           context 'when user in guild' do
-            it 'returns guild events' do
+            it 'returns guild static events' do
               result = described_class.available_for_user(user)
 
               expect(result.size).to eq 1
-              expect(result.include?(guild_event)).to eq true
+              expect(result.include?(static_event)).to eq true
             end
           end
         end
@@ -59,11 +59,12 @@ RSpec.describe Event, type: :model do
         context 'if subscribed' do
           let!(:subscribe) { create :subscribe, character: character1, subscribeable: guild_event }
 
-          it 'returns events where user is subscribed' do
+          it 'returns events where user is subscribed + guild static events' do
             result = described_class.available_for_user(user)
 
-            expect(result.size).to eq 1
+            expect(result.size).to eq 2
             expect(result.include?(guild_event)).to eq true
+            expect(result.include?(static_event)).to eq true
           end
         end
       end
