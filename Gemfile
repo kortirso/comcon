@@ -27,7 +27,7 @@ gem 'therubyracer', platforms: :ruby
 # Background Jobs
 gem 'redis-namespace'
 gem 'redis-rails'
-gem 'sidekiq', '6.1.2'
+gem 'sidekiq', '5.2.9'
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'foreman', '0.87.2'

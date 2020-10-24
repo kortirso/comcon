@@ -295,6 +295,8 @@ GEM
     puma (5.0.2)
       nio4r (~> 2.0)
     rack (2.2.3)
+    rack-protection (2.1.0)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -335,7 +337,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rb-readline (0.5.5)
-    redis (4.2.2)
+    redis (4.1.4)
     redis-actionpack (5.2.0)
       actionpack (>= 5, < 7)
       redis-rack (>= 2.1.0, < 3)
@@ -419,10 +421,11 @@ GEM
     sexp_processor (4.15.1)
     shoulda-matchers (4.4.1)
       activesupport (>= 4.2.0)
-    sidekiq (6.1.2)
-      connection_pool (>= 2.2.2)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
-      redis (>= 4.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     simplecov (0.19.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -546,7 +549,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   shoulda-matchers
-  sidekiq (= 6.1.2)
+  sidekiq (= 5.2.9)
   simplecov
   skylight
   slim
