@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'BankRequests API' do
   describe 'GET#index' do
     let!(:user) { create :user }
@@ -51,7 +53,7 @@ RSpec.describe 'BankRequests API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/bank_requests.json', params: { guild_id: guild.id }, headers: headers
     end
   end
@@ -75,7 +77,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { post '/api/v1/bank_requests.json', params: { access_token: access_token, bank_request: { bank_id: 'unexisted', requested_amount: 1 } } }
 
         it 'does not create new bank request' do
-          expect { request }.to_not change(BankRequest, :count)
+          expect { request }.not_to change(BankRequest, :count)
         end
 
         context 'in answer' do
@@ -95,7 +97,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { post '/api/v1/bank_requests.json', params: { access_token: access_token, bank_request: { bank_id: bank.id, character_id: 'unexisted', requested_amount: 1 } } }
 
         it 'does not create new bank request' do
-          expect { request }.to_not change(BankRequest, :count)
+          expect { request }.not_to change(BankRequest, :count)
         end
 
         context 'in answer' do
@@ -115,7 +117,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { post '/api/v1/bank_requests.json', params: { access_token: access_token, bank_request: { bank_id: bank.id, character_id: character.id, game_item_id: 'unexisted', requested_amount: 1 } } }
 
         it 'does not create new bank request' do
-          expect { request }.to_not change(BankRequest, :count)
+          expect { request }.not_to change(BankRequest, :count)
         end
 
         context 'in answer' do
@@ -135,7 +137,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { post '/api/v1/bank_requests.json', params: { access_token: access_token, bank_request: { bank_id: bank.id, character_id: character.id, game_item_id: game_item.id, requested_amount: 20 } } }
 
         it 'does not create new bank request' do
-          expect { request }.to_not change(BankRequest, :count)
+          expect { request }.not_to change(BankRequest, :count)
         end
 
         context 'in answer' do
@@ -146,7 +148,7 @@ RSpec.describe 'BankRequests API' do
           end
 
           it 'and returns errors' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -180,7 +182,7 @@ RSpec.describe 'BankRequests API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/bank_requests.json', params: { bank_request: { requested_amount: 1 } }, headers: headers
     end
   end
@@ -203,7 +205,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { post '/api/v1/bank_requests/unexisted/decline.json', params: { access_token: access_token } }
 
         it 'does not call decline' do
-          expect_any_instance_of(BankRequest).to_not receive(:decline).and_call_original
+          expect_any_instance_of(BankRequest).not_to receive(:decline).and_call_original
 
           request
         end
@@ -244,7 +246,7 @@ RSpec.describe 'BankRequests API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/bank_requests/#{bank_request.id}/decline.json", headers: headers
     end
   end
@@ -269,7 +271,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { post '/api/v1/bank_requests/unexisted/approve.json', params: { access_token: access_token } }
 
         it 'does not call ApproveBankRequest' do
-          expect(ApproveBankRequest).to_not receive(:call).and_call_original
+          expect(ApproveBankRequest).not_to receive(:call).and_call_original
 
           request
         end
@@ -312,7 +314,7 @@ RSpec.describe 'BankRequests API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/bank_requests/#{bank_request.id}/approve.json", headers: headers
     end
   end
@@ -349,7 +351,7 @@ RSpec.describe 'BankRequests API' do
         let(:request) { delete "/api/v1/bank_requests/#{bank_request.id}.json", params: { access_token: access_token } }
 
         it 'deletes bank request' do
-          expect { request }.to change { BankRequest.count }.by(-1)
+          expect { request }.to change(BankRequest, :count).by(-1)
         end
 
         context 'in answer' do
@@ -366,7 +368,7 @@ RSpec.describe 'BankRequests API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       delete "/api/v1/bank_requests/#{bank_request.id}.json", headers: headers
     end
   end

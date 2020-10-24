@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Character model
 class CharacterForm
   include ActiveModel::Model
@@ -27,8 +29,10 @@ class CharacterForm
     self.name = name.capitalize if name.present?
     self.world_fraction = id ? world_fraction : WorldFraction.find_by(world: world, fraction: race&.fraction)
     return false unless valid?
+
     @character = id ? Character.find_by(id: id) : Character.new
     return false if @character.nil?
+
     @character.attributes = attributes.except(:id)
     @character.save
     true
@@ -38,7 +42,8 @@ class CharacterForm
 
   def exists?
     characters = id.nil? ? Character.all : Character.where.not(id: id)
-    return unless characters.where(name: name, world: world).exists?
+    return unless characters.exists?(name: name, world: world)
+
     errors[:character] << I18n.t('activemodel.errors.models.character_form.attributes.character.already_exist')
   end
 
@@ -46,6 +51,7 @@ class CharacterForm
     return if race.nil?
     return if character_class.nil?
     return if Combination.find_by(character_class: character_class, combinateable: race).present?
+
     errors[:character_class] << I18n.t('activemodel.errors.models.character_form.attributes.character_class.is_not_valid')
   end
 
@@ -54,6 +60,7 @@ class CharacterForm
     return if guild.nil?
     return if guild.fraction.name['en'] == 'Horde' && %w[Tauren Orc Undead Troll].include?(race.name['en'])
     return if guild.fraction.name['en'] == 'Alliance' && %w[Dwarf Human Night\ Elf Gnome].include?(race.name['en'])
+
     errors[:race] << I18n.t('activemodel.errors.models.character_form.attributes.race.is_not_valid')
   end
 end

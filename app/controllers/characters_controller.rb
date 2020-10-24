@@ -63,6 +63,7 @@ class CharactersController < ApplicationController
     h = params[:character].present? && params[:character][:recipes].present? ? params.require(:character).permit(recipes: {}).to_h[:recipes] : {}
     char_profs.each do |profession|
       next if h.key?(profession.id.to_s)
+
       h[profession.id.to_s] = {}
     end
     h

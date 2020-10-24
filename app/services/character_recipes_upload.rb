@@ -6,6 +6,7 @@ class CharacterRecipesUpload
     values = value.split(';')
     locale = values.shift[0..1] == 'ru' ? 'ru' : 'en'
     return nil if values.empty?
+
     # locale - locale for name search
     # values - array of recipe's names
     recipes = Recipe.where(profession_id: profession_id).to_a
@@ -17,12 +18,13 @@ class CharacterRecipesUpload
       recipe = recipes.find { |elem| elem.name[locale] == recipe_name }
       # if recipe with such name does not exists
       next if recipe.nil?
+
       # find or create new character_recipe
       character_recipe_form = CharacterRecipeForm.new(recipe: recipe, character_profession: character_profession)
       character_recipe_form.persist?
     end
     true
-  rescue
+  rescue StandardError
     nil
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Activities API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
@@ -11,6 +13,7 @@ RSpec.describe 'Activities API' do
       let!(:character) { create :character, guild: guild, user: user }
       let!(:guild_role) { create :guild_role, character: character, guild: guild, name: 'gm' }
       let!(:activity) { create :activity, guild: guild }
+
       before { get '/api/v2/activities.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -24,7 +27,7 @@ RSpec.describe 'Activities API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/activities.json', headers: headers
     end
   end
@@ -55,6 +58,7 @@ RSpec.describe 'Activities API' do
         let!(:character) { create :character, guild: guild, user: user }
         let!(:guild_role) { create :guild_role, character: character, guild: guild, name: 'gm' }
         let!(:activity) { create :activity, guild: guild }
+
         before { get "/api/v2/activities/#{activity.id}.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -69,7 +73,7 @@ RSpec.describe 'Activities API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/activities/999.json', headers: headers
     end
   end
@@ -89,7 +93,7 @@ RSpec.describe 'Activities API' do
         let(:request) { post '/api/v2/activities.json', params: { access_token: access_token, activity: { guild_id: 'unexisted', title: '1', description: '2' } } }
 
         it 'does not create new activity' do
-          expect { request }.to_not change(Activity, :count)
+          expect { request }.not_to change(Activity, :count)
         end
 
         context 'in answer' do
@@ -113,7 +117,7 @@ RSpec.describe 'Activities API' do
           let(:request) { post '/api/v2/activities.json', params: { access_token: access_token, activity: { guild_id: guild.id, title: '', description: '2' } } }
 
           it 'does not create new activity' do
-            expect { request }.to_not change(Activity, :count)
+            expect { request }.not_to change(Activity, :count)
           end
 
           context 'in answer' do
@@ -124,7 +128,7 @@ RSpec.describe 'Activities API' do
             end
 
             it 'and returns errors' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -159,7 +163,7 @@ RSpec.describe 'Activities API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v2/activities.json', params: { activity: { guild_id: guild.id } }, headers: headers
     end
   end
@@ -198,7 +202,7 @@ RSpec.describe 'Activities API' do
             request
             activity.reload
 
-            expect(activity.title).to_not eq ''
+            expect(activity.title).not_to eq ''
           end
 
           context 'in answer' do
@@ -209,7 +213,7 @@ RSpec.describe 'Activities API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -241,7 +245,7 @@ RSpec.describe 'Activities API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v2/activities/999.json', headers: headers
     end
   end

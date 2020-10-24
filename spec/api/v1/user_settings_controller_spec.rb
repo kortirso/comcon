@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'UserSettings API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
@@ -7,6 +9,7 @@ RSpec.describe 'UserSettings API' do
     context 'with valid user token in params' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/user_settings.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -20,7 +23,7 @@ RSpec.describe 'UserSettings API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/user_settings.json', headers: headers
     end
   end
@@ -54,7 +57,7 @@ RSpec.describe 'UserSettings API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/user_settings/update_settings.json', headers: headers
     end
   end
@@ -85,7 +88,7 @@ RSpec.describe 'UserSettings API' do
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -113,7 +116,7 @@ RSpec.describe 'UserSettings API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/user_settings/update_password.json', headers: headers
     end
   end

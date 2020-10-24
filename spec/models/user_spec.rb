@@ -1,49 +1,51 @@
-RSpec.describe User, type: :model do
-  it { should have_many(:characters).dependent(:destroy) }
-  it { should have_many(:guilds).through(:characters) }
-  it { should have_many(:subscribes).through(:characters) }
-  it { should have_many(:worlds).through(:characters) }
-  it { should have_many(:static_members).through(:characters) }
-  it { should have_many(:world_fractions).through(:characters) }
-  it { should have_many(:identities).dependent(:destroy) }
-  it { should have_one(:time_offset).dependent(:destroy) }
-  it { should validate_presence_of :email }
-  it { should validate_presence_of :password }
-  it { should validate_presence_of :role }
-  it { should validate_inclusion_of(:role).in_array(%w[user admin]) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe User, type: :model do
+  it { is_expected.to have_many(:characters).dependent(:destroy) }
+  it { is_expected.to have_many(:guilds).through(:characters) }
+  it { is_expected.to have_many(:subscribes).through(:characters) }
+  it { is_expected.to have_many(:worlds).through(:characters) }
+  it { is_expected.to have_many(:static_members).through(:characters) }
+  it { is_expected.to have_many(:world_fractions).through(:characters) }
+  it { is_expected.to have_many(:identities).dependent(:destroy) }
+  it { is_expected.to have_one(:time_offset).dependent(:destroy) }
+  it { is_expected.to validate_presence_of :email }
+  it { is_expected.to validate_presence_of :password }
+  it { is_expected.to validate_presence_of :role }
+  it { is_expected.to validate_inclusion_of(:role).in_array(%w[user admin]) }
+
+  it 'factory is_expected.to be valid' do
     user = build :user
 
     expect(user).to be_valid
   end
 
-  it 'should be invalid without email' do
-    user = User.new(email: nil)
+  it 'is_expected.to be invalid without email' do
+    user = described_class.new(email: nil)
     user.valid?
 
-    expect(user.errors[:email]).to_not eq nil
+    expect(user.errors[:email]).not_to eq nil
   end
 
-  it 'should be invalid without password' do
-    user = User.new(password: nil)
+  it 'is_expected.to be invalid without password' do
+    user = described_class.new(password: nil)
     user.valid?
 
-    expect(user.errors[:password]).to_not eq nil
+    expect(user.errors[:password]).not_to eq nil
   end
 
-  it 'should be invalid with a duplicate email' do
-    User.create(email: 'example@gmail.com', password: 'password12')
-    user = User.new(email: 'example@gmail.com', password: 'password12')
+  it 'is_expected.to be invalid with a duplicate email' do
+    described_class.create(email: 'example@gmail.com', password: 'password12')
+    user = described_class.new(email: 'example@gmail.com', password: 'password12')
     user.valid?
 
-    expect(user.errors[:email]).to_not eq nil
+    expect(user.errors[:email]).not_to eq nil
   end
 
   describe 'methods' do
     describe '.create_time_offset' do
       it 'creates time_offset' do
-        expect { create :user }.to change { TimeOffset.count }.by(1)
+        expect { create :user }.to change(TimeOffset, :count).by(1)
       end
     end
 
@@ -61,7 +63,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.is_admin?' do
+    describe '.is_admin?' do
       it 'returns false for user' do
         user = create :user
 
@@ -75,7 +77,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.any_role?' do
+    describe '.any_role?' do
       let!(:user1) { create :user }
       let!(:user2) { create :user }
       let!(:user3) { create :user }
@@ -104,7 +106,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.any_character_in_static?' do
+    describe '.any_character_in_static?' do
       let!(:character) { create :character }
       let!(:static1) { create :static, :guild, world: character.world, fraction: character.race.fraction }
       let!(:static2) { create :static, :guild, world: character.world, fraction: character.race.fraction }
@@ -123,7 +125,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.statics' do
+    describe '.statics' do
       let!(:character) { create :character }
       let!(:static1) { create :static, :guild, world: character.world, fraction: character.race.fraction }
       let!(:static2) { create :static, :guild, world: character.world, fraction: character.race.fraction }
@@ -137,7 +139,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.remember' do
+    describe '.remember' do
       let!(:user) { create :user }
 
       it 'updates remember_digest param from nil' do
@@ -145,8 +147,9 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.forget' do
+    describe '.forget' do
       let!(:user) { create :user }
+
       before { user.remember }
 
       it 'updates remember_digest param to nil' do
@@ -154,7 +157,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.authenticated?' do
+    describe '.authenticated?' do
       let!(:user) { create :user, remember_digest: nil }
 
       it 'returns false for nil remember_digest' do
@@ -163,20 +166,20 @@ RSpec.describe User, type: :model do
 
       it 'returns false for wrong digest/token' do
         token = SecureRandom.urlsafe_base64
-        user.update_attribute(:remember_digest, User.digest(token))
+        user.update_attribute(:remember_digest, described_class.digest(token))
 
-        expect(user.authenticated?(token + '1')).to eq false
+        expect(user.authenticated?("#{token}1")).to eq false
       end
 
       it 'returns true for correct digest' do
         token = SecureRandom.urlsafe_base64
-        user.update_attribute(:remember_digest, User.digest(token))
+        user.update_attribute(:remember_digest, described_class.digest(token))
 
         expect(user.authenticated?(token)).to eq true
       end
     end
 
-    context '.available_characters_for_event' do
+    describe '.available_characters_for_event' do
       let!(:user) { create :user }
       let!(:character1) { create :character, user: user }
       let!(:character2) { create :character, user: user }
@@ -212,7 +215,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.has_characters_in_guild?' do
+    describe '.has_characters_in_guild?' do
       let!(:user) { create :user }
       let!(:guild1) { create :guild }
       let!(:character) { create :character, user: user }
@@ -233,7 +236,7 @@ RSpec.describe User, type: :model do
       let!(:user) { create :user }
 
       it 'updates token' do
-        expect { user.send(:generate_token) }.to change { user.token }.from(nil)
+        expect { user.send(:generate_token) }.to change(user, :token).from(nil)
       end
 
       it 'and returns token' do
@@ -249,7 +252,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.token_expired?' do
+    describe '.token_expired?' do
       let!(:user) { create :user }
 
       context 'for expired token' do

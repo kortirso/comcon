@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe StaticInviteForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { StaticInviteForm.new(static: nil, character: nil) }
+      let(:service) { described_class.new(static: nil, character: nil) }
 
       it 'does not create new static invite' do
-        expect { service.persist? }.to_not change(StaticInvite, :count)
+        expect { service.persist? }.not_to change(StaticInvite, :count)
       end
 
       it 'and returns false' do
@@ -18,10 +20,10 @@ RSpec.describe StaticInviteForm, type: :service do
 
       context 'for existed static invite' do
         let!(:static_invite) { create :static_invite, static: static, character: character }
-        let(:service) { StaticInviteForm.new(static: static, character: character, from_static: static_invite.from_static) }
+        let(:service) { described_class.new(static: static, character: character, from_static: static_invite.from_static) }
 
         it 'does not create new static invite' do
-          expect { service.persist? }.to_not change(StaticInvite, :count)
+          expect { service.persist? }.not_to change(StaticInvite, :count)
         end
 
         it 'and returns false' do
@@ -31,10 +33,10 @@ RSpec.describe StaticInviteForm, type: :service do
 
       context 'for different worlds' do
         let!(:other_world_static) { create :static, :guild, fraction: character.race.fraction }
-        let(:service) { StaticInviteForm.new(static: other_world_static, character: character) }
+        let(:service) { described_class.new(static: other_world_static, character: character) }
 
         it 'does not create new static invite' do
-          expect { service.persist? }.to_not change(StaticInvite, :count)
+          expect { service.persist? }.not_to change(StaticInvite, :count)
         end
 
         it 'and returns false' do
@@ -44,10 +46,10 @@ RSpec.describe StaticInviteForm, type: :service do
 
       context 'for different fractions' do
         let!(:other_fraction_static) { create :static, :guild, world: character.world }
-        let(:service) { StaticInviteForm.new(static: other_fraction_static, character: character) }
+        let(:service) { described_class.new(static: other_fraction_static, character: character) }
 
         it 'does not create new static invite' do
-          expect { service.persist? }.to_not change(StaticInvite, :count)
+          expect { service.persist? }.not_to change(StaticInvite, :count)
         end
 
         it 'and returns false' do
@@ -56,10 +58,10 @@ RSpec.describe StaticInviteForm, type: :service do
       end
 
       context 'for unexisted static invite, but invalid status' do
-        let(:service) { StaticInviteForm.new(static: static, character: character, status: 1) }
+        let(:service) { described_class.new(static: static, character: character, status: 1) }
 
         it 'does not create new static invite' do
-          expect { service.persist? }.to_not change(StaticInvite, :count)
+          expect { service.persist? }.not_to change(StaticInvite, :count)
         end
 
         it 'and returns false' do
@@ -68,10 +70,10 @@ RSpec.describe StaticInviteForm, type: :service do
       end
 
       context 'for unexisted static invite' do
-        let(:service) { StaticInviteForm.new(static: static, character: character) }
+        let(:service) { described_class.new(static: static, character: character) }
 
         it 'creates new static invite' do
-          expect { service.persist? }.to change { StaticInvite.count }.by(1)
+          expect { service.persist? }.to change(StaticInvite, :count).by(1)
         end
 
         it 'and returns true' do
@@ -88,7 +90,7 @@ RSpec.describe StaticInviteForm, type: :service do
       let!(:static_invite2) { create :static_invite, static: static, character: character2 }
 
       context 'for unexisted static invite' do
-        let(:service) { StaticInviteForm.new(id: 999, status: 1) }
+        let(:service) { described_class.new(id: 999, status: 1) }
 
         it 'returns false' do
           expect(service.persist?).to eq false
@@ -97,7 +99,7 @@ RSpec.describe StaticInviteForm, type: :service do
 
       context 'for existed static invite' do
         context 'for invalid data' do
-          let(:service) { StaticInviteForm.new(static_invite1.attributes.merge(static: static_invite1.static, character: static_invite1.character, status: -1)) }
+          let(:service) { described_class.new(static_invite1.attributes.merge(static: static_invite1.static, character: static_invite1.character, status: -1)) }
 
           it 'does not update static invite' do
             service.persist?
@@ -108,7 +110,7 @@ RSpec.describe StaticInviteForm, type: :service do
         end
 
         context 'for existed data' do
-          let(:service) { StaticInviteForm.new(static_invite1.attributes.merge(static: static_invite2.static, character: static_invite2.character, status: 1)) }
+          let(:service) { described_class.new(static_invite1.attributes.merge(static: static_invite2.static, character: static_invite2.character, status: 1)) }
 
           it 'does not update static invite' do
             service.persist?
@@ -119,7 +121,7 @@ RSpec.describe StaticInviteForm, type: :service do
         end
 
         context 'for invalid status' do
-          let(:service) { StaticInviteForm.new(static_invite1.attributes.merge(static: static_invite1.static, character: static_invite1.character, status: 0)) }
+          let(:service) { described_class.new(static_invite1.attributes.merge(static: static_invite1.static, character: static_invite1.character, status: 0)) }
 
           it 'does not update static invite' do
             service.persist?
@@ -130,7 +132,7 @@ RSpec.describe StaticInviteForm, type: :service do
         end
 
         context 'for valid data' do
-          let(:service) { StaticInviteForm.new(static_invite1.attributes.merge(static: static_invite1.static, character: static_invite1.character, status: 1)) }
+          let(:service) { described_class.new(static_invite1.attributes.merge(static: static_invite1.static, character: static_invite1.character, status: 1)) }
 
           it 'updates static invite' do
             service.persist?

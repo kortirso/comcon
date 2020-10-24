@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Craft API' do
   describe 'GET#filter_values' do
     it_behaves_like 'API auth without token'
@@ -7,6 +9,7 @@ RSpec.describe 'Craft API' do
     context 'for logged user' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/craft/filter_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -20,7 +23,7 @@ RSpec.describe 'Craft API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/craft/filter_values.json', headers: headers
     end
   end
@@ -37,6 +40,7 @@ RSpec.describe 'Craft API' do
       let!(:recipe) { create :recipe }
       let!(:character_profession) { create :character_profession, character: character, profession: recipe.profession }
       let!(:character_recipe) { create :character_recipe, recipe: recipe, character_profession: character_profession }
+
       before { get '/api/v1/craft/search.json', params: { access_token: access_token, recipe_id: recipe.id } }
 
       it 'returns status 200' do
@@ -50,7 +54,7 @@ RSpec.describe 'Craft API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/craft/search.json', headers: headers
     end
   end

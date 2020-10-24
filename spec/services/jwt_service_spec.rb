@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 RSpec.describe JwtService, type: :service do
-  let(:service) { JwtService.new }
+  let(:service) { described_class.new }
 
   describe '.initialize' do
     it 'class JWT_TTL constant' do
-      expect(JwtService::JWT_TTL).to_not eq nil
+      expect(JwtService::JWT_TTL).not_to eq nil
     end
   end
 
@@ -12,17 +14,17 @@ RSpec.describe JwtService, type: :service do
     let(:response) { service.json_response(user: user) }
 
     it 'returns access_token' do
-      expect(response[:access_token]).to_not eq nil
+      expect(response[:access_token]).not_to eq nil
       expect(response[:access_token].is_a?(String)).to eq true
     end
 
     it 'and returns user information' do
-      expect(response[:user]).to_not eq nil
+      expect(response[:user]).not_to eq nil
       expect(response[:user].is_a?(Hash)).to eq true
     end
 
     it 'and returns expiration information' do
-      expect(response[:expires_at]).to_not eq nil
+      expect(response[:expires_at]).not_to eq nil
       expect(response[:expires_at].is_a?(Integer)).to eq true
     end
   end
@@ -33,15 +35,15 @@ RSpec.describe JwtService, type: :service do
     let(:decode) { service.decode(access_token: response[:access_token]) }
 
     it 'decodes information from token' do
-      expect(decode).to_not eq nil
+      expect(decode).not_to eq nil
     end
 
-    it 'it contains user_id' do
+    it 'contains user_id' do
       expect(decode['user_id']).to eq user.id
     end
 
     it 'and it contains exp' do
-      expect(decode['exp']).to_not eq nil
+      expect(decode['exp']).not_to eq nil
     end
   end
 
@@ -53,7 +55,7 @@ RSpec.describe JwtService, type: :service do
       expect(encode.is_a?(Array)).to eq true
     end
 
-    it 'it contains token' do
+    it 'contains token' do
       expect(encode[0].is_a?(String)).to eq true
     end
 

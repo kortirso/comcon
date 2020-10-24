@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
 RSpec.describe Users::OmniauthCallbacksController, type: :controller do
-  it { should use_before_action :provides_callback }
+  it { is_expected.to use_before_action :provides_callback }
 
   describe 'discord' do
     context 'without info from provider' do
-      before :each do
+      before do
         request.env['devise.mapping'] = Devise.mappings[:user]
         request.env['omniauth.auth'] = nil
       end
+
       before { get 'discord', params: { locale: 'en' } }
 
       it 'redirects to root path' do
@@ -19,10 +22,11 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
     end
 
     context 'without email in info from provider' do
-      before :each do
+      before do
         request.env['devise.mapping'] = Devise.mappings[:user]
         request.env['omniauth.auth'] = facebook_invalid_hash
       end
+
       before { get 'discord', params: { locale: 'en' } }
 
       it 'redirects to root path' do
@@ -35,7 +39,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :controller do
     end
 
     context 'with info from provider' do
-      before :each do
+      before do
         request.env['devise.mapping'] = Devise.mappings[:user]
         request.env['omniauth.auth'] = discord_hash
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe StaticInvitesController, type: :controller do
   describe 'GET#find' do
     it_behaves_like 'User Auth'
@@ -57,13 +59,13 @@ RSpec.describe StaticInvitesController, type: :controller do
           let(:request) { get :approve, params: { locale: 'en', id: static_invite.id } }
 
           it 'calls ApproveStaticInvite' do
-            expect(ApproveStaticInvite).to_not receive(:call).and_call_original
+            expect(ApproveStaticInvite).not_to receive(:call).and_call_original
 
             request
           end
 
           it 'and does not create new static member' do
-            expect { request }.to_not change(StaticMember, :count)
+            expect { request }.not_to change(StaticMember, :count)
           end
 
           it 'and renders error page' do
@@ -84,11 +86,11 @@ RSpec.describe StaticInvitesController, type: :controller do
           end
 
           it 'and creates new static member' do
-            expect { request }.to change { StaticMember.count }.by(1)
+            expect { request }.to change(StaticMember, :count).by(1)
           end
 
           it 'and deletes static invite' do
-            expect { request }.to change { StaticInvite.count }.by(-1)
+            expect { request }.to change(StaticInvite, :count).by(-1)
           end
 
           it 'and redirects to statics path' do
@@ -131,7 +133,7 @@ RSpec.describe StaticInvitesController, type: :controller do
           let(:request) { get :decline, params: { locale: 'en', id: static_invite.id } }
 
           it 'calls UpdateStaticInvite' do
-            expect(UpdateStaticInvite).to_not receive(:call).and_call_original
+            expect(UpdateStaticInvite).not_to receive(:call).and_call_original
 
             request
           end

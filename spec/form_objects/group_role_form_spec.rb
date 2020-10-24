@@ -1,26 +1,28 @@
+# frozen_string_literal: true
+
 RSpec.describe GroupRoleForm, type: :service do
   let(:alliance_group_roles) do
     {
-      'tanks' => {
+      'tanks'   => {
         'by_class' => { 'warrior' => 0, 'paladin' => 0, 'druid' => 0 }
       },
       'healers' => {
         'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 3 }
       },
-      'dd' => {
+      'dd'      => {
         'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 0 }
       }
     }
   end
   let(:horde_group_roles) do
     {
-      'tanks' => {
+      'tanks'   => {
         'by_class' => { 'warrior' => 0, 'paladin' => 2, 'druid' => 0 }
       },
       'healers' => {
         'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 0 }
       },
-      'dd' => {
+      'dd'      => {
         'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 2 }
       }
     }
@@ -31,7 +33,7 @@ RSpec.describe GroupRoleForm, type: :service do
       let(:service) { described_class.new(groupable_id: '', groupable_type: 'Event', value: {}) }
 
       it 'does not create new group role' do
-        expect { service.persist? }.to_not change(GroupRole, :count)
+        expect { service.persist? }.not_to change(GroupRole, :count)
       end
 
       it 'and returns false' do
@@ -46,7 +48,7 @@ RSpec.describe GroupRoleForm, type: :service do
         let(:service) { described_class.new(groupable_id: 'unexisted', groupable_type: 'Event', value: {}) }
 
         it 'does not create new group role' do
-          expect { service.persist? }.to_not change(GroupRole, :count)
+          expect { service.persist? }.not_to change(GroupRole, :count)
         end
 
         it 'and returns false' do
@@ -58,7 +60,7 @@ RSpec.describe GroupRoleForm, type: :service do
         let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: GroupRole.default) }
 
         it 'creates new group role' do
-          expect { service.persist? }.to change { GroupRole.count }.by(1)
+          expect { service.persist? }.to change(GroupRole, :count).by(1)
         end
 
         it 'and returns true' do
@@ -70,7 +72,7 @@ RSpec.describe GroupRoleForm, type: :service do
         let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: alliance_group_roles) }
 
         it 'creates new group role' do
-          expect { service.persist? }.to change { GroupRole.count }.by(1)
+          expect { service.persist? }.to change(GroupRole, :count).by(1)
         end
 
         it 'and returns true' do
@@ -90,7 +92,7 @@ RSpec.describe GroupRoleForm, type: :service do
         let(:service) { described_class.new(groupable_id: event.id, groupable_type: 'Event', value: alliance_group_roles) }
 
         it 'creates new group role' do
-          expect { service.persist? }.to change { GroupRole.count }.by(1)
+          expect { service.persist? }.to change(GroupRole, :count).by(1)
         end
 
         it 'and returns true' do
@@ -124,7 +126,7 @@ RSpec.describe GroupRoleForm, type: :service do
             service.persist?
             group_role.reload
 
-            expect(group_role.value).to_not eq ''
+            expect(group_role.value).not_to eq ''
           end
         end
 

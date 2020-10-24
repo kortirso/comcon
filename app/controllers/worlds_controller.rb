@@ -23,6 +23,7 @@ class WorldsController < ApplicationController
   def update
     world_form = WorldDryForm.new(@world.attributes.symbolize_keys.merge(world_params))
     return redirect_to worlds_path if world_form.save
+
     render :edit
   end
 

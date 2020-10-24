@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 describe UpdateStaticLeftValue do
   let!(:static) { create :static, :guild }
   let(:value) do
     {
-      'tanks' => {
+      'tanks'   => {
         'by_class' => { 'warrior' => 2, 'paladin' => 0, 'druid' => 2 }
       },
       'healers' => {
         'by_class' => { 'paladin' => 0, 'druid' => 0, 'priest' => 0, 'shaman' => 0 }
       },
-      'dd' => {
+      'dd'      => {
         'by_class' => { 'warrior' => 0, 'warlock' => 0, 'druid' => 0, 'hunter' => 0, 'rogue' => 0, 'priest' => 0, 'shaman' => 0, 'mage' => 0, 'paladin' => 2 }
       }
     }
@@ -52,15 +54,15 @@ describe UpdateStaticLeftValue do
 
   describe '.modify' do
     it 'for Tank return tanks' do
-      expect(UpdateStaticLeftValue.new.send(:modify, 'Tank')).to eq 'tanks'
+      expect(described_class.new.send(:modify, 'Tank')).to eq 'tanks'
     end
 
     it 'for Healer return tanks' do
-      expect(UpdateStaticLeftValue.new.send(:modify, 'Healer')).to eq 'healers'
+      expect(described_class.new.send(:modify, 'Healer')).to eq 'healers'
     end
 
     it 'for Dd return tanks' do
-      expect(UpdateStaticLeftValue.new.send(:modify, 'Dd')).to eq 'dd'
+      expect(described_class.new.send(:modify, 'Dd')).to eq 'dd'
     end
   end
 end

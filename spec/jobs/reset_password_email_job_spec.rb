@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ResetPasswordEmailJob, type: :job do
   let!(:user) { create :user }
 

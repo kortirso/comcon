@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe StaticsController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
@@ -178,7 +180,7 @@ RSpec.describe StaticsController, type: :controller do
           let(:request) { delete :destroy, params: { locale: 'en', id: static.slug } }
 
           it 'does not delete static' do
-            expect { request }.to_not change(Static, :count)
+            expect { request }.not_to change(Static, :count)
           end
 
           it 'and renders error page' do
@@ -193,7 +195,7 @@ RSpec.describe StaticsController, type: :controller do
           let(:request) { delete :destroy, params: { locale: 'en', id: static.slug } }
 
           it 'deletes static' do
-            expect { request }.to change { Static.count }.by(-1)
+            expect { request }.to change(Static, :count).by(-1)
           end
 
           it 'and redirects to guild management page' do

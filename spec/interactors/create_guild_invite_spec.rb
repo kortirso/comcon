@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateGuildInvite do
   let!(:user) { create :user }
   let!(:guild) { create :guild }
@@ -7,31 +9,31 @@ describe CreateGuildInvite do
   describe '.call' do
     context 'for existed guild invite' do
       let!(:guild_invite) { create :guild_invite, guild: guild, character: character, from_guild: true }
-      let(:interactor) { CreateGuildInvite.call(guild: guild, character: character, from_guild: true) }
+      let(:interactor) { described_class.call(guild: guild, character: character, from_guild: true) }
 
       it 'fails' do
         expect(interactor).to be_a_failure
       end
 
       it 'and does not create guild invite' do
-        expect { interactor }.to_not change(guild.guild_invites, :count)
+        expect { interactor }.not_to change(guild.guild_invites, :count)
       end
     end
 
     context 'for other character' do
-      let(:interactor) { CreateGuildInvite.call(guild: guild, character: other_character, from_guild: true) }
+      let(:interactor) { described_class.call(guild: guild, character: other_character, from_guild: true) }
 
       it 'fails' do
         expect(interactor).to be_a_failure
       end
 
       it 'and does not create guild invite' do
-        expect { interactor }.to_not change(guild.guild_invites, :count)
+        expect { interactor }.not_to change(guild.guild_invites, :count)
       end
     end
 
     context 'for unexisted guild invite' do
-      let(:interactor) { CreateGuildInvite.call(guild: guild, character: character, from_guild: true) }
+      let(:interactor) { described_class.call(guild: guild, character: character, from_guild: true) }
 
       it 'succeeds' do
         expect(interactor).to be_a_success
@@ -51,14 +53,14 @@ describe CreateGuildInvite do
     context 'if user has characters in guild' do
       let!(:guild_character) { create :character, user: user, guild: guild }
       let!(:guild_invite) { create :guild_invite, character: character }
-      let(:interactor) { CreateGuildInvite.call(guild: guild, character: character, from_guild: false) }
+      let(:interactor) { described_class.call(guild: guild, character: character, from_guild: false) }
 
       it 'succeeds' do
         expect(interactor).to be_a_success
       end
 
       it 'and does not create guild invite' do
-        expect { interactor }.to_not change(guild.guild_invites, :count)
+        expect { interactor }.not_to change(guild.guild_invites, :count)
       end
 
       it 'and updates character' do

@@ -24,18 +24,21 @@ class DiscordChannelCheck
 
   def check_user_channel
     return check_discord_channel if channel_id_value.present?
+
     create_discord_channel
   end
 
   def check_discord_channel
     channel_id = DiscordMethod::GetChannel.call(channel_id: channel_id_value.to_i)['id']
     return create_discord_channel if channel_id.nil?
+
     channel_id
   end
 
   def create_discord_channel
     channel_id = DiscordMethod::CreateUserChannel.call(recipient_id: delivery_param.delivery.deliveriable.identities.find_by(provider: 'discord').uid.to_i)['id']
     return nil if channel_id.nil?
+
     delivery_param.update(params: { 'channel_id' => channel_id })
     channel_id
   end

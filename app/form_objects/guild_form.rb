@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Guild model
 class GuildForm
   include ActiveModel::Model
@@ -20,8 +22,10 @@ class GuildForm
   def persist?
     self.world_fraction = id ? world_fraction : WorldFraction.find_by(world: world, fraction: fraction)
     return false unless valid?
+
     @guild = id ? Guild.find_by(id: id) : Guild.new
     return false if @guild.nil?
+
     @guild.attributes = attributes.except(:id)
     @guild.save
     true
@@ -31,7 +35,8 @@ class GuildForm
 
   def exists?
     guilds = id.nil? ? Guild.all : Guild.where.not(id: id)
-    return unless guilds.where(name: name, world: world).exists?
+    return unless guilds.exists?(name: name, world: world)
+
     errors[:guild] << I18n.t('activemodel.errors.models.guild_form.attributes.guild.already_exist')
   end
 end

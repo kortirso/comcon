@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
-  factory :oauth, class: OmniAuth::AuthHash do
+  factory :oauth, class: 'OmniAuth::AuthHash' do
     provider { 'discord' }
     uid { '1234567890' }
     info { build(:oauth_info) }
@@ -9,13 +11,13 @@ FactoryBot.define do
     end
   end
 
-  factory :oauth_info, class: OmniAuth::AuthHash::InfoHash do
+  factory :oauth_info, class: 'OmniAuth::AuthHash::InfoHash' do
     email { 'test@email.com' }
     first_name { 'test_first_name' }
     last_name { 'test_last_name' }
   end
 
-  factory :oauth_credentials, class: OmniAuth::AuthHash do
+  factory :oauth_credentials, class: 'OmniAuth::AuthHash' do
     expires { true }
     expires_at { 2.months.from_now.to_i }
     token { SecureRandom.base58 161 }

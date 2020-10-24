@@ -1,7 +1,9 @@
-RSpec.describe Activity, type: :model do
-  it { should belong_to(:guild).optional }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Activity, type: :model do
+  it { is_expected.to belong_to(:guild).optional }
+
+  it 'factory is_expected.to be valid' do
     activity = build :activity
 
     expect(activity).to be_valid

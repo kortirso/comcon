@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RebuildGuildRoles do
   let!(:guild) { create :guild }
   let!(:character1) { create :character, guild: guild }
@@ -10,7 +12,7 @@ describe RebuildGuildRoles do
 
   describe '.call' do
     context 'for existed gm' do
-      let(:interactor) { RebuildGuildRoles.call(guild: guild) }
+      let(:interactor) { described_class.call(guild: guild) }
 
       it 'succeeds' do
         expect(interactor).to be_a_success
@@ -18,7 +20,8 @@ describe RebuildGuildRoles do
     end
 
     context 'for unexisted gm' do
-      let(:interactor) { RebuildGuildRoles.call(guild: guild) }
+      let(:interactor) { described_class.call(guild: guild) }
+
       before { character1.destroy }
 
       it 'succeeds' do
@@ -34,7 +37,8 @@ describe RebuildGuildRoles do
     end
 
     context 'for unexisted gm/rl' do
-      let(:interactor) { RebuildGuildRoles.call(guild: guild) }
+      let(:interactor) { described_class.call(guild: guild) }
+
       before do
         character1.destroy
         character2.destroy
@@ -53,7 +57,8 @@ describe RebuildGuildRoles do
     end
 
     context 'for unexisted gm/rl/cl' do
-      let(:interactor) { RebuildGuildRoles.call(guild: guild) }
+      let(:interactor) { described_class.call(guild: guild) }
+
       before do
         character1.destroy
         character2.destroy
@@ -70,7 +75,8 @@ describe RebuildGuildRoles do
     end
 
     context 'for empty characters' do
-      let(:interactor) { RebuildGuildRoles.call(guild: guild) }
+      let(:interactor) { described_class.call(guild: guild) }
+
       before { guild.characters.destroy_all }
 
       it 'succeeds' do
@@ -78,7 +84,7 @@ describe RebuildGuildRoles do
       end
 
       it 'and deletes guild' do
-        expect { interactor }.to change { Guild.count }.by(-1)
+        expect { interactor }.to change(Guild, :count).by(-1)
       end
     end
   end

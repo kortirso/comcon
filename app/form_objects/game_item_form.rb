@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for GameItem model
 class GameItemForm
   include ActiveModel::Model
@@ -18,6 +20,7 @@ class GameItemForm
 
   def persist?
     return false unless valid?
+
     @game_item = GameItem.new
     @game_item.attributes = attributes
     @game_item.save
@@ -28,7 +31,8 @@ class GameItemForm
 
   def name_as_hash
     return errors[:name] << 'Name is not hash' unless name.is_a?(Hash)
-    errors[:name] << 'Name EN is empty' unless name['en'].present?
-    errors[:name] << 'Name RU is empty' unless name['ru'].present?
+
+    errors[:name] << 'Name EN is empty' if name['en'].blank?
+    errors[:name] << 'Name RU is empty' if name['ru'].blank?
   end
 end

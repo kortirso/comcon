@@ -10,6 +10,7 @@ class UpdateTimeOffset
   def call
     time_offset = TimeOffset.find_by(timeable: context.timeable)
     return if time_offset.nil?
+
     time_offset_form = TimeOffsetForm.new(time_offset.attributes.merge(value: context.value == '' ? nil : context.value))
     if time_offset_form.persist?
       context.time_offset = time_offset_form.time_offset

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscordChannelCheck, type: :service do
   let!(:user) { create :user }
   let!(:identity) { create :identity, user: user }

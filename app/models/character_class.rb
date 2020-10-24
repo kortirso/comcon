@@ -11,7 +11,7 @@ class CharacterClass < ApplicationRecord
   def to_hash
     {
       id.to_s => {
-        'name' => name,
+        'name'  => name,
         'roles' => combinateables.inject({}) do |roles, role|
           roles.merge(role.to_hash)
         end

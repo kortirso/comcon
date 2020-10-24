@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FastCharacterSelectSerializer do
   let!(:character) { create :character }
   let(:serializer) { described_class.new(character).serializable_hash.to_json }

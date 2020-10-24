@@ -9,21 +9,11 @@ module Api
       before_action :check_static_member, only: %i[create]
       before_action :find_static_invite, only: %i[destroy approve decline]
 
-      resource_description do
-        short 'StaticInvite resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/static_invites.json', 'Get list of static_invites for static or character'
-      error code: 401, desc: 'Unauthorized'
       def index
         authorize! @from_static, with: StaticInvitePolicy, context: { static: @invite_creator, character: @invite_creator }
         render json: (@invite_creator.is_a?(Static) ? @invite_creator.static_invites.includes(:character) : @invite_creator.static_invites.includes(:static)), status: :ok
       end
 
-      api :POST, '/v1/statics.json', 'Create static invite or member for guild members'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         authorize! params[:static_invite][:from_static], with: StaticInvitePolicy, to: :index?, context: { static: @static, character: @character }
         if @static.for_guild? && @character.guild_id == @static.staticable_id
@@ -39,20 +29,12 @@ module Api
         render json: { result: 'Static invite is destroyed' }, status: :ok
       end
 
-      api :POST, '/v1/static_invites/:id/approve.json', 'Approve static invite'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Object is not found'
       def approve
         authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
         ApproveStaticInvite.call(static: @static_invite.static, character: @static_invite.character)
         render json: { result: 'Character is added to the static' }, status: :ok
       end
 
-      api :POST, '/v1/static_invites/:id/decline.json', 'Decline static invite'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Object is not found'
       def decline
         authorize! @static_invite.from_static.to_s, with: StaticInvitePolicy, to: :approve?, context: { static: @static_invite.static, character: @static_invite.character }
         UpdateStaticInvite.call(static_invite: @static_invite, status: 1)
@@ -86,7 +68,7 @@ module Api
       end
 
       def check_static_member
-        render json: { error: 'Static member already exists' }, status: :conflict if StaticMember.where(static: @static, character: @character).exists?
+        render json: { error: 'Static member already exists' }, status: :conflict if StaticMember.exists?(static: @static, character: @character)
       end
 
       def find_static_invite

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DiscordMethod::CreateUserChannel, type: :service do
   describe '.call' do
     let!(:identity) { create :identity }

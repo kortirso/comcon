@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe GuildRoleForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
-      let(:service) { GuildRoleForm.new(name: '') }
+      let(:service) { described_class.new(name: '') }
 
       it 'does not create new guild role' do
-        expect { service.persist? }.to_not change(GuildRole, :count)
+        expect { service.persist? }.not_to change(GuildRole, :count)
       end
 
       it 'and returns false' do
@@ -18,10 +20,10 @@ RSpec.describe GuildRoleForm, type: :service do
 
       context 'for existed guild role' do
         let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
-        let(:service) { GuildRoleForm.new(guild: guild, character: character, name: 'rl') }
+        let(:service) { described_class.new(guild: guild, character: character, name: 'rl') }
 
         it 'does not create new guild role' do
-          expect { service.persist? }.to_not change(GuildRole, :count)
+          expect { service.persist? }.not_to change(GuildRole, :count)
         end
 
         it 'and returns false' do
@@ -31,10 +33,10 @@ RSpec.describe GuildRoleForm, type: :service do
 
       context 'for character not in the guild' do
         let!(:other_character) { create :character }
-        let(:service) { GuildRoleForm.new(guild: guild, character: other_character, name: 'rl') }
+        let(:service) { described_class.new(guild: guild, character: other_character, name: 'rl') }
 
         it 'does not create new guild role' do
-          expect { service.persist? }.to_not change(GuildRole, :count)
+          expect { service.persist? }.not_to change(GuildRole, :count)
         end
 
         it 'and returns false' do
@@ -43,10 +45,10 @@ RSpec.describe GuildRoleForm, type: :service do
       end
 
       context 'for unexisted guild role' do
-        let(:service) { GuildRoleForm.new(guild: guild, character: character, name: 'rl') }
+        let(:service) { described_class.new(guild: guild, character: character, name: 'rl') }
 
         it 'creates new guild role' do
-          expect { service.persist? }.to change { GuildRole.count }.by(1)
+          expect { service.persist? }.to change(GuildRole, :count).by(1)
         end
 
         it 'and returns true' do
@@ -57,7 +59,7 @@ RSpec.describe GuildRoleForm, type: :service do
 
     context 'for updating' do
       context 'for unexisted guild role' do
-        let(:service) { GuildRoleForm.new(id: 999, name: '1') }
+        let(:service) { described_class.new(id: 999, name: '1') }
 
         it 'returns false' do
           expect(service.persist?).to eq false
@@ -73,29 +75,29 @@ RSpec.describe GuildRoleForm, type: :service do
         let!(:guild_role2) { create :guild_role, name: 'rl', guild: guild2, character: character2 }
 
         context 'for invalid data' do
-          let(:service) { GuildRoleForm.new(id: guild_role1.id, name: '', guild: guild_role1.guild, character: guild_role1.character) }
+          let(:service) { described_class.new(id: guild_role1.id, name: '', guild: guild_role1.guild, character: guild_role1.character) }
 
           it 'does not update guild' do
             service.persist?
             guild_role1.reload
 
-            expect(guild_role1.name).to_not eq ''
+            expect(guild_role1.name).not_to eq ''
           end
         end
 
         context 'for existed data' do
-          let(:service) { GuildRoleForm.new(id: guild_role1.id, name: 'gm', guild: guild_role2.guild, character: guild_role2.character) }
+          let(:service) { described_class.new(id: guild_role1.id, name: 'gm', guild: guild_role2.guild, character: guild_role2.character) }
 
           it 'does not update guild' do
             service.persist?
             guild_role1.reload
 
-            expect(guild_role1.name).to_not eq 'gm'
+            expect(guild_role1.name).not_to eq 'gm'
           end
         end
 
         context 'for valid data' do
-          let(:service) { GuildRoleForm.new(id: guild_role1.id, name: 'gm', guild: guild_role1.guild, character: guild_role1.character) }
+          let(:service) { described_class.new(id: guild_role1.id, name: 'gm', guild: guild_role1.guild, character: guild_role1.character) }
 
           it 'does not update guild' do
             service.persist?

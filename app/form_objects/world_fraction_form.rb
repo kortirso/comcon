@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for WorldFraction model
 class WorldFractionForm
   include ActiveModel::Model
@@ -13,6 +15,7 @@ class WorldFractionForm
 
   def persist?
     return false unless valid?
+
     @world_fraction = WorldFraction.new
     @world_fraction.attributes = attributes
     @world_fraction.save
@@ -22,7 +25,8 @@ class WorldFractionForm
   private
 
   def exists?
-    return unless WorldFraction.where(world: world, fraction: fraction).exists?
+    return unless WorldFraction.exists?(world: world, fraction: fraction)
+
     errors[:world_fraction] << 'is already exists'
   end
 end

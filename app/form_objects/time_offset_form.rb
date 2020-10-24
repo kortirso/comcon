@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for TimeOffset model
 class TimeOffsetForm
   include ActiveModel::Model
@@ -17,8 +19,10 @@ class TimeOffsetForm
 
   def persist?
     return false unless valid?
+
     @time_offset = id ? TimeOffset.find_by(id: id) : TimeOffset.new
     return false if @time_offset.nil?
+
     @time_offset.attributes = attributes.except(:id)
     @time_offset.save
     true
@@ -27,8 +31,9 @@ class TimeOffsetForm
   private
 
   def timeable_exists?
-    return unless timeable_type.present?
-    return if timeable_type.constantize.where(id: timeable_id).exists?
+    return if timeable_type.blank?
+    return if timeable_type.constantize.exists?(id: timeable_id)
+
     errors[:timeable] << 'is not exists'
   end
 end

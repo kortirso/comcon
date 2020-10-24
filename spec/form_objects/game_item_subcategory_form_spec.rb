@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe GameItemSubcategoryForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
       let(:service) { described_class.new(uid: '', name: { 'en' => '', 'ru' => '' }) }
 
       it 'does not create new object' do
-        expect { service.persist? }.to_not change(GameItemSubcategory, :count)
+        expect { service.persist? }.not_to change(GameItemSubcategory, :count)
       end
 
       it 'and returns false' do
@@ -16,7 +18,7 @@ RSpec.describe GameItemSubcategoryForm, type: :service do
       let(:service) { described_class.new(uid: 7, name: { 'en' => 'Metal & Stone', 'ru' => 'Металл и камни' }) }
 
       it 'creates new object' do
-        expect { service.persist? }.to change { GameItemSubcategory.count }.by(1)
+        expect { service.persist? }.to change(GameItemSubcategory, :count).by(1)
       end
 
       it 'and returns true' do

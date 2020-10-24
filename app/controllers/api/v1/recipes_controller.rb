@@ -10,27 +10,14 @@ module Api
       before_action :find_recipe, only: %i[show update]
       before_action :search_recipes, only: %i[search]
 
-      resource_description do
-        short 'Recipe resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/recipes.json', 'Get all recipes'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: { recipes: @recipes_json }, status: :ok
       end
 
-      api :GET, '/v1/recipes/:id.json', 'Show recipe info'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
       def show
         render json: { recipe: @recipe }, status: :ok
       end
 
-      api :POST, '/v1/recipes.json', 'Create recipe'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         recipe_form = RecipeForm.new(recipe_params)
         if recipe_form.persist?
@@ -40,10 +27,6 @@ module Api
         end
       end
 
-      api :PATCH, '/v1/recipes/:id.json', 'Update recipe'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def update
         recipe_form = RecipeForm.new(@recipe.attributes.merge(recipe_params))
         if recipe_form.persist?
@@ -53,8 +36,6 @@ module Api
         end
       end
 
-      api :GET, '/v1/recipes/search.json', 'Search recipes by name with params'
-      error code: 401, desc: 'Unauthorized'
       def search
         render json: {
           recipes: ActiveModelSerializers::SerializableResource.new(Recipe.where(id: @recipe_ids), each_serializer: RecipeSerializer).as_json[:recipes]

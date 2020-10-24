@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Role model
 class RoleForm
   include ActiveModel::Model
@@ -13,6 +15,7 @@ class RoleForm
   def persist?
     return false unless valid?
     return false if exists?
+
     @role = Role.new
     @role.attributes = attributes
     @role.save
@@ -27,7 +30,8 @@ class RoleForm
 
   def name_as_hash
     return errors[:name] << 'Name is not hash' unless name.is_a?(Hash)
-    errors[:name] << 'Name EN is empty' unless name['en'].present?
-    errors[:name] << 'Name RU is empty' unless name['ru'].present?
+
+    errors[:name] << 'Name EN is empty' if name['en'].blank?
+    errors[:name] << 'Name RU is empty' if name['ru'].blank?
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'GuildInvites API' do
   describe 'GET#index' do
     let!(:guild) { create :guild }
@@ -39,6 +41,7 @@ RSpec.describe 'GuildInvites API' do
           let!(:character) { create :character, guild: guild, user: user }
           let!(:guild_role) { create :guild_role, character: character, guild: guild, name: 'gm' }
           let!(:guild_invite) { create :guild_invite, guild: guild }
+
           before { get '/api/v1/guild_invites.json', params: { access_token: access_token, guild_id: guild.id } }
 
           it 'returns status 200' do
@@ -69,6 +72,7 @@ RSpec.describe 'GuildInvites API' do
         context 'for existed character' do
           context 'for not user character' do
             let!(:character) { create :character }
+
             before { get '/api/v1/guild_invites.json', params: { access_token: access_token, character_id: character.id } }
 
             it 'returns status 404' do
@@ -82,6 +86,7 @@ RSpec.describe 'GuildInvites API' do
 
           context 'for character with guild' do
             let!(:character) { create :character, guild: guild, user: user }
+
             before { get '/api/v1/guild_invites.json', params: { access_token: access_token, character_id: character.id } }
 
             it 'returns status 404' do
@@ -96,6 +101,7 @@ RSpec.describe 'GuildInvites API' do
           context 'for valid character' do
             let!(:character) { create :character, user: user, guild_id: nil }
             let!(:guild_invite) { create :guild_invite, guild: guild, character: character, from_guild: true }
+
             before { get '/api/v1/guild_invites.json', params: { access_token: access_token, character_id: character.id } }
 
             it 'returns status 200' do
@@ -112,7 +118,7 @@ RSpec.describe 'GuildInvites API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/guild_invites.json', params: { guild_id: guild.id }, headers: headers
     end
   end
@@ -137,7 +143,7 @@ RSpec.describe 'GuildInvites API' do
         let(:request) { post '/api/v1/guild_invites.json', params: { access_token: access_token, guild_invite: { guild_id: guild.id, character_id: user_character.id, from_guild: 'true' } } }
 
         it 'does not create new guild invite' do
-          expect { request }.to_not change(GuildInvite, :count)
+          expect { request }.not_to change(GuildInvite, :count)
         end
 
         context 'in answer' do
@@ -148,7 +154,7 @@ RSpec.describe 'GuildInvites API' do
           end
 
           it 'and returns errors' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -163,7 +169,7 @@ RSpec.describe 'GuildInvites API' do
         end
 
         it 'and creates new guild invite' do
-          expect { request }.to change { GuildInvite.count }.by(1)
+          expect { request }.to change(GuildInvite, :count).by(1)
         end
 
         context 'in answer' do
@@ -182,7 +188,7 @@ RSpec.describe 'GuildInvites API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/guild_invites.json', params: { guild_invite: { guild_id: guild.id, character_id: character.id, from_guild: 'true' } }, headers: headers
     end
   end
@@ -219,7 +225,7 @@ RSpec.describe 'GuildInvites API' do
           before { delete "/api/v1/guild_invites/#{guild_invite.id}.json", params: { access_token: access_token } }
 
           it 'does not delete guild invite' do
-            expect { request }.to_not change(GuildInvite, :count)
+            expect { request }.not_to change(GuildInvite, :count)
           end
 
           context 'in answer' do
@@ -240,7 +246,7 @@ RSpec.describe 'GuildInvites API' do
           let(:request) { delete "/api/v1/guild_invites/#{guild_invite.id}.json", params: { access_token: access_token } }
 
           it 'deletes guild invite' do
-            expect { request }.to change { GuildInvite.count }.by(-1)
+            expect { request }.to change(GuildInvite, :count).by(-1)
           end
 
           context 'in answer' do
@@ -258,7 +264,7 @@ RSpec.describe 'GuildInvites API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       delete "/api/v1/guild_invites/#{other_guild_invite.id}.json", headers: headers
     end
   end
@@ -302,7 +308,7 @@ RSpec.describe 'GuildInvites API' do
         end
 
         it 'and deletes guild invite' do
-          expect { request }.to change { GuildInvite.count }.by(-1)
+          expect { request }.to change(GuildInvite, :count).by(-1)
         end
 
         context 'in answer' do
@@ -319,7 +325,7 @@ RSpec.describe 'GuildInvites API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/guild_invites/#{other_guild_invite.id}/approve.json", headers: headers
     end
   end
@@ -382,7 +388,7 @@ RSpec.describe 'GuildInvites API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post "/api/v1/guild_invites/#{other_guild_invite.id}/decline.json", headers: headers
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FastRecipeSerializer do
   let!(:recipe) { create :recipe }
   let(:serializer) { described_class.new(recipe).serializable_hash.to_json }

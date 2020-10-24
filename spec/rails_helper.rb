@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)
@@ -17,7 +19,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -30,7 +32,7 @@ RSpec.configure do |config|
 
   include Warden::Test::Helpers
   Warden.test_mode!
-  config.after :each do
+  config.after do
     Warden.test_reset!
   end
 
@@ -39,7 +41,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     DatabaseCleaner.cleaning do
       example.run
     end

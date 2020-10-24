@@ -1,15 +1,17 @@
-RSpec.describe Recipe, type: :model do
-  it { should belong_to :profession }
-  it { should have_many(:character_recipes).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Recipe, type: :model do
+  it { is_expected.to belong_to :profession }
+  it { is_expected.to have_many(:character_recipes).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     recipe = build :recipe
 
     expect(recipe).to be_valid
   end
 
   describe 'methods' do
-    context '.name_en' do
+    describe '.name_en' do
       let!(:recipe) { create :recipe }
 
       it 'return en name' do
@@ -17,7 +19,7 @@ RSpec.describe Recipe, type: :model do
       end
     end
 
-    context '.name_ru' do
+    describe '.name_ru' do
       let!(:recipe) { create :recipe }
 
       it 'return ru name' do

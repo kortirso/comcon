@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateCharacterTransfer do
   describe '.call' do
     context 'for unexisted character' do
@@ -8,7 +10,7 @@ describe CreateCharacterTransfer do
       end
 
       it 'and does not create character transfer' do
-        expect { interactor }.to_not change(CharacterTransfer, :count)
+        expect { interactor }.not_to change(CharacterTransfer, :count)
       end
     end
 
@@ -21,7 +23,7 @@ describe CreateCharacterTransfer do
       end
 
       it 'and creates character transfer' do
-        expect { interactor }.to change { CharacterTransfer.count }.by(1)
+        expect { interactor }.to change(CharacterTransfer, :count).by(1)
       end
     end
   end

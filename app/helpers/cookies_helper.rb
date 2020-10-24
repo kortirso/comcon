@@ -19,9 +19,11 @@ module CookiesHelper
   # returns logged user, creates/returns guest, logges remembered person
   def current_person_in_cookies
     return current_user if user_signed_in?
+
     person = User.find_by(id: cookies.signed[:guild_hall_user_id])
     return nil if person.nil?
     return nil unless person.authenticated?(cookies[:remember_token])
+
     sign_in person
     @current_user = person
   end

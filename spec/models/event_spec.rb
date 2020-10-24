@@ -1,17 +1,19 @@
-RSpec.describe Event, type: :model do
-  it { should belong_to(:owner).class_name('Character') }
-  it { should belong_to(:dungeon).optional }
-  it { should belong_to :eventable }
-  it { should belong_to :fraction }
-  it { should belong_to :world_fraction }
-  it { should have_many(:subscribes).dependent(:destroy) }
-  it { should have_many(:characters).through(:subscribes) }
-  it { should have_many(:signed_subscribes).class_name('Subscribe') }
-  it { should have_many(:signed_characters).through(:signed_subscribes).source(:character) }
-  it { should have_many(:signed_users).through(:signed_characters).source(:user) }
-  it { should have_one(:group_role).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Event, type: :model do
+  it { is_expected.to belong_to(:owner).class_name('Character') }
+  it { is_expected.to belong_to(:dungeon).optional }
+  it { is_expected.to belong_to :eventable }
+  it { is_expected.to belong_to :fraction }
+  it { is_expected.to belong_to :world_fraction }
+  it { is_expected.to have_many(:subscribes).dependent(:destroy) }
+  it { is_expected.to have_many(:characters).through(:subscribes) }
+  it { is_expected.to have_many(:signed_subscribes).class_name('Subscribe') }
+  it { is_expected.to have_many(:signed_characters).through(:signed_subscribes).source(:character) }
+  it { is_expected.to have_many(:signed_users).through(:signed_characters).source(:user) }
+  it { is_expected.to have_one(:group_role).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     event = create :event
 
     expect(event).to be_valid
@@ -32,12 +34,25 @@ RSpec.describe Event, type: :model do
       let!(:static_event) { create :event, eventable: static, fraction: character3.race.fraction }
       let!(:guild_role) { create :guild_role, guild: guild, character: character3, name: 'rl' }
 
-      context '.available_for_user' do
+      describe '.available_for_user' do
         context 'if no subscribes' do
-          it 'returns no events' do
-            result = Event.available_for_user(user.id)
+          context 'when user is not in guild' do
+            before { character3.update(guild: nil) }
 
-            expect(result.size.zero?).to eq true
+            it 'returns no events' do
+              result = described_class.available_for_user(user)
+
+              expect(result.size.zero?).to eq true
+            end
+          end
+
+          context 'when user in guild' do
+            it 'returns guild events' do
+              result = described_class.available_for_user(user)
+
+              expect(result.size).to eq 1
+              expect(result.include?(guild_event)).to eq true
+            end
           end
         end
 
@@ -45,7 +60,7 @@ RSpec.describe Event, type: :model do
           let!(:subscribe) { create :subscribe, character: character1, subscribeable: guild_event }
 
           it 'returns events where user is subscribed' do
-            result = Event.available_for_user(user.id)
+            result = described_class.available_for_user(user)
 
             expect(result.size).to eq 1
             expect(result.include?(guild_event)).to eq true
@@ -53,10 +68,10 @@ RSpec.describe Event, type: :model do
         end
       end
 
-      context '.available_for_character' do
+      describe '.available_for_character' do
         context 'if no subscribes' do
           it 'returns no events' do
-            result = Event.available_for_character(character1.id)
+            result = described_class.available_for_character(character1.id)
 
             expect(result.size.zero?).to eq true
           end
@@ -66,7 +81,7 @@ RSpec.describe Event, type: :model do
           let!(:subscribe) { create :subscribe, character: character1, subscribeable: guild_event }
 
           it 'returns events where user is subscribed' do
-            result = Event.available_for_character(character1.id)
+            result = described_class.available_for_character(character1.id)
 
             expect(result.size).to eq 1
             expect(result.include?(guild_event)).to eq true
@@ -77,7 +92,7 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'methods' do
-    context '.is_open?' do
+    describe '.is_open?' do
       context 'for open event' do
         let!(:event) { create :event }
 
@@ -95,7 +110,7 @@ RSpec.describe Event, type: :model do
       end
     end
 
-    context '.guild_role_of_user' do
+    describe '.guild_role_of_user' do
       let!(:user) { create :user }
 
       context 'for world event' do

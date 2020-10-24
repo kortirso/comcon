@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateDublicateForGmUser do
   describe '.call' do
     context 'for not guild_request_creation delivery' do
@@ -9,7 +11,7 @@ describe CreateDublicateForGmUser do
       end
 
       it 'and does not call CreateDeliveryWithParams' do
-        expect(CreateDeliveryWithParams).to_not receive(:call).and_call_original
+        expect(CreateDeliveryWithParams).not_to receive(:call).and_call_original
 
         interactor
       end
@@ -26,7 +28,7 @@ describe CreateDublicateForGmUser do
         end
 
         it 'and does not call CreateDeliveryWithParams' do
-          expect(CreateDeliveryWithParams).to_not receive(:call).and_call_original
+          expect(CreateDeliveryWithParams).not_to receive(:call).and_call_original
 
           interactor
         end
@@ -43,7 +45,7 @@ describe CreateDublicateForGmUser do
         end
 
         it 'and does not call CreateDeliveryWithParams' do
-          expect(CreateDeliveryWithParams).to_not receive(:call).and_call_original
+          expect(CreateDeliveryWithParams).not_to receive(:call).and_call_original
 
           interactor
         end

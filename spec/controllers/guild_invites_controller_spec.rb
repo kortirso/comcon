@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe GuildInvitesController, type: :controller do
   describe 'GET#find' do
     it_behaves_like 'User Auth'

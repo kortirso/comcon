@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CraftController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'

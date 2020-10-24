@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Fractions API' do
   describe 'GET#index' do
     let!(:fraction) { create :fraction, :alliance }
@@ -9,6 +11,7 @@ RSpec.describe 'Fractions API' do
     context 'with valid user token in params' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/fractions.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -22,7 +25,7 @@ RSpec.describe 'Fractions API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/fractions.json', headers: headers
     end
   end

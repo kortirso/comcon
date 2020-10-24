@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Delivery model
 class DeliveryForm
   include ActiveModel::Model
@@ -17,6 +19,7 @@ class DeliveryForm
 
   def persist?
     return false unless valid?
+
     @delivery = Delivery.new
     @delivery.attributes = attributes
     @delivery.save
@@ -26,13 +29,15 @@ class DeliveryForm
   private
 
   def deliveriable_exists?
-    return unless deliveriable_type.present?
-    return if deliveriable_type.constantize.where(id: deliveriable_id).exists?
+    return if deliveriable_type.blank?
+    return if deliveriable_type.constantize.exists?(id: deliveriable_id)
+
     errors[:deliveriable] << I18n.t('activemodel.errors.models.delivery_form.attributes.deliveriable.is_not_exist')
   end
 
   def exists?
-    return unless Delivery.where(deliveriable_id: deliveriable_id, deliveriable_type: deliveriable_type, notification: notification, delivery_type: delivery_type).exists?
+    return unless Delivery.exists?(deliveriable_id: deliveriable_id, deliveriable_type: deliveriable_type, notification: notification, delivery_type: delivery_type)
+
     errors[:delivery] << I18n.t('activemodel.errors.models.delivery_form.attributes.delivery.already_exist')
   end
 end

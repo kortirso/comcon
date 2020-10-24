@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Statics API' do
   describe 'GET#index' do
     let!(:static) { create :static, :guild }
@@ -44,6 +46,7 @@ RSpec.describe 'Statics API' do
         let!(:character) { create :character, user: user }
         let!(:character_role) { create :character_role, character: character, main: true }
         let!(:group_role) { create :group_role, groupable: static }
+
         before { get '/api/v1/statics.json', params: { access_token: access_token, world_id: static.world_id, fraction_id: static.fraction_id, character_id: character.id } }
 
         it 'returns status 200' do
@@ -52,7 +55,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/statics.json', headers: headers
     end
   end
@@ -97,6 +100,7 @@ RSpec.describe 'Statics API' do
 
         context 'for available static' do
           let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
           before { get "/api/v1/statics/#{static.id}.json", params: { access_token: access_token } }
 
           it 'returns status 200' do
@@ -112,7 +116,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/statics/unexisted.json', headers: headers
     end
   end
@@ -133,7 +137,7 @@ RSpec.describe 'Statics API' do
         let(:request) { post '/api/v1/statics.json', params: { access_token: access_token, static: { name: '123', staticable_type: 'Guild', staticable_id: 'unexisted', description: '123' } } }
 
         it 'does not create new static' do
-          expect { request }.to_not change(Static, :count)
+          expect { request }.not_to change(Static, :count)
         end
 
         context 'in answer' do
@@ -153,7 +157,7 @@ RSpec.describe 'Statics API' do
         let(:request) { post '/api/v1/statics.json', params: { access_token: access_token, static: { name: '', staticable_type: 'Guild', staticable_id: guild.id, description: '123' } } }
 
         it 'does not create new event' do
-          expect { request }.to_not change(Event, :count)
+          expect { request }.not_to change(Event, :count)
         end
 
         context 'in answer' do
@@ -164,7 +168,7 @@ RSpec.describe 'Statics API' do
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -220,7 +224,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/statics.json', params: { static: { name: '1' } }, headers: headers
     end
   end
@@ -260,7 +264,7 @@ RSpec.describe 'Statics API' do
             request
             static.reload
 
-            expect(static.name).to_not eq ''
+            expect(static.name).not_to eq ''
           end
 
           context 'in answer' do
@@ -271,7 +275,7 @@ RSpec.describe 'Statics API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -303,7 +307,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/statics/unexisted.json', params: { static: { name: '1' } }, headers: headers
     end
   end
@@ -316,6 +320,7 @@ RSpec.describe 'Statics API' do
     context 'for logged user' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/statics/form_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -329,7 +334,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/statics/form_values.json', headers: headers
     end
   end
@@ -374,6 +379,7 @@ RSpec.describe 'Statics API' do
 
         context 'for available static' do
           let!(:guild_role) { create :guild_role, guild: guild, character: character, name: 'gm' }
+
           before { get "/api/v1/statics/#{static.id}/members.json", params: { access_token: access_token } }
 
           it 'returns status 200' do
@@ -389,7 +395,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/statics/unexisted/members.json', params: { static: { name: '1' } }, headers: headers
     end
   end
@@ -410,7 +416,7 @@ RSpec.describe 'Statics API' do
         let(:request) { post '/api/v1/statics/unexisted/kick_character.json', params: { access_token: access_token, character_id: character.id } }
 
         it 'does not call LeaveFromStatic' do
-          expect(LeaveFromStatic).to_not receive(:call).and_call_original
+          expect(LeaveFromStatic).not_to receive(:call).and_call_original
 
           request
         end
@@ -432,13 +438,13 @@ RSpec.describe 'Statics API' do
         let(:request) { post "/api/v1/statics/#{static.id}/kick_character.json", params: { access_token: access_token, character_id: character.id } }
 
         it 'does not call LeaveFromStatic' do
-          expect(LeaveFromStatic).to_not receive(:call).and_call_original
+          expect(LeaveFromStatic).not_to receive(:call).and_call_original
 
           request
         end
 
         it 'does not call UpdateStaticLeftValue' do
-          expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+          expect(UpdateStaticLeftValue).not_to receive(:call).and_call_original
 
           request
         end
@@ -486,7 +492,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/statics/unexisted/kick_character.json', params: { character_id: 'unexisted' }, headers: headers
     end
   end
@@ -507,7 +513,7 @@ RSpec.describe 'Statics API' do
         let(:request) { post '/api/v1/statics/unexisted/leave_character.json', params: { access_token: access_token, character_id: character.id } }
 
         it 'does not call LeaveFromStatic' do
-          expect(LeaveFromStatic).to_not receive(:call).and_call_original
+          expect(LeaveFromStatic).not_to receive(:call).and_call_original
 
           request
         end
@@ -529,13 +535,13 @@ RSpec.describe 'Statics API' do
         let(:request) { post "/api/v1/statics/#{static.id}/leave_character.json", params: { access_token: access_token, character_id: 'unexisted' } }
 
         it 'does not call LeaveFromStatic' do
-          expect(LeaveFromStatic).to_not receive(:call).and_call_original
+          expect(LeaveFromStatic).not_to receive(:call).and_call_original
 
           request
         end
 
         it 'does not call UpdateStaticLeftValue' do
-          expect(UpdateStaticLeftValue).to_not receive(:call).and_call_original
+          expect(UpdateStaticLeftValue).not_to receive(:call).and_call_original
 
           request
         end
@@ -582,7 +588,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/statics/unexisted/leave_character.json', params: { character_id: 'unexisted' }, headers: headers
     end
   end
@@ -647,7 +653,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/statics/search.json', headers: headers
     end
   end
@@ -680,6 +686,7 @@ RSpec.describe 'Statics API' do
         let!(:character2) { create :character, user: user, guild: guild, world: character1.world, race: character1.race }
         let!(:character3) { create :character, user: user, world: character1.world, race: character1.race }
         let!(:static_invite) { create :static_invite, character: character3, static: static }
+
         before { get "/api/v1/statics/#{static.id}/characters_for_request.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -702,7 +709,7 @@ RSpec.describe 'Statics API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/statics/unexisted/characters_for_request.json', headers: headers
     end
   end

@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 RSpec.describe Users::RegistrationsController, type: :controller do
   describe 'POST#create' do
-    before(:each) { request.env['devise.mapping'] = Devise.mappings[:user] }
+    before { request.env['devise.mapping'] = Devise.mappings[:user] }
 
     context 'for different passwords' do
       let(:req) { post :create, params: { locale: 'en', user: { email: '', password: '1234567890', password_confirmation: '123' } } }
 
       it 'does not create new user' do
-        expect { req }.to_not change(User, :count)
+        expect { req }.not_to change(User, :count)
       end
 
       it 'and renders new template' do
@@ -21,7 +23,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
       let(:req) { post :create, params: { locale: 'en', user: { email: user.email, password: '1234567890', password_confirmation: '1234567890' } } }
 
       it 'does not create new user' do
-        expect { req }.to_not change(User, :count)
+        expect { req }.not_to change(User, :count)
       end
 
       it 'and renders new template' do
@@ -35,7 +37,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
       let(:req) { post :create, params: { locale: 'en', user: { email: 'something@gmail.com', password: '1', password_confirmation: '1' } } }
 
       it 'does not create new user' do
-        expect { req }.to_not change(User, :count)
+        expect { req }.not_to change(User, :count)
       end
 
       it 'and renders new template' do
@@ -49,7 +51,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
       let(:req) { post :create, params: { locale: 'en', user: { email: 'something@yandex.ru', password: '1234567890', password_confirmation: '123456789' } } }
 
       it 'does not create new user' do
-        expect { req }.to_not change(User, :count)
+        expect { req }.not_to change(User, :count)
       end
 
       it 'and renders new template' do
@@ -63,7 +65,7 @@ RSpec.describe Users::RegistrationsController, type: :controller do
       let(:req) { post :create, params: { locale: 'en', user: { email: 'something@yandex.ru', password: '1234567890', password_confirmation: '1234567890' } } }
 
       it 'creates new user' do
-        expect { req }.to change { User.count }.by(1)
+        expect { req }.to change(User, :count).by(1)
       end
 
       it 'and redirects to root path' do

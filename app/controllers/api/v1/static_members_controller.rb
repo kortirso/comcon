@@ -5,11 +5,6 @@ module Api
     class StaticMembersController < Api::V1::BaseController
       before_action :find_static_member, only: %i[destroy]
 
-      resource_description do
-        short 'StaticMember resources'
-        formats ['json']
-      end
-
       def destroy
         authorize! @static_member.static, to: :edit?
         @static_member.destroy

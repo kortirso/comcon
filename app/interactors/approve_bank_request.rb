@@ -18,7 +18,7 @@ class ApproveBankRequest
       bank_cell.update!(amount: bank_cell.amount - change_amount)
     end
     context.bank_cell = bank_cell
-  rescue
+  rescue StandardError
     context.fail!(message: 'Bank request can not be updated')
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Recipe model
 class RecipeForm
   include ActiveModel::Model
@@ -24,8 +26,10 @@ class RecipeForm
 
   def persist?
     return false unless valid?
+
     @recipe = id ? Recipe.find_by(id: id) : Recipe.new
     return false if @recipe.nil?
+
     @recipe.attributes = attributes.except(:id)
     @recipe.save
     true
@@ -35,21 +39,25 @@ class RecipeForm
 
   def exists?
     return if profession.nil?
+
     recipes = id.nil? ? profession.recipes : profession.recipes.where.not(id: id)
-    return unless recipes.where(name: name).exists?
+    return unless recipes.exists?(name: name)
+
     errors[:recipe] << I18n.t('activemodel.errors.models.recipe_form.attributes.recipe.already_exist')
   end
 
   def name_as_hash
     return errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.is_not_hash') unless name.is_a?(Hash)
-    errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.en_is_empty') unless name['en'].present?
-    errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.ru_is_empty') unless name['ru'].present?
+
+    errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.en_is_empty') if name['en'].blank?
+    errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.ru_is_empty') if name['ru'].blank?
   end
 
   def links_as_hash
     return errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.is_not_hash') unless links.is_a?(Hash)
-    errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.en_is_empty') unless links['en'].present?
-    errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.ru_is_empty') unless links['ru'].present?
+
+    errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.en_is_empty') if links['en'].blank?
+    errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.ru_is_empty') if links['ru'].blank?
   end
 
   def effect_name_as_hash
@@ -63,6 +71,7 @@ class RecipeForm
   def profession_with_recipes
     return if profession.nil?
     return if profession.recipeable?
+
     errors[:profession] << I18n.t('activemodel.errors.models.recipe_form.attributes.profession.is_not_recipeable')
   end
 end

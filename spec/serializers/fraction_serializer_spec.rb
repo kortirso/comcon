@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FractionSerializer do
   let!(:fraction) { create :fraction }
   let(:serializer) { described_class.new(fraction).to_json }

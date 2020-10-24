@@ -13,8 +13,8 @@ class World < ApplicationRecord
 
   def self.cache_key(worlds, api)
     {
-      api: api,
-      serializer: 'worlds',
+      api:         api,
+      serializer:  'worlds',
       stat_record: worlds.maximum(:updated_at)
     }
   end
@@ -25,6 +25,7 @@ class World < ApplicationRecord
 
   def locale
     return zone.downcase if %w[RU EN].include?(zone)
+
     'en'
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples_for 'Admin Auth' do
   context 'for unlogged users' do
     it 'redirects to login page' do

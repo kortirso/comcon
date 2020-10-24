@@ -6,8 +6,8 @@ class Dungeon < ApplicationRecord
 
   def self.cache_key(dungeons, api)
     {
-      api: api,
-      serializer: 'dungeons',
+      api:         api,
+      serializer:  'dungeons',
       stat_record: dungeons.maximum(:updated_at)
     }
   end

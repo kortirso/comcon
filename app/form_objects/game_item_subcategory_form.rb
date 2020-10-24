@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for GameItemSubcategory model
 class GameItemSubcategoryForm
   include ActiveModel::Model
@@ -13,6 +15,7 @@ class GameItemSubcategoryForm
 
   def persist?
     return false unless valid?
+
     @game_item_subcategory = GameItemSubcategory.new
     @game_item_subcategory.attributes = attributes
     @game_item_subcategory.save
@@ -23,7 +26,8 @@ class GameItemSubcategoryForm
 
   def name_as_hash
     return errors[:name] << 'Name is not hash' unless name.is_a?(Hash)
-    errors[:name] << 'Name EN is empty' unless name['en'].present?
-    errors[:name] << 'Name RU is empty' unless name['ru'].present?
+
+    errors[:name] << 'Name EN is empty' if name['en'].blank?
+    errors[:name] << 'Name RU is empty' if name['ru'].blank?
   end
 end

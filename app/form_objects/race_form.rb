@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Race model
 class RaceForm
   include ActiveModel::Model
@@ -14,6 +16,7 @@ class RaceForm
   def persist?
     return false unless valid?
     return false if exists?
+
     @race = Race.new
     @race.attributes = attributes
     @race.save
@@ -28,7 +31,8 @@ class RaceForm
 
   def name_as_hash
     return errors[:name] << 'Name is not hash' unless name.is_a?(Hash)
-    errors[:name] << 'Name EN is empty' unless name['en'].present?
-    errors[:name] << 'Name RU is empty' unless name['ru'].present?
+
+    errors[:name] << 'Name EN is empty' if name['en'].blank?
+    errors[:name] << 'Name RU is empty' if name['ru'].blank?
   end
 end

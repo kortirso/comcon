@@ -19,33 +19,22 @@ module Api
       before_action :get_user_statics_from_cache, only: %i[filter_values]
       before_action :find_event, only: %i[subscribers]
 
-      resource_description do
-        short 'Event information resources'
-        formats ['json']
-      end
-
-      api :GET, '/v2/events.json', 'Show events'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: {
           events: FastEventIndexSerializer.new(@events.distinct, params: { subscribes: @subscribes }).serializable_hash
         }, status: :ok
       end
 
-      api :GET, '/v2/events/filter_values.json', 'Values for events filter'
-      error code: 401, desc: 'Unauthorized'
       def filter_values
         render json: {
-          fractions: @fractions_json,
+          fractions:  @fractions_json,
           characters: @user_characters_json,
-          guilds: @user_guilds_json,
-          statics: @user_statics_json,
-          dungeons: @dungeons_json
+          guilds:     @user_guilds_json,
+          statics:    @user_statics_json,
+          dungeons:   @dungeons_json
         }, status: :ok
       end
 
-      api :GET, '/v2/events/subscribers.json', 'Values for events filter'
-      error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @event, to: :show?
         subscribes = @event.subscribes.visible
@@ -81,9 +70,10 @@ module Api
       end
 
       def find_available_events
-        return Event.available_for_user(Current.user.id) unless params[:character_id]
+        return Event.available_for_user(Current.user) unless params[:character_id]
+
         character = Current.user.characters.find_by(id: params[:character_id])
-        character.present? ? Event.available_for_character(character.id) : Event.available_for_user(Current.user.id)
+        character.present? ? Event.available_for_character(character.id) : Event.available_for_user(Current.user)
       end
 
       def find_event

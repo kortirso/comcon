@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe RemoveGuildRole do
   let!(:guild) { create :guild }
   let!(:character) { create :character }
@@ -11,7 +13,7 @@ describe RemoveGuildRole do
       end
 
       it 'and does not delete guild roles' do
-        expect { interactor }.to_not change(GuildRole, :count)
+        expect { interactor }.not_to change(GuildRole, :count)
       end
 
       it 'and updates character' do
@@ -31,7 +33,7 @@ describe RemoveGuildRole do
       end
 
       it 'and deletes guild roles' do
-        expect { interactor }.to change { GuildRole.count }.by(-1)
+        expect { interactor }.to change(GuildRole, :count).by(-1)
       end
 
       it 'and updates character' do

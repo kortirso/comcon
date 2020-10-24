@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Recipes API' do
   describe 'GET#index' do
     let!(:recipes) { create_list(:recipe, 2) }
@@ -10,6 +12,7 @@ RSpec.describe 'Recipes API' do
     context 'with valid admin token in params' do
       let!(:user) { create :user, :admin }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v2/recipes.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -23,7 +26,7 @@ RSpec.describe 'Recipes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/recipes.json', headers: headers
     end
   end

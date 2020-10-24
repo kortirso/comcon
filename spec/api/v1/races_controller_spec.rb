@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Races API' do
   describe 'GET#index' do
     let!(:human) { create :race, :human }
@@ -10,6 +12,7 @@ RSpec.describe 'Races API' do
     context 'with valid user token in params' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/races.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -26,6 +29,7 @@ RSpec.describe 'Races API' do
     context 'with valid user token in headers' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/races.json', headers: { authorization: "Bearer #{access_token}" } }
 
       it 'returns status 200' do
@@ -39,7 +43,7 @@ RSpec.describe 'Races API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/races.json', headers: headers
     end
   end

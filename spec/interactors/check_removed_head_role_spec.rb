@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CheckRemovedHeadRole do
   let!(:user) { create :user }
   let!(:character) { create :character, user: user }
@@ -23,7 +25,7 @@ describe CheckRemovedHeadRole do
       end
 
       it 'and does not delete delivery' do
-        expect { interactor }.to_not change(Delivery, :count)
+        expect { interactor }.not_to change(Delivery, :count)
       end
     end
 
@@ -35,7 +37,7 @@ describe CheckRemovedHeadRole do
       end
 
       it 'and does not delete delivery' do
-        expect { interactor }.to_not change(Delivery, :count)
+        expect { interactor }.not_to change(Delivery, :count)
       end
     end
 
@@ -47,7 +49,7 @@ describe CheckRemovedHeadRole do
       end
 
       it 'and deletes delivery' do
-        expect { interactor }.to change { Delivery.count }.by(-1)
+        expect { interactor }.to change(Delivery, :count).by(-1)
       end
 
       it 'and this is user deliveries' do

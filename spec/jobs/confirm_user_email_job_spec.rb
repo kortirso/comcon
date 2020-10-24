@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ConfirmUserEmailJob, type: :job do
   let!(:user) { create :user }
 

@@ -17,9 +17,9 @@ module Api
 
       def filter_values
         render json: {
-          worlds: @worlds_json,
-          fractions: @fractions_json,
-          guilds: @guilds_json,
+          worlds:      @worlds_json,
+          fractions:   @fractions_json,
+          guilds:      @guilds_json,
           professions: @professions_json
         }, status: :ok
       end

@@ -6,11 +6,13 @@ class StaticInvitePolicy < ApplicationPolicy
 
   def index?
     return user.any_static_role?(static) if record == 'true'
+
     character.user_id == user.id
   end
 
   def approve?
     return character.user_id == user.id if record == 'true'
+
     user.any_static_role?(static)
   end
 end

@@ -8,6 +8,7 @@ class ConfirmUser
   # context.user
   def call
     return if context.user.confirmed?
+
     context.user.update(confirmed_at: DateTime.now)
   end
 end

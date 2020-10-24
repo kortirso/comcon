@@ -4,7 +4,7 @@
 class Delivery < ApplicationRecord
   enum delivery_type: {
     discord_webhook: 0,
-    email: 1,
+    email:           1,
     discord_message: 2
   }
 

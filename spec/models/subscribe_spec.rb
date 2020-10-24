@@ -1,8 +1,10 @@
-RSpec.describe Subscribe, type: :model do
-  it { should belong_to :character }
-  it { should belong_to :subscribeable }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Subscribe, type: :model do
+  it { is_expected.to belong_to :character }
+  it { is_expected.to belong_to :subscribeable }
+
+  it 'factory is_expected.to be valid' do
     subscribe = build :subscribe
 
     expect(subscribe).to be_valid

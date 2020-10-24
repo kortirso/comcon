@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for GuildInvite model
 class GuildInviteForm
   include ActiveModel::Model
@@ -19,8 +21,10 @@ class GuildInviteForm
 
   def persist?
     return false unless valid?
+
     @guild_invite = id ? GuildInvite.find_by(id: id) : GuildInvite.new
     return false if @guild_invite.nil?
+
     @guild_invite.attributes = attributes.except(:id)
     @guild_invite.save
     true
@@ -31,18 +35,21 @@ class GuildInviteForm
   def status_value
     return if id && !status.zero?
     return if id.nil? && status.zero?
+
     errors[:status] << 'not valid'
   end
 
   def guild_invite_exists?
     guild_invites = id.nil? ? GuildInvite.all : GuildInvite.where.not(id: id)
-    return unless guild_invites.where(guild: guild, character: character, from_guild: from_guild).exists?
+    return unless guild_invites.exists?(guild: guild, character: character, from_guild: from_guild)
+
     errors[:guild_invite] << 'already exists'
   end
 
   def character_not_in_guild?
     return if character.nil? || guild.nil?
     return if character.guild_id != guild.id
+
     errors[:character] << 'is already in the guild'
   end
 end

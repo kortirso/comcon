@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Events API' do
   describe 'GET#show' do
     let!(:event) { create :event }
@@ -25,6 +27,7 @@ RSpec.describe 'Events API' do
 
       context 'for existed event' do
         let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+
         before { get "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -39,7 +42,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get "/api/v1/events/#{event.id}.json", headers: headers
     end
   end
@@ -60,7 +63,7 @@ RSpec.describe 'Events API' do
         let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now - 1.day).to_i, eventable_type: 'Guild' } } }
 
         it 'does not create new event' do
-          expect { request }.to_not change(Event, :count)
+          expect { request }.not_to change(Event, :count)
 
           request
         end
@@ -73,7 +76,7 @@ RSpec.describe 'Events API' do
           end
 
           it 'and returns error message' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -151,7 +154,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/events.json', params: { event: { name: '1' } }, headers: headers
     end
   end
@@ -182,6 +185,7 @@ RSpec.describe 'Events API' do
 
       context 'for existed event' do
         let!(:world_event) { create :event, eventable: character.world, fraction: character.race.fraction }
+
         before { get "/api/v1/events/#{world_event.id}/edit.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -196,7 +200,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get "/api/v1/events/#{event.id}/edit.json", headers: headers
     end
   end
@@ -237,7 +241,7 @@ RSpec.describe 'Events API' do
             request
             world_event.reload
 
-            expect(world_event.name).to_not eq ''
+            expect(world_event.name).not_to eq ''
           end
 
           context 'in answer' do
@@ -248,7 +252,7 @@ RSpec.describe 'Events API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -286,7 +290,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch "/api/v1/events/#{event.id}.json", params: { event: { name: '1' } }, headers: headers
     end
   end
@@ -320,7 +324,7 @@ RSpec.describe 'Events API' do
         let(:request) { delete "/api/v1/events/#{world_event.id}.json", params: { access_token: access_token } }
 
         it 'deletes event' do
-          expect { request }.to change { Event.count }.by(-1)
+          expect { request }.to change(Event, :count).by(-1)
         end
 
         context 'in answer' do
@@ -337,7 +341,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       delete "/api/v1/events/#{event.id}.json", headers: headers
     end
   end
@@ -353,6 +357,7 @@ RSpec.describe 'Events API' do
       let!(:character) { create :character, user: user }
       let!(:static) { create :static, staticable: character }
       let!(:static_member) { create :static_member, character: character, static: static }
+
       before { get '/api/v1/events/event_form_values.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -366,7 +371,7 @@ RSpec.describe 'Events API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/events/event_form_values.json', headers: headers
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API auth with invalid token' do
   let!(:user) { create :user }
   let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }

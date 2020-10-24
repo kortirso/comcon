@@ -18,6 +18,7 @@ class WorldDryForm < Dry::Struct
     schema = WorldContract.new.call(attributes)
     @errors = schema.errors(locale: I18n.locale).to_h.values.flatten
     return false unless errors.empty?
+
     @world = attributes[:id] ? World.find_by(id: attributes[:id]) : World.new
     world.attributes = attributes.except(:id)
     world.save
@@ -38,6 +39,6 @@ class WorldContract < Dry::Validation::Contract
   rule(:id, :name, :zone) do
     worlds = values[:id].nil? ? World.all : World.where.not(id: values[:id])
 
-    key.failure(I18n.t('dry_validation.errors.world.is_exist')) if worlds.where(name: values[:name], zone: values[:zone]).exists?
+    key.failure(I18n.t('dry_validation.errors.world.is_exist')) if worlds.exists?(name: values[:name], zone: values[:zone])
   end
 end

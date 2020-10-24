@@ -23,11 +23,13 @@ module Users
       I18n.locale = session[:omniauth_login_locale] || I18n.default_locale
       return redirect_to root_path, flash: { error: t('custom_errors.forbidden') } if request.env['omniauth.auth'].nil?
       return attach_oauth_to_account if external_services_tag_is_true?
+
       check_oauth
     end
 
     def attach_oauth_to_account
       return root_path unless user_signed_in?
+
       Oauth.auth_binding(auth: request.env['omniauth.auth'], user: current_user)
       redirect_to root_path
     end

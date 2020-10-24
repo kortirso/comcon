@@ -1,8 +1,10 @@
-RSpec.describe CharacterRole, type: :model do
-  it { should belong_to :character }
-  it { should belong_to :role }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe CharacterRole, type: :model do
+  it { is_expected.to belong_to :character }
+  it { is_expected.to belong_to :role }
+
+  it 'factory is_expected.to be valid' do
     character_role = build :character_role
 
     expect(character_role).to be_valid

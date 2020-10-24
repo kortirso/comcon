@@ -5,9 +5,6 @@ module Api
     class DeliveriesController < Api::V1::BaseController
       before_action :find_deliveriable, only: %i[create]
 
-      api :POST, '/v1/deliveries.json', 'Create delivery'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         authorize! @deliveriable, with: DeliveryPolicy
         result = CreateDeliveryWithParams.call(delivery_params: delivery_params, delivery_param_params: delivery_param_params)

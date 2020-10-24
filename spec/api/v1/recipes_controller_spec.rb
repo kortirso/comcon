@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Recipes API' do
   describe 'GET#index' do
     let!(:recipes) { create_list(:recipe, 2) }
@@ -9,6 +11,7 @@ RSpec.describe 'Recipes API' do
     context 'with valid admin token in params' do
       let!(:user) { create :user, :admin }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
+
       before { get '/api/v1/recipes.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -22,7 +25,7 @@ RSpec.describe 'Recipes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/recipes.json', headers: headers
     end
   end
@@ -50,6 +53,7 @@ RSpec.describe 'Recipes API' do
 
       context 'for existed recipe' do
         let!(:recipe) { create :recipe }
+
         before { get "/api/v1/recipes/#{recipe.id}.json", params: { access_token: access_token } }
 
         it 'returns status 200' do
@@ -64,7 +68,7 @@ RSpec.describe 'Recipes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/recipes/999.json', headers: headers
     end
   end
@@ -84,7 +88,7 @@ RSpec.describe 'Recipes API' do
         let(:request) { post '/api/v1/recipes.json', params: { access_token: access_token, recipe: { name: { 'en' => '', 'ru' => '' }, profession_id: profession.id, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1 } } }
 
         it 'does not create new recipe' do
-          expect { request }.to_not change(Recipe, :count)
+          expect { request }.not_to change(Recipe, :count)
         end
 
         context 'in answer' do
@@ -95,7 +99,7 @@ RSpec.describe 'Recipes API' do
           end
 
           it 'and returns errors' do
-            expect(JSON.parse(response.body)['errors']).to_not eq nil
+            expect(JSON.parse(response.body)['errors']).not_to eq nil
           end
         end
       end
@@ -104,7 +108,7 @@ RSpec.describe 'Recipes API' do
         let(:request) { post '/api/v1/recipes.json', params: { access_token: access_token, recipe: { name: { 'en' => 'Plans: Sulfuron Hammer', 'ru' => 'Чертеж: сульфуронский молот' }, profession_id: profession.id, links: { 'en' => 'https://classic.wowhead.com/item=18592', 'ru' => 'https://ru.classic.wowhead.com/item=18592' }, skill: 1 } } }
 
         it 'creates new recipe' do
-          expect { request }.to change { Recipe.count }.by(1)
+          expect { request }.to change(Recipe, :count).by(1)
         end
 
         context 'in answer' do
@@ -123,7 +127,7 @@ RSpec.describe 'Recipes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/recipes.json', params: { recipe: { name: '' } }, headers: headers
     end
   end
@@ -159,7 +163,7 @@ RSpec.describe 'Recipes API' do
             request
             recipe.reload
 
-            expect(recipe.skill).to_not eq 500
+            expect(recipe.skill).not_to eq 500
           end
 
           context 'in answer' do
@@ -170,7 +174,7 @@ RSpec.describe 'Recipes API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -202,7 +206,7 @@ RSpec.describe 'Recipes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v1/recipes/999.json', params: { recipe: { name: '' } }, headers: headers
     end
   end
@@ -251,7 +255,7 @@ RSpec.describe 'Recipes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v1/recipes/search.json', headers: headers
     end
   end

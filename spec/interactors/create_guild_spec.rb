@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateGuild do
   let!(:user) { create :user }
   let!(:character) { create :character, user: user }
@@ -12,7 +14,7 @@ describe CreateGuild do
       end
 
       it 'and does not create new guild' do
-        expect { interactor }.to_not change(Guild, :count)
+        expect { interactor }.not_to change(Guild, :count)
       end
     end
 
@@ -24,7 +26,7 @@ describe CreateGuild do
       end
 
       it 'and creates new guild' do
-        expect { interactor }.to change { Guild.count }.by(1)
+        expect { interactor }.to change(Guild, :count).by(1)
       end
 
       it 'and provides guild' do
@@ -39,7 +41,7 @@ describe CreateGuild do
     it 'removes the created guild' do
       interactor.call
 
-      expect { interactor.rollback }.to change { Guild.count }.by(-1)
+      expect { interactor.rollback }.to change(Guild, :count).by(-1)
     end
   end
 end

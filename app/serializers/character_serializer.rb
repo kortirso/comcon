@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CharacterSerializer < ActiveModel::Serializer
   attributes :id, :name, :level, :character_class_name, :race_name, :guild_name, :user_id
 

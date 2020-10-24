@@ -11,8 +11,8 @@ class Recipe < ApplicationRecord
 
   def self.cache_key(recipes, api)
     {
-      api: api,
-      serializer: 'recipes',
+      api:         api,
+      serializer:  'recipes',
       stat_record: recipes.maximum(:updated_at)
     }
   end

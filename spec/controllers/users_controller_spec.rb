@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe UsersController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'Admin Auth'
@@ -72,7 +74,7 @@ RSpec.describe UsersController, type: :controller do
           request
           user.reload
 
-          expect(user.role).to_not eq 'superadmin'
+          expect(user.role).not_to eq 'superadmin'
         end
 
         it 'and renders edit template' do
@@ -117,7 +119,7 @@ RSpec.describe UsersController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'ru', id: 999 } }
 
         it 'does not delete any user' do
-          expect { request }.to_not change(User, :count)
+          expect { request }.not_to change(User, :count)
         end
 
         it 'and renders error template' do
@@ -131,7 +133,7 @@ RSpec.describe UsersController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'ru', id: user.id } }
 
         it 'deletes user' do
-          expect { request }.to change { User.count }.by(-1)
+          expect { request }.to change(User, :count).by(-1)
         end
 
         it 'and redirects to users path' do
@@ -162,7 +164,7 @@ RSpec.describe UsersController, type: :controller do
       let(:request) { post :reset_password, params: { locale: 'ru', email: '1' } }
 
       it 'does not call Generating reset token' do
-        expect(GenerateResetToken).to_not receive(:call)
+        expect(GenerateResetToken).not_to receive(:call)
 
         request
       end
@@ -176,10 +178,11 @@ RSpec.describe UsersController, type: :controller do
 
     context 'for too many requests' do
       let(:request) { post :reset_password, params: { locale: 'ru', email: user.email } }
+
       before { user.update(reset_password_token_sent_at: DateTime.now) }
 
       it 'does not call Generating reset token' do
-        expect(GenerateResetToken).to_not receive(:call)
+        expect(GenerateResetToken).not_to receive(:call)
 
         request
       end
@@ -249,6 +252,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'PATCH #change_password' do
     context 'for unexisted user' do
       let!(:user) { create :user }
+
       before { patch :change_password, params: { locale: 'ru', email: 'test@gmail.com', user: { password: '123456qwer', password_confirmation: '123456qwer' }, reset_password_token: '123456' } }
 
       it 'does not change password' do

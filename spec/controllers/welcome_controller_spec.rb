@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe WelcomeController, type: :controller do
   describe 'GET#index' do
     it 'renders index template' do

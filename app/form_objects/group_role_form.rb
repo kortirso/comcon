@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for GroupRole model
 class GroupRoleForm
   include ActiveModel::Model
@@ -21,9 +23,11 @@ class GroupRoleForm
     self.value = (value.is_a?(Hash) || id ? rebuild_keys_to_integers(value) : GroupRole.default)
     self.left_value = (id ? rebuild_keys_to_integers(left_value) : value)
     return false unless valid?
+
     remove_not_fraction_classes
     @group_role = id ? GroupRole.find_by(id: id) : GroupRole.new
     return false if @group_role.nil?
+
     @group_role.attributes = attributes.except(:id)
     @group_role.save
     true
@@ -44,8 +48,10 @@ class GroupRoleForm
 
   def groupable_exists?
     return if groupable_type.nil?
+
     @groupable = groupable_type.constantize.find_by(id: groupable_id)
     return if @groupable.present?
+
     errors[:groupable] << 'is not exists'
   end
 
@@ -59,6 +65,7 @@ class GroupRoleForm
 
   def rebuild_keys_to_integers(input)
     return unless input.is_a?(Hash)
-    input.map { |key, value| [key, value.is_a?(Hash) ? rebuild_keys_to_integers(value) : value.to_i] }.to_h
+
+    input.transform_values { |value| value.is_a?(Hash) ? rebuild_keys_to_integers(value) : value.to_i }
   end
 end

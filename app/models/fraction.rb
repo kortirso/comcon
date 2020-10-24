@@ -10,8 +10,8 @@ class Fraction < ApplicationRecord
 
   def self.cache_key(fractions, api)
     {
-      api: api,
-      serializer: 'fractions',
+      api:         api,
+      serializer:  'fractions',
       stat_record: fractions.maximum(:updated_at)
     }
   end

@@ -8,8 +8,8 @@ class FastSubscribeIndexSerializer
 
   attribute :event do |object|
     {
-      name: object.event.name,
-      slug: object.event.slug,
+      name:       object.event.name,
+      slug:       object.event.slug,
       start_time: object.event.start_time.to_i
     }
   end

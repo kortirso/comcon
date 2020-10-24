@@ -11,15 +11,15 @@ class JwtService
     token, expiration = encode({ user_id: args[:user].id }, expiration)
     {
       access_token: token,
-      user: { id: args[:user].id, email: args[:user].email, confirmed: args[:user].confirmed? },
-      expires_at: expiration
+      user:         { id: args[:user].id, email: args[:user].email, confirmed: args[:user].confirmed? },
+      expires_at:   expiration
     }
   end
 
   # decode token
   def decode(args={})
     JWT.decode(args[:access_token], jwt_secret)[0]
-  rescue
+  rescue StandardError
     nil
   end
 

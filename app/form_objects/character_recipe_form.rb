@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for CharacterRecipe model
 class CharacterRecipeForm
   include ActiveModel::Model
@@ -13,6 +15,7 @@ class CharacterRecipeForm
 
   def persist?
     return false unless valid?
+
     @character_recipe = CharacterRecipe.new
     @character_recipe.attributes = attributes
     @character_recipe.save
@@ -22,7 +25,8 @@ class CharacterRecipeForm
   private
 
   def exists?
-    return unless CharacterRecipe.where(recipe: recipe, character_profession: character_profession).exists?
+    return unless CharacterRecipe.exists?(recipe: recipe, character_profession: character_profession)
+
     errors[:character_recipe] << 'already exists'
   end
 end

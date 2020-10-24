@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe DeleteStaticInvite do
   let!(:guild) { create :guild }
   let!(:character) { create :character, guild: guild }
@@ -13,7 +15,7 @@ describe DeleteStaticInvite do
     end
 
     it 'and deletes static invite' do
-      expect { interactor }.to change { StaticInvite.count }.by(-2)
+      expect { interactor }.to change(StaticInvite, :count).by(-2)
     end
   end
 end

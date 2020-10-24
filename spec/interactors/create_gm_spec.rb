@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateGm do
   let!(:user) { create :user }
   let!(:character) { create :character, user: user }
@@ -15,7 +17,7 @@ describe CreateGm do
         interactor
         character.reload
 
-        expect(character.guild_id).to_not eq nil
+        expect(character.guild_id).not_to eq nil
       end
     end
   end

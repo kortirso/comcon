@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CharacterIndexSerializer < ActiveModel::Serializer
   attributes :id, :name, :fraction_name, :world_id, :fraction_id
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe CharactersController, type: :controller do
   describe 'GET#index' do
     it_behaves_like 'User Auth'
@@ -110,7 +112,7 @@ RSpec.describe CharactersController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'en', id: 999 } }
 
         it 'does not delete any character' do
-          expect { request }.to_not change(Character, :count)
+          expect { request }.not_to change(Character, :count)
         end
 
         it 'and renders error template' do
@@ -125,7 +127,7 @@ RSpec.describe CharactersController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'en', id: character.id } }
 
         it 'deletes character' do
-          expect { request }.to change { Character.count }.by(-1)
+          expect { request }.to change(Character, :count).by(-1)
         end
 
         it 'and redirects to characters path' do
@@ -141,11 +143,11 @@ RSpec.describe CharactersController, type: :controller do
         let(:request) { delete :destroy, params: { locale: 'en', id: character.id } }
 
         it 'deletes character' do
-          expect { request }.to change { Character.count }.by(-1)
+          expect { request }.to change(Character, :count).by(-1)
         end
 
         it 'and deletes guild' do
-          expect { request }.to change { Guild.count }.by(-1)
+          expect { request }.to change(Guild, :count).by(-1)
         end
 
         it 'and redirects to characters path' do

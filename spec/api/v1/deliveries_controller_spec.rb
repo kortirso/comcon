@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Deliveries API' do
   describe 'POST#create' do
     let!(:notification) { create :notification }
@@ -15,7 +17,7 @@ RSpec.describe 'Deliveries API' do
         let(:request) { post '/api/v1/deliveries.json', params: { access_token: access_token, delivery: { deliveriable_id: 0, deliveriable_type: 'Guild', notification_id: notification.id } } }
 
         it 'does not create new character' do
-          expect { request }.to_not change(Character, :count)
+          expect { request }.not_to change(Character, :count)
         end
 
         context 'in answer' do
@@ -45,11 +47,11 @@ RSpec.describe 'Deliveries API' do
           end
 
           it 'does not create new delivery' do
-            expect { request }.to_not change(Delivery, :count)
+            expect { request }.not_to change(Delivery, :count)
           end
 
           it 'and does not create new delivery param' do
-            expect { request }.to_not change(DeliveryParam, :count)
+            expect { request }.not_to change(DeliveryParam, :count)
           end
 
           context 'in answer' do
@@ -60,7 +62,7 @@ RSpec.describe 'Deliveries API' do
             end
 
             it 'and returns errors' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -79,7 +81,7 @@ RSpec.describe 'Deliveries API' do
           end
 
           it 'and creates new delivery param' do
-            expect { request }.to change { DeliveryParam.count }.by(1)
+            expect { request }.to change(DeliveryParam, :count).by(1)
           end
 
           it 'calls CreateDublicateForGmUser' do
@@ -105,7 +107,7 @@ RSpec.describe 'Deliveries API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v1/deliveries.json', params: { delivery: { deliveriable_id: guild.id, deliveriable_type: 'Guild' } }, headers: headers
     end
   end

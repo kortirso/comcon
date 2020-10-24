@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for BankRequest model
 class BankRequestForm
   include ActiveModel::Model
@@ -21,6 +23,7 @@ class BankRequestForm
 
   def persist?
     return false unless valid?
+
     self.character_name = character.name
     @bank_request = BankRequest.new
     @bank_request.attributes = attributes
@@ -32,12 +35,14 @@ class BankRequestForm
 
   def status_value
     return if status.zero?
+
     errors[:status] << 'not valid'
   end
 
   def left_amount
     bank_cell = BankCell.find_by(bank: bank, game_item: game_item)
     return errors[:bank] << 'does not have requested item' if bank_cell.nil?
+
     errors[:bank] << 'does not have requested amount of items' if bank_cell.amount < requested_amount
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe BankForm, type: :service do
   let!(:guild) { create :guild }
 
@@ -6,7 +8,7 @@ RSpec.describe BankForm, type: :service do
       let(:service) { described_class.new(name: '') }
 
       it 'does not create new bank' do
-        expect { service.persist? }.to_not change(Bank, :count)
+        expect { service.persist? }.not_to change(Bank, :count)
       end
 
       it 'and returns false' do
@@ -18,7 +20,7 @@ RSpec.describe BankForm, type: :service do
       let(:service) { described_class.new(name: 'something', coins: 100, guild: guild) }
 
       it 'creates new bank' do
-        expect { service.persist? }.to change { Bank.count }.by(1)
+        expect { service.persist? }.to change(Bank, :count).by(1)
       end
 
       it 'and returns true' do
@@ -45,7 +47,7 @@ RSpec.describe BankForm, type: :service do
             service.persist?
             bank.reload
 
-            expect(bank.name).to_not eq ''
+            expect(bank.name).not_to eq ''
           end
         end
 

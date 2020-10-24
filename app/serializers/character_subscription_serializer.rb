@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CharacterSubscriptionSerializer < ActiveModel::Serializer
   attributes :id, :user_id, :name, :level, :item_level, :character_class_name, :guild_name, :roles, :slug
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateResetToken do
   let!(:user) { create :user }
   let(:interactor) { described_class.call(user: user) }
@@ -12,7 +14,7 @@ describe CreateResetToken do
     end
 
     it "and updates the user's reset token" do
-      expect(interactor.user.reset_password_token).to_not eq nil
+      expect(interactor.user.reset_password_token).not_to eq nil
     end
   end
 

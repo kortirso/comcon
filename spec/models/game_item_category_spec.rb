@@ -1,8 +1,10 @@
-RSpec.describe GameItemCategory, type: :model do
-  it { should have_many(:game_items).dependent(:destroy) }
-  it { should have_many(:game_item_subcategories).through(:game_items) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe GameItemCategory, type: :model do
+  it { is_expected.to have_many(:game_items).dependent(:destroy) }
+  it { is_expected.to have_many(:game_item_subcategories).through(:game_items) }
+
+  it 'factory is_expected.to be valid' do
     game_item_category = build :game_item_category
 
     expect(game_item_category).to be_valid
@@ -14,13 +16,13 @@ RSpec.describe GameItemCategory, type: :model do
     let!(:game_item) { create :game_item, game_item_category: game_item_category, game_item_subcategory: game_item_subcategory }
 
     it 'returns hash with dependencies' do
-      result = GameItemCategory.dependencies
+      result = described_class.dependencies
 
       expect(result.is_a?(Hash)).to eq true
     end
   end
 
-  context '.to_hash' do
+  describe '.to_hash' do
     let!(:game_item_category) { create :game_item_category }
 
     it 'returns hashed game_item_category' do

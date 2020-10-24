@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe WorldFractionForm, type: :service do
   describe '.persist?' do
     context 'for invalid data' do
       let(:service) { described_class.new(world: nil, fraction: nil) }
 
       it 'does not create new world_fraction' do
-        expect { service.persist? }.to_not change(WorldFraction, :count)
+        expect { service.persist? }.not_to change(WorldFraction, :count)
       end
 
       it 'and returns false' do
@@ -21,7 +23,7 @@ RSpec.describe WorldFractionForm, type: :service do
         let(:service) { described_class.new(world: world, fraction: fraction) }
 
         it 'does not create new world_fraction' do
-          expect { service.persist? }.to_not change(WorldFraction, :count)
+          expect { service.persist? }.not_to change(WorldFraction, :count)
         end
 
         it 'and returns false' do
@@ -33,7 +35,7 @@ RSpec.describe WorldFractionForm, type: :service do
         let(:service) { described_class.new(world: world, fraction: fraction) }
 
         it 'creates new world_fraction' do
-          expect { service.persist? }.to change { WorldFraction.count }.by(1)
+          expect { service.persist? }.to change(WorldFraction, :count).by(1)
         end
 
         it 'and returns true' do

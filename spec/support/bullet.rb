@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.configure do |config|
   if Bullet.enable?
-    config.before(:each) do
+    config.before do
       Bullet.start_request
     end
 
-    config.after(:each) do
+    config.after do
       Bullet.perform_out_of_channel_notifications if Bullet.notification?
       Bullet.end_request
     end

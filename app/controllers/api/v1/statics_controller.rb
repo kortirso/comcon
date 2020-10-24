@@ -12,30 +12,17 @@ module Api
       before_action :search_statics, only: %i[search]
       before_action :find_characters_for_request, only: %i[characters_for_request]
 
-      resource_description do
-        short 'Static resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/statics.json', 'Get list of public statics'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: {
           statics: ActiveModelSerializers::SerializableResource.new(@statics, root: 'statics', each_serializer: StaticSerializer).as_json[:statics]
         }, status: :ok
       end
 
-      api :GET, '/v1/statics/:id.json', 'Show static info'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
       def show
         authorize! @static
         render json: @static, status: :ok
       end
 
-      api :POST, '/v1/statics.json', 'Create static'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         authorize! @guild, to: :new?, with: StaticPolicy if @guild.present?
         static_form = StaticForm.new(static_params)
@@ -49,10 +36,6 @@ module Api
         end
       end
 
-      api :POST, '/v1/statics/:id.json', 'Update static'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def update
         authorize! @static, to: :edit?
         static_form = StaticForm.new(@static.attributes.merge(update_static_params))
@@ -64,19 +47,14 @@ module Api
         end
       end
 
-      api :GET, '/v1/statics/form_values.json', 'Get form_values for static form'
-      error code: 401, desc: 'Unauthorized'
       def form_values
         render json: {
-          characters: ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
-          guilds: ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
+          characters:  ActiveModelSerializers::SerializableResource.new(Current.user.characters.includes(race: :fraction), each_serializer: CharacterIndexSerializer).as_json[:characters],
+          guilds:      ActiveModelSerializers::SerializableResource.new(@guilds, each_serializer: GuildIndexSerializer).as_json[:guilds],
           group_roles: GroupRole.default
         }, status: :ok
       end
 
-      api :GET, '/v1/statics/:id/members.json', 'Show static members'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
       def members
         authorize! @static, to: :edit?
         render json: {
@@ -85,9 +63,6 @@ module Api
         }, status: :ok
       end
 
-      api :GET, '/v1/statics/:id/subscribers.json', 'Show static subscribers'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
       def subscribers
         authorize! @static, to: :show?
         render json: {
@@ -95,11 +70,6 @@ module Api
         }, status: :ok
       end
 
-      api :POST, '/v1/statics/:id/kick_character.json', 'Kick character from static'
-      param :id, String, required: true
-      param :character_id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 400, desc: 'Object is not found'
       def kick_character
         authorize! @static, to: :edit?
         LeaveFromStatic.call(character: @character, static: @static)
@@ -107,27 +77,18 @@ module Api
         render json: { result: 'Character is kicked from static' }, status: :ok
       end
 
-      api :POST, '/v1/statics/:id/leave_character.json', 'Character leave from static'
-      param :id, String, required: true
-      param :character_id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 404, desc: 'Object is not found'
       def leave_character
         LeaveFromStatic.call(character: @character, static: @static)
         UpdateStaticLeftValue.call(group_role: @static.group_role)
         render json: { result: 'Character is left from static' }, status: :ok
       end
 
-      api :GET, '/v1/statics/search.json', 'Search statics by name with params'
-      error code: 401, desc: 'Unauthorized'
       def search
         render json: {
           statics: ActiveModelSerializers::SerializableResource.new(@statics, root: 'statics', each_serializer: StaticIndexSerializer).as_json[:statics]
         }, status: :ok
       end
 
-      api :GET, '/v1/statics/:id/characters_for_request.json', 'Get list of characters for request to static'
-      error code: 401, desc: 'Unauthorized'
       def characters_for_request
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters_for_request, each_serializer: CharacterIndexSerializer).as_json[:characters]
@@ -140,10 +101,10 @@ module Api
         @statics = Static.not_privy.order(name: :asc).includes(:fraction, :group_role, staticable: :world)
         @statics = @statics.where(world_id: params[:world_id]) if params[:world_id].present?
         @statics = @statics.where(fraction_id: params[:fraction_id]) if params[:fraction_id].present?
-        return unless params[:character_id].present?
+        return if params[:character_id].blank?
 
         character = Current.user.characters.find_by(id: params[:character_id])
-        return unless character.present?
+        return if character.blank?
 
         @statics = @statics.includes(:group_role).select { |static| static.group_role.left_value[main_role(character)]['by_class'][class_name(character)].positive? }
       end
@@ -162,6 +123,7 @@ module Api
 
       def find_guild
         return unless params[:static][:staticable_type] == 'Guild'
+
         @guild = Guild.find_by(id: params[:static][:staticable_id])
         render_error(t('custom_errors.object_not_found'), 404) if @guild.nil?
       end

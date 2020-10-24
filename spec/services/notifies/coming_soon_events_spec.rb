@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Notifies::ComingSoonEvents, type: :service do
   let!(:event) { create :event, start_time: DateTime.now.utc + 35.minutes }
   let!(:notification) { create :notification, event: 'event_start_soon', status: 1 }

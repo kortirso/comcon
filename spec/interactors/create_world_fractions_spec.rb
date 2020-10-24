@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateWorldFractions do
   let!(:world) { create :world }
   let!(:fraction1) { create :fraction, :alliance }
@@ -13,7 +15,7 @@ describe CreateWorldFractions do
       end
 
       it 'and does not create world_fractions' do
-        expect { interactor }.to_not change(WorldFraction, :count)
+        expect { interactor }.not_to change(WorldFraction, :count)
       end
     end
 
@@ -25,7 +27,7 @@ describe CreateWorldFractions do
       end
 
       it 'and creates world_fractions' do
-        expect { interactor }.to change { WorldFraction.count }.by(2)
+        expect { interactor }.to change(WorldFraction, :count).by(2)
       end
     end
   end

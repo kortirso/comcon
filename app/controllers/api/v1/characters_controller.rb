@@ -19,31 +19,18 @@ module Api
       before_action :select_unsubscribed_characters, only: %i[search_for_event]
       before_action :find_profession, only: %i[upload_recipes]
 
-      resource_description do
-        short 'Character resources'
-        formats ['json']
-      end
-
-      api :GET, '/v1/characters.json', 'Get user characters'
-      error code: 401, desc: 'Unauthorized'
       def index
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters, each_serializer: CharacterIndexSerializer).as_json[:characters]
         }, status: :ok
       end
 
-      api :GET, '/v1/characters/:id.json', 'Show character info'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
       def show
         render json: {
           character: CharacterShowSerializer.new(@character)
         }, status: :ok
       end
 
-      api :POST, '/v1/characters.json', 'Create character'
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def create
         character_form = CharacterForm.new(character_params)
         if character_form.persist?
@@ -54,10 +41,6 @@ module Api
         end
       end
 
-      api :PATCH, '/v1/characters/:id.json', 'Update character'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 409, desc: 'Conflict'
       def update
         authorize! @character
         character_form = CharacterForm.new(@character.attributes.merge(character_params))
@@ -70,40 +53,31 @@ module Api
         end
       end
 
-      api :GET, '/v1/characters/default_values.json', 'Show default_values for new characters'
-      error code: 401, desc: 'Unauthorized'
       def default_values
         render json: {
-          races: @races_json,
-          worlds: @worlds_json,
-          dungeons: @dungeons_json,
+          races:       @races_json,
+          worlds:      @worlds_json,
+          dungeons:    @dungeons_json,
           professions: @professions_json
         }, status: :ok
       end
 
-      api :GET, '/v1/characters/search.json', 'Search characters by name with params'
-      error code: 401, desc: 'Unauthorized'
       def search
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters, root: 'characters', each_serializer: CharacterCrafterSerializer).as_json[:characters]
         }, status: :ok
       end
 
-      api :GET, '/v1/characters/search_for_event.json', 'Search characters by name for event'
-      error code: 401, desc: 'Unauthorized'
       def search_for_event
         render json: {
           characters: ActiveModelSerializers::SerializableResource.new(@characters, root: 'characters', each_serializer: CharacterCrafterSerializer).as_json[:characters]
         }, status: :ok
       end
 
-      api :POST, '/v1/characters/:id/upload_recipes.json', 'Upload recipes for character'
-      param :id, String, required: true
-      error code: 401, desc: 'Unauthorized'
-      error code: 400, desc: 'Object is not found'
       def upload_recipes
         result = CharacterRecipesUpload.call(character_id: @character.id, profession_id: @profession.id, value: params[:value])
         return render json: { result: 'Recipes are uploaded' }, status: :ok unless result.nil?
+
         render json: { result: 'Recipes are not uploaded' }, status: :conflict
       end
 

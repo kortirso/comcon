@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Sphinx search helper for tests
 module SphinxHelpers
   def index

@@ -31,8 +31,11 @@ class Event < ApplicationRecord
   scope :for_guild, ->(guild_id) { where eventable_type: 'Guild', eventable_id: guild_id }
   scope :for_static, ->(static_ids) { where eventable_type: 'Static', eventable_id: static_ids }
 
-  def self.available_for_user(user_id)
-    Event.joins(subscribes: :character).where(characters: { user_id: user_id })
+  def self.available_for_user(user)
+    guild_event_ids = Event.where('eventable_type = ? AND eventable_id = ?', 'Guild', user.guilds.ids).ids
+    subscribed_event_ids = Event.joins(subscribes: :character).where('characters.user_id = ?', user.id).ids
+
+    Event.where(id: guild_event_ids + subscribed_event_ids)
   end
 
   def self.available_for_character(character_id)
@@ -40,7 +43,7 @@ class Event < ApplicationRecord
   end
 
   def available_for_user?(user)
-    users.where(id: user.id).exists?
+    users.exists?(id: user.id)
   end
 
   def normalize_friendly_id(text)
@@ -53,13 +56,16 @@ class Event < ApplicationRecord
 
   def guild_role_of_user(user_id)
     return nil if eventable_type == 'Static' && eventable.staticable_type == 'Character'
+
     guild = eventable_type == 'Static' ? eventable.staticable : eventable
     # leaders from guild of this user
     leaders = guild.characters_with_leader_role.select { |character| character.user_id == user_id }
     return nil if leaders.empty?
     return ['rl', nil] if leaders.any? { |character| character.guild_role.name == 'rl' }
+
     class_leading = leaders.select { |character| character.guild_role.name == 'cl' }
     return nil if class_leading.empty?
+
     ['cl', class_leading.map! { |character| character.character_class.name['en'] }]
   end
 

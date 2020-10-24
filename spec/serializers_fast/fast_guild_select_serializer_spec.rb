@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FastGuildSelectSerializer do
   let!(:guild) { create :guild }
   let(:serializer) { described_class.new(guild).serializable_hash.to_json }

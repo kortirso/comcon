@@ -1,9 +1,11 @@
-RSpec.describe Race, type: :model do
-  it { should belong_to :fraction }
-  it { should have_many(:characters).dependent(:destroy) }
-  it { should have_many(:combinations).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Race, type: :model do
+  it { is_expected.to belong_to :fraction }
+  it { is_expected.to have_many(:characters).dependent(:destroy) }
+  it { is_expected.to have_many(:combinations).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     race = build :race, :human
 
     expect(race).to be_valid
@@ -17,13 +19,13 @@ RSpec.describe Race, type: :model do
     let!(:combination2) { create :combination, character_class: character_class, combinateable: role }
 
     it 'returns hash with dependencies' do
-      result = Race.dependencies
+      result = described_class.dependencies
 
       expect(result.is_a?(Hash)).to eq true
     end
   end
 
-  context '.to_hash' do
+  describe '.to_hash' do
     let!(:race) { create :race, :human }
 
     it 'returns hashed race' do

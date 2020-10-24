@@ -1,13 +1,15 @@
-RSpec.describe Notification, type: :model do
-  it { should have_many(:deliveries).dependent(:destroy) }
+# frozen_string_literal: true
 
-  it 'factory should be valid' do
+RSpec.describe Notification, type: :model do
+  it { is_expected.to have_many(:deliveries).dependent(:destroy) }
+
+  it 'factory is_expected.to be valid' do
     notification = build :notification
 
     expect(notification).to be_valid
   end
 
-  context '.content' do
+  describe '.content' do
     let!(:event) { create :event }
 
     context 'for guild_event_creation' do
@@ -61,7 +63,7 @@ RSpec.describe Notification, type: :model do
       end
     end
 
-    context '.render_start_time' do
+    describe '.render_start_time' do
       let!(:notification) { create :notification, event: 'guild_static_event_creation' }
 
       it 'returns string' do

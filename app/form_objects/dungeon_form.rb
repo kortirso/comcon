@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for Dungeon model
 class DungeonForm
   include ActiveModel::Model
@@ -14,8 +16,10 @@ class DungeonForm
   def persist?
     return false unless valid?
     return false if exists?
+
     @dungeon = id ? Dungeon.find_by(id: id) : Dungeon.new
     return false if @dungeon.nil?
+
     @dungeon.attributes = attributes.except(:id)
     @dungeon.save
     true

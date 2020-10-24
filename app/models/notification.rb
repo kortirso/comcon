@@ -8,7 +8,7 @@ class Notification < ApplicationRecord
 
   def self.cache_key(notifications)
     {
-      serializer: 'notifications',
+      serializer:  'notifications',
       stat_record: notifications.maximum(:updated_at)
     }
   end
@@ -68,6 +68,7 @@ class Notification < ApplicationRecord
 
   def locale_for_url(locale:)
     return "#{locale}/" if locale != 'en'
+
     ''
   end
 

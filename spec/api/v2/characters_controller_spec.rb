@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Characters API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
@@ -8,6 +10,7 @@ RSpec.describe 'Characters API' do
       let!(:user) { create :user }
       let(:access_token) { JwtService.new.json_response(user: user)[:access_token] }
       let!(:character) { create :character, user: user }
+
       before { get '/api/v2/characters.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -21,7 +24,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/characters.json', headers: headers
     end
   end
@@ -65,7 +68,7 @@ RSpec.describe 'Characters API' do
             request
             character.reload
 
-            expect(character.name).to_not eq ''
+            expect(character.name).not_to eq ''
           end
 
           context 'in answer' do
@@ -76,7 +79,7 @@ RSpec.describe 'Characters API' do
             end
 
             it 'and returns error message' do
-              expect(JSON.parse(response.body)['errors']).to_not eq nil
+              expect(JSON.parse(response.body)['errors']).not_to eq nil
             end
           end
         end
@@ -117,7 +120,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       patch '/api/v2/characters/999/transfer.json', headers: headers
     end
   end
@@ -156,7 +159,7 @@ RSpec.describe 'Characters API' do
         let(:request) { post "/api/v2/characters/#{character.id}/equipment.json", params: { access_token: access_token, value: '8176:;12039:;10774:;49:;13110:16;5609:;9624:;2033:;9857:;10777:;10710:;2933:;0:0;0:0;4114:;10823:;6829:;3108:;23192:;' } }
 
         it 'calls CharacterEquipmentUpload' do
-          expect(CharacterEquipmentUpload).to receive(:call).and_call_original
+          expect(Characters::Equipment::UploadService).to receive(:call).and_call_original
 
           request
         end
@@ -175,7 +178,7 @@ RSpec.describe 'Characters API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       post '/api/v2/characters/999/equipment.json', headers: headers
     end
   end

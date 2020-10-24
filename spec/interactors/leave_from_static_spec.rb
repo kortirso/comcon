@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe LeaveFromStatic do
   let!(:character) { create :character }
   let!(:static) { create :static, staticable: character }
@@ -13,11 +15,11 @@ describe LeaveFromStatic do
       end
 
       it 'and does not delete static member' do
-        expect { interactor }.to_not change(StaticMember, :count)
+        expect { interactor }.not_to change(StaticMember, :count)
       end
 
       it 'and does not delete subscribe' do
-        expect { interactor }.to_not change(Subscribe, :count)
+        expect { interactor }.not_to change(Subscribe, :count)
       end
     end
 
@@ -29,11 +31,11 @@ describe LeaveFromStatic do
       end
 
       it 'and does not delete static member' do
-        expect { interactor }.to_not change(StaticMember, :count)
+        expect { interactor }.not_to change(StaticMember, :count)
       end
 
       it 'and does not delete subscribe' do
-        expect { interactor }.to_not change(Subscribe, :count)
+        expect { interactor }.not_to change(Subscribe, :count)
       end
     end
 
@@ -45,11 +47,11 @@ describe LeaveFromStatic do
       end
 
       it 'and deletes static member' do
-        expect { interactor }.to change { StaticMember.count }.by(-1)
+        expect { interactor }.to change(StaticMember, :count).by(-1)
       end
 
       it 'and deletes subscribe' do
-        expect { interactor }.to change { Subscribe.count }.by(-1)
+        expect { interactor }.to change(Subscribe, :count).by(-1)
       end
     end
   end

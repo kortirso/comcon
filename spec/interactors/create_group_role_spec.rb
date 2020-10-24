@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CreateGroupRole do
   let!(:event) { create :event }
   let(:group_roles) { GroupRole.default }
@@ -11,7 +13,7 @@ describe CreateGroupRole do
       end
 
       it 'and does not create new group role' do
-        expect { interactor }.to_not change(GroupRole, :count)
+        expect { interactor }.not_to change(GroupRole, :count)
       end
     end
 
@@ -23,7 +25,7 @@ describe CreateGroupRole do
       end
 
       it 'and creates new group role' do
-        expect { interactor }.to change { GroupRole.count }.by(1)
+        expect { interactor }.to change(GroupRole, :count).by(1)
       end
 
       it 'and provides group_role' do

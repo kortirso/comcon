@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe EventPolicy do
   let!(:user) { create :user }
   let!(:character1) { create :character, user: user }
@@ -7,6 +9,7 @@ describe EventPolicy do
   let!(:world_event2) { create :event, fraction: character2.race.fraction }
   let!(:guild) { create :guild, world: character1.world, fraction: character1.race.fraction }
   let!(:guild_event) { create :event, eventable: guild, fraction: character1.race.fraction, owner: character1 }
+
   before { character3.update(guild: guild) }
 
   describe '#show?' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents form object for BankCell model
 class BankCellForm
   include ActiveModel::Model
@@ -17,6 +19,7 @@ class BankCellForm
 
   def persist?
     return false unless valid?
+
     @bank_cell = id ? BankCell.find_by(id: id) : BankCell.new
     @bank_cell.attributes = attributes.except(:id)
     @bank_cell.save

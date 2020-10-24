@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Subscribes API' do
   describe 'GET#index' do
     it_behaves_like 'API auth without token'
@@ -11,6 +13,7 @@ RSpec.describe 'Subscribes API' do
       let!(:character) { create :character, guild: guild, user: user }
       let!(:event) { create :event, eventable: guild }
       let!(:subscribe) { create :subscribe, subscribeable: event, character: character, status: 3 }
+
       before { get '/api/v2/subscribes/closest.json', params: { access_token: access_token } }
 
       it 'returns status 200' do
@@ -24,7 +27,7 @@ RSpec.describe 'Subscribes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       get '/api/v2/subscribes/closest.json', headers: headers
     end
   end
@@ -60,7 +63,7 @@ RSpec.describe 'Subscribes API' do
         let(:request) { delete "/api/v2/subscribes/#{subscribe.id}.json", params: { access_token: access_token } }
 
         it 'destroyes subscribe' do
-          expect { request }.to change { Subscribe.count }.by(-1)
+          expect { request }.to change(Subscribe, :count).by(-1)
         end
 
         context 'in answer' do
@@ -96,7 +99,7 @@ RSpec.describe 'Subscribes API' do
       end
     end
 
-    def do_request(headers = {})
+    def do_request(headers={})
       delete '/api/v2/subscribes/999.json', headers: headers
     end
   end
