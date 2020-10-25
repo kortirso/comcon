@@ -22,9 +22,9 @@ class ApplicationController < ActionController::Base
   authorize :user, through: :my_current_user
 
   rescue_from ActionPolicy::Unauthorized, with: :invalid_request
-  rescue_from ActionView::MissingTemplate, with: :invalid_request
 
   def catch_route_error
+    request.format = :html if request.format != :json
     render_error(t('custom_errors.route_not_found'), 400)
   end
 
@@ -64,16 +64,16 @@ class ApplicationController < ActionController::Base
     render_error(t('custom_errors.not_confirmed'), 401) unless current_user.confirmed?
   end
 
-  def json_request?
-    request.format.json?
-  end
-
   def invalid_request
-    json_request? ? render_json_error(t('custom_errors.forbidden'), 403) : render_html_error(t('custom_errors.forbidden'), 403)
+    render_error(t('custom_errors.forbidden'), 403)
   end
 
   def render_error(message='Error', status=400)
-    json_request? ? render_json_error(message, status) : render_html_error(message, status)
+    respond_to do |type|
+      type.html { render_html_error(message, status) }
+      type.json { render_json_error(message, status) }
+      type.all  { render nothing: true, status: status }
+    end
   end
 
   def render_json_error(message='Error', status=400)
