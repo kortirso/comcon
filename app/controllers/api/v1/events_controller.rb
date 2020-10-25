@@ -85,7 +85,7 @@ module Api
       end
 
       def create_additional_objects_for_event(event)
-        CreateSubscribes.call(subscribeable: event)
+        Subscribes::ForEvent::CreateService.call(event: event)
         CreateGroupRole.call(groupable: event, group_roles: group_role_params)
         CreateEventNotificationJob.perform_later(event_id: event.id)
       end

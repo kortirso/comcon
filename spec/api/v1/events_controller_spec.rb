@@ -88,6 +88,12 @@ RSpec.describe 'Events API' do
         let!(:dungeon) { create :dungeon }
         let(:request) { post '/api/v1/events.json', params: { access_token: access_token, event: { name: '123', owner_id: character.id, dungeon_id: dungeon.id, start_time: (DateTime.now + 1.day).to_i, eventable_type: 'Guild' } } }
 
+        before do
+          allow(CreateEventNotificationJob).to receive(:perform_later)
+          allow(Subscribes::ForEvent::CreateService).to receive(:call)
+          allow(CreateGroupRole).to receive(:call)
+        end
+
         it 'creates new event' do
           expect { request }.to change { character.owned_events.count }.by(1)
 
@@ -95,21 +101,21 @@ RSpec.describe 'Events API' do
         end
 
         it 'and calls CreateEventNotificationJob' do
-          expect(CreateEventNotificationJob).to receive(:perform_later).and_call_original
-
           request
+
+          expect(CreateEventNotificationJob).to have_received(:perform_later)
         end
 
-        it 'and calls CreateSubscribes' do
-          expect(CreateSubscribes).to receive(:call).and_call_original
-
+        it 'and calls Subscribes::ForEvent::CreateService' do
           request
+
+          expect(Subscribes::ForEvent::CreateService).to have_received(:call)
         end
 
         it 'and calls CreateGroupRole' do
-          expect(CreateGroupRole).to receive(:call).and_call_original
-
           request
+
+          expect(CreateGroupRole).to have_received(:call)
         end
 
         context 'in answer' do
