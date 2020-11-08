@@ -197,6 +197,9 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => 'The Temple of Ahn’Qiraj', 'ru' => 'Храм Ан’Киража' }, raid: true)
 dungeon_form.persist?
 
+dungeon_form = DungeonForm.new(name: { 'en' => 'Naxxramas', 'ru' => 'Наксрамас' }, raid: true)
+dungeon_form.persist?
+
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
 role_form.persist?
 tank = role_form.role
