@@ -29,6 +29,6 @@ class IdentityForm
   def exists?
     return unless Identity.exists?(uid: uid, provider: provider)
 
-    errors[:identity] << 'already exists'
+    errors.add(:identity, message: 'already exists')
   end
 end

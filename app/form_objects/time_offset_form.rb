@@ -34,6 +34,6 @@ class TimeOffsetForm
     return if timeable_type.blank?
     return if timeable_type.constantize.exists?(id: timeable_id)
 
-    errors[:timeable] << 'is not exists'
+    errors.add(:timeable, message: 'is not exists')
   end
 end

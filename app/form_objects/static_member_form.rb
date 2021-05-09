@@ -12,6 +12,8 @@ class StaticMemberForm
   validate :same_world?
   validate :same_fraction?
 
+  attr_accessor :worlds
+  attr_accessor :fractions
   attr_reader :static_member
 
   def persist?
@@ -34,13 +36,13 @@ class StaticMemberForm
     return if static.nil? || character.nil?
     return if static.world_id == character.world_id
 
-    errors[:worlds] << 'are different'
+    errors.add(:worlds, message: 'are different')
   end
 
   def same_fraction?
     return if static.nil? || character.nil?
     return if static.fraction_id == character.race.fraction_id
 
-    errors[:fractions] << 'are different'
+    errors.add(:fractions, message: 'are different')
   end
 end

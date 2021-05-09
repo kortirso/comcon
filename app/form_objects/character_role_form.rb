@@ -39,6 +39,6 @@ class CharacterRoleForm
     return if character.nil?
     return if Combination.find_by(character_class: character.character_class, combinateable: role).present?
 
-    errors[:role] << 'is not valid for character class'
+    errors.add(:role, message: 'is not valid for character class')
   end
 end

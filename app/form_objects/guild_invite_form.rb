@@ -36,20 +36,20 @@ class GuildInviteForm
     return if id && !status.zero?
     return if id.nil? && status.zero?
 
-    errors[:status] << 'not valid'
+    errors.add(:status, message: 'not valid')
   end
 
   def guild_invite_exists?
     guild_invites = id.nil? ? GuildInvite.all : GuildInvite.where.not(id: id)
     return unless guild_invites.exists?(guild: guild, character: character, from_guild: from_guild)
 
-    errors[:guild_invite] << 'already exists'
+    errors.add(:guild_invite, message: 'already exists')
   end
 
   def character_not_in_guild?
     return if character.nil? || guild.nil?
     return if character.guild_id != guild.id
 
-    errors[:character] << 'is already in the guild'
+    errors.add(:character, message: 'is already in the guild')
   end
 end

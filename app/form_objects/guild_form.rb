@@ -37,6 +37,6 @@ class GuildForm
     guilds = id.nil? ? Guild.all : Guild.where.not(id: id)
     return unless guilds.exists?(name: name, world: world)
 
-    errors[:guild] << I18n.t('activemodel.errors.models.guild_form.attributes.guild.already_exist')
+    errors.add(:guild, message: I18n.t('activemodel.errors.models.guild_form.attributes.guild.already_exist'))
   end
 end

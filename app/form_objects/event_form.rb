@@ -54,14 +54,14 @@ class EventForm
     return if eventable_type.nil?
     return if eventable_type.constantize.exists?(id: eventable_id)
 
-    errors[:eventable] << I18n.t('activemodel.errors.models.event_form.attributes.eventable.is_not_exist')
+    errors.add(:eventable, message: I18n.t('activemodel.errors.models.event_form.attributes.eventable.is_not_exist'))
   end
 
   def valid_time?
     return if start_time.nil?
     return if DateTime.now < start_time - hours_before_close.hours
 
-    errors[:start_time] << I18n.t('activemodel.errors.models.event_form.attributes.start_time.in_the_past')
+    errors.add(:start_time, message: I18n.t('activemodel.errors.models.event_form.attributes.start_time.in_the_past'))
   end
 
   def define_event_type

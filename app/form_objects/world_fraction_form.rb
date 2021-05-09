@@ -27,6 +27,6 @@ class WorldFractionForm
   def exists?
     return unless WorldFraction.exists?(world: world, fraction: fraction)
 
-    errors[:world_fraction] << 'is already exists'
+    errors.add(:world_fraction, message: 'is already exists')
   end
 end

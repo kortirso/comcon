@@ -44,7 +44,7 @@ class CharacterForm
     characters = id.nil? ? Character.all : Character.where.not(id: id)
     return unless characters.exists?(name: name, world: world)
 
-    errors[:character] << I18n.t('activemodel.errors.models.character_form.attributes.character.already_exist')
+    errors.add(:character, message: I18n.t('activemodel.errors.models.character_form.attributes.character.already_exist'))
   end
 
   def race_class_restrictions
@@ -52,7 +52,7 @@ class CharacterForm
     return if character_class.nil?
     return if Combination.find_by(character_class: character_class, combinateable: race).present?
 
-    errors[:character_class] << I18n.t('activemodel.errors.models.character_form.attributes.character_class.is_not_valid')
+    errors.add(:character_class, message: I18n.t('activemodel.errors.models.character_form.attributes.character_class.is_not_valid'))
   end
 
   def race_from_fraction
@@ -61,6 +61,6 @@ class CharacterForm
     return if guild.fraction.name['en'] == 'Horde' && %w[Tauren Orc Undead Troll].include?(race.name['en'])
     return if guild.fraction.name['en'] == 'Alliance' && %w[Dwarf Human Night\ Elf Gnome].include?(race.name['en'])
 
-    errors[:race] << I18n.t('activemodel.errors.models.character_form.attributes.race.is_not_valid')
+    errors.add(:race, message: I18n.t('activemodel.errors.models.character_form.attributes.race.is_not_valid'))
   end
 end

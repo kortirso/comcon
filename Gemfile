@@ -10,7 +10,7 @@ end
 ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 6.0.3.4'
+gem 'rails', '>= 6.1.3.2'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '1.2.3'
@@ -35,7 +35,7 @@ gem 'webpacker', '~> 4.x'
 gem 'webpacker-react', '0.3.2'
 
 # Model Serializers
-gem 'active_model_serializers', '~> 0.10.0'
+gem 'active_model_serializers', '~> 0.10.12'
 gem 'fast_jsonapi'
 gem 'oj'
 gem 'oj_mimic_json'
@@ -60,7 +60,7 @@ gem 'figaro'
 gem 'action_policy', '~> 0.3.0'
 
 # localize
-gem 'route_translator'
+gem 'route_translator', '10.0.0'
 
 # Friendly url
 gem 'babosa'
@@ -90,7 +90,7 @@ gem 'hairtrigger'
 gem 'activerecord-import'
 
 # Profiling
-gem 'skylight'
+gem 'skylight', '~> 4.3.0'
 
 # Rules for migrations
 gem 'strong_migrations'
@@ -106,7 +106,7 @@ gem 'tty-command'
 gem 'bugsnag'
 
 group :development, :test do
-  gem 'bullet'
+  gem 'bullet', '6.1.4'
   gem 'parallel_tests'
 end
 

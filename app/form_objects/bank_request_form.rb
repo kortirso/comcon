@@ -36,13 +36,13 @@ class BankRequestForm
   def status_value
     return if status.zero?
 
-    errors[:status] << 'not valid'
+    errors.add(:status, message: 'not valid')
   end
 
   def left_amount
     bank_cell = BankCell.find_by(bank: bank, game_item: game_item)
-    return errors[:bank] << 'does not have requested item' if bank_cell.nil?
+    return errors.add(:bank, message: 'does not have requested item') if bank_cell.nil?
 
-    errors[:bank] << 'does not have requested amount of items' if bank_cell.amount < requested_amount
+    errors.add(:bank, message: 'does not have requested amount of items') if bank_cell.amount < requested_amount
   end
 end

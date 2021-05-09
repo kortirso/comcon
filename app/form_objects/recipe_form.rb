@@ -43,35 +43,35 @@ class RecipeForm
     recipes = id.nil? ? profession.recipes : profession.recipes.where.not(id: id)
     return unless recipes.exists?(name: name)
 
-    errors[:recipe] << I18n.t('activemodel.errors.models.recipe_form.attributes.recipe.already_exist')
+    errors.add(:recipe, message: I18n.t('activemodel.errors.models.recipe_form.attributes.recipe.already_exist'))
   end
 
   def name_as_hash
-    return errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.is_not_hash') unless name.is_a?(Hash)
+    return errors.add(:name, message: I18n.t('activemodel.errors.models.recipe_form.attributes.name.is_not_hash')) unless name.is_a?(Hash)
 
-    errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.en_is_empty') if name['en'].blank?
-    errors[:name] << I18n.t('activemodel.errors.models.recipe_form.attributes.name.ru_is_empty') if name['ru'].blank?
+    errors.add(:name, message: I18n.t('activemodel.errors.models.recipe_form.attributes.name.en_is_empty')) if name['en'].blank?
+    errors.add(:name, message: I18n.t('activemodel.errors.models.recipe_form.attributes.name.ru_is_empty')) if name['ru'].blank?
   end
 
   def links_as_hash
-    return errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.is_not_hash') unless links.is_a?(Hash)
+    return errors.add(:links, message: I18n.t('activemodel.errors.models.recipe_form.attributes.links.is_not_hash')) unless links.is_a?(Hash)
 
-    errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.en_is_empty') if links['en'].blank?
-    errors[:links] << I18n.t('activemodel.errors.models.recipe_form.attributes.links.ru_is_empty') if links['ru'].blank?
+    errors.add(:links, message: I18n.t('activemodel.errors.models.recipe_form.attributes.links.en_is_empty')) if links['en'].blank?
+    errors.add(:links, message: I18n.t('activemodel.errors.models.recipe_form.attributes.links.ru_is_empty')) if links['ru'].blank?
   end
 
   def effect_name_as_hash
-    errors[:effect_name] << I18n.t('activemodel.errors.models.recipe_form.attributes.effect_name.is_not_hash') unless effect_name.is_a?(Hash)
+    errors.add(:effect_name, message: I18n.t('activemodel.errors.models.recipe_form.attributes.effect_name.is_not_hash')) unless effect_name.is_a?(Hash)
   end
 
   def effect_links_as_hash
-    errors[:effect_links] << I18n.t('activemodel.errors.models.recipe_form.attributes.effect_links.is_not_hash') unless effect_links.is_a?(Hash)
+    errors.add(:effect_links, message: I18n.t('activemodel.errors.models.recipe_form.attributes.effect_links.is_not_hash')) unless effect_links.is_a?(Hash)
   end
 
   def profession_with_recipes
     return if profession.nil?
     return if profession.recipeable?
 
-    errors[:profession] << I18n.t('activemodel.errors.models.recipe_form.attributes.profession.is_not_recipeable')
+    errors.add(:profession, message: I18n.t('activemodel.errors.models.recipe_form.attributes.profession.is_not_recipeable'))
   end
 end

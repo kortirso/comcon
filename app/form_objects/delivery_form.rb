@@ -32,12 +32,12 @@ class DeliveryForm
     return if deliveriable_type.blank?
     return if deliveriable_type.constantize.exists?(id: deliveriable_id)
 
-    errors[:deliveriable] << I18n.t('activemodel.errors.models.delivery_form.attributes.deliveriable.is_not_exist')
+    errors.add(:deliveriable, message: I18n.t('activemodel.errors.models.delivery_form.attributes.deliveriable.is_not_exist'))
   end
 
   def exists?
     return unless Delivery.exists?(deliveriable_id: deliveriable_id, deliveriable_type: deliveriable_type, notification: notification, delivery_type: delivery_type)
 
-    errors[:delivery] << I18n.t('activemodel.errors.models.delivery_form.attributes.delivery.already_exist')
+    errors.add(:delivery, message: I18n.t('activemodel.errors.models.delivery_form.attributes.delivery.already_exist'))
   end
 end

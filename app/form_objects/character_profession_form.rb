@@ -33,6 +33,6 @@ class CharacterProfessionForm
     return if character.nil?
     return if character.professions.where(main: true).size <= 1 || !profession.main?
 
-    errors[:count] << 'is reached limit'
+    errors.add(:count, message: 'is reached limit')
   end
 end

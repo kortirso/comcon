@@ -27,6 +27,6 @@ class CharacterRecipeForm
   def exists?
     return unless CharacterRecipe.exists?(recipe: recipe, character_profession: character_profession)
 
-    errors[:character_recipe] << 'already exists'
+    errors.add(:character_recipe, message: 'already exists')
   end
 end

@@ -43,13 +43,24 @@ class SubscribeForm
     return if subscribeable_type.blank?
     return if subscribeable_type.constantize.exists?(id: subscribeable_id)
 
-    errors[:subscribeable] << I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribeable.is_not_exist')
+    errors.add(
+      :subscribeable,
+      message: I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribeable.is_not_exist')
+    )
   end
 
   def subscribed?
     return unless id.nil?
+    return unless Subscribe.exists?(
+      subscribeable_id:   subscribeable_id,
+      subscribeable_type: subscribeable_type,
+      character_id:       character&.id
+    )
 
-    errors[:subscribe] << I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribe.is_exist') if Subscribe.exists?(subscribeable_id: subscribeable_id, subscribeable_type: subscribeable_type, character_id: character&.id)
+    errors.add(
+      :subscribe,
+      message: I18n.t('activemodel.errors.models.subscribe_form.attributes.subscribe.is_exist')
+    )
   end
 
   def status_to_integer

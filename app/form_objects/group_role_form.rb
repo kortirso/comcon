@@ -52,15 +52,15 @@ class GroupRoleForm
     @groupable = groupable_type.constantize.find_by(id: groupable_id)
     return if @groupable.present?
 
-    errors[:groupable] << 'is not exists'
+    errors.add(:groupable, message: 'is not exists')
   end
 
   def value_as_hash
-    errors[:value] << 'Value is not hash' unless value.is_a?(Hash)
+    errors.add(:value, message: 'Value is not hash') unless value.is_a?(Hash)
   end
 
   def left_value_as_hash
-    errors[:left_value] << 'Left value is not hash' unless left_value.is_a?(Hash)
+    errors.add(:left_value, message: 'Left value is not hash') unless left_value.is_a?(Hash)
   end
 
   def rebuild_keys_to_integers(input)

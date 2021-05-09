@@ -18,6 +18,8 @@ class StaticInviteForm
   validate :same_world?
   validate :same_fraction?
 
+  attr_accessor :worlds
+  attr_accessor :fractions
   attr_reader :static_invite
 
   def persist?
@@ -37,27 +39,27 @@ class StaticInviteForm
     static_invites = id.nil? ? StaticInvite.all : StaticInvite.where.not(id: id)
     return unless static_invites.exists?(static: static, character: character, from_static: from_static)
 
-    errors[:static_invite] << 'already exists'
+    errors.add(:static_invite, message: 'already exists')
   end
 
   def status_value
     return if id && !status.zero?
     return if id.nil? && status.zero?
 
-    errors[:status] << 'not valid'
+    errors.add(:status, message: 'not valid')
   end
 
   def same_world?
     return if static.nil? || character.nil?
     return if static.world_id == character.world_id
 
-    errors[:worlds] << 'are different'
+    errors.add(:worlds, message: 'are different')
   end
 
   def same_fraction?
     return if static.nil? || character.nil?
     return if static.fraction_id == character.race.fraction_id
 
-    errors[:fractions] << 'are different'
+    errors.add(:fractions, message: 'are different')
   end
 end

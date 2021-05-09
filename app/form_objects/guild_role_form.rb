@@ -34,13 +34,13 @@ class GuildRoleForm
     guild_roles = id.nil? ? GuildRole.all : GuildRole.where.not(id: id)
     return unless guild_roles.exists?(guild: guild, character: character)
 
-    errors[:guild_role] << 'already exists'
+    errors.add(:guild_role, message: 'already exists')
   end
 
   def character_in_guild?
     return if character.nil? || guild.nil?
     return if character.guild_id == guild.id
 
-    errors[:character] << 'is not in the guild'
+    errors.add(:character, message: 'is not in the guild')
   end
 end
