@@ -32,7 +32,7 @@ RSpec.describe Race, type: :model do
       result = race.to_hash
 
       expect(result.keys).to eq [race.id.to_s]
-      expect(result.values[0].keys).to eq %w[name fraction_id character_classes]
+      expect(result.values[0].keys).to eq %w[name fraction_id]
     end
   end
 end

@@ -18,9 +18,8 @@ class CharacterForm
 
   validates :name, :level, :race, :character_class, :user, :world, :world_fraction, presence: true
   validates :name, length: { in: 2..12 }
-  validates :level, inclusion: 1..60
+  validates :level, inclusion: 1..70
   validate :exists?
-  validate :race_class_restrictions
   validate :race_from_fraction
 
   attr_reader :character
@@ -45,14 +44,6 @@ class CharacterForm
     return unless characters.exists?(name: name, world: world)
 
     errors.add(:character, message: I18n.t('activemodel.errors.models.character_form.attributes.character.already_exist'))
-  end
-
-  def race_class_restrictions
-    return if race.nil?
-    return if character_class.nil?
-    return if Combination.find_by(character_class: character_class, combinateable: race).present?
-
-    errors.add(:character_class, message: I18n.t('activemodel.errors.models.character_form.attributes.character_class.is_not_valid'))
   end
 
   def race_from_fraction

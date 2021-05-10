@@ -4,6 +4,7 @@ module Api
   module V1
     class CharactersController < Api::V1::BaseController
       include Concerns::RaceCacher
+      include Concerns::CharacterClassCacher
       include Concerns::WorldCacher
       include Concerns::DungeonCacher
       include Concerns::ProfessionCacher
@@ -11,6 +12,7 @@ module Api
       before_action :find_characters, only: %i[index]
       before_action :find_character, only: %i[show update upload_recipes]
       before_action :get_races_from_cache, only: %i[default_values]
+      before_action :get_character_classes_from_cache, only: %i[default_values]
       before_action :get_worlds_from_cache, only: %i[default_values]
       before_action :get_dungeons_from_cache, only: %i[default_values]
       before_action :get_professions_from_cache, only: %i[default_values]
@@ -55,10 +57,11 @@ module Api
 
       def default_values
         render json: {
-          races:       @races_json,
-          worlds:      @worlds_json,
-          dungeons:    @dungeons_json,
-          professions: @professions_json
+          races:             @races_json,
+          character_classes: @character_classes,
+          worlds:            @worlds_json,
+          dungeons:          @dungeons_json,
+          professions:       @professions_json
         }, status: :ok
       end
 

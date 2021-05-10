@@ -30,20 +30,6 @@ RSpec.describe CharacterForm, type: :service do
         end
       end
 
-      context 'for invalid race/class' do
-        let!(:character_class) { create :character_class, :shaman }
-        let(:service) { described_class.new(name: 'Хроми', world: character.world, level: 60, user: character.user, race: character.race, character_class: character_class) }
-
-        it 'does not create new character' do
-          expect { service.persist? }.not_to change(Character, :count)
-          expect(service.errors.full_messages[0].is_a?(String)).to eq true
-        end
-
-        it 'and returns false' do
-          expect(service.persist?).to eq false
-        end
-      end
-
       context 'for invalid guild fraction' do
         let!(:horde) { create :fraction, :horde }
         let!(:combination) { create :combination, combinateable: character.race, character_class: character.character_class }

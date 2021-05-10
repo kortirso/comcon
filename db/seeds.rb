@@ -16,6 +16,9 @@ gnome = race_form.race
 race_form = RaceForm.new(name: { 'en' => 'Night Elf', 'ru' => 'Ночной Эльф' }, fraction: alliance)
 race_form.persist?
 night_elf = race_form.race
+race_form = RaceForm.new(name: { 'en' => 'Draenei', 'ru' => 'Дреней' }, fraction: alliance)
+race_form.persist?
+draenei = race_form.race
 
 fraction_form = FractionForm.new(name: { 'en' => 'Horde', 'ru' => 'Орда' })
 fraction_form.persist?
@@ -33,6 +36,9 @@ tauren = race_form.race
 race_form = RaceForm.new(name: { 'en' => 'Undead', 'ru' => 'Нежить' }, fraction: horde)
 race_form.persist?
 undead = race_form.race
+race_form = RaceForm.new(name: { 'en' => 'Blood Elf', 'ru' => 'Эльф крови' }, fraction: horde)
+race_form.persist?
+blood_elf = race_form.race
 
 character_class_form = CharacterClassForm.new(name: { 'en' => 'Druid', 'ru' => 'Друид' })
 character_class_form.persist?
@@ -61,39 +67,6 @@ warlock = character_class_form.character_class
 character_class_form = CharacterClassForm.new(name: { 'en' => 'Warrior', 'ru' => 'Воин' })
 character_class_form.persist?
 warrior = character_class_form.character_class
-
-[druid, hunter, shaman, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: tauren.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[rogue, warlock, hunter, shaman, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: orc.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[rogue, hunter, paladin, priest, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: dwarf.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[mage, priest, rogue, warlock, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: undead.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[mage, paladin, priest, rogue, warlock, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: human.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[hunter, mage, priest, rogue, shaman, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: troll.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[druid, hunter, priest, rogue, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: night_elf.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
-[mage, rogue, warlock, warrior].compact.each do |character_class|
-  combination_form = CombinationForm.new(character_class: character_class, combinateable_id: gnome.id, combinateable_type: 'Race')
-  combination_form.persist?
-end
 
 world_form = WorldDryForm.new(id: nil, name: 'Хроми', zone: 'RU')
 world_form.save
@@ -272,6 +245,10 @@ _enchanting = profession_form.profession
 profession_form = ProfessionForm.new(name: { 'en' => 'Cooking', 'ru' => 'Кулинария' }, main: false, recipeable: true)
 profession_form.persist?
 _cooking = profession_form.profession
+
+profession_form = ProfessionForm.new(name: { 'en' => 'Jewelcrafting', 'ru' => 'Ювелирное дело' }, recipeable: true)
+profession_form.persist?
+_jewelcrafting = profession_form.profession
 
 notification_form = NotificationForm.new(name: { 'en' => 'Guild event creation', 'ru' => 'Создание гильдейского события' }, event: 'guild_event_creation', status: 0)
 notification_form.persist?

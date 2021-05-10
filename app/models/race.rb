@@ -17,10 +17,7 @@ class Race < ApplicationRecord
     {
       id.to_s => {
         'name'              => name,
-        'fraction_id'       => fraction_id,
-        'character_classes' => character_classes.includes(:combinateables).order(id: :desc).inject({}) do |classes, character_class|
-          classes.merge(character_class.to_hash)
-        end
+        'fraction_id'       => fraction_id
       }
     }
   end
