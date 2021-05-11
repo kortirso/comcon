@@ -20,8 +20,9 @@ export default class CharacterTransferForm extends React.Component {
       data: {},
       name: '',
       worlds: [],
-      raceCharacterClasses: {},
+      characterClasses: [],
       roles: {},
+      races: {},
       secondaryRoles: [],
       currentRace: null,
       currentCharacterClass: null,
@@ -50,12 +51,11 @@ export default class CharacterTransferForm extends React.Component {
       success: (data) => {
         const currentRace = Object.keys(data.races)[0]
         const currentFractionId = data.races[currentRace].fraction_id
-        const raceCharacterClasses = data.races[currentRace].character_classes
-        const currentCharacterClass = Object.keys(raceCharacterClasses)[0]
-        const roles = raceCharacterClasses[currentCharacterClass].roles
+        const currentCharacterClass = Object.keys(data.character_classes)[0]
+        const roles = data.character_classes[currentCharacterClass].roles
         const currentMainRole = Object.keys(roles)[0]
 
-        this.setState({worlds: data.worlds, data: data.races, races: data.races, currentMainRole: currentMainRole, currentFractionId: currentFractionId, updateFractionId: currentFractionId}, () => {
+        this.setState({worlds: data.worlds, races: data.races, characterClasses: data.character_classes, currentMainRole: currentMainRole, currentFractionId: currentFractionId, updateFractionId: currentFractionId}, () => {
           this._getCharacter()
         })
       }
@@ -68,9 +68,8 @@ export default class CharacterTransferForm extends React.Component {
       url: `/api/v1/characters/${this.state.characterId}.json?access_token=${this.props.access_token}`,
       success: (data) => {
         const character = data.character
-        const raceCharacterClasses = this.state.data[character.race_id].character_classes
         const currentCharacterClass = character.character_class_id.toString()
-        const roles = raceCharacterClasses[currentCharacterClass].roles
+        const roles = this.state.characterClasses[currentCharacterClass].roles
         const currentMainRole = character.main_role_id.toString()
 
         const secondaryRoles = Object.entries(roles).filter(([key, value]) => {
@@ -87,7 +86,7 @@ export default class CharacterTransferForm extends React.Component {
           })
         })
 
-        this.setState({name: character.name, level: character.level, currentRace: character.race_id, raceCharacterClasses: raceCharacterClasses, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, currentWorld: character.world_id, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles})
+        this.setState({name: character.name, level: character.level, currentRace: character.race_id, currentCharacterClass: currentCharacterClass, roles: roles, currentMainRole: currentMainRole, currentWorld: character.world_id, secondaryRoles: secNames, currentSecondaryRoles: currentSecondaryRoles})
       }
     })
   }
@@ -112,14 +111,13 @@ export default class CharacterTransferForm extends React.Component {
   }
 
   _renderRaces() {
-    return Object.entries(this.state.data).map(([key, value]) => {
+    return Object.entries(this.state.races).map(([key, value]) => {
       return <option value={key} key={key}>{value.name[this.props.locale]}</option>
     })
   }
 
   _renderRaceCharacterClasses() {
-    if (this.state.data[this.state.currentRace] === undefined) return false
-    return Object.entries(this.state.data[this.state.currentRace].character_classes).map(([key, value]) => {
+    return Object.entries(this.state.characterClasses).map(([key, value]) => {
       return <option value={key} key={key}>{value.name[this.props.locale]}</option>
     })
   }
@@ -131,9 +129,9 @@ export default class CharacterTransferForm extends React.Component {
   }
 
   _renderClassRoles() {
-    const race = this.state.data[this.state.currentRace]
+    const race = this.state.races[this.state.currentRace]
     if (race === undefined) return false
-    const characterClass = race.character_classes[this.state.currentCharacterClass]
+    const characterClass = this.state.characterClasses[this.state.currentCharacterClass]
     if (characterClass === undefined) return false
 
     return Object.entries(characterClass.roles).map(([key, value]) => {
@@ -154,17 +152,13 @@ export default class CharacterTransferForm extends React.Component {
 
   _onChangeRace(event) {
     const currentRace = event.target.value
-    const updateFractionId = this.state.data[currentRace].fraction_id
-    const raceCharacterClasses = this.state.data[currentRace].character_classes
-    const currentCharacterClass = Object.keys(raceCharacterClasses)[0]
-    this.setState({currentRace: currentRace, raceCharacterClasses: raceCharacterClasses, updateFractionId: updateFractionId}, () => {
-      this._onChangeClass(currentCharacterClass)
-    })
+    const updateFractionId = this.state.races[currentRace].fraction_id
+    this.setState({currentRace: currentRace, updateFractionId: updateFractionId})
   }
 
   _onChangeClass(event) {
     const currentCharacterClass = event.target === undefined ? event : event.target.value
-    const roles = this.state.raceCharacterClasses[currentCharacterClass].roles
+    const roles = this.state.characterClasses[currentCharacterClass].roles
     const currentMainRole = Object.keys(roles)[0]
 
     this.setState({currentCharacterClass: currentCharacterClass, roles: roles}, () => {
