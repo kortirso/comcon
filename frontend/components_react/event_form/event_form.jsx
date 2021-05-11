@@ -366,7 +366,7 @@ export default class EventForm extends React.Component {
         </div>
         <div className="row">
           <div className="col">
-            <RaidPlanner groupRoles={this.state.groupRoles} fractionName={this.state.fractionName} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
+            <RaidPlanner groupRoles={this.state.groupRoles} onChangeClassAmount={this._onChangeClassAmount.bind(this)} locale={this.props.locale} />
           </div>
         </div>
         {this._renderSubmitButton()}
