@@ -173,6 +173,72 @@ dungeon_form.persist?
 dungeon_form = DungeonForm.new(name: { 'en' => 'Naxxramas', 'ru' => 'Наксрамас' }, raid: true)
 dungeon_form.persist?
 
+dungeon_form = DungeonForm.new(name: { 'en' => 'Hellfire Ramparts', 'ru' => 'Бастионы Адского Пламени' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Blood Furnace', 'ru' => 'Кузня Крови' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Slave Pens', 'ru' => 'Узилище' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Underbog', 'ru' => 'Нижетопь' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Mana-Tombs', 'ru' => 'Гробницы маны' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Shattered Halls', 'ru' => 'Разрушенные залы' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Sethekk Halls', 'ru' => 'Сетеккские залы' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Steamvault', 'ru' => 'Паровое подземелье' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Auchenai Crypts', 'ru' => 'Аукенайские гробницы' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Shadow Labyrinth', 'ru' => 'Темный лабиринт' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Mechanar', 'ru' => 'Механар' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Arcatraz', 'ru' => 'Аркатрац' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'The Botanica', 'ru' => 'Ботаника' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => "Magisters' Terrace", 'ru' => 'Терраса Магистров' })
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Karazhan', 'ru' => 'Каражан' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => "Gruul's Lair", 'ru' => 'Логово Груула' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => "Magtheridon's Lair", 'ru' => 'Логово Магтеридона' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Serpentshrine Cavern', 'ru' => 'Змеиное святилище' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Sunwell Plateau', 'ru' => 'Плато Солнечного Колодца' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Black Temple', 'ru' => 'Черный храм' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Tempest Keep', 'ru' => 'Крепость Бурь' }, raid: true)
+dungeon_form.persist?
+
+dungeon_form = DungeonForm.new(name: { 'en' => 'Hyjal Summit', 'ru' => 'Вершина Хиджала' }, raid: true)
+dungeon_form.persist?
+
 role_form = RoleForm.new(name: { 'en' => 'Tank', 'ru' => 'Танк' })
 role_form.persist?
 tank = role_form.role
