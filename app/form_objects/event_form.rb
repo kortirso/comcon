@@ -26,6 +26,7 @@ class EventForm
   validate :valid_time?
   validate :eventable_exists?
 
+  attr_accessor :eventable
   attr_reader :event
 
   def persist?

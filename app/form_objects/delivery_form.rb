@@ -15,6 +15,7 @@ class DeliveryForm
   validate :deliveriable_exists?
   validate :exists?
 
+  attr_accessor :deliveriable
   attr_reader :delivery
 
   def persist?

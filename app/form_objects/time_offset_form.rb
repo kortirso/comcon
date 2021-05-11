@@ -15,6 +15,7 @@ class TimeOffsetForm
   validates :value, inclusion: -12..12, allow_nil: true
   validate :timeable_exists?
 
+  attr_accessor :timeable
   attr_reader :time_offset
 
   def persist?

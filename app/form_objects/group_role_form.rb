@@ -17,6 +17,7 @@ class GroupRoleForm
   validate :value_as_hash
   validate :left_value_as_hash
 
+  attr_accessor :groupable
   attr_reader :group_role
 
   def persist?

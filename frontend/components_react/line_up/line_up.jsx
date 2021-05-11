@@ -550,7 +550,7 @@ export default class LineUp extends React.Component {
                 <div className="classes">
                   {this._renderClassList("Tank", "Warrior", eventInfo.group_role.tanks.by_class.warrior)}
                   {this._renderClassList("Tank", "Druid", eventInfo.group_role.tanks.by_class.druid)}
-                  {eventInfo.fraction_name.en === 'Alliance' && this._renderClassList("Tank", "Paladin", eventInfo.group_role.tanks.by_class.paladin)}
+                  {this._renderClassList("Tank", "Paladin", eventInfo.group_role.tanks.by_class.paladin)}
                 </div>
               </div>
               <div className="role_type">
@@ -558,8 +558,8 @@ export default class LineUp extends React.Component {
                 <div className="classes">
                   {this._renderClassList("Healer", "Druid", eventInfo.group_role.healers.by_class.druid)}
                   {this._renderClassList("Healer", "Priest", eventInfo.group_role.healers.by_class.priest)}
-                  {eventInfo.fraction_name.en === 'Horde' && this._renderClassList("Healer", "Shaman", eventInfo.group_role.healers.by_class.shaman)}
-                  {eventInfo.fraction_name.en === 'Alliance' && this._renderClassList("Healer", "Paladin", eventInfo.group_role.healers.by_class.paladin)}
+                  {this._renderClassList("Healer", "Shaman", eventInfo.group_role.healers.by_class.shaman)}
+                  {this._renderClassList("Healer", "Paladin", eventInfo.group_role.healers.by_class.paladin)}
                 </div>
               </div>
             </div>
@@ -569,9 +569,9 @@ export default class LineUp extends React.Component {
                 <div className="classes">
                   {this._renderClassList("Dd", "Warrior", eventInfo.group_role.dd.by_class.warrior)}
                   {this._renderClassList("Dd", "Druid", eventInfo.group_role.dd.by_class.druid)}
-                  {eventInfo.fraction_name.en === 'Alliance' && this._renderClassList("Dd", "Paladin", eventInfo.group_role.dd.by_class.paladin)}
+                  {this._renderClassList("Dd", "Paladin", eventInfo.group_role.dd.by_class.paladin)}
                   {this._renderClassList("Dd", "Priest", eventInfo.group_role.dd.by_class.priest)}
-                  {eventInfo.fraction_name.en === 'Horde' && this._renderClassList("Dd", "Shaman", eventInfo.group_role.dd.by_class.shaman)}
+                  {this._renderClassList("Dd", "Shaman", eventInfo.group_role.dd.by_class.shaman)}
                   {this._renderClassList("Dd", "Warlock", eventInfo.group_role.dd.by_class.warlock)}
                   {this._renderClassList("Dd", "Hunter", eventInfo.group_role.dd.by_class.hunter)}
                   {this._renderClassList("Dd", "Mage", eventInfo.group_role.dd.by_class.mage)}

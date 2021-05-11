@@ -11,6 +11,7 @@ class CharacterProfessionForm
   validates :character, :profession, presence: true
   validate :only_two_main_professions
 
+  attr_accessor :count
   attr_reader :character_profession
 
   def persist?
