@@ -89,9 +89,12 @@ export default class LineUp extends React.Component {
       url: `/api/v1/subscribes/${subscribe.id}.json?access_token=${this.props.access_token}`,
       data: { subscribe: updatingData },
       success: (data) => {
+        const updatedSubscribe = data.subscribe.data
+        updatedSubscribe.character = updatedSubscribe.attributes.character.data.attributes
+
         const subscribes = [... this.state.subscribes]
         const subscribeIndex = subscribes.indexOf(subscribe)
-        subscribes[subscribeIndex] = data.subscribe.data
+        subscribes[subscribeIndex] = updatedSubscribe
         this.setState({subscribes: subscribes, showApprovingBox: false, approvingSubscribe: null, approvingRole: '', approvingStatus: ''})
       }
     })
@@ -233,7 +236,7 @@ export default class LineUp extends React.Component {
 
   _renderRoles(roles) {
     return roles.map((role, index) => {
-      return <div className={`role_icon ${role[0]}`} key={index}></div>
+      return <div className={`role_icon ${role['en']}`} key={index}></div>
     })
   }
 
@@ -358,7 +361,7 @@ export default class LineUp extends React.Component {
 
   _renderAvailableRoles(roles) {
     return roles.map((role, index) => {
-      return <option value={role[this.props.locale === 'en' ? 0 : 1]} key={index}>{role[this.props.locale === 'en' ? 0 : 1]}</option>
+      return <option value={role[this.props.locale]} key={index}>{role[this.props.locale]}</option>
     })
   }
 

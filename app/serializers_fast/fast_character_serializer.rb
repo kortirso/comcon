@@ -14,5 +14,7 @@ class FastCharacterSerializer
     object.guild.name unless object.guild_id.nil?
   end
 
-  attribute :roles, &:current_roles
+  attribute :roles do |object|
+    object.roles.order(main: :desc).pluck(:name)
+  end
 end

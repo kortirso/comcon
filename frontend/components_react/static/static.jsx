@@ -65,8 +65,11 @@ export default class LineUp extends React.Component {
       url: `/api/v1/subscribes.json?access_token=${this.props.access_token}`,
       data: { subscribe: { character_id: this.state.selectedCharacterForSign, subscribeable_id: this.props.static_id, subscribeable_type: 'Static', status: status } },
       success: (data) => {
-        let subscribes = this.state.subscribes
-        subscribes.push(data.subscribe)
+        const updatedSubscribe = data.subscribe.data.attributes
+        updatedSubscribe.character = updatedSubscribe.character.data.attributes
+
+        const subscribes = this.state.subscribes
+        subscribes.push(updatedSubscribe)
         this.setState({subscribes: subscribes})
       }
     })
@@ -78,9 +81,12 @@ export default class LineUp extends React.Component {
       url: `/api/v1/subscribes/${subscribe.id}.json?access_token=${this.props.access_token}`,
       data: { subscribe: updatingData },
       success: (data) => {
+        const updatedSubscribe = data.subscribe.data.attributes
+        updatedSubscribe.character = updatedSubscribe.character.data.attributes
+
         const subscribes = [... this.state.subscribes]
         const subscribeIndex = subscribes.indexOf(subscribe)
-        subscribes[subscribeIndex] = data.subscribe
+        subscribes[subscribeIndex] = updatedSubscribe
         this.setState({subscribes: subscribes, showApprovingBox: false, approvingSubscribe: null, approvingRole: '', approvingStatus: ''})
       }
     })
