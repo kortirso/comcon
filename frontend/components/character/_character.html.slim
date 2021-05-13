@@ -21,24 +21,24 @@
               = render 'components/character/slot', item_ids: [15, 16, 17], equipment: @equipment
         .col-md-6
           h3= t('character.transfers')
-            - if @character.character_transfers.size.positive?
-              .character_transfers
-                table.table.table-striped.table-sm
-                  thead
+          - if @character.character_transfers.size.positive?
+            .character_transfers
+              table.table.table-striped.table-sm
+                thead
+                  tr
+                    th= t('characters.name')
+                    th= t('characters.world')
+                    th= t('characters.race')
+                    th= t('characters.character_class')
+                tbody
+                  - @character.character_transfers.includes(:world, :race, :character_class).order(id: :asc).each do |character_transfer|
                     tr
-                      th= t('characters.name')
-                      th= t('characters.world')
-                      th= t('characters.race')
-                      th= t('characters.character_class')
-                  tbody
-                    - @character.character_transfers.includes(:world, :race, :character_class).order(id: :asc).each do |character_transfer|
-                      tr
-                        td= character_transfer.name
-                        td= character_transfer.world.full_name
-                        td= character_transfer.race.name[I18n.locale.to_s]
-                        td= character_transfer.character_class.name[I18n.locale.to_s]
-            - else
-              p No data
+                      td= character_transfer.name
+                      td= character_transfer.world.full_name
+                      td= character_transfer.race.name[I18n.locale.to_s]
+                      td= character_transfer.character_class.name[I18n.locale.to_s]
+          - else
+            p No data
       .row
         .col
           .character_recipes
