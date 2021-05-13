@@ -3,7 +3,6 @@
     .title= @character.name
     .action
       - if @character.user_id == Current.user.id
-        = javascript_pack_tag 'character_equipment_import'
         = react_component('CharacterEquipmentImport', character_id: @character.id, character_slug: @character.slug, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
   main
     .character

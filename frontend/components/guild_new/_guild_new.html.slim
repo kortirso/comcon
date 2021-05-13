@@ -3,7 +3,6 @@
     .title= t('guilds.creating')
   main
     - if Current.user.characters.where(guild_id: nil).size.positive?
-      = javascript_pack_tag 'guild_form'
       = react_component('GuildForm', locale: I18n.locale.to_s, access_token: Current.user&.access_token)
     - else
       div

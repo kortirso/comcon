@@ -6,5 +6,4 @@
       div
         p= t('guild_invite.no_characters')
     - else
-      = javascript_pack_tag 'invite_form_for_character'
       = react_component('InviteFormForCharacter', user_characters: @user_characters, locale: I18n.locale.to_s, access_token: Current.user&.access_token)

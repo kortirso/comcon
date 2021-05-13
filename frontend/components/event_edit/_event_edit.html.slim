@@ -1,7 +1,5 @@
-= javascript_pack_tag 'event_form'
 .inside
   .inside_topbar
     .title= t('events.edit')
   main
     = react_component('EventForm', event_id: @event.id, locale: I18n.locale.to_s, time_offset_value: Current.user.time_offset.value, access_token: Current.user&.access_token)
-    

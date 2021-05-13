@@ -3,7 +3,6 @@
     .title= t('statics.creating')
   main
     - if Current.user.characters.size.positive?
-      = javascript_pack_tag 'static_form'
       = react_component('StaticForm', guild_id: params[:guild_id], locale: I18n.locale.to_s, access_token: Current.user&.access_token)
     - else
       div

@@ -3,7 +3,6 @@
     .title= t('events.creating')
   main
     - if Current.user.characters.size.positive?
-      = javascript_pack_tag 'event_form'
       = react_component('EventForm', time_offset_value: Current.user.time_offset.value, locale: I18n.locale.to_s, access_token: Current.user&.access_token)
     - else
       div

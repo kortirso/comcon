@@ -10,7 +10,6 @@
   main
     #statics
       - if Current.user.characters.size.positive?
-        = javascript_pack_tag 'statics_list'
         = react_component('StaticsList', locale: I18n.locale.to_s, access_token: Current.user&.access_token)
       - else
         p= t('statics.no_characters')
