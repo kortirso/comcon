@@ -14,7 +14,7 @@ class CharacterForm
   attribute :world, World
   attribute :guild, Guild
   attribute :world_fraction, WorldFraction
-  attribute :main, Boolean
+  attribute :main, Boolean, default: false
 
   validates :name, :level, :race, :character_class, :user, :world, :world_fraction, presence: true
   validates :name, length: { in: 2..12 }

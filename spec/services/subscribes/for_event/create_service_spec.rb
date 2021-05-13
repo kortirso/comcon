@@ -8,6 +8,7 @@ RSpec.describe Subscribes::ForEvent::CreateService, type: :service do
     let!(:event) { create :event, eventable: guild }
 
     let!(:user1) { create :user }
+    let!(:character0) { create :character, user: user1, guild: guild, main: nil }
     let!(:character1) { create :character, user: user1, guild: guild, main: false }
     let!(:character2) { create :character, user: user1, guild: guild, main: false }
     let!(:character3) { create :character, user: user1, guild: guild, main: true }
@@ -26,6 +27,7 @@ RSpec.describe Subscribes::ForEvent::CreateService, type: :service do
 
       character_ids = Subscribe.all.pluck(:character_id)
 
+      expect(character_ids.include?(character0.id)).to eq false
       expect(character_ids.include?(character1.id)).to eq false
       expect(character_ids.include?(character2.id)).to eq false
       expect(character_ids.include?(character3.id)).to eq true
