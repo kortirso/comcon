@@ -51,7 +51,7 @@ module Subscribes
           character =
             Character
               .where(guild_id: @event.eventable_id, user: user.id)
-              .order(main: :desc, level: :desc, item_level: :desc)
+              .order(main: :asc, level: :desc, item_level: :desc)
               .first
           @subscribes << Subscribe.new(subscribeable: @event, character: character, status: 'created')
         end
