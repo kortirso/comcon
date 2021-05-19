@@ -39,7 +39,7 @@ class GetGameItemsForBankCells
     %w[en ru].each do |locale|
       prefix = locale == 'en' ? '' : 'ru.'
 
-      response = HTTParty.get("https://#{prefix}classic.wowhead.com/item=#{item_uid}&xml", format: :plain)
+      response = HTTParty.get("https://#{prefix}tbc.wowhead.com/item=#{item_uid}&xml", format: :plain)
       doc = Nokogiri::XML(response.parsed_response)
 
       game_item_category_params[:name][locale] = doc.xpath('//wowhead//item//class').children.text
