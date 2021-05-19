@@ -14,7 +14,7 @@ class RecipeForm
   attribute :skill, Integer
 
   validates :profession, :name, :links, :skill, :effect_name, :effect_links, presence: true
-  validates :skill, inclusion: 1..300
+  validates :skill, inclusion: 1..375
   validate :exists?
   validate :name_as_hash
   validate :links_as_hash
