@@ -9,7 +9,7 @@ module Api
         private
 
         def get_races_from_cache
-          @races_json = Rails.cache.fetch('race_dependencies_with_fraction') do
+          @races_json = Rails.cache.fetch('race_dependencies_with_fraction_v2') do
             Race.dependencies
           end
         end
