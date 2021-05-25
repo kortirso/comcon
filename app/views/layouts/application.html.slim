@@ -16,8 +16,8 @@ html lang='en'
     meta itemprop='image' content='https://guild-hall.org/image.jpg'
     - if @wowhead
       script src='https://wow.zamimg.com/widgets/power.js'
+    = javascript_pack_tag 'application'
     = stylesheet_pack_tag 'application', media: 'all'
     = csrf_meta_tags
   body
     = yield
-    = javascript_pack_tag 'application'

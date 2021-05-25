@@ -311,7 +311,7 @@ export default class LineUp extends React.Component {
   }
 
   _showApprovingBox(subscribe, forAdmin) {
-    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.attributes.character.data.attributes.roles[0][this.props.locale === 'en' ? 0 : 1], approvingStatus: forAdmin ? 'approved' : 'signed'})
+    this.setState({showApprovingBox: true, approvingBoxForAdmin: forAdmin, approvingSubscribe: subscribe, approvingRole: subscribe.attributes.character.data.attributes.roles[0][this.props.locale], approvingStatus: forAdmin ? 'approved' : 'signed'})
   }
 
   closeModal() {
