@@ -8,7 +8,11 @@ environment.plugins.prepend(
     $: 'jquery',
     jQuery: 'jquery',
     jquery: 'jquery'
-  }),
+  })
+)
+
+environment.plugins.prepend(
+  'Compression',
   new CompressionPlugin({
     filename: '[path].gz[query]',
     algorithm: 'brotliCompress',
